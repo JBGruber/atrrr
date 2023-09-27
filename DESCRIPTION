@@ -1,0 +1,28 @@
+Package: atr
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Johannes B.",
+             family = "Gruber",
+             email = "JohannesB.Gruber@gmail.com", 
+             role = c("aut", "cre"),
+             comment = c(ORCID = "0000-0001-9177-1772")),
+      person(given = "Benjamin", 
+             family = "Guinaudeau", 
+             email = "wouter@vanatteveldt.com", 
+             role = c("aut", "ctb"),
+             comment = c(ORCID = "YOUR-ORCID-ID")))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    askpass,
+    cli,
+    curl,
+    glue,
+    httr2,
+    methods,
+    rlang,
+    utils
