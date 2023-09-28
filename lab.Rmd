@@ -1,0 +1,218 @@
+---
+title: "lab"
+output: html_document
+date: "2023-09-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+devtools::load_all()
+```
+
+
+```{r}
+token <- req_token(user = "benguinaudeau.bsky.social", 
+                   password = "")
+```
+
+
+```{r}
+library(tidyverse)
+devtools::load_all()
+
+# list_lexicons <- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", 
+#                            folder = "lexicons") %>%
+#   str_remove("lexicons") %>%
+#   set_names(
+#     fs::path_file(.) |>
+#       str_remove(".json")
+#   ) |>
+#   as.list()
+# usethis::use_data(list_lexicons)
+
+list_lexicons
+```
+
+
+```{r}
+flatten_query_params <- function(arg_calls){
+  as.list(arg_calls) |>
+    # Remove function call
+    tail(-1) |>
+    imap(~{
+      .x <- eval(.x)
+      names(.x) <- rep(.y, length(.x))
+      .x
+    }) |>
+    unname() |>
+    unlist()
+}
+
+generate_get_function <- function(endpoint, params, required){
+  
+  fun_name <- janitor::make_clean_names(endpoint) %>%
+    glimpse
+  
+  if(length(params) == 0) params <- c(" " = "")
+  
+  param_names <- names(params)
+  param_declaration <- paste0(param_names, 
+                              ifelse(param_names %in% unlist(required), "", " = NULL"), 
+                              collapse =", ")
+  
+  # TODO: parametrize the function description
+  # TODO: parametrize the parameters name and description
+  # TODO: parametrize the output of the function
+  # TODO: parametrize example
+  
+  glue::glue(
+    "
+#' This will become a description
+#'
+#' @param repo target github repository
+#'
+#' @return 
+#' @export
+#'
+#' @examples
+{fun_name} <- function({param_declaration}){{
+
+    get_params <<- get_params <- match.call(expand.dots = FALSE) |>
+flatten_query_params()
+  
+  list(
+    scheme = 'https', 
+    hostname = glue::glue('bsky.social/xrpc/{endpoint}'),
+    query = as.list(get_params)
+  ) |>
+    httr2::url_build() |>
+    httr2::request() |> 
+    httr2::req_method('GET') |>
+    httr2::req_headers(
+      Authorization = paste0('Bearer ', token$accessJwt)
+    ) |> 
+    httr2::req_perform() |> 
+    httr2::resp_body_json()
+}}"
+  )
+}
+```
+
+
+```{r}
+# names(list_lexicons[str_detect(names(list_lexicons), "^get")])
+
+c(
+  "getPreferences",
+  "getProfile" ,
+  "getProfiles",
+  "getSuggestions",
+  
+  "getActorFeeds",
+  "getActorLikes",
+  "getAuthorFeed",
+  
+  "getFeed",
+  "getFeedGenerator",
+  "getFeedGenerators",
+  # path <- getFeedSkeleton
+  
+  "getLikes",
+  "getList",
+  "getListFeed",
+  "getListBlocks",
+  "getListMutes",
+  "getLists",
+  
+  "listNotifications",
+  "getFollowers",
+  "getFollows",
+  "getRepostedBy",
+  "getSuggestedFeeds",
+  "getPosts"
+) %>%
+  walk(~{
+    path <- list_lexicons[[.x]]
+    lex <- read_lexicon(path)
+    fun <- generate_get_function(endpoint = lex$id, 
+                                 params = lex$defs$main$parameters$properties, 
+                                 required = lex$defs$main$parameters[["required"]])
+    
+    writeLines(fun, glue::glue("R/auto/{janitor::make_clean_names(lex$id)}.R"))
+    devtools::load_all()
+    print(fun)
+    
+  })
+
+```
+
+```{r}
+handle1 = "aurman21.bsky.social"
+handle2 = "profmusgrave.bsky.social"
+handle3 = "benguinaudeau.bsky.social"
+
+list1 <- "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.graph.list/3k4diugcw3k2p"
+
+feed_gen1 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy' # Polisky
+feed_gen2 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy' # Skynet
+post_uri = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.post/3k7vuxaw6ew2n'
+feed_gens = c(feed_gen1, feed_gen2)
+
+
+app_bsky_actor_get_preferences()
+app_bsky_actor_get_profile(actor = handle1)
+app_bsky_actor_get_profiles(actors = c(handle1, handle2))
+app_bsky_actor_get_suggestions()
+
+app_bsky_notification_get_unread_count()
+app_bsky_notification_list_notifications()
+res1 <-app_bsky_notification_list_notifications(limit = 5)
+res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor)
+
+app_bsky_graph_get_followers(actor = handle1)
+res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor)
+
+app_bsky_graph_get_follows(actor = handle1)
+res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor)
+
+
+app_bsky_graph_get_list(list = list1)
+app_bsky_feed_get_list_feed(list = list1)
+app_bsky_graph_get_lists(actor = handle2)
+app_bsky_graph_get_list_blocks()
+app_bsky_graph_get_list_mutes()
+
+app_bsky_feed_get_actor_feeds(actor = )
+app_bsky_feed_get_author_feed(actor = handle2)
+app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media")
+
+# Only for own account
+app_bsky_feed_get_actor_likes(actor = handle3)
+
+# Generator
+
+
+app_bsky_feed_get_feed(feed = feed_gen1)
+app_bsky_feed_get_feed_generator(feed = feed_gen1)
+app_bsky_feed_get_feed_generators(feed = feed_gens)
+
+app_bsky_feed_get_likes(uri = feed_gen1)
+app_bsky_feed_get_likes(uri = post_uri)
+app_bsky_feed_get_reposted_by(uri = post_uri)
+
+app_bsky_feed_get_suggested_feeds()
+
+app_bsky_feed_get_posts(uris = c(post_uri))
+
+
+# Unclear
+# app_bsky_feed_get_feed_skeleton(feed = feed_gen1)
+
+```
+
+
