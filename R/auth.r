@@ -4,6 +4,7 @@
 #' @param password Your app password (usually created on
 #'   <https://bsky.app/settings/app-passwords>).
 #' @param domain For now https://bsky.app/, but could change in the future.
+#' @param force_refresh remove old token to request a fresh one.
 #' @param verbose If TRUE, prints success message.
 #' @param token (Stale) token object. Usually you don't need to use this. But if
 #'   you manage your own tokens and they get stale, you can use this parameter
@@ -21,12 +22,13 @@
 auth <- function(user,
                  password,
                  domain = "https://bsky.app/",
+                 force_refresh = FALSE,
                  verbose = TRUE,
                  token = NULL) {
 
   if (is.null(token)) {
     url <- file.path(sub("/+$", "", domain), "settings/app-passwords")
-    if (interactive()) {
+    if (interactive() && is.null(password)) {
       utils::browseURL(url)
       cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
     } else {
@@ -54,12 +56,12 @@ auth <- function(user,
   }
 
   token$domain <- domain
-  token$accessJwt <- httr2::obfuscate(token$accessJwt)
-  token$refreshJwt <- httr2::obfuscate(token$refreshJwt)
+  token$accessJwt <- token$accessJwt
+  token$refreshJwt <- token$refreshJwt
   # it's not clear how long a token is valid. The docs say 'couple minutes'
   token$valid_until <- Sys.time() + 3 * 60
   # TODO: should not be necessary, but refresh seems broken
-  token$password <- httr2::obfuscate(password)
+  token$password <- password
 
   class(token) <- "bsky_token"
 
@@ -118,16 +120,17 @@ refresh_token <- function(token) {
   # https://github.com/bluesky-social/atproto/blob/main/lexicons/com/atproto/server/refreshSession.json
   # httr2::request("https://bsky.social/xrpc/com.atproto.server.refreshSession") |>
   #   httr2::req_method("POST") |>
+  #   httr2::req_auth_bearer_token(token = token$accessJwt) |>
   #   httr2::req_body_json(list(
-  #     accessJwt = unclass(token$accessJwt),
-  #     refreshJwt = unclass(token$refreshJwt),
+  #     accessJwt = token$accessJwt,
+  #     refreshJwt = token$refreshJwt,
   #     handle = token$handle,
   #     did = token$did
   #   )) |>
   #   httr2::req_error(body = error_parse) |>
   #   httr2::req_perform() |>
   #   httr2::resp_body_json()
-  req_token(unclass(token$handle), unclass(token$password))
+  req_token(token$handle, token$password)
 }
 
 
