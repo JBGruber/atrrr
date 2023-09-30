@@ -15,17 +15,17 @@ github_ls <- function(repo, folder, max_depth = 10){
   files <- c()
   depth <- 1
 
-  while(length(paths) > 0 & depth <= max_depth){
+  while(length(paths) > 0 && depth <= max_depth){
     new_path <- c()
+    cli::cli_progress_step("Reached depth {depth}")
     for(path in paths){
-      cli::cat_bullet("Reached depth {depth}")
       res <- jsonlite::read_json(path)
       new <- res |>
-        keep(~.x$type == "dir") %>%
-        map_chr("path")
+        purrr::keep(~.x$type == "dir") |>
+        purrr::map_chr("path")
       new_files <- res |>
-        keep(~.x$type != "dir") %>%
-        map_chr("path")
+        purrr::keep(~.x$type != "dir") |>
+        purrr::map_chr("path")
       files <- c(files, new_files)
 
       new_path <- c(new_path, glue::glue("{repo}/{new}"))
@@ -33,7 +33,7 @@ github_ls <- function(repo, folder, max_depth = 10){
     paths <- new_path
     depth <- depth + 1
   }
-
+  cli::cli_progress_done()
   return(c(files, paths))
 }
 
@@ -85,10 +85,3 @@ read_lexicon <- function(path){
   jsonlite::read_json(local_path)
 }
 
-error_parse <- function(resp) {
-  e <- httr2::resp_body_json(resp)
-  c(
-    glue::glue("error type: {e$error}"),
-    glue::glue("message: {e$message}")
-  )
-}
