@@ -22,7 +22,7 @@ token <- req_token(user = "benguinaudeau.bsky.social",
                    password = "")
 ```
 
-## Test value used in the test
+## Test value used in the unit tests
 
 ```{r}
 test_val <- list(
@@ -131,7 +131,6 @@ repo <- "benguinaudeau.bsky.social"
 collection <- "app.bsky.feed.post"
 
 record <- list(
-    "$type" = "app.bsky.feed.post",
     "text" = "Testing around",
     "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
     )
