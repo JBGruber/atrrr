@@ -13,9 +13,13 @@ build_function <- function(lexicon,
   lexicon_type <-  purrr::pluck(lexicon_main, "type", .default = NULL) %||% ""
   lexicon_description <-  purrr::pluck(lexicon_main, "description", .default = NULL) %||% ""
 
+
+
   if(lexicon_type == "query"){
+    req_method <- "GET"
     lexicon_params <-  purrr::pluck(lexicon_main, "parameters", .default = NULL)
   } else if(lexicon_type == "procedure"){
+    req_method <- "POST"
     lexicon_params <-  purrr::pluck(lexicon_main, "input", "schema", .default = NULL)
   } else {
     warning(glue::glue("Endpoint {endpoint} neither procedure nor query"))
@@ -32,6 +36,7 @@ build_function <- function(lexicon,
   params <- c(params, list(.token = NULL))
 
   param_names <- names(params)[order(!names(params) %in% unlist(required))]
+
   param_declaration <- paste0(
     param_names,
     ifelse(param_names %in% unlist(required), "", " = NULL"),
@@ -46,14 +51,9 @@ build_function <- function(lexicon,
   # TODO: Add query rate especially to test the package
   cur_env <- rlang::current_env()
 
-  if(lexicon_type == "query"){
-    new_fun <- readLines(system.file("get.function.template", package = "atr")) |>
-      purrr::map_chr(glue::glue, .envir = cur_env)
-  }
-  if(lexicon_type == "procedure"){
-    new_fun <- readLines(system.file("post.function.template", package = "atr")) |>
-      purrr::map_chr(glue::glue, .envir = cur_env)
-  }
+  new_fun <- readLines(system.file("function.template", package = "atr")) |>
+    purrr::map_chr(glue::glue, .envir = cur_env)
+
 
   if(gpt_documentation){
     new_fun <- askgpt::chat_api(prompt = glue::glue(

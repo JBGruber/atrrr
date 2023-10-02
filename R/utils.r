@@ -38,3 +38,45 @@ flatten_query_params <- function(arg_calls){
     unname() |>
     unlist()
 }
+
+make_request <- function(hostname, params, req_method = c("GET", "POST")){
+
+  params <<- params
+
+  .token = params[[".token"]]
+  .return = params[[".return"]]
+  params[[".token"]] <- NULL
+  params[[".return"]] <- NULL
+
+  if(req_method == "GET"){
+    all_params <<- all_params <- flatten_query_params(params)
+
+    resp <- list(
+      scheme = "https",
+      hostname = hostname,
+      query = as.list(all_params)
+    ) |>
+      httr2::url_build() |>
+      httr2::request() |>
+      httr2::req_method('GET') |>
+      httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+      httr2::req_perform()
+
+  } else if(req_method == "POST"){
+
+    resp <- httr2::request(glue::glue("https://{hostname}")) |>
+      httr2::req_method("POST") |>
+      httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+      httr2::req_body_json(params) |>
+      httr2::req_perform()
+
+  }
+
+
+  switch(
+    .return,
+    resp = resp,
+    json = resp |>
+      httr2::resp_body_json()
+  )
+}

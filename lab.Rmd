@@ -19,7 +19,7 @@ devtools::load_all()
 
 ```{r}
 token <- req_token(user = "benguinaudeau.bsky.social", 
-                   password = "")
+                   password = "2dwk-pbcx-blai-fzdf")
 ```
 
 ## Test value used in the unit tests
@@ -135,7 +135,8 @@ record <- list(
     "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
     )
 
-resp <- com_atproto_repo_create_record(repo, collection, record, .token = token)
+resp <- com_atproto_repo_create_record(repo, collection, record, .token = token, .return = "resp")
+params
 resp
 ```
 
@@ -143,7 +144,8 @@ resp
 
 
 ```{r}
-app_bsky_actor_get_preferences(.token = token)
+app_bsky_actor_get_preferences(.token = token, .return =  "resp")
+app_bsky_actor_get_preferences(.token = token, .return =  "json")
 
 app_bsky_actor_get_profile(actor = handle1, .token = token)
 app_bsky_actor_get_profiles(actors = c(handle1, handle2), .token = token)
