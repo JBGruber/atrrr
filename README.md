@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# atr
+# atr <img src="man/figures/logo.png" align="right" height="120">
 
 <!-- badges: start -->
 
