@@ -29,4 +29,3 @@ actor_get_preferences <- function(token = NULL) {
     httr2::req_perform() |>
     httr2::resp_body_json()
 }
-

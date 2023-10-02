@@ -8,21 +8,50 @@ date: "2023-09-27"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Packages
+
 ```{r}
+library(tidyverse)
 devtools::load_all()
 ```
 
+## Authentification
 
 ```{r}
 token <- req_token(user = "benguinaudeau.bsky.social", 
                    password = "")
 ```
 
+## Test value used in the test
 
 ```{r}
-library(tidyverse)
-devtools::load_all()
+test_val <- list(
+  handle1 = "aurman21.bsky.social",
+  handle2 = "profmusgrave.bsky.social",
+  ownhandle = "benguinaudeau.bsky.social",
+  
+  list1 = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.graph.list/3k4diugcw3k2p",
+  
+  feed_gen1 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy', # Polisky
+  feed_gen2 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy', # Skynet
+  post_uri = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.post/3k7vuxaw6ew2n',
+  post_uri = "https://bsky.app/profile/aoc.bsky.social/post/3jzszuihulm2m",
+  feed_gens = c(feed_gen1, feed_gen2),
+  aoc_post_1 = "at://did:plc:p7gxyfr5vii5ntpwo7f6dhe2/app.bsky.feed.post/3k26nvf2xdz2m",
+  aoc_post_2 = "at://did:plc:p7gxyfr5vii5ntpwo7f6dhe2/app.bsky.feed.post/3k24roywgx726",
+  aoc_posts = c(aoc_post_1, aoc_post_2),
+  
+  feed1 = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy",
+  feed = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy"
+)
+usethis::use_data(test_val)
+```
 
+## Get all lexicons
+
+### Update lexicons
+
+```{r}
 # list_lexicons <- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", 
 #                            folder = "lexicons") %>%
 #   str_remove("lexicons") %>%
@@ -32,187 +61,296 @@ devtools::load_all()
 #   ) |>
 #   as.list()
 # usethis::use_data(list_lexicons)
+```
 
-list_lexicons
+### Read all lexicons
+
+```{r}
+all <- list_lexicons %>%
+  map_dfr(~{
+    tibble::tibble(
+      id = .x,
+      lexicon = list(read_lexicon(.x))
+    ) %>%
+      mutate(
+        type = lexicon[[1]] %>%
+          purrr::pluck("defs", "main", "type")
+      )
+  })
 ```
 
 
+### Check lexicons type
+
 ```{r}
-flatten_query_params <- function(arg_calls){
-  as.list(arg_calls) |>
-    # Remove function call
-    tail(-1) |>
-    imap(~{
-      .x <- eval(.x)
-      names(.x) <- rep(.y, length(.x))
-      .x
-    }) |>
-    unname() |>
-    unlist()
-}
-
-generate_get_function <- function(endpoint, params, required){
-  
-  fun_name <- janitor::make_clean_names(endpoint) %>%
-    glimpse
-  
-  if(length(params) == 0) params <- c(" " = "")
-  
-  param_names <- names(params)
-  param_declaration <- paste0(param_names, 
-                              ifelse(param_names %in% unlist(required), "", " = NULL"), 
-                              collapse =", ")
-  
-  # TODO: parametrize the function description
-  # TODO: parametrize the parameters name and description
-  # TODO: parametrize the output of the function
-  # TODO: parametrize example
-  
-  glue::glue(
-    "
-#' This will become a description
-#'
-#' @param repo target github repository
-#'
-#' @return 
-#' @export
-#'
-#' @examples
-{fun_name} <- function({param_declaration}){{
-
-    get_params <<- get_params <- match.call(expand.dots = FALSE) |>
-flatten_query_params()
-  
-  list(
-    scheme = 'https', 
-    hostname = glue::glue('bsky.social/xrpc/{endpoint}'),
-    query = as.list(get_params)
-  ) |>
-    httr2::url_build() |>
-    httr2::request() |> 
-    httr2::req_method('GET') |>
-    httr2::req_headers(
-      Authorization = paste0('Bearer ', token$accessJwt)
-    ) |> 
-    httr2::req_perform() |> 
-    httr2::resp_body_json()
-}}"
-  )
-}
+all %>%
+  add_count(type) %>%
+  distinct(type, .keep_all = T) %>%
+  rename(example = id) %>%
+  arrange(desc(n))
 ```
 
+## Generate functions
+
+### Generate the functions
 
 ```{r}
-# names(list_lexicons[str_detect(names(list_lexicons), "^get")])
+# dput(names(list_lexicons[str_detect(names(list_lexicons), "^get")]))
 
-c(
-  "getPreferences",
-  "getProfile" ,
-  "getProfiles",
-  "getSuggestions",
-  
-  "getActorFeeds",
-  "getActorLikes",
-  "getAuthorFeed",
-  
-  "getFeed",
-  "getFeedGenerator",
-  "getFeedGenerators",
-  # path <- getFeedSkeleton
-  
-  "getLikes",
-  "getList",
-  "getListFeed",
-  "getListBlocks",
-  "getListMutes",
-  "getLists",
-  
-  "listNotifications",
-  "getFollowers",
-  "getFollows",
-  "getRepostedBy",
-  "getSuggestedFeeds",
-  "getPosts"
-) %>%
+list_lexicons %>% #bashR::simule_map(4)
   walk(~{
-    path <- list_lexicons[[.x]]
-    lex <- read_lexicon(path)
-    fun <- generate_get_function(endpoint = lex$id, 
-                                 params = lex$defs$main$parameters$properties, 
-                                 required = lex$defs$main$parameters[["required"]])
-    
-    writeLines(fun, glue::glue("R/auto/{janitor::make_clean_names(lex$id)}.R"))
-    devtools::load_all()
-    print(fun)
-    
+    glimpse(.x)
+    build_function(lexicon = .x, out_file = "R/test_generated.r" )
   })
 
 ```
 
+
+## Testing function
+
 ```{r}
-handle1 = "aurman21.bsky.social"
-handle2 = "profmusgrave.bsky.social"
-handle3 = "benguinaudeau.bsky.social"
+arg_list <-  ls("package:atr") %>%
+  str_subset("^(app|com)") %>%
+  map_dfr(~{
+    tibble::tibble(
+      fun = .x,
+      param = formalArgs(get(.x, envir = asNamespace('atr')))
+    )
+  })
 
-list1 <- "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.graph.list/3k4diugcw3k2p"
+arg_list %>%
+  filter(!param %in% c("actor", "actors", "limit", "cursor")) %>%
+  arrange(param) %>%
+  glimpse
+```
 
-feed_gen1 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy' # Polisky
-feed_gen2 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy' # Skynet
-post_uri = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.post/3k7vuxaw6ew2n'
-feed_gens = c(feed_gen1, feed_gen2)
+## Testing post endpoitn 
 
+```{r}
+repo <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.feed.post"
 
-app_bsky_actor_get_preferences()
-app_bsky_actor_get_profile(actor = handle1)
-app_bsky_actor_get_profiles(actors = c(handle1, handle2))
-app_bsky_actor_get_suggestions()
+record <- list(
+    "$type" = "app.bsky.feed.post",
+    "text" = "Testing around",
+    "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+    )
 
-app_bsky_notification_get_unread_count()
-app_bsky_notification_list_notifications()
-res1 <-app_bsky_notification_list_notifications(limit = 5)
-res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor)
+resp <- com_atproto_repo_create_record(repo, collection, record, .token = token)
+resp
+```
 
-app_bsky_graph_get_followers(actor = handle1)
-res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5)
-res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor)
-
-app_bsky_graph_get_follows(actor = handle1)
-res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5)
-res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor)
+## Manual testing
 
 
-app_bsky_graph_get_list(list = list1)
-app_bsky_feed_get_list_feed(list = list1)
-app_bsky_graph_get_lists(actor = handle2)
-app_bsky_graph_get_list_blocks()
-app_bsky_graph_get_list_mutes()
+```{r}
+app_bsky_actor_get_preferences(.token = token)
 
-app_bsky_feed_get_actor_feeds(actor = )
-app_bsky_feed_get_author_feed(actor = handle2)
-app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media")
+app_bsky_actor_get_profile(actor = handle1, .token = token)
+app_bsky_actor_get_profiles(actors = c(handle1, handle2), .token = token)
+
+app_bsky_actor_get_suggestions(.token = token)
+
+app_bsky_notification_get_unread_count(.token = token)
+app_bsky_notification_list_notifications(.token = token)
+res1 <-app_bsky_notification_list_notifications(limit = 5, .token = token)
+res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor, .token = token)
+
+app_bsky_graph_get_followers(actor = handle1, .token = token)
+res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, .token = token)
+res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor, .token = token)
+
+app_bsky_graph_get_follows(actor = handle1, .token = token)
+res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, .token = token)
+res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor, .token = token)
+
+
+posts <- app_bsky_feed_get_actor_feeds("profmusgrave.bsky.social", .token = token)
+posts$feeds %>%
+  map_chr(~.x$uri)
+
+
+app_bsky_graph_get_list(list = list1, .token = token)
+app_bsky_feed_get_list_feed(list = list1, .token = token)
+app_bsky_graph_get_lists(actor = handle2, .token = token)
+app_bsky_graph_get_list_blocks(.token = token)
+app_bsky_graph_get_list_mutes(.token = token)
+
+# app_bsky_feed_get_actor_feeds(actor = )
+app_bsky_feed_get_author_feed(actor = handle2, .token = token)
+app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media", .token = token)
 
 # Only for own account
-app_bsky_feed_get_actor_likes(actor = handle3)
+app_bsky_feed_get_actor_likes(actor = handle3, .token = token)
 
 # Generator
 
 
-app_bsky_feed_get_feed(feed = feed_gen1)
-app_bsky_feed_get_feed_generator(feed = feed_gen1)
-app_bsky_feed_get_feed_generators(feed = feed_gens)
+app_bsky_feed_get_feed(feed = feed_gen1, .token = token)
+app_bsky_feed_get_feed_generator(feed = feed_gen1, .token = token)
+app_bsky_feed_get_feed_generators(feed = feed_gens, .token = token)
 
-app_bsky_feed_get_likes(uri = feed_gen1)
-app_bsky_feed_get_likes(uri = post_uri)
-app_bsky_feed_get_reposted_by(uri = post_uri)
+app_bsky_feed_get_likes(uri = feed_gen1, .token = token)
+app_bsky_feed_get_likes(uri = post_uri, .token = token)
+app_bsky_feed_get_reposted_by(uri = post_uri, .token = token)
 
-app_bsky_feed_get_suggested_feeds()
+app_bsky_feed_get_suggested_feeds(.token = token)
 
-app_bsky_feed_get_posts(uris = c(post_uri))
+app_bsky_feed_get_posts(uris = c(post_uri), .token = token)
 
 
 # Unclear
 # app_bsky_feed_get_feed_skeleton(feed = feed_gen1)
 
 ```
+
+
+
+## Automatize Testing
+
+```{r}
+# app_bsky_actor_get_profile <- function(actor){
+#   
+#   get_params <- match.call(expand.dots = FALSE) |>
+#     flatten_query_params()
+#   
+#   list(
+#     scheme = 'https', 
+#     hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+#     query = as.list(get_params)
+#   ) |>
+#     app_bsky_actor_get_profile_int() |> 
+#     httr2::resp_body_json()
+# }
+
+# app_bsky_actor_get_profile_int <- function(all_params){
+#   all_params |>
+#     httr2::url_build() |>
+#     httr2::request() |> 
+#     httr2::req_method('GET') |>
+#     httr2::req_headers(
+#       Authorization = paste0('Bearer ', token$accessJwt)
+#     ) |> 
+#     httr2::req_perform()
+# }
+
+req <- list(
+  scheme = 'https', 
+  hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+  query = list(actor = "benguinaudeau.bsky.social")
+) %>%
+  app_bsky_actor_get_profile_int
+
+# <httr2_response>
+# GET https://bsky.social/xrpc/app.bsky.actor.getProfile?actor=benguinaudeau.bsky.social
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (785 bytes)
+
+httr2::resp_body_string(req)
+
+# "{\"did\":\"did:plc:vuvsifrusnjsys7mhkpk662u\",\"handle\":\"benguinaudeau.bsky.social\",\"displayName\":\"Benjamin Guinaudeau\",\"description\":\"Postdoc @CSMaP_NYU. \\n\\nPolitics, data science, and hacking stuff in #rstats. \\n\\n🇫🇷 in 🇩🇪/🇨🇦 he/him\\n\\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\\n\\nWebsite: http://benguinaudeau.com\",\"avatar\":\"https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg\",\"banner\":\"https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg\",\"followsCount\":129,\"followersCount\":223,\"postsCount\":15,\"indexedAt\":\"2023-09-19T00:08:33.661Z\",\"viewer\":{\"muted\":false,\"blockedBy\":false},\"labels\":[]}"
+
+app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") %>%
+  jsonlite::toJSON()
+
+{"did":["did:plc:vuvsifrusnjsys7mhkpk662u"],"handle":["benguinaudeau.bsky.social"],"displayName":["Benjamin Guinaudeau"],"description":["Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacking stuff in #rstats. \n\n🇫🇷 in 🇩🇪/🇨🇦 he/him\n\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\n\nWebsite: http://benguinaudeau.com"],"avatar":["https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg"],"banner":["https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg"],"followsCount":[129],"followersCount":[223],"postsCount":[15],"indexedAt":["2023-09-19T00:08:33.661Z"],"viewer":{"muted":[false],"blockedBy":[false]},"labels":[]} 
+
+```
+
+
+
+
+
+```{r}
+all_funs <- unique(arg_list$fun) %>%
+  str_subset("^(app|com)")
+
+fun_name <- sample(all_funs, 1)
+
+header <- c('---\ntitle: "lab"\noutput: html_document\ndate: "2023-09-27"\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```')
+
+final_output <- all_funs %>%
+  map(~{
+    fun_name <- .x
+    
+    output <- c(glue::glue("## {fun_name}"), "", "```{r}")
+    
+    fun <- get(fun_name, envir = asNamespace('atr'))
+    args <- formalArgs(fun)
+    
+    params <- list()
+    if("actor" %in% args){
+      params[["actor"]] <- c("ownhandle", "handle1", "handle2")
+    }
+    if("actors" %in% args){
+      params[["actors"]] <- c(" c(handle1, handle2)")
+    }
+    if("limit" %in% args){
+      params[["limit"]] <- c("NULL", "5", "10")
+    }
+    if("uri" %in% args){
+      params[["uri"]] <- c("feed_gen1", "feed_gen2", "list1", "post_uri")
+    }
+    if("uris" %in% args){
+      params[["uris"]] <- c("aoc_posts")
+    }
+    if("algorithm" %in% args){
+      # params[["uris"]] <- c("aoc_posts")
+    }
+    if("feed" %in% args){
+      params[["feed"]] <- c("feed1")
+    }
+    if("feeds" %in% args){
+      params[["feeds"]] <- c("c(feed1, feed2)")
+    }
+    if("depth" %in% args){
+      params[["depth"]] <- c("NULL", "0", "3", "5", "10")
+    }
+    if("parentHeight" %in% args){
+      params[["parentHeight"]] <- c("NULL", "0", "80", "160")
+    }
+    if("filter" %in% args){
+      params[["filter"]] <- c("NULL", "posts_with_replies", "posts_no_replies", "posts_with_media")
+    }
+    if("cursor" %in% args){
+      params[["cursor"]] <- c(T, F)
+    }
+    
+    param_grid <- expand_grid(!!!params) %>%
+      mutate(index = row_number())
+    
+    out <- param_grid %>%
+      split(1:nrow(.)) %>%
+      map_chr(~{
+        index <- .x$index
+        
+        .x[["index"]] <- NULL
+        .x[["cursor"]] <- NULL
+        
+        arg_declaration <- .x %>%
+          discard(~.x == "NULL") %>%
+          imap_chr(~paste(.y, .x, sep = " = ")) %>%
+          paste(collapse = " ,")
+        
+        glue::glue("{fun_name}({arg_declaration}) # {index}")
+      }) %>%
+      c(output, ., "```", "", "")
+  })
+
+c(header, final_output) %>% 
+  reduce(c) %>%
+  readr::write_lines("testing.Rmd")
+```
+
+
+
+
+I am writting an R package to query data stored and transfered using the AT protocol described on this webpage: https://atproto.com/guides/overview. 
+
+This is many ways similar to the python library atproto: https://github.com/MarshalX/atproto
+
+I have generated the function querying the API and need your help to write unit testing of the functions. Is that understood? 
+  
 
 

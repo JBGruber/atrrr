@@ -1,6 +1,5 @@
 build_function <- function(lexicon,
-                           method = "GET",
-                           gpt_documentation = TRUE,
+                           gpt_documentation = F,
                            out_file = "R/auto_generated.r") {
 
   if (is.character(lexicon)) {
@@ -8,40 +7,68 @@ build_function <- function(lexicon,
   }
 
   endpoint <- lexicon$id
-
-  params <- purrr::pluck(lexicon, "defs", "main", "parameters", "properties",
-                         .default = NULL)
-
-  params <- c(params, list(token = NULL))
-
-  required <- lexicon$defs$main$parameters[["required"]]
-
   fun_name <- f_name(endpoint)
 
-  param_names <- names(params)
+  lexicon_main <- purrr::pluck(lexicon, "defs", "main", .default = NULL)
+  lexicon_type <-  purrr::pluck(lexicon_main, "type", .default = NULL) %||% ""
+  lexicon_description <-  purrr::pluck(lexicon_main, "description", .default = NULL) %||% ""
+
+  if(lexicon_type == "query"){
+    lexicon_params <-  purrr::pluck(lexicon_main, "parameters", .default = NULL)
+  } else if(lexicon_type == "procedure"){
+    lexicon_params <-  purrr::pluck(lexicon_main, "input", "schema", .default = NULL)
+  } else {
+    warning(glue::glue("Endpoint {endpoint} neither procedure nor query"))
+    return(NULL)
+  }
+
+  params <- purrr::pluck(lexicon_params, "properties", .default = NULL)
+  required <- purrr::pluck(lexicon_params, "required", .default = NULL)
+
+  # TODO: I'm not sure we can do this this way, because we're exposing the token in the url
+  # if(length(params) == 0){
+  #   param_declaration <- c(" " = "")
+  # } else {
+  params <- c(params, list(.token = NULL))
+
+  param_names <- names(params)[order(!names(params) %in% unlist(required))]
   param_declaration <- paste0(
     param_names,
     ifelse(param_names %in% unlist(required), "", " = NULL"),
     collapse = ", "
   )
 
-  description <- lexicon$defs$main$description
+
+  ## Get query
   # TODO: parametrize the parameters name and description
   # TODO: parametrize the output of the function
   # TODO: parametrize example
+  # TODO: Add query rate especially to test the package
+  cur_env <- rlang::current_env()
 
-  new_fun <- readLines(system.file("function.template", package = "atr")) |>
-    purrr::map_chr(glue::glue)
+  if(lexicon_type == "query"){
+    new_fun <- readLines(system.file("get.function.template", package = "atr")) |>
+      purrr::map_chr(glue::glue, .envir = cur_env)
+  }
+  if(lexicon_type == "procedure"){
+    new_fun <- readLines(system.file("post.function.template", package = "atr")) |>
+      purrr::map_chr(glue::glue, .envir = cur_env)
+  }
 
-  new_fun <- askgpt::chat_api(prompt = glue::glue(
-    "Document this R function using roxygen2 syntax.",
-    "Only return the code, no other comments and no new syntax:",
-    "\n{new_fun}"
-  ),
-  model = "gpt-4") |>
-    askgpt::parse_response()
+  if(gpt_documentation){
+    new_fun <- askgpt::chat_api(prompt = glue::glue(
+      "Document this R function using roxygen2 syntax.",
+      "Only return the code, no other comments and no new syntax:",
+      "\n{new_fun}"
+    ),
+    model = "gpt-4") |>
+      askgpt::parse_response()
+  }
 
-  funs <- readLines("R/auto_generated.r")
+  funs <- ""
+  if(file.exists(out_file)){
+    funs <- readLines(out_file)
+  }
 
   # TODO: check if function exists and already has roxygen documentation
   writeLines(c(funs, "\n\n", new_fun), out_file)

@@ -8,6 +8,7 @@ auth(
   user,
   password,
   domain = "https://bsky.app/",
+  force_refresh = FALSE,
   verbose = TRUE,
   token = NULL
 )
@@ -19,6 +20,8 @@ auth(
 \url{https://bsky.app/settings/app-passwords}).}
 
 \item{domain}{For now https://bsky.app/, but could change in the future.}
+
+\item{force_refresh}{remove old token to request a fresh one.}
 
 \item{verbose}{If TRUE, prints success message.}
 

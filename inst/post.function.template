@@ -1,0 +1,24 @@
+#' {fun_name}_int
+{fun_name}_int <- function(body){{
+
+  .token <- body[[".token"]]
+  body$token <- NULL
+
+  httr2::request("https://bsky.social/xrpc/{lexicon$id}") |>
+    httr2::req_method("POST") |>
+    httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+    httr2::req_body_json(body) |>
+    httr2::req_perform()
+}}
+
+#' {fun_name}
+#' {lexicon_description}
+#' @export
+{fun_name} <- function({param_declaration}){{
+
+  body <- as.list(match.call())[-1] %>%
+    imap(~{eval(.x, envir = parent.frame())})
+
+  {fun_name}_int(body) |>
+    httr2::resp_body_json()
+}}

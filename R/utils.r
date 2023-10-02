@@ -19,17 +19,18 @@ error_parse <- function(resp) {
 
 
 f_name <- function(id) {
-  id <- sub("app.bsky.", "", id, fixed = TRUE)
+  # id <- sub("app.bsky.", "", id, fixed = TRUE)
   id <- gsub(".", "_", id, fixed = TRUE)
   tolower(gsub("([A-Z])", "_\\1", id))
 }
 
 
 flatten_query_params <- function(arg_calls){
+
   as.list(arg_calls) |>
     # Remove function call
     tail(-1) |>
-    imap(~{
+    purrr::imap(~{
       .x <- eval(.x)
       names(.x) <- rep(.y, length(.x))
       .x
