@@ -18,14 +18,14 @@ devtools::load_all()
 ## Authentification
 
 ```{r}
-token <- req_token(user = "benguinaudeau.bsky.social", 
-                   password = "2dwk-pbcx-blai-fzdf")
+.token <- token <- req_token(user = "benguinaudeau.bsky.social", 
+                             password = "2dwk-pbcx-blai-fzdf")
 ```
 
 ## Test value used in the unit tests
 
 ```{r}
-test_val <- list(
+tv <- list(
   handle1 = "aurman21.bsky.social",
   handle2 = "profmusgrave.bsky.social",
   ownhandle = "benguinaudeau.bsky.social",
@@ -44,7 +44,7 @@ test_val <- list(
   feed1 = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy",
   feed = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy"
 )
-usethis::use_data(test_val)
+usethis::use_data(tv)
 ```
 
 ## Get all lexicons
@@ -100,7 +100,8 @@ all %>%
 list_lexicons %>% #bashR::simule_map(4)
   walk(~{
     glimpse(.x)
-    build_function(lexicon = .x, out_file = "R/test_generated.r" )
+    out_file <- paste0("R/auto_", janitor::make_clean_names(fs::path_dir(.x)), ".R")
+    build_function(lexicon = .x, out_file = out_file)
   })
 
 ```
@@ -131,14 +132,152 @@ repo <- "benguinaudeau.bsky.social"
 collection <- "app.bsky.feed.post"
 
 record <- list(
-    "text" = "Testing around",
-    "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
-    )
+  "text" = "Testing around",
+  "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
 
 resp <- com_atproto_repo_create_record(repo, collection, record, .token = token, .return = "resp")
 params
 resp
 ```
+
+
+
+
+
+## Automatize Testing
+
+```{r}
+# app_bsky_actor_get_profile <- function(actor){
+#   
+#   get_params <- match.call(expand.dots = FALSE) |>
+#     flatten_query_params()
+#   
+#   list(
+#     scheme = 'https', 
+#     hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+#     query = as.list(get_params)
+#   ) |>
+#     app_bsky_actor_get_profile_int() |> 
+#     httr2::resp_body_json()
+# }
+
+# app_bsky_actor_get_profile_int <- function(all_params){
+#   all_params |>
+#     httr2::url_build() |>
+#     httr2::request() |> 
+#     httr2::req_method('GET') |>
+#     httr2::req_headers(
+#       Authorization = paste0('Bearer ', token$accessJwt)
+#     ) |> 
+#     httr2::req_perform()
+# }
+
+req <- list(
+  scheme = 'https', 
+  hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+  query = list(actor = "benguinaudeau.bsky.social")
+) %>%
+  app_bsky_actor_get_profile_int
+
+# <httr2_response>
+# GET https://bsky.social/xrpc/app.bsky.actor.getProfile?actor=benguinaudeau.bsky.social
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (785 bytes)
+
+httr2::resp_body_string(req)
+
+# "{\"did\":\"did:plc:vuvsifrusnjsys7mhkpk662u\",\"handle\":\"benguinaudeau.bsky.social\",\"displayName\":\"Benjamin Guinaudeau\",\"description\":\"Postdoc @CSMaP_NYU. \\n\\nPolitics, data science, and hacking stuff in #rstats. \\n\\n🇫🇷 in 🇩🇪/🇨🇦 he/him\\n\\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\\n\\nWebsite: http://benguinaudeau.com\",\"avatar\":\"https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg\",\"banner\":\"https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg\",\"followsCount\":129,\"followersCount\":223,\"postsCount\":15,\"indexedAt\":\"2023-09-19T00:08:33.661Z\",\"viewer\":{\"muted\":false,\"blockedBy\":false},\"labels\":[]}"
+
+app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") %>%
+  jsonlite::toJSON()
+
+{"did":["did:plc:vuvsifrusnjsys7mhkpk662u"],"handle":["benguinaudeau.bsky.social"],"displayName":["Benjamin Guinaudeau"],"description":["Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacking stuff in #rstats. \n\n🇫🇷 in 🇩🇪/🇨🇦 he/him\n\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\n\nWebsite: http://benguinaudeau.com"],"avatar":["https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg"],"banner":["https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg"],"followsCount":[129],"followersCount":[223],"postsCount":[15],"indexedAt":["2023-09-19T00:08:33.661Z"],"viewer":{"muted":[false],"blockedBy":[false]},"labels":[]} 
+
+```
+
+0. Intro
+1. Function code
+2. Row response
+3. Parsed response
+
+
+```{r}
+all_funs <- unique(arg_list$fun) %>%
+  str_subset("^(app|com)") %>%
+  str_subset("get")
+
+fun_name <- sample(all_funs, 1)
+```
+
+```{r}
+fun_code <- paste0(fun_name, "< - ", paste(deparse(get(fun_name)), collapse = "\n"))
+
+all_test <- get_params(fun_name)
+
+test <- all_test %>% 
+  sample(ceiling(.2 * length(.))) |>
+  map_dfr(~{
+    resp <- eval(parse(text = one_test))
+    json <- resp |>
+      httr2::resp_body_json() |>
+      jsonlite::toJSON()
+    
+    tibble::tibble(
+      code = .x, 
+      resp = list(resp), 
+      json = list(json)
+    )
+    
+  })
+
+test_for_prompt <- test %>%
+  split(1:nrow(.)) %>% #bashR::simule_map(1)
+  map_chr(~{
+    
+    out <- list()
+    out[[1]] <- paste(.x$code, "|> glimpse")
+    out[[2]] <- capture.output(.x$resp[[1]] %>% glimpse)
+    out[[3]] <- "\n\nJSON content: "
+    out[[4]] <- .x$json[[1]]
+    
+    paste(out, collapse = "\n")
+    
+  })
+
+final_prompt <- c(
+  "I am writting an R package to query data stored and transfered using the AT protocol described on this webpage: https://atproto.com/guides/overview. 
+
+This is many ways similar to the python library atproto: https://github.com/MarshalX/atproto
+
+I have generated the function querying the API and need your help to write unit testing of the functions.
+Write unit test in the style of testthat, only include code that can write into an Rscript file and run devtools::test(). Include as many test as possible", 
+  "Function code: ", fun_code, 
+  "Output examples:", paste(test_for_prompt[1], collapse = "\n")
+) %>%
+  paste(collapse = "\n")
+
+# str_length(final_prompt)
+# writeLines(final_prompt, "test_prompt.txt")
+
+new_fun <- askgpt::chat_api(prompt = final_prompt,
+    model = "gpt-3.5-turbo-16k") |>
+      askgpt::parse_response()
+
+
+cat(new_fun )
+```
+
+
+
+
+
+
+
+ 
+
+
 
 ## Manual testing
 
@@ -204,154 +343,3 @@ app_bsky_feed_get_posts(uris = c(post_uri), .token = token)
 # app_bsky_feed_get_feed_skeleton(feed = feed_gen1)
 
 ```
-
-
-
-## Automatize Testing
-
-```{r}
-# app_bsky_actor_get_profile <- function(actor){
-#   
-#   get_params <- match.call(expand.dots = FALSE) |>
-#     flatten_query_params()
-#   
-#   list(
-#     scheme = 'https', 
-#     hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
-#     query = as.list(get_params)
-#   ) |>
-#     app_bsky_actor_get_profile_int() |> 
-#     httr2::resp_body_json()
-# }
-
-# app_bsky_actor_get_profile_int <- function(all_params){
-#   all_params |>
-#     httr2::url_build() |>
-#     httr2::request() |> 
-#     httr2::req_method('GET') |>
-#     httr2::req_headers(
-#       Authorization = paste0('Bearer ', token$accessJwt)
-#     ) |> 
-#     httr2::req_perform()
-# }
-
-req <- list(
-  scheme = 'https', 
-  hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
-  query = list(actor = "benguinaudeau.bsky.social")
-) %>%
-  app_bsky_actor_get_profile_int
-
-# <httr2_response>
-# GET https://bsky.social/xrpc/app.bsky.actor.getProfile?actor=benguinaudeau.bsky.social
-# Status: 200 OK
-# Content-Type: application/json
-# Body: In memory (785 bytes)
-
-httr2::resp_body_string(req)
-
-# "{\"did\":\"did:plc:vuvsifrusnjsys7mhkpk662u\",\"handle\":\"benguinaudeau.bsky.social\",\"displayName\":\"Benjamin Guinaudeau\",\"description\":\"Postdoc @CSMaP_NYU. \\n\\nPolitics, data science, and hacking stuff in #rstats. \\n\\n🇫🇷 in 🇩🇪/🇨🇦 he/him\\n\\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\\n\\nWebsite: http://benguinaudeau.com\",\"avatar\":\"https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg\",\"banner\":\"https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg\",\"followsCount\":129,\"followersCount\":223,\"postsCount\":15,\"indexedAt\":\"2023-09-19T00:08:33.661Z\",\"viewer\":{\"muted\":false,\"blockedBy\":false},\"labels\":[]}"
-
-app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") %>%
-  jsonlite::toJSON()
-
-{"did":["did:plc:vuvsifrusnjsys7mhkpk662u"],"handle":["benguinaudeau.bsky.social"],"displayName":["Benjamin Guinaudeau"],"description":["Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacking stuff in #rstats. \n\n🇫🇷 in 🇩🇪/🇨🇦 he/him\n\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\n\nWebsite: http://benguinaudeau.com"],"avatar":["https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg"],"banner":["https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg"],"followsCount":[129],"followersCount":[223],"postsCount":[15],"indexedAt":["2023-09-19T00:08:33.661Z"],"viewer":{"muted":[false],"blockedBy":[false]},"labels":[]} 
-
-```
-
-
-
-
-
-```{r}
-all_funs <- unique(arg_list$fun) %>%
-  str_subset("^(app|com)")
-
-fun_name <- sample(all_funs, 1)
-
-header <- c('---\ntitle: "lab"\noutput: html_document\ndate: "2023-09-27"\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```')
-
-final_output <- all_funs %>%
-  map(~{
-    fun_name <- .x
-    
-    output <- c(glue::glue("## {fun_name}"), "", "```{r}")
-    
-    fun <- get(fun_name, envir = asNamespace('atr'))
-    args <- formalArgs(fun)
-    
-    params <- list()
-    if("actor" %in% args){
-      params[["actor"]] <- c("ownhandle", "handle1", "handle2")
-    }
-    if("actors" %in% args){
-      params[["actors"]] <- c(" c(handle1, handle2)")
-    }
-    if("limit" %in% args){
-      params[["limit"]] <- c("NULL", "5", "10")
-    }
-    if("uri" %in% args){
-      params[["uri"]] <- c("feed_gen1", "feed_gen2", "list1", "post_uri")
-    }
-    if("uris" %in% args){
-      params[["uris"]] <- c("aoc_posts")
-    }
-    if("algorithm" %in% args){
-      # params[["uris"]] <- c("aoc_posts")
-    }
-    if("feed" %in% args){
-      params[["feed"]] <- c("feed1")
-    }
-    if("feeds" %in% args){
-      params[["feeds"]] <- c("c(feed1, feed2)")
-    }
-    if("depth" %in% args){
-      params[["depth"]] <- c("NULL", "0", "3", "5", "10")
-    }
-    if("parentHeight" %in% args){
-      params[["parentHeight"]] <- c("NULL", "0", "80", "160")
-    }
-    if("filter" %in% args){
-      params[["filter"]] <- c("NULL", "posts_with_replies", "posts_no_replies", "posts_with_media")
-    }
-    if("cursor" %in% args){
-      params[["cursor"]] <- c(T, F)
-    }
-    
-    param_grid <- expand_grid(!!!params) %>%
-      mutate(index = row_number())
-    
-    out <- param_grid %>%
-      split(1:nrow(.)) %>%
-      map_chr(~{
-        index <- .x$index
-        
-        .x[["index"]] <- NULL
-        .x[["cursor"]] <- NULL
-        
-        arg_declaration <- .x %>%
-          discard(~.x == "NULL") %>%
-          imap_chr(~paste(.y, .x, sep = " = ")) %>%
-          paste(collapse = " ,")
-        
-        glue::glue("{fun_name}({arg_declaration}) # {index}")
-      }) %>%
-      c(output, ., "```", "", "")
-  })
-
-c(header, final_output) %>% 
-  reduce(c) %>%
-  readr::write_lines("testing.Rmd")
-```
-
-
-
-
-I am writting an R package to query data stored and transfered using the AT protocol described on this webpage: https://atproto.com/guides/overview. 
-
-This is many ways similar to the python library atproto: https://github.com/MarshalX/atproto
-
-I have generated the function querying the API and need your help to write unit testing of the functions. Is that understood? 
-  
-
-

@@ -30,9 +30,6 @@ build_function <- function(lexicon,
   required <- purrr::pluck(lexicon_params, "required", .default = NULL)
 
   # TODO: I'm not sure we can do this this way, because we're exposing the token in the url
-  # if(length(params) == 0){
-  #   param_declaration <- c(" " = "")
-  # } else {
   params <- c(params, list(.token = NULL))
 
   param_names <- names(params)[order(!names(params) %in% unlist(required))]
@@ -43,11 +40,7 @@ build_function <- function(lexicon,
     collapse = ", "
   )
 
-
   ## Get query
-  # TODO: parametrize the parameters name and description
-  # TODO: parametrize the output of the function
-  # TODO: parametrize example
   # TODO: Add query rate especially to test the package
   cur_env <- rlang::current_env()
 
