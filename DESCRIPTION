@@ -1,5 +1,5 @@
 Package: atr
-Title: What the Package Does (One Line, Title Case)
+Title: Wrapper for the AT Protocol behind 'Bluesky'
 Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Johannes B.",
@@ -9,10 +9,17 @@ Authors@R:
              comment = c(ORCID = "0000-0001-9177-1772")),
       person(given = "Benjamin", 
              family = "Guinaudeau", 
-             email = "wouter@vanatteveldt.com", 
+             email = "benjamin.guinaudeau@uni-konstanz.de", 
              role = c("aut", "ctb"),
-             comment = c(ORCID = "YOUR-ORCID-ID")))
-Description: What the package does (one paragraph).
+             comment = c(ORCID = "0000-0001-7206-6875")),
+      person(given = "Fabio", 
+             family = "Votta", 
+             email = "fabio.votta@gmail.com", 
+             role = c("aut", "ctb"),
+             comment = c(ORCID = "0000-0002-3143-5942")))
+Description: atr wraps the AT Protocol (Authenticated Transfer Protocol) behind 
+    'Bluesky' <https://blueskyweb.xyz>. Functions can be used for, among others, 
+    retrieving posts and followers from the network or posting content.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
