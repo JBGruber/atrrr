@@ -8,6 +8,14 @@ date: "2023-09-27"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Todo
+
++ Add to make-request an error message when token is expired
++ default argument set to JSON for .return
++ Try deleteRecord
++ Transform browser URL into at-uri
+
+
 ## Packages
 
 ```{r}
@@ -15,11 +23,46 @@ library(tidyverse)
 devtools::load_all()
 ```
 
+
+## Potential examples
+
+* Make a skeet with text
+* Make a skeet with picture
+
+* Get a profile's skeet/following/followers
+* Get all members/skeets from one feed
+* Get the likes from a post
+* Get likes from a profile
+
+## Easy example
+
+```{r}
+
+.token <- req_token(user = "benguinaudeau.bsky.social", 
+                             password = "jn3y-anfr-owin-phb4")
+
+# Get actor preferences
+app_bsky_actor_get_preferences(.token = .token)
+
+# Create a post
+repo <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.feed.post"
+
+record <- list(
+  "text" = "Testing around",
+  "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
+
+com_atproto_repo_create_record(repo, collection, record, .token = token)
+
+```
+
+
 ## Authentification
 
 ```{r}
 .token <- token <- req_token(user = "benguinaudeau.bsky.social", 
-                             password = "2dwk-pbcx-blai-fzdf")
+                             password = "")
 ```
 
 ## Test value used in the unit tests
@@ -77,6 +120,11 @@ all <- list_lexicons %>%
           purrr::pluck("defs", "main", "type")
       )
   })
+
+all %>% glimpse
+
+all %>% count(type, sort = T)
+all %>% filter(is.na(type))
 ```
 
 
@@ -127,6 +175,8 @@ arg_list %>%
 
 ## Testing post endpoitn 
 
+### Write post
+
 ```{r}
 repo <- "benguinaudeau.bsky.social"
 collection <- "app.bsky.feed.post"
@@ -139,8 +189,60 @@ record <- list(
 resp <- com_atproto_repo_create_record(repo, collection, record, .token = token, .return = "resp")
 params
 resp
+
+post_skeet <- function(test = ..., picture = NULL){
+  
+}
 ```
 
+### Get Likes
+
+```{r}
+resp <- app_bsky_feed_get_likes(uri = "at://pwnallthethings.bsky.social/post/3kawf4bv5v62e", .token = .token, .return = "json")
+
+
+```
+
+
+### Follow an account
+
+```{r}
+repo <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.graph.follow"
+
+# handle <- "janschwalbach.bsky.social"
+handle <- "jbgruber.bsky.social"
+prof <- app_bsky_actor_get_profile(actor = handle, .token = .token, .return = "json")
+
+prof
+
+record <- list(
+  "subject" = prof$did
+  # "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
+
+## Delete
+
+follows <- app_bsky_graph_get_follows(actor = "benguinaudeau.bsky.social", 
+                                      .token = .token, 
+                                      limit = 100,
+                                      .return = "json")
+
+follows$follows %>%
+  keep(~.x$did == handle)
+
+resp <- com_atproto_repo_delete_record(repo, collection, record, 
+                                       .token = .token, .return = "json")
+
+resp <- com_atproto_repo_create_record(repo, collection, record, .token = .token, .return = "resp")
+
+httr2::last_response() |>
+  httr2::resp_body_json()
+
+
+
+
+```
 
 
 
