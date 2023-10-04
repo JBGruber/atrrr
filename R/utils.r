@@ -37,16 +37,23 @@ flatten_query_params <- function(arg_calls){
     unlist()
 }
 
-make_request <- function(hostname, params, req_method = c("GET", "POST")){
 
+make_request <- function(hostname, params, req_method = c("GET", "POST")) {
+
+  req_method <- match.arg(req_method)
+
+  # TODO: remove
   params <<- params
 
-  .token = params[[".token"]]
-  .return = params[[".return"]]
+  .token <- params[[".token"]] %||% get_token()
   params[[".token"]] <- NULL
+
+  .return <- head(params[[".return"]], 1L) %||%  ""
   params[[".return"]] <- NULL
 
-  if(req_method == "GET"){
+  if (req_method == "GET") {#
+
+    # TODO: remove
     all_params <<- all_params <- flatten_query_params(params)
 
     resp <- list(
@@ -56,25 +63,22 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")){
     ) |>
       httr2::url_build() |>
       httr2::request() |>
-      httr2::req_method('GET') |>
+      httr2::req_method("GET") |>
       httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+      httr2::req_error(body = error_parse) |>
       httr2::req_perform()
-
-  } else if(req_method == "POST"){
-
+  } else if (req_method == "POST") {
     resp <- httr2::request(glue::glue("https://{hostname}")) |>
       httr2::req_method("POST") |>
       httr2::req_auth_bearer_token(token = .token$accessJwt) |>
       httr2::req_body_json(params) |>
+      httr2::req_error(body = error_parse) |>
       httr2::req_perform()
-
   }
 
-
-  switch(
-    .return,
+  switch(.return,
     resp = resp,
-    json = resp |>
-      httr2::resp_body_json()
+    json = httr2::resp_body_json(resp),
+    httr2::resp_body_json(resp) # unnamed argument is the default
   )
 }
