@@ -8,7 +8,6 @@ auth(
   user,
   password,
   domain = "https://bsky.app/",
-  force_refresh = FALSE,
   verbose = TRUE,
   token = NULL
 )
@@ -21,8 +20,6 @@ auth(
 
 \item{domain}{For now https://bsky.app/, but could change in the future.}
 
-\item{force_refresh}{remove old token to request a fresh one.}
-
 \item{verbose}{If TRUE, prints success message.}
 
 \item{token}{(Stale) token object. Usually you don't need to use this. But if
@@ -33,10 +30,11 @@ and request a fresh token.}
 An authentication token (invisible)
 }
 \description{
-Authenticate for the  API
+Run authentication for a network using the AT protocol (e.g.,
+\href{https://bsky.app/}{'Blue Sky'}) and save the token permanently.
 }
 \details{
-After requesting the token, it is safed in the location returned by
+After requesting the token, it is saved in the location returned by
 \code{file.path(tools::R_user_dir("atr", "cache"), Sys.getenv("BSKY_TOKEN", unset = "token.rds"))}. If you have multiple tokens, you can use
 \code{Sys.setenv(BSKY_TOKEN = "filename.rds")} to save/load the token with a
 different name.

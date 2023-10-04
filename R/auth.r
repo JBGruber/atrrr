@@ -1,10 +1,12 @@
 #' Authenticate for the  API
 #'
+#' @description Run authentication for a network using the AT protocol (e.g.,
+#' ['Blue Sky'](https://bsky.app/)) and save the token permanently.
+#'
 #' @param user Your user handle (e.g, benguinaudeau.bsky.social).
 #' @param password Your app password (usually created on
 #'   <https://bsky.app/settings/app-passwords>).
 #' @param domain For now https://bsky.app/, but could change in the future.
-#' @param force_refresh remove old token to request a fresh one.
 #' @param verbose If TRUE, prints success message.
 #' @param token (Stale) token object. Usually you don't need to use this. But if
 #'   you manage your own tokens and they get stale, you can use this parameter
@@ -12,7 +14,7 @@
 #'
 #' @returns An authentication token (invisible)
 #'
-#' @details After requesting the token, it is safed in the location returned by
+#' @details After requesting the token, it is saved in the location returned by
 #'   `file.path(tools::R_user_dir("atr", "cache"), Sys.getenv("BSKY_TOKEN",
 #'   unset = "token.rds"))`. If you have multiple tokens, you can use
 #'   `Sys.setenv(BSKY_TOKEN = "filename.rds")` to save/load the token with a
@@ -22,11 +24,16 @@
 auth <- function(user,
                  password,
                  domain = "https://bsky.app/",
-                 force_refresh = FALSE,
                  verbose = TRUE,
                  token = NULL) {
   if (is.null(token)) {
-    url <- file.path(sub("/+$", "", domain), "settings/app-passwords")
+    url <- list(
+      scheme = "https",
+      hostname = httr2::url_parse(domain)$hostname,
+      path = "settings/app-passwords"
+    ) |>
+      httr2::url_build()
+
     if (interactive() && is.null(password)) {
       utils::browseURL(url)
       cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
@@ -73,13 +80,22 @@ auth <- function(user,
   # store in cache
   rlang::env_poke(env = the, nm = "bsky_token", value = token, create = TRUE)
 
-  httr2::secret_write_rds(
-    x = token, path = file.path(p, f),
-    key = I(rlang::hash("musksucks"))
-  )
+  sel <- TRUE
+  if (file.exists(file.path(p, f))) {
+    sel <- askYesNo(
+      "A token already exists on disk. Do you want to overwrite it?",
+      default = FALSE
+    )
+  }
 
-  cli::cli_alert_success("Succesfully authenticated!")
-  invisible(token)
+  if (sel) {
+    httr2::secret_write_rds(
+      x = token, path = file.path(p, f),
+      key = I(rlang::hash("musksucks"))
+    )
+    if (verbose) cli::cli_alert_success("Succesfully authenticated!")
+    invisible(token)
+  }
 }
 
 

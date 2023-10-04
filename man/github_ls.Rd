@@ -20,5 +20,5 @@ The list of corresponding paths. If the depth is reached, it returns the folder 
 List all files in github subfolders up to a certain depth
 }
 \examples{
- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
+github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
 }
