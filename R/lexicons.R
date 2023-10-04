@@ -8,23 +8,23 @@
 #' @export
 #'
 #' @examples
-#'  github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
-github_ls <- function(repo, folder, max_depth = 10){
+#' github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
+github_ls <- function(repo, folder, max_depth = 10) {
   paths <- glue::glue("{repo}/{folder}")
 
   files <- c()
   depth <- 1
 
-  while(length(paths) > 0 && depth <= max_depth){
+  while (length(paths) > 0 && depth <= max_depth) {
     new_path <- c()
     cli::cli_progress_step("Reached depth {depth}")
-    for(path in paths){
+    for (path in paths) {
       res <- jsonlite::read_json(path)
       new <- res |>
-        purrr::keep(~.x$type == "dir") |>
+        purrr::keep(~ .x$type == "dir") |>
         purrr::map_chr("path")
       new_files <- res |>
-        purrr::keep(~.x$type != "dir") |>
+        purrr::keep(~ .x$type != "dir") |>
         purrr::map_chr("path")
       files <- c(files, new_files)
 
@@ -70,18 +70,17 @@ get_lexicon <- function(path) {
 #'
 #' @examples
 #' read_lexicon("app/bsky/actor/getProfile.json")
-read_lexicon <- function(path){
+read_lexicon <- function(path) {
   local_path <- file.path(system.file("lexicons", package = "atr"), path)
 
-  if(!file.exists(local_path)){
+  if (!file.exists(local_path)) {
     warning("No corresponding lexicon found. Trying to download the lexicon.")
     get_lexicon(path)
   }
 
-  if(!file.exists(local_path)){
+  if (!file.exists(local_path)) {
     stop(glue::glue("No lexicon found at {path}. Check the path. "))
   }
 
   jsonlite::read_json(local_path)
 }
-

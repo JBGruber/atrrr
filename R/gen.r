@@ -1,7 +1,6 @@
 build_function <- function(lexicon,
                            gpt_documentation = F,
                            out_file = "R/auto_generated.r") {
-
   if (is.character(lexicon)) {
     lexicon <- read_lexicon(lexicon)
   }
@@ -10,17 +9,17 @@ build_function <- function(lexicon,
   fun_name <- f_name(endpoint)
 
   lexicon_main <- purrr::pluck(lexicon, "defs", "main", .default = NULL)
-  lexicon_type <-  purrr::pluck(lexicon_main, "type", .default = NULL) %||% ""
-  lexicon_description <-  purrr::pluck(lexicon_main, "description", .default = NULL) %||% ""
+  lexicon_type <- purrr::pluck(lexicon_main, "type", .default = NULL) %||% ""
+  lexicon_description <- purrr::pluck(lexicon_main, "description", .default = NULL) %||% ""
 
 
 
-  if(lexicon_type == "query"){
+  if (lexicon_type == "query") {
     req_method <- "GET"
-    lexicon_params <-  purrr::pluck(lexicon_main, "parameters", .default = NULL)
-  } else if(lexicon_type == "procedure"){
+    lexicon_params <- purrr::pluck(lexicon_main, "parameters", .default = NULL)
+  } else if (lexicon_type == "procedure") {
     req_method <- "POST"
-    lexicon_params <-  purrr::pluck(lexicon_main, "input", "schema", .default = NULL)
+    lexicon_params <- purrr::pluck(lexicon_main, "input", "schema", .default = NULL)
   } else {
     warning(glue::glue("Endpoint {endpoint} neither procedure nor query"))
     return(NULL)
@@ -48,22 +47,23 @@ build_function <- function(lexicon,
     purrr::map_chr(glue::glue, .envir = cur_env)
 
 
-  if(gpt_documentation){
-    new_fun <- askgpt::chat_api(prompt = glue::glue(
-      "Document this R function using roxygen2 syntax.",
-      "Only return the code, no other comments and no new syntax:",
-      "\n{new_fun}"
-    ),
-    model = "gpt-4") |>
+  if (gpt_documentation) {
+    new_fun <- askgpt::chat_api(
+      prompt = glue::glue(
+        "Document this R function using roxygen2 syntax.",
+        "Only return the code, no other comments and no new syntax:",
+        "\n{new_fun}"
+      ),
+      model = "gpt-4"
+    ) |>
       askgpt::parse_response()
   }
 
   funs <- ""
-  if(file.exists(out_file)){
+  if (file.exists(out_file)) {
     funs <- readLines(out_file)
   }
 
   # TODO: check if function exists and already has roxygen documentation
   writeLines(c(funs, "\n\n", new_fun), out_file)
-
 }

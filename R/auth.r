@@ -25,7 +25,6 @@ auth <- function(user,
                  force_refresh = FALSE,
                  verbose = TRUE,
                  token = NULL) {
-
   if (is.null(token)) {
     url <- file.path(sub("/+$", "", domain), "settings/app-passwords")
     if (interactive() && is.null(password)) {
@@ -35,23 +34,25 @@ auth <- function(user,
       cli::cli_abort("You need to run {.fn auth} in an interactive session")
     }
 
-    if (missing(user))
+    if (missing(user)) {
       user <- askpass::askpass(
         "Please enter your username (e.g., \"jbgruber.bsky.social\") password"
       )
+    }
 
-    if (missing(password))
+    if (missing(password)) {
       password <- askpass::askpass("Please enter your app password")
+    }
 
     if (!is.null(user) && !is.null(password)) {
       token <- req_token(user, password)
     } else {
       cli::cli_abort("You need to supply username and password.")
     }
-
   } else {
-    if (!methods::is(token, "bsky_token"))
+    if (!methods::is(token, "bsky_token")) {
       cli::cli_abort("token needs to be an object of class {.emph bsky_token}")
+    }
     token <- refresh_token(token)
   }
 
@@ -72,8 +73,10 @@ auth <- function(user,
   # store in cache
   rlang::env_poke(env = the, nm = "bsky_token", value = token, create = TRUE)
 
-  httr2::secret_write_rds(x = token, path = file.path(p, f),
-                          key = I(rlang::hash("musksucks")))
+  httr2::secret_write_rds(
+    x = token, path = file.path(p, f),
+    key = I(rlang::hash("musksucks"))
+  )
 
   cli::cli_alert_success("Succesfully authenticated!")
   invisible(token)
@@ -95,9 +98,10 @@ req_token <- function(user, password) {
 
 
 get_token <- function() {
-
-  f <- file.path(tools::R_user_dir("atr", "cache"),
-                 Sys.getenv("BSKY_TOKEN", unset = "token.rds"))
+  f <- file.path(
+    tools::R_user_dir("atr", "cache"),
+    Sys.getenv("BSKY_TOKEN", unset = "token.rds")
+  )
 
   if (rlang::env_has(the, nms = "bsky_token")) {
     token <- rlang::env_get(the, nm = "bsky_token", I(rlang::hash("musksucks")))
@@ -142,10 +146,12 @@ refresh_token <- function(token) {
 print.bsky_token <- function(x, ...) {
   cli::cli_h1("Blue Sky token")
   cli::cat_bullet(glue::glue("User: {x$handle}"),
-                  background_col = "#0560FF", col = "#F3F9FF")
+    background_col = "#0560FF", col = "#F3F9FF"
+  )
   cli::cat_bullet(glue::glue("Domain: {x$domain}"),
-                  background_col = "#0560FF", col = "#F3F9FF")
+    background_col = "#0560FF", col = "#F3F9FF"
+  )
   cli::cat_bullet(glue::glue("Valid until: {x$valid_until}"),
-                  background_col = "#0560FF", col = "#F3F9FF")
-
+    background_col = "#0560FF", col = "#F3F9FF"
+  )
 }

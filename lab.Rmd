@@ -96,8 +96,8 @@ usethis::use_data(tv)
 
 ```{r}
 # list_lexicons <- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", 
-#                            folder = "lexicons") %>%
-#   str_remove("lexicons") %>%
+#                            folder = "lexicons") |>
+#   str_remove("lexicons") |>
 #   set_names(
 #     fs::path_file(.) |>
 #       str_remove(".json")
@@ -109,32 +109,32 @@ usethis::use_data(tv)
 ### Read all lexicons
 
 ```{r}
-all <- list_lexicons %>%
+all <- list_lexicons |>
   map_dfr(~{
     tibble::tibble(
       id = .x,
       lexicon = list(read_lexicon(.x))
-    ) %>%
+    ) |>
       mutate(
-        type = lexicon[[1]] %>%
+        type = lexicon[[1]] |>
           purrr::pluck("defs", "main", "type")
       )
   })
 
-all %>% glimpse
+all |> glimpse
 
-all %>% count(type, sort = T)
-all %>% filter(is.na(type))
+all |> count(type, sort = T)
+all |> filter(is.na(type))
 ```
 
 
 ### Check lexicons type
 
 ```{r}
-all %>%
-  add_count(type) %>%
-  distinct(type, .keep_all = T) %>%
-  rename(example = id) %>%
+all |>
+  add_count(type) |>
+  distinct(type, .keep_all = T) |>
+  rename(example = id) |>
   arrange(desc(n))
 ```
 
@@ -145,7 +145,7 @@ all %>%
 ```{r}
 # dput(names(list_lexicons[str_detect(names(list_lexicons), "^get")]))
 
-list_lexicons %>% #bashR::simule_map(4)
+list_lexicons |> #bashR::simule_map(4)
   walk(~{
     glimpse(.x)
     out_file <- paste0("R/auto_", janitor::make_clean_names(fs::path_dir(.x)), ".R")
@@ -158,8 +158,8 @@ list_lexicons %>% #bashR::simule_map(4)
 ## Testing function
 
 ```{r}
-arg_list <-  ls("package:atr") %>%
-  str_subset("^(app|com)") %>%
+arg_list <-  ls("package:atr") |>
+  str_subset("^(app|com)") |>
   map_dfr(~{
     tibble::tibble(
       fun = .x,
@@ -167,9 +167,9 @@ arg_list <-  ls("package:atr") %>%
     )
   })
 
-arg_list %>%
-  filter(!param %in% c("actor", "actors", "limit", "cursor")) %>%
-  arrange(param) %>%
+arg_list |>
+  filter(!param %in% c("actor", "actors", "limit", "cursor")) |>
+  arrange(param) |>
   glimpse
 ```
 
@@ -228,7 +228,7 @@ follows <- app_bsky_graph_get_follows(actor = "benguinaudeau.bsky.social",
                                       limit = 100,
                                       .return = "json")
 
-follows$follows %>%
+follows$follows |>
   keep(~.x$did == handle)
 
 resp <- com_atproto_repo_delete_record(repo, collection, record, 
@@ -279,7 +279,7 @@ req <- list(
   scheme = 'https', 
   hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
   query = list(actor = "benguinaudeau.bsky.social")
-) %>%
+) |>
   app_bsky_actor_get_profile_int
 
 # <httr2_response>
@@ -292,7 +292,7 @@ httr2::resp_body_string(req)
 
 # "{\"did\":\"did:plc:vuvsifrusnjsys7mhkpk662u\",\"handle\":\"benguinaudeau.bsky.social\",\"displayName\":\"Benjamin Guinaudeau\",\"description\":\"Postdoc @CSMaP_NYU. \\n\\nPolitics, data science, and hacking stuff in #rstats. \\n\\n🇫🇷 in 🇩🇪/🇨🇦 he/him\\n\\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\\n\\nWebsite: http://benguinaudeau.com\",\"avatar\":\"https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg\",\"banner\":\"https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg\",\"followsCount\":129,\"followersCount\":223,\"postsCount\":15,\"indexedAt\":\"2023-09-19T00:08:33.661Z\",\"viewer\":{\"muted\":false,\"blockedBy\":false},\"labels\":[]}"
 
-app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") %>%
+app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") |>
   jsonlite::toJSON()
 
 {"did":["did:plc:vuvsifrusnjsys7mhkpk662u"],"handle":["benguinaudeau.bsky.social"],"displayName":["Benjamin Guinaudeau"],"description":["Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacking stuff in #rstats. \n\n🇫🇷 in 🇩🇪/🇨🇦 he/him\n\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\n\nWebsite: http://benguinaudeau.com"],"avatar":["https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg"],"banner":["https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg"],"followsCount":[129],"followersCount":[223],"postsCount":[15],"indexedAt":["2023-09-19T00:08:33.661Z"],"viewer":{"muted":[false],"blockedBy":[false]},"labels":[]} 
@@ -306,8 +306,8 @@ app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") %>%
 
 
 ```{r}
-all_funs <- unique(arg_list$fun) %>%
-  str_subset("^(app|com)") %>%
+all_funs <- unique(arg_list$fun) |>
+  str_subset("^(app|com)") |>
   str_subset("get")
 
 fun_name <- sample(all_funs, 1)
@@ -318,7 +318,7 @@ fun_code <- paste0(fun_name, "< - ", paste(deparse(get(fun_name)), collapse = "\
 
 all_test <- get_params(fun_name)
 
-test <- all_test %>% 
+test <- all_test |> 
   sample(ceiling(.2 * length(.))) |>
   map_dfr(~{
     resp <- eval(parse(text = one_test))
@@ -334,13 +334,13 @@ test <- all_test %>%
     
   })
 
-test_for_prompt <- test %>%
-  split(1:nrow(.)) %>% #bashR::simule_map(1)
+test_for_prompt <- test |>
+  split(1:nrow(.)) |> #bashR::simule_map(1)
   map_chr(~{
     
     out <- list()
     out[[1]] <- paste(.x$code, "|> glimpse")
-    out[[2]] <- capture.output(.x$resp[[1]] %>% glimpse)
+    out[[2]] <- capture.output(.x$resp[[1]] |> glimpse)
     out[[3]] <- "\n\nJSON content: "
     out[[4]] <- .x$json[[1]]
     
@@ -357,7 +357,7 @@ I have generated the function querying the API and need your help to write unit 
 Write unit test in the style of testthat, only include code that can write into an Rscript file and run devtools::test(). Include as many test as possible", 
   "Function code: ", fun_code, 
   "Output examples:", paste(test_for_prompt[1], collapse = "\n")
-) %>%
+) |>
   paste(collapse = "\n")
 
 # str_length(final_prompt)
@@ -408,7 +408,7 @@ res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cur
 
 
 posts <- app_bsky_feed_get_actor_feeds("profmusgrave.bsky.social", .token = token)
-posts$feeds %>%
+posts$feeds |>
   map_chr(~.x$uri)
 
 

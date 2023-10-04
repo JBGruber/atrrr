@@ -5,8 +5,8 @@
 
   make_request(
     hostname = "bsky.social/xrpc/{endpoint}",
-    params = as.list(match.call())[-1] %>%
-      imap(~{{eval(.x, envir = parent.frame())}}),
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~{{eval(.x, envir = parent.frame())}}),
     req_method = "{req_method}"
   )
 

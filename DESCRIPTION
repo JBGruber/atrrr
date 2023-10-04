@@ -23,6 +23,7 @@ Imports:
     curl,
     glue,
     httr2,
+    lifecycle,
     methods,
     rlang,
     utils

@@ -25,10 +25,9 @@ f_name <- function(id) {
 }
 
 
-flatten_query_params <- function(arg_calls){
-
+flatten_query_params <- function(arg_calls) {
   arg_calls |>
-    purrr::imap(~{
+    purrr::imap(~ {
       .x <- eval(.x)
       names(.x) <- rep(.y, length(.x))
       .x
@@ -39,7 +38,6 @@ flatten_query_params <- function(arg_calls){
 
 
 make_request <- function(hostname, params, req_method = c("GET", "POST")) {
-
   req_method <- match.arg(req_method)
 
   # TODO: remove
@@ -48,10 +46,10 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
   .token <- params[[".token"]] %||% get_token()
   params[[".token"]] <- NULL
 
-  .return <- head(params[[".return"]], 1L) %||%  ""
+  .return <- head(params[[".return"]], 1L) %||% ""
   params[[".return"]] <- NULL
 
-  if (req_method == "GET") {#
+  if (req_method == "GET") { #
 
     # TODO: remove
     all_params <<- all_params <- flatten_query_params(params)
