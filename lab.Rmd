@@ -39,13 +39,18 @@ devtools::load_all()
 ```{r}
 auth(user = "atpr.bsky.social", 
      password = "cmpd-5mvw-yauz-2lwu")
+```
 
+### Get actor preferences
 
-# Get actor preferences
+```{r}
 app_bsky_actor_get_preferences()
+```
 
-# Create a post
-repo <- "benguinaudeau.bsky.social"
+### Create a post
+
+```{r}
+repo <- "atpr.bsky.social"
 collection <- "app.bsky.feed.post"
 
 record <- list(
@@ -53,16 +58,37 @@ record <- list(
   "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
 )
 
-com_atproto_repo_create_record(repo, collection, record, .token = token)
+resp <- com_atproto_repo_create_record(repo, collection, record)
+resp %>% glimpse
+```
 
+
+### Remove post based on at-url
+
+```{r}
+post_info <- parse_at_uri(resp$uri)
+resp_delte <- com_atproto_repo_delete_record(repo = post_info$repo, 
+                                             collection = post_info$collection, 
+                                             rkey = post_info$rkey)
+```
+
+### Remove post based on http-url
+
+```{r}
+http_url <- "https://bsky.app/profile/atpr.bsky.social/post/3kaz3famddr23"
+
+post_info <- parse_http_url(http_url)
+resp_deleted <- com_atproto_repo_delete_record(repo = post_info$repo, 
+                                             collection = post_info$collection, 
+                                             rkey = post_info$rkey)
 ```
 
 
 ## Authentification
 
 ```{r}
-.token <- token <- req_token(user = "benguinaudeau.bsky.social", 
-                             password = "")
+auth(user = "atpr.bsky.social", 
+     password = "cmpd-5mvw-yauz-2lwu")
 ```
 
 ## Test value used in the unit tests

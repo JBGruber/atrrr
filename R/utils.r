@@ -74,9 +74,49 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
       httr2::req_perform()
   }
 
-  switch(.return,
-    resp = resp,
-    json = httr2::resp_body_json(resp),
-    httr2::resp_body_json(resp) # unnamed argument is the default
-  )
+  if(.return %in% c("", "json")){
+    if(length(resp$body)){
+      resp <- httr2::resp_body_json(resp)
+    } else {
+      resp <- list()
+    }
+  }
+
+  return(resp)
+}
+
+parse_at_uri <- function(uri){
+
+  uri |>
+    stringr::str_split("\\/+") |>
+    purrr::map_dfr(~{
+      .x |>
+        purrr::set_names(c("protocol", "repo", "collection", "rkey")) |>
+        as.list() |>
+        tibble::as_tibble()
+    })
+
+}
+
+parse_http_url <- function(url){
+
+  url |>
+    map_dfr(~{
+      url_parts <- httr2::url_parse(.x)
+
+      url_parts$path |>
+        stringr::str_split("(?<=.)\\/") %>%
+        .[[1]] |>
+        purrr::set_names(c("repo_type", "repo", "collection", "rkey")) |>
+        as.list() |>
+        tibble::as_tibble() |>
+        mutate(
+          collection = switch(
+            collection,
+            "post" = "app.bsky.feed.post"
+          )
+        )
+    })
+
+
 }
