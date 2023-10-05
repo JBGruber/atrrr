@@ -8,6 +8,7 @@
 #'   <https://bsky.app/settings/app-passwords>).
 #' @param domain For now https://bsky.app/, but could change in the future.
 #' @param verbose If TRUE, prints success message.
+#' @param overwrite If TRUE, overwrites old token without asking for confirmation.
 #' @param token (Stale) token object. Usually you don't need to use this. But if
 #'   you manage your own tokens and they get stale, you can use this parameter
 #'   and request a fresh token.
@@ -25,23 +26,15 @@ auth <- function(user,
                  password,
                  domain = "https://bsky.app/",
                  verbose = TRUE,
+                 overwrite = FALSE,
                  token = NULL) {
   if (is.null(token)) {
     url <- list(
       scheme = "https",
       hostname = httr2::url_parse(domain)$hostname,
-      path = "settings/app-passwords"
+      path = "/settings/app-passwords"
     ) |>
       httr2::url_build()
-
-    if(is.null(password)) {
-      if (interactive()) {
-        utils::browseURL(url)
-        cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
-      } else {
-        cli::cli_abort("You need to run {.fn auth} in an interactive session")
-      }
-    }
 
     if (missing(user)) {
       user <- askpass::askpass(
@@ -49,8 +42,14 @@ auth <- function(user,
       )
     }
 
-    if (missing(password)) {
-      password <- askpass::askpass("Please enter your app password")
+    if(missing(password) || is.null(password)) {
+      if (interactive()) {
+        cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
+        utils::browseURL(url)
+        password <- askpass::askpass("Please enter your app password")
+      } else {
+        cli::cli_abort("You need to run {.fn auth} in an interactive session")
+      }
     }
 
     if (!is.null(user) && !is.null(password)) {
@@ -83,8 +82,8 @@ auth <- function(user,
   rlang::env_poke(env = the, nm = "bsky_token", value = token, create = TRUE)
 
   sel <- TRUE
-  if (file.exists(file.path(p, f))) {
-    sel <- askYesNo(
+  if (file.exists(file.path(p, f)) && !overwrite) {
+    sel <- utils::askYesNo(
       "A token already exists on disk. Do you want to overwrite it?",
       default = FALSE
     )
@@ -130,7 +129,7 @@ get_token <- function() {
   }
 
   if (token$valid_until < Sys.time()) {
-    token <- auth(password = token$password, token = token, verbose = FALSE)
+    token <- auth(password = token$password, token = token, verbose = FALSE, overwrite = TRUE)
   }
 
   invisible(token)
