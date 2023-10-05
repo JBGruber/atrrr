@@ -65,7 +65,7 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
       httr2::req_method("GET") |>
       httr2::req_auth_bearer_token(token = .token$accessJwt) |>
       httr2::req_error(body = error_parse) |>
-      httr2::req_perform()
+      httr2::req_perform(check_type = FALSE)
   } else if (req_method == "POST") {
     resp <- httr2::request(glue::glue("https://{hostname}")) |>
       httr2::req_method("POST") |>

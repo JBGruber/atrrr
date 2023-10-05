@@ -13,7 +13,6 @@ app_bsky_feed_describe_feed_generator <- function(.token = NULL, .return = c("js
 }
 
 
-
 #' app_bsky_feed_get_actor_feeds
 #' Retrieve a list of feeds created by a given actor
 #' @export

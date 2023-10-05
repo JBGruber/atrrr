@@ -179,6 +179,27 @@ follow_deleted <- com_atproto_repo_delete_record(
 follow_deleted
 ```
 
+### Search posts
+
+```{r}
+search_post <- function(q, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "search.bsky.social/search/posts",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+resp <- app_bsky_feed_search_term(q = "rstats")
+resp %>%
+  glimpse
+```
+
+
 ## Test value used in the unit tests
 
 ```{r}
