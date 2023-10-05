@@ -68,6 +68,9 @@ resp %>% glimpse
 ```{r}
 #  "at://did:plc:j42kj4qc5vfz344weywpkair/app.bsky.feed.post/3kaz3hsyov22f"
 post_info <- parse_at_uri(resp$uri)
+
+
+
 resp_delte <- com_atproto_repo_delete_record(repo = post_info$repo, 
                                              collection = post_info$collection, 
                                              rkey = post_info$rkey)
@@ -92,10 +95,10 @@ repo <- "atpr.bsky.social"
 collection <- "app.bsky.graph.follow"
 handle <- "benguinaudeau.bsky.social"
 
-prof <- app_bsky_actor_get_profile(actor = handle)
+prof_did <- com_atproto_identity_resolve_handle(handle)[["did"]]
 
 record <- list(
-  "subject" = prof$did, 
+  "subject" = prof_did, 
   "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
 )
 
@@ -137,7 +140,7 @@ resp <- com_atproto_repo_list_records(repo,
                                       collection, 
                                       limit = 100)
 
-prof <- app_bsky_actor_get_profile(actor = handle_to_unfollow)
+prof_did <- com_atproto_identity_resolve_handle(handle)[["did"]]
 
 record <- resp$records |>
   keep(~.x$value$subject == prof$did)
