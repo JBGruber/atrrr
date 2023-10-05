@@ -153,15 +153,6 @@ follow_deleted <- com_atproto_repo_delete_record(
 follow_deleted
 ```
 
-
-
-## Authentification
-
-```{r}
-auth(user = "atpr.bsky.social", 
-     password = "cmpd-5mvw-yauz-2lwu")
-```
-
 ## Test value used in the unit tests
 
 ```{r}
@@ -283,7 +274,7 @@ record <- list(
   "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
 )
 
-resp <- com_atproto_repo_create_record(repo, collection, record, .token = token, .return = "resp")
+resp <- com_atproto_repo_create_record(repo, collection, record)
 params
 resp
 
@@ -295,7 +286,7 @@ post_skeet <- function(test = ..., picture = NULL){
 ### Get Likes
 
 ```{r}
-resp <- app_bsky_feed_get_likes(uri = "at://pwnallthethings.bsky.social/post/3kawf4bv5v62e", .token = .token, .return = "json")
+resp <- app_bsky_feed_get_likes(uri = "at://pwnallthethings.bsky.social/post/3kawf4bv5v62e", )
 
 
 ```
@@ -307,7 +298,7 @@ resp <- app_bsky_feed_get_likes(uri = "at://pwnallthethings.bsky.social/post/3ka
 repo <- ""
 collection <- "app.bsky.graph.follow"
 handle <- "benguinaudeau.bsky.social"
-prof <- app_bsky_actor_get_profile(actor = handle, .token = .token, .return = "json")
+prof <- app_bsky_actor_get_profile(actor = handle, )
 prof
 
 record <- list(
@@ -326,9 +317,9 @@ follows$follows |>
   keep(~.x$did == handle)
 
 resp <- com_atproto_repo_delete_record(repo, collection, record, 
-                                       .token = .token, .return = "json")
+                                       )
 
-resp <- com_atproto_repo_create_record(repo, collection, record, .token = .token, .return = "resp")
+resp <- com_atproto_repo_create_record(repo, collection, record, .token = .token)
 
 httr2::last_response() |>
   httr2::resp_body_json()
@@ -465,16 +456,6 @@ new_fun <- askgpt::chat_api(prompt = final_prompt,
 cat(new_fun )
 ```
 
-
-
-
-
-
-
-
-
-
-
 ## Manual testing
 
 
@@ -482,57 +463,57 @@ cat(new_fun )
 app_bsky_actor_get_preferences(.token = token, .return =  "resp")
 app_bsky_actor_get_preferences(.token = token, .return =  "json")
 
-app_bsky_actor_get_profile(actor = handle1, .token = token)
-app_bsky_actor_get_profiles(actors = c(handle1, handle2), .token = token)
+app_bsky_actor_get_profile(actor = handle1)
+app_bsky_actor_get_profiles(actors = c(handle1, handle2))
 
 app_bsky_actor_get_suggestions(.token = token)
 
 app_bsky_notification_get_unread_count(.token = token)
 app_bsky_notification_list_notifications(.token = token)
-res1 <-app_bsky_notification_list_notifications(limit = 5, .token = token)
-res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor, .token = token)
+res1 <-app_bsky_notification_list_notifications(limit = 5)
+res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor)
 
-app_bsky_graph_get_followers(actor = handle1, .token = token)
-res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, .token = token)
-res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor, .token = token)
+app_bsky_graph_get_followers(actor = handle1)
+res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor)
 
-app_bsky_graph_get_follows(actor = handle1, .token = token)
-res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, .token = token)
-res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor, .token = token)
+app_bsky_graph_get_follows(actor = handle1)
+res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor)
 
 
-posts <- app_bsky_feed_get_actor_feeds("profmusgrave.bsky.social", .token = token)
+posts <- app_bsky_feed_get_actor_feeds("profmusgrave.bsky.social")
 posts$feeds |>
   map_chr(~.x$uri)
 
 
-app_bsky_graph_get_list(list = list1, .token = token)
-app_bsky_feed_get_list_feed(list = list1, .token = token)
-app_bsky_graph_get_lists(actor = handle2, .token = token)
+app_bsky_graph_get_list(list = list1)
+app_bsky_feed_get_list_feed(list = list1)
+app_bsky_graph_get_lists(actor = handle2)
 app_bsky_graph_get_list_blocks(.token = token)
 app_bsky_graph_get_list_mutes(.token = token)
 
 # app_bsky_feed_get_actor_feeds(actor = )
-app_bsky_feed_get_author_feed(actor = handle2, .token = token)
-app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media", .token = token)
+app_bsky_feed_get_author_feed(actor = handle2)
+app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media")
 
 # Only for own account
-app_bsky_feed_get_actor_likes(actor = handle3, .token = token)
+app_bsky_feed_get_actor_likes(actor = handle3)
 
 # Generator
 
 
-app_bsky_feed_get_feed(feed = feed_gen1, .token = token)
-app_bsky_feed_get_feed_generator(feed = feed_gen1, .token = token)
-app_bsky_feed_get_feed_generators(feed = feed_gens, .token = token)
+app_bsky_feed_get_feed(feed = feed_gen1)
+app_bsky_feed_get_feed_generator(feed = feed_gen1)
+app_bsky_feed_get_feed_generators(feed = feed_gens)
 
-app_bsky_feed_get_likes(uri = feed_gen1, .token = token)
-app_bsky_feed_get_likes(uri = post_uri, .token = token)
-app_bsky_feed_get_reposted_by(uri = post_uri, .token = token)
+app_bsky_feed_get_likes(uri = feed_gen1)
+app_bsky_feed_get_likes(uri = post_uri)
+app_bsky_feed_get_reposted_by(uri = post_uri)
 
 app_bsky_feed_get_suggested_feeds(.token = token)
 
-app_bsky_feed_get_posts(uris = c(post_uri), .token = token)
+app_bsky_feed_get_posts(uris = c(post_uri))
 
 
 # Unclear
