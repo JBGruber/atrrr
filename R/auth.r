@@ -90,7 +90,7 @@ auth <- function(user,
     )
   }
 
-  if (sel) {
+  if (isTRUE(sel)) {
     httr2::secret_write_rds(
       x = token, path = file.path(p, f),
       key = I(rlang::hash("musksucks"))
