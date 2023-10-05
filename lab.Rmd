@@ -66,6 +66,7 @@ resp %>% glimpse
 ### Remove post based on at-url
 
 ```{r}
+#  "at://did:plc:j42kj4qc5vfz344weywpkair/app.bsky.feed.post/3kaz3hsyov22f"
 post_info <- parse_at_uri(resp$uri)
 resp_delte <- com_atproto_repo_delete_record(repo = post_info$repo, 
                                              collection = post_info$collection, 
@@ -79,9 +80,79 @@ http_url <- "https://bsky.app/profile/atpr.bsky.social/post/3kaz3famddr23"
 
 post_info <- parse_http_url(http_url)
 resp_deleted <- com_atproto_repo_delete_record(repo = post_info$repo, 
-                                             collection = post_info$collection, 
-                                             rkey = post_info$rkey)
+                                               collection = post_info$collection, 
+                                               rkey = post_info$rkey)
 ```
+
+
+### Follow a user
+
+```{r}
+repo <- "atpr.bsky.social"
+collection <- "app.bsky.graph.follow"
+handle <- "benguinaudeau.bsky.social"
+
+prof <- app_bsky_actor_get_profile(actor = handle)
+
+record <- list(
+  "subject" = prof$did, 
+  "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
+
+resp <- com_atproto_repo_create_record(repo, collection, record)
+resp
+```
+
+### Pagination
+
+```{r}
+repo <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.graph.follow"
+
+limit <- 1000
+out <- c()
+last_cursor <- NULL
+while(length(out) < limit){
+  resp <- com_atproto_repo_list_records(repo, 
+                                        collection, 
+                                        limit = 100, 
+                                        cursor = last_cursor)
+  if(is.null(resp$cursor)) break
+  last_cursor <- resp$cursor
+  out <- c(out, resp[["records"]]) 
+  print(length(out))
+}
+```
+
+
+### Unfollow a user
+
+```{r}
+repo <- "atpr.bsky.social"
+handle_to_unfollow <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.graph.follow"
+
+
+resp <- com_atproto_repo_list_records(repo, 
+                                      collection, 
+                                      limit = 100)
+
+prof <- app_bsky_actor_get_profile(actor = handle_to_unfollow)
+
+record <- resp$records |>
+  keep(~.x$value$subject == prof$did)
+
+follow_info <- parse_at_uri(record[[1]]$uri)
+
+follow_deleted <- com_atproto_repo_delete_record(
+  repo = follow_info$repo, 
+  collection = follow_info$collection, 
+  rkey = follow_info$rkey
+)
+
+follow_deleted
+```
+
 
 
 ## Authentification
@@ -233,13 +304,10 @@ resp <- app_bsky_feed_get_likes(uri = "at://pwnallthethings.bsky.social/post/3ka
 ### Follow an account
 
 ```{r}
-repo <- "benguinaudeau.bsky.social"
+repo <- ""
 collection <- "app.bsky.graph.follow"
-
-# handle <- "janschwalbach.bsky.social"
-handle <- "jbgruber.bsky.social"
+handle <- "benguinaudeau.bsky.social"
 prof <- app_bsky_actor_get_profile(actor = handle, .token = .token, .return = "json")
-
 prof
 
 record <- list(

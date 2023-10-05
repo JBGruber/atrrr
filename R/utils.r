@@ -27,6 +27,7 @@ f_name <- function(id) {
 
 flatten_query_params <- function(arg_calls) {
   arg_calls |>
+    purrr::compact() |>
     purrr::imap(~ {
       .x <- eval(.x)
       names(.x) <- rep(.y, length(.x))
