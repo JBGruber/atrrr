@@ -37,6 +37,7 @@ devtools::load_all()
 ## Easy example
 
 ```{r}
+Sys.setenv(BSKY_TOKEN = "test_account.rds")
 auth(user = "atpr.bsky.social", 
      password = "cmpd-5mvw-yauz-2lwu")
 ```
@@ -57,6 +58,13 @@ record <- list(
   "text" = "Testing around",
   "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
 )
+
+record <- list(
+  "text" = "Posting from the past!",
+  "createdAt" = "1970-10-05T16:50:03.572495Z"
+)
+
+
 
 resp <- com_atproto_repo_create_record(repo, collection, record)
 resp %>% glimpse
@@ -115,17 +123,32 @@ collection <- "app.bsky.graph.follow"
 limit <- 1000
 out <- c()
 last_cursor <- NULL
+cli::cli_progress_bar(format = "Got {length(out)} records, but there is more..", 
+                      format_done = "Got {length(out)} records. All done!")
 while(length(out) < limit){
   resp <- com_atproto_repo_list_records(repo, 
                                         collection, 
-                                        limit = 100, 
+                                        limit = 1, 
                                         cursor = last_cursor)
   if(is.null(resp$cursor)) break
   last_cursor <- resp$cursor
   out <- c(out, resp[["records"]]) 
-  print(length(out))
+  cli::cli_progress_update()
 }
+cli::cli_progress_done()
 ```
+
+### Parse output
+
+```{r}
+purrr::map(out, function(r) {
+  purrr::list_flatten(r) |> 
+    tibble::as_tibble() |> 
+    janitor::clean_names()
+}) |> 
+  dplyr::bind_rows()
+```
+
 
 
 ### Unfollow a user
