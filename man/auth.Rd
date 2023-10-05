@@ -9,6 +9,7 @@ auth(
   password,
   domain = "https://bsky.app/",
   verbose = TRUE,
+  overwrite = FALSE,
   token = NULL
 )
 }
@@ -21,6 +22,8 @@ auth(
 \item{domain}{For now https://bsky.app/, but could change in the future.}
 
 \item{verbose}{If TRUE, prints success message.}
+
+\item{overwrite}{If TRUE, overwrites old token without asking for confirmation.}
 
 \item{token}{(Stale) token object. Usually you don't need to use this. But if
 you manage your own tokens and they get stale, you can use this parameter

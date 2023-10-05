@@ -17,8 +17,8 @@ github_ls <- function(repo, folder, max_depth = 10) {
 
   while (length(paths) > 0 && depth <= max_depth) {
     new_path <- c()
-    cli::cli_progress_step("Reached depth {depth}")
     for (path in paths) {
+      cli::cli_progress_step("Crawl path {sub(repo, '', path, fixed = TRUE)}")
       res <- jsonlite::read_json(path)
       new <- res |>
         purrr::keep(~ .x$type == "dir") |>
