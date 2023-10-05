@@ -34,11 +34,13 @@ auth <- function(user,
     ) |>
       httr2::url_build()
 
-    if (interactive() && is.null(password)) {
-      utils::browseURL(url)
-      cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
-    } else {
-      cli::cli_abort("You need to run {.fn auth} in an interactive session")
+    if(is.null(password)) {
+      if (interactive()) {
+        utils::browseURL(url)
+        cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
+      } else {
+        cli::cli_abort("You need to run {.fn auth} in an interactive session")
+      }
     }
 
     if (missing(user)) {
@@ -162,12 +164,12 @@ refresh_token <- function(token) {
 print.bsky_token <- function(x, ...) {
   cli::cli_h1("Blue Sky token")
   cli::cat_bullet(glue::glue("User: {x$handle}"),
-    background_col = "#0560FF", col = "#F3F9FF"
+                  background_col = "#0560FF", col = "#F3F9FF"
   )
   cli::cat_bullet(glue::glue("Domain: {x$domain}"),
-    background_col = "#0560FF", col = "#F3F9FF"
+                  background_col = "#0560FF", col = "#F3F9FF"
   )
   cli::cat_bullet(glue::glue("Valid until: {x$valid_until}"),
-    background_col = "#0560FF", col = "#F3F9FF"
+                  background_col = "#0560FF", col = "#F3F9FF"
   )
 }

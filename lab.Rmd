@@ -37,12 +37,12 @@ devtools::load_all()
 ## Easy example
 
 ```{r}
+auth(user = "atpr.bsky.social", 
+     password = "cmpd-5mvw-yauz-2lwu")
 
-.token <- req_token(user = "benguinaudeau.bsky.social", 
-                             password = "jn3y-anfr-owin-phb4")
 
 # Get actor preferences
-app_bsky_actor_get_preferences(.token = .token)
+app_bsky_actor_get_preferences()
 
 # Create a post
 repo <- "benguinaudeau.bsky.social"
@@ -355,8 +355,8 @@ This is many ways similar to the python library atproto: https://github.com/Mars
 
 I have generated the function querying the API and need your help to write unit testing of the functions.
 Write unit test in the style of testthat, only include code that can write into an Rscript file and run devtools::test(). Include as many test as possible", 
-  "Function code: ", fun_code, 
-  "Output examples:", paste(test_for_prompt[1], collapse = "\n")
+"Function code: ", fun_code, 
+"Output examples:", paste(test_for_prompt[1], collapse = "\n")
 ) |>
   paste(collapse = "\n")
 
@@ -364,8 +364,8 @@ Write unit test in the style of testthat, only include code that can write into 
 # writeLines(final_prompt, "test_prompt.txt")
 
 new_fun <- askgpt::chat_api(prompt = final_prompt,
-    model = "gpt-3.5-turbo-16k") |>
-      askgpt::parse_response()
+                            model = "gpt-3.5-turbo-16k") |>
+  askgpt::parse_response()
 
 
 cat(new_fun )
@@ -377,7 +377,7 @@ cat(new_fun )
 
 
 
- 
+
 
 
 
