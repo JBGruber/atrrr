@@ -333,7 +333,6 @@ post <- function(text,
                  created_at = Sys.time(),
                  .token = NULL) {
 
-
   cli::cli_progress_step(
     msg = "Request to post {.emph {text}}",
     msg_done = "Posted {.emph {text}}",
@@ -406,3 +405,38 @@ com_atproto_repo_upload_blob2 <- function(image,
     httr2::req_perform() |>
     httr2::resp_body_json()
 }
+
+
+
+#' Delete post
+#'
+#' @param post_url URL of post to delete
+#' @inheritParams post
+#'
+#' @returns Nothing. Called to delete a post.
+#' @export
+delete_skeet <- function(post_url,
+                         .token = NULL) {
+
+  cli::cli_progress_step(
+    msg = "Request to delete post {.emph {text}}",
+    msg_done = "Posted {.emph {text}}",
+    msg_failed = "Something went wrong"
+  )
+
+  post_info <- parse_at_uri(convert_http_to_at(post_url))
+
+  invisible(do.call(
+    what = com_atproto_repo_delete_record,
+    args = list(
+      repo = post_info$repo,
+      collection = post_info$collection,
+      rkey = post_info$rkey,
+      .token = .token,
+      .return = "json"
+    )))
+
+}
+
+
+delete_post <- delete_skeet
