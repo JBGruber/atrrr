@@ -65,7 +65,7 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
       httr2::req_method("GET") |>
       httr2::req_auth_bearer_token(token = .token$accessJwt) |>
       httr2::req_error(body = error_parse) |>
-      httr2::req_perform(check_type = FALSE)
+      httr2::req_perform()
   } else if (req_method == "POST") {
     resp <- httr2::request(glue::glue("https://{hostname}")) |>
       httr2::req_method("POST") |>
@@ -119,5 +119,16 @@ parse_http_url <- function(url){
         )
     })
 
+}
 
+
+#' simple default parser
+#' @noRd
+parse_response <- function(x) {
+  purrr::map(res, function(r) {
+    purrr::list_flatten(r) |>
+      tibble::as_tibble() |>
+      janitor::clean_names()
+  }) |>
+    dplyr::bind_rows()
 }
