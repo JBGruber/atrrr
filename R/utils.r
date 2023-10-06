@@ -132,3 +132,31 @@ parse_response <- function(x) {
   }) |>
     dplyr::bind_rows()
 }
+
+
+#' feed parser
+#' @noRd
+parse_feed <- function(x) {
+  purrr::map(x, function(r) {
+    tibble::tibble(
+      uri = r$post$uri,
+      cid = r$post$cid,
+      author = list(r$post$author),
+      text = r$post$record$text,
+      record = list(r$post$record),
+      reply_count = r$post$replyCount,
+      repost_count = r$post$repostCount,
+      like_count = r$post$likeCount,
+      indexed_at = parse_time(r$post$indexedAt),
+      reply = list(r$reply)
+    )
+  }) |>
+    dplyr::bind_rows()
+}
+
+
+#' standard date parser for the format used by the protocol
+#' @noRd
+parse_time <- function(x) {
+  strptime(x, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+}
