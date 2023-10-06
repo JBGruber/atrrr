@@ -19,6 +19,7 @@
 #' search_actor("Blog: favstats.eu")
 #' search_actor("JBGruber")
 #' search_actor("@UvA_ASCoR")
+#' search_actor("rstats", limit = 1000L)
 #' }
 #'
 search_actor <- function(query,
@@ -41,7 +42,7 @@ search_actor <- function(query,
       what = app_bsky_actor_search_actors,
       args = list(
         q = query,
-        limit = NULL,
+        limit = req_limit,
         cursor = last_cursor,
         .token = NULL,
         .return = "json"
@@ -57,6 +58,8 @@ search_actor <- function(query,
   cli::cli_progress_done()
 
   if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.",
+                           msg_done = "All done!")
     out <- parse_response(res)
   } else {
     out <- res
