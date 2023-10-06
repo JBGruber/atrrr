@@ -2,10 +2,21 @@
 % Please edit documentation in R/feed.r
 \name{post}
 \alias{post}
+\alias{post_skeet}
 \title{Post a skeet}
 \usage{
 post(
   text,
+  in_reply_to = NULL,
+  image = NULL,
+  image_alt = NULL,
+  created_at = Sys.time(),
+  .token = NULL
+)
+
+post_skeet(
+  text,
+  in_reply_to = NULL,
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),

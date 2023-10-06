@@ -102,16 +102,16 @@ parse_at_uri <- function(uri){
 parse_http_url <- function(url){
 
   url |>
-    map_dfr(~{
+    purrr::map_dfr(~{
       url_parts <- httr2::url_parse(.x)
 
       url_parts$path |>
-        stringr::str_split("(?<=.)\\/") %>%
-        .[[1]] |>
+        stringr::str_split("(?<=.)\\/") |>
+        purrr::pluck(1) |>
         purrr::set_names(c("repo_type", "repo", "collection", "rkey")) |>
         as.list() |>
         tibble::as_tibble() |>
-        mutate(
+        dplyr::mutate(
           collection = switch(
             collection,
             "post" = "app.bsky.feed.post",
@@ -179,12 +179,25 @@ is_did <- function(str){
 
 #' Convert an http url to an at uri
 #' @noRd
-convert_http_to_at <- function(http_url){
+convert_http_to_at <- function(http_url,
+                               .token = NULL) {
+
   http_info <- parse_http_url(http_url)
 
   if(!is_did(http_info$repo)){
-    http_info$repo <- resolve_handle(http_info$repo)
+    http_info$repo <- resolve_handle(http_info$repo, .token = .token)
   }
 
   glue::glue("at://{repo}/{collection}/{rkey}", .envir = http_info)
 }
+
+
+get_thread_root <- function(thread) {
+  parent_1_up <- purrr::pluck(thread$thread, "parent")
+  while (!is.null(parent_1_up)) {
+    parent <- parent_1_up
+    parent_1_up <- purrr::pluck(parent, "parent")
+  }
+  return(parent)
+}
+

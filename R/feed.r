@@ -118,6 +118,74 @@ get_own_timeline <- function(algorithm = NULL,
 }
 
 
+#' Get likes of a skeet
+#'
+#' @param post_url the URL of a skeet for which to retrieve who liked it.
+#' @inheritParams search_actor
+#'
+#' @returns a data frame (or nested list) of likes
+#' @export
+get_likes <- function(post_url,
+                      limit = 25L,
+                      cursor = NULL,
+                      parse = TRUE,
+                      .token = NULL) {
+
+  uri <- convert_http_to_at(post_url, .token = .token)
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_likes,
+      args = list(
+        uri = uri,
+        cid = NULL,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$likes)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.",
+                           msg_done = "All done!")
+
+    out <- purrr::map(res, function(l) {
+      tibble::tibble(
+        created_at = parse_time(l$createdAt),
+        indexed_at = parse_time(l$indexedAt),
+        actor_handle = l$actor$handle,
+        actor_name = l$actor$displayName,
+        actor_data = list(l$actor)
+      )
+    }) |>
+      dplyr::bind_rows()
+
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+
 #' Post a skeet
 #'
 #' @param text Text to post
@@ -134,6 +202,7 @@ get_own_timeline <- function(algorithm = NULL,
 #' post("Hello from #rstats with {atr}")
 #' }
 post <- function(text,
+                 in_reply_to = NULL,
                  image = NULL,
                  image_alt = NULL,
                  created_at = Sys.time(),
@@ -155,8 +224,28 @@ post <- function(text,
     "createdAt" = format(as.POSIXct(created_at, tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
   )
 
+  if (!is.null(in_reply_to)) {
+    in_reply_to <- ifelse(grepl("^http", in_reply_to),
+                          convert_http_to_at(in_reply_to),
+                          in_reply_to)
+
+    thread <- app_bsky_feed_get_post_thread(in_reply_to, .token = .token)
+    thread_root <- get_thread_root(thread)
+    record[["reply"]] <- list(
+      root = list(
+        "uri" = thread_root$post$uri,
+        "cid" = thread_root$post$cid
+      ),
+      parent = list(
+        "uri" = thread$thread$post$uri,
+        "cid" = thread$thread$post$cid
+      )
+    )
+  }
+
   if (!is.null(image)) {
     image_alt <- image_alt  %||% ""
+    # TODO: make it possible to post several images (up to 4 are allowed)
     blob <- com_atproto_repo_upload_blob2(image, .token = .token)
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.images",
@@ -170,6 +259,10 @@ post <- function(text,
 }
 
 
+#' @rdname post
+post_skeet <- post
+
+
 #' lexicon seems wrong. translated from https://atproto.com/blog/create-post#images-embeds
 com_atproto_repo_upload_blob2 <- function(image,
                                           .token = NULL) {
@@ -178,7 +271,7 @@ com_atproto_repo_upload_blob2 <- function(image,
   img <- magick::image_read(image)
   image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
 
-  # not sure how to get the magick image as raw vector
+  # TODO: not sure how to get the magick image as raw vector
   img <- readBin(image, "raw", file.info(image)$size)
 
   httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
