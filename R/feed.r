@@ -44,9 +44,9 @@ get_skeets_authored_by <- function(actor,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -107,9 +107,9 @@ get_own_timeline <- function(algorithm = NULL,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -164,8 +164,7 @@ get_likes <- function(post_url,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- purrr::map(res, function(l) {
       tibble::tibble(
@@ -178,6 +177,7 @@ get_likes <- function(post_url,
     }) |>
       dplyr::bind_rows()
 
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -200,8 +200,8 @@ get_reposts <- function(post_url,
   last_cursor <- NULL
 
   cli::cli_progress_bar(
-    format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
-    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+    format = "{cli::pb_spin} Got {length(res)} reposts, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} reposts. All done! [{cli::pb_elapsed}]"
   )
 
   while (length(res) < limit) {
@@ -226,8 +226,7 @@ get_reposts <- function(post_url,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- purrr::map(res, function(l) {
       purrr::list_flatten(l) |>
@@ -235,6 +234,75 @@ get_reposts <- function(post_url,
     }) |>
       dplyr::bind_rows()
 
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+
+#' Get likes of a feed
+#'
+#' @param feed_url the URL of a feed for which to retrieve who liked it.
+#' @inheritParams search_user
+#'
+#' @returns a data frame (or nested list) of likes/reposts
+#' @export
+get_feed_likes <- function(feed_url,
+                           limit = 25L,
+                           cursor = NULL,
+                           parse = TRUE,
+                           .token = NULL) {
+
+  uri <- convert_http_to_at(feed_url, .token = .token)
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_likes,
+      args = list(
+        uri = uri,
+        cid = NULL,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$likes)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.")
+
+    out <- purrr::map(res, function(l) {
+      tibble::tibble(
+        created_at = parse_time(l$createdAt),
+        indexed_at = parse_time(l$indexedAt),
+        actor_handle = l$actor$handle,
+        actor_name = l$actor$displayName,
+        actor_data = list(l$actor)
+      )
+    }) |>
+      dplyr::bind_rows()
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }

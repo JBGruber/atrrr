@@ -47,9 +47,9 @@ get_followers <- function(actor,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_response(res)
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -95,9 +95,9 @@ get_follows <- function(actor,
   cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
+    cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_response(res)
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -194,3 +194,4 @@ unfollow <- function(actor,
     )
   )
 }
+
