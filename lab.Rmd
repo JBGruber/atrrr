@@ -34,10 +34,112 @@ devtools::load_all()
 * Get the likes from a post
 * Get likes from a profile
 
+## Testing high level-functions
+
+### search_actor
+
+```{r}
+search_actor(query = "benguinaudeau.bsky.social") %>%
+  glimpse
+```
+
+### Get followers
+
+```{r}
+get_followers(actor = "benguinaudeau.bsky.social", limit = 10) %>%
+  glimpse
+
+get_followers(actor = "benguinaudeau.bsky.social", limit = 200) %>%
+  glimpse
+```
+
+### Get following
+
+```{r}
+get_follows(actor = "benguinaudeau.bsky.social", limit = 10) %>%
+  glimpse
+
+get_follows(actor = "benguinaudeau.bsky.social", limit = 200) %>%
+  glimpse
+```
+
+### TODO: Get timeline
+
+```{r}
+get_timeline(limit = 100)
+```
+
+### Get feed
+
+```{r}
+get_author_feed(actor = "benguinaudeau.bsky.social", parse = T)
+```
+
+### TODO: Get reposts
+
+```{r}
+
+```
+
+### Get likes
+
+```{r}
+# Post
+uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
+app_bsky_feed_get_likes(uri = uri)
+
+# Feed
+uri <- convert_http_to_at("https://bsky.app/profile/did:plc:kyttpb6um57f4c2wep25lqhq/feed/aaalfpmnev6yc")
+app_bsky_feed_get_likes(uri = uri, limit = 100)
+
+# Lists (But not possible to like lists)
+uri <- convert_http_to_at("https://bsky.app/profile/profmusgrave.bsky.social/lists/3k2djx2vgyn2x")
+app_bsky_feed_get_likes(uri = uri)
+```
+
+### Follow/Unfollow
+
+```{r}
+follow(actor = "benguinaudeau.bsky.social")
+unfollow(actor = "benguinaudeau.bsky.social")
+```
+
+### TODO: Follow feed/Unfollow feed
+
+```{r}
+
+```
+
+### Lookup users
+
+```{r}
+
+```
+
+
+search_skeet (aka search_post)	app/bsky/feed/searchPosts.json	❌ does not work/exist
+search_users	app/bsky/actor/searchActors.json	✅
+get_followers	app/bsky/graph/getFollowers.json	✅
+get_following	app/bsky/graph/getFollows.json	✅
+get_timeline	app/bsky/feed/getAuthorFeed.json	✅ but seems to show feeds created by user
+get_feed	app/bsky/feed/getTimeline.json	✅
+get_reposts	app/bsky/feed/getRepostedBy.json	
+get_likes	app/bsky/feed/getLikes.json	❌ returns who liked a feed -> feed_following
+post_skeet	app/bsky/feed/post.json	✅
+follow_user	app/bsky/graph/follow.json	✅
+follow_feed	app/bsky/graph/follow.json	✅
+unfollow_user	app/bsky/graph/follow.json	
+unfollow_feed	app/bsky/graph/follow.json	
+lookup_users	app/bsky/actor/getProfile.json	✅
+feed_following	?	
+
+
+
+
 ## Easy example
 
 ```{r}
-Sys.setenv(BSKY_TOKEN = "test_account.rds")
+# Sys.setenv(BSKY_TOKEN = "test_account.rds")
 auth(user = "atpr.bsky.social", 
      password = "cmpd-5mvw-yauz-2lwu")
 ```
@@ -197,6 +299,23 @@ search_post <- function(q, .token = NULL, .return = c("json", "resp")) {
 resp <- app_bsky_feed_search_term(q = "rstats")
 resp %>%
   glimpse
+```
+
+### Search actors
+
+```{r}
+
+
+# Funktionniert nicht
+app_bsky_actor_search_actors(q = "benguinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "benguinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "fav+stats") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "guinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors(q = "benguinaudeau.bsky.social") 
 ```
 
 

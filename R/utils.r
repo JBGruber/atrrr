@@ -114,7 +114,10 @@ parse_http_url <- function(url){
         mutate(
           collection = switch(
             collection,
-            "post" = "app.bsky.feed.post"
+            "post" = "app.bsky.feed.post",
+            "feed" = "app.bsky.feed.generator",
+            "lists" = "app.bsky.graph.list",
+            collection
           )
         )
     })
@@ -159,4 +162,29 @@ parse_feed <- function(x) {
 #' @noRd
 parse_time <- function(x) {
   strptime(x, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+}
+
+#' Resolve the did behind a handle
+#' @noRd
+resolve_handle <- function(.handle, .token = NULL){
+  do.call(
+    com_atproto_identity_resolve_handle,
+    list(handle = .handle, .token = .token)
+  )[["did"]]
+}
+
+is_did <- function(str){
+  stringr::str_detect(str, "^did\\:")
+}
+
+#' Convert an http url to an at uri
+#' @noRd
+convert_http_to_at <- function(http_url){
+  http_info <- parse_http_url(http_url)
+
+  if(!is_did(http_info$repo)){
+    http_info$repo <- resolve_handle(http_info$repo)
+  }
+
+  glue::glue("at://{repo}/{collection}/{rkey}", .envir = http_info)
 }

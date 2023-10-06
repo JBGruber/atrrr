@@ -134,7 +134,7 @@ follow <- function(actor,
     msg_done = "You now follow {actor}",
     msg_failed = "Something went wrong"
   )
-  actor_did <- com_atproto_identity_resolve_handle(actor, .token = .token)[["did"]]
+  actor_did <- resolve_handle(actor, .token = .token)
 
   repo <- "atpr.bsky.social"
   collection <- "app.bsky.graph.follow"
@@ -143,7 +143,12 @@ follow <- function(actor,
     "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
   )
 
-  invisible(com_atproto_repo_create_record(repo, collection, record, .token = .token))
+  invisible(
+    do.call(
+      what = com_atproto_repo_create_record,
+      args = list(repo, collection, record, .token = .token)
+    )
+  )
 }
 
 
@@ -161,23 +166,31 @@ unfollow <- function(actor,
   collection <- "app.bsky.graph.follow"
 
   # list follow records
-  resp <- com_atproto_repo_list_records(repo,
-                                        collection,
-                                        limit = 100,
-                                        .token = .token)
+  resp <- do.call(
+    what = com_atproto_repo_list_records,
+    args = list(repo,
+         collection,
+         limit = 100,
+         .token = .token)
+  )
 
   # resolve actor did
-  actor_did <- com_atproto_identity_resolve_handle(actor, .token = .token)[["did"]]
+  actor_did <- resolve_handle(actor, .token = .token)
 
   # filter and parse records
   record <- resp$records |>
     purrr::keep(function(.x) .x$value$subject == actor_did)
   follow_info <- parse_at_uri(record[[1]]$uri)
 
-  invisible(com_atproto_repo_delete_record(
-    repo = follow_info$repo,
-    collection = follow_info$collection,
-    rkey = follow_info$rkey,
-    .token = .token
-  ))
+  invisible(
+    do.call(
+      what = com_atproto_repo_delete_record,
+      args = list(
+        repo = follow_info$repo,
+        collection = follow_info$collection,
+        rkey = follow_info$rkey,
+        .token = .token
+      )
+    )
+  )
 }

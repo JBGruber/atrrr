@@ -11,6 +11,7 @@
 get_author_feed <- function(actor,
                             limit = 25L,
                             cursor = NULL,
+                            parse = TRUE,
                             .token = NULL) {
 
   res <- list()
@@ -42,8 +43,16 @@ get_author_feed <- function(actor,
 
   cli::cli_progress_done()
 
-  attr(res, "last_cursor") <- last_cursor
-  return(res)
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.",
+                           msg_done = "All done!")
+    out <- parse_feed(res)
+  } else {
+    out <- res
+  }
+
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
 }
 
 
