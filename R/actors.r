@@ -1,4 +1,4 @@
-#' Find actors (profiles) matching search criteria.
+#' Find users (profiles) matching search criteria.
 #'
 #' @param query The search query. Searches in user names and descriptions.
 #' @param limit Maximum number of records to return. For queries with more than
@@ -15,13 +15,13 @@
 #' @returns a data frame (or nested list) of found actors.
 #' @examples
 #' \dontrun{
-#' search_actor("benguinaudeau.com")
-#' search_actor("Blog: favstats.eu")
-#' search_actor("JBGruber")
-#' search_actor("@UvA_ASCoR")
-#' search_actor("rstats", limit = 1000L)
+#' search_user("benguinaudeau.com")
+#' search_user("Blog: favstats.eu")
+#' search_user("JBGruber")
+#' search_user("@UvA_ASCoR")
+#' search_user("rstats", limit = 1000L)
 #' }
-search_actor <- function(query,
+search_user <- function(query,
                          limit = 25L,
                          cursor = NULL,
                          parse = TRUE,
@@ -79,9 +79,9 @@ search_actor <- function(query,
 #' @examples
 #' \dontrun{
 #' rstats_user <- search_actor("rstats", limit = 2L)
-#' get_profile(rstats_user$handle)
+#' get_user_info(rstats_user$handle)
 #' }
-get_profile <- function(actor,
+get_user_info <- function(actor,
                         parse = TRUE,
                         .token = NULL) {
 

@@ -36,12 +36,20 @@ devtools::load_all()
 
 ## Testing high level-functions
 
-### search_actor
+### search_users
 
 ```{r}
-search_actor(query = "benguinaudeau.bsky.social") %>%
+search_user(query = "benguinaudeau.bsky.social") %>%
   glimpse
 ```
+
+### Lookup users
+
+```{r}
+get_user_info(actor = c("atpr.bsky.social"))
+get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))
+```
+
 
 ### Get followers
 
@@ -53,7 +61,7 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200) %>%
   glimpse
 ```
 
-### Get following
+### Get follows
 
 ```{r}
 get_follows(actor = "benguinaudeau.bsky.social", limit = 10) %>%
@@ -63,25 +71,45 @@ get_follows(actor = "benguinaudeau.bsky.social", limit = 200) %>%
   glimpse
 ```
 
-### TODO: Get timeline
-
-```{r}
-get_timeline(limit = 100)
-```
-
 ### Get feed
 
 ```{r}
-get_author_feed(actor = "benguinaudeau.bsky.social", parse = T)
+get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = T)
 ```
+
+
+### Get timeline
+
+```{r}
+get_own_timeline(limit = 100)
+```
+
+### Follow/Unfollow
+
+```{r}
+follow(actor = "benguinaudeau.bsky.social")
+unfollow(actor = "benguinaudeau.bsky.social")
+```
+
 
 ### TODO: Get reposts
 
 ```{r}
-
+# Post
+uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
+app_bsky_feed_get_reposted_by(uri = uri)
 ```
 
-### Get likes
+### NW: Get actor likes
+
+```{r}
+app_bsky_feed_get_actor_likes(actor = "atr.bsky.social")
+app_bsky_feed_get_actor_likes(actor = resolve_handle("atr.bsky.social"))
+app_bsky_feed_get_actor_likes(actor = resolve_handle("benguinaudeau.bsky.social"))
+```
+
+
+### TODO: Get likes
 
 ```{r}
 # Post
@@ -97,12 +125,6 @@ uri <- convert_http_to_at("https://bsky.app/profile/profmusgrave.bsky.social/lis
 app_bsky_feed_get_likes(uri = uri)
 ```
 
-### Follow/Unfollow
-
-```{r}
-follow(actor = "benguinaudeau.bsky.social")
-unfollow(actor = "benguinaudeau.bsky.social")
-```
 
 ### TODO: Follow feed/Unfollow feed
 
@@ -110,11 +132,7 @@ unfollow(actor = "benguinaudeau.bsky.social")
 
 ```
 
-### Lookup users
 
-```{r}
-
-```
 
 
 search_skeet (aka search_post)	app/bsky/feed/searchPosts.json	❌ does not work/exist

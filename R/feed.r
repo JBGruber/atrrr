@@ -7,8 +7,8 @@
 #' @export
 #'
 #' @examples
-#' feed <- get_author_feed("profmusgrave.bsky.social")
-get_author_feed <- function(actor,
+#' feed <- get_skeets_authored_by("profmusgrave.bsky.social")
+get_skeets_authored_by <- function(actor,
                             limit = 25L,
                             cursor = NULL,
                             parse = TRUE,
@@ -68,10 +68,10 @@ get_author_feed <- function(actor,
 #'
 #' @examples
 #' \dontrun{
-#' get_timeline()
-#' get_timeline(algorithm = "reverse-chronological")
+#' get_own_timeline()
+#' get_own_timeline(algorithm = "reverse-chronological")
 #' }
-get_timeline <- function(algorithm = NULL,
+get_own_timeline <- function(algorithm = NULL,
                          limit = 25L,
                          cursor = NULL,
                          parse = TRUE,
