@@ -71,14 +71,14 @@ search_user <- function(query,
 #' Query profile of an actor
 #'
 #' @param actor user handle(s) to get information for.
-#' @inheritParams search_actor
+#' @inheritParams search_user
 #'
 #' @returns a data frame (or nested list) of found actors.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' rstats_user <- search_actor("rstats", limit = 2L)
+#' rstats_user <- search_user("rstats", limit = 2L)
 #' get_user_info(rstats_user$handle)
 #' }
 get_user_info <- function(actor,

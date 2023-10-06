@@ -1,7 +1,7 @@
 #' Get followers and follows of an actor
 #'
 #' @param actor user handle to look up followers for.
-#' @inheritParams search_actor
+#' @inheritParams search_user
 #'
 #' @export
 #' @returns a data frame (or nested list) of found actors.
@@ -109,7 +109,7 @@ get_follows <- function(actor,
 #' Un/Follow an account
 #'
 #' @param actor User handle to follow or unfollow
-#' @inheritParams search_actor
+#' @inheritParams search_user
 #'
 #' @details You can only unfollow accounts which you also followed through the
 #' API/the package.

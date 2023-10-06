@@ -2,12 +2,15 @@
 % Please edit documentation in R/feed.r
 \name{get_likes}
 \alias{get_likes}
-\title{Get likes of a skeet}
+\alias{get_reposts}
+\title{Get likes/reposts of a skeet}
 \usage{
 get_likes(post_url, limit = 25L, cursor = NULL, parse = TRUE, .token = NULL)
+
+get_reposts(post_url, limit = 25L, cursor = NULL, parse = TRUE, .token = NULL)
 }
 \arguments{
-\item{post_url}{the URL of a skeet for which to retrieve who liked it.}
+\item{post_url}{the URL of a skeet for which to retrieve who liked/reposted it.}
 
 \item{limit}{Maximum number of records to return. For queries with more than
 100 results, pagination is used automatically (one request per 100
@@ -23,8 +26,8 @@ the server.}
 token.}
 }
 \value{
-a data frame (or nested list) of likes
+a data frame (or nested list) of likes/reposts
 }
 \description{
-Get likes of a skeet
+Get likes/reposts of a skeet
 }

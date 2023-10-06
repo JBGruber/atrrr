@@ -61,7 +61,7 @@ get_skeets_authored_by <- function(actor,
 #' Get the posts that would be shown when you open the Bluesky app or website.
 #'
 #' @param algorithm algorithm used to sort the posts
-#' @inheritParams search_actor
+#' @inheritParams search_user
 #'
 #' @returns a data frame (or nested list) of posts
 #' @export
@@ -118,12 +118,12 @@ get_own_timeline <- function(algorithm = NULL,
 }
 
 
-#' Get likes of a skeet
+#' Get likes/reposts of a skeet
 #'
-#' @param post_url the URL of a skeet for which to retrieve who liked it.
-#' @inheritParams search_actor
+#' @param post_url the URL of a skeet for which to retrieve who liked/reposted it.
+#' @inheritParams search_user
 #'
-#' @returns a data frame (or nested list) of likes
+#' @returns a data frame (or nested list) of likes/reposts
 #' @export
 get_likes <- function(post_url,
                       limit = 25L,
@@ -186,13 +186,70 @@ get_likes <- function(post_url,
 }
 
 
+#' @rdname get_likes
+get_reposts <- function(post_url,
+                      limit = 25L,
+                      cursor = NULL,
+                      parse = TRUE,
+                      .token = NULL) {
+
+  uri <- convert_http_to_at(post_url, .token = .token)
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_reposted_by,
+      args = list(
+        uri = uri,
+        cid = NULL,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$repostedBy)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.",
+                           msg_done = "All done!")
+
+    out <- purrr::map(res, function(l) {
+      purrr::list_flatten(l) |>
+        tibble::as_tibble()
+    }) |>
+      dplyr::bind_rows()
+
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+
 #' Post a skeet
 #'
 #' @param text Text to post
 #' @param image path to an image to post
 #' @param image_alt alt text for the image
 #' @param created_at time stamp of the post
-#' @inheritParams search_actor
+#' @inheritParams search_user
 #'
 #' @returns list of the URI and CID of the post (invisible)
 #' @export
