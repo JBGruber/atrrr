@@ -125,7 +125,7 @@ parse_http_url <- function(url){
 #' simple default parser
 #' @noRd
 parse_response <- function(x) {
-  purrr::map(res, function(r) {
+  purrr::map(x, function(r) {
     purrr::list_flatten(r) |>
       tibble::as_tibble() |>
       janitor::clean_names()

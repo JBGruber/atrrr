@@ -15,9 +15,9 @@
 #' @returns a data frame (or nested list) of found actors.
 #' @examples
 #' \dontrun{
-#' search_actor("BenGuinaudea")
+#' search_actor("benguinaudeau.com")
 #' search_actor("Blog: favstats.eu")
-#' search_actor("github.com/JBGruber ")
+#' search_actor("JBGruber")
 #' search_actor("@UvA_ASCoR")
 #' }
 #'
@@ -26,6 +26,7 @@ search_actor <- function(query,
                          cursor = NULL,
                          parse = TRUE,
                          .token = NULL) {
+
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
@@ -36,13 +37,15 @@ search_actor <- function(query,
   )
 
   while (length(res) < limit) {
-    resp <- app_bsky_actor_search_actors(
-      q = query,
-      limit = NULL,
-      cursor = last_cursor,
-      .token = NULL,
-      .return = "json"
-    )
+    resp <- do.call(
+      what = app_bsky_actor_search_actors,
+      args = list(
+        q = query,
+        limit = NULL,
+        cursor = last_cursor,
+        .token = NULL,
+        .return = "json"
+      ))
 
     last_cursor <- resp$cursor
     res <- c(res, resp$actors)
