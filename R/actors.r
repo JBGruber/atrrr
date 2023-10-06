@@ -21,7 +21,6 @@
 #' search_actor("@UvA_ASCoR")
 #' search_actor("rstats", limit = 1000L)
 #' }
-#'
 search_actor <- function(query,
                          limit = 25L,
                          cursor = NULL,
@@ -68,3 +67,39 @@ search_actor <- function(query,
   return(out)
 }
 
+
+#' Query profile of an actor
+#'
+#' @param actor user handle(s) to get information for.
+#' @inheritParams search_actor
+#'
+#' @returns a data frame (or nested list) of found actors.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' rstats_user <- search_actor("rstats", limit = 2L)
+#' get_profile(rstats_user$handle)
+#' }
+get_profile <- function(actor,
+                        parse = TRUE,
+                        .token = NULL) {
+
+  resp <- do.call(
+    what = app_bsky_actor_get_profiles,
+    args = list(
+      actor,
+      .token = NULL,
+      .return = "json"
+    ))
+
+  if (parse) {
+    purrr::map(resp$profiles, function(p) {
+      purrr::list_flatten(p) |>
+        tibble::as_tibble()
+    }) |>
+      dplyr::bind_rows()
+  } else {
+    return(resp$profiles[[1]])
+  }
+}

@@ -106,110 +106,78 @@ get_follows <- function(actor,
 }
 
 
-#' A view of an actor's feed.
+#' Un/Follow an account
 #'
-#' @param actor user handle to retrieve feed for.
-#' @inheritParams get_followers
+#' @param actor User handle to follow or unfollow
+#' @inheritParams search_actor
 #'
-#' @returns a data frame (or nested list) of posts
+#' @details You can only unfollow accounts which you also followed through the
+#' API/the package.
+#'
+#'
+#' @return list with URI and CID of the record (invisible).
 #' @export
 #'
 #' @examples
-#' feed <- get_author_feed("profmusgrave.bsky.social")
-get_author_feed <- function(actor,
-                            limit = 25L,
-                            cursor = NULL,
-                            .token = NULL) {
+#' \dontrun{
+#' # follow our test account
+#' follow("atpr.bsky.social")
+#'
+#' # unfollow our test account
+#' unfollow("atpr.bsky.social")
+#' }
+follow <- function(actor,
+                   .token = NULL) {
 
-  res <- list()
-  req_limit <- ifelse(limit > 100, 100, limit)
-  last_cursor <- NULL
+  cli::cli_progress_step(
+    msg = "Request to follow {actor}",
+    msg_done = "You now follow {actor}",
+    msg_failed = "Something went wrong"
+  )
+  actor_did <- com_atproto_identity_resolve_handle(actor, .token = .token)[["did"]]
 
-  cli::cli_progress_bar(
-    format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
-    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  repo <- "atpr.bsky.social"
+  collection <- "app.bsky.graph.follow"
+  record <- list(
+    "subject" = actor_did,
+    "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
   )
 
-  while (length(res) < limit) {
-    resp <- do.call(
-      what = app_bsky_feed_get_author_feed,
-      args = list(
-        actor = actor,
-        limit = req_limit,
-        cursor = last_cursor,
-        .token = NULL,
-        .return = "json"
-      ))
-
-    last_cursor <- resp$cursor
-    res <- c(res, resp$feed)
-
-    if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
-  }
-
-  cli::cli_progress_done()
-
-  attr(res, "last_cursor") <- last_cursor
-  return(res)
+  invisible(com_atproto_repo_create_record(repo, collection, record, .token = .token))
 }
 
 
-#' Get your own timeline
-#'
-#' Get the posts that would be shown when you open the Bluesky app or website.
-#'
-#' @param algorithm algorithm used to sort the posts
-#' @inheritParams search_actor
-#'
-#' @returns a data frame (or nested list) of posts
-#' @export
-#'
-#' @examples
-#' get_timeline()
-#' get_timeline(algorithm = "reverse-chronological")
-get_timeline <- function(algorithm = NULL,
-                         limit = 25L,
-                         cursor = NULL,
-                         parse = TRUE,
-                         .token = NULL) {
+#' @rdname follow
+unfollow <- function(actor,
+                     .token = NULL) {
 
-  res <- list()
-  req_limit <- ifelse(limit > 100, 100, limit)
-  last_cursor <- NULL
-
-  cli::cli_progress_bar(
-    format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
-    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  cli::cli_progress_step(
+    msg = "Request to unfollow {actor}",
+    msg_done = "You are no longer following {actor}",
+    msg_failed = "Something went wrong"
   )
 
-  while (length(res) < limit) {
-    resp <<- do.call(
-      what = app_bsky_feed_get_timeline,
-      args = list(
-        algorithm = algorithm,
-        limit = req_limit,
-        cursor = last_cursor,
-        .token = .token,
-        .return = "json"
-      ))
+  repo <- "atpr.bsky.social"
+  collection <- "app.bsky.graph.follow"
 
-    last_cursor <- resp$cursor
-    res <- c(res, resp$feed)
+  # list follow records
+  resp <- com_atproto_repo_list_records(repo,
+                                        collection,
+                                        limit = 100,
+                                        .token = .token)
 
-    if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
-  }
+  # resolve actor did
+  actor_did <- com_atproto_identity_resolve_handle(actor, .token = .token)[["did"]]
 
-  cli::cli_progress_done()
+  # filter and parse records
+  record <- resp$records |>
+    purrr::keep(function(.x) .x$value$subject == actor_did)
+  follow_info <- parse_at_uri(record[[1]]$uri)
 
-  if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.",
-                           msg_done = "All done!")
-    out <- parse_feed(res)
-  } else {
-    out <- res
-  }
-  attr(out, "last_cursor") <- last_cursor
-  return(out)
+  invisible(com_atproto_repo_delete_record(
+    repo = follow_info$repo,
+    collection = follow_info$collection,
+    rkey = follow_info$rkey,
+    .token = .token
+  ))
 }
