@@ -1,0 +1,49 @@
+---
+title: "Basic Usage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic_Usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(atr)
+```
+
+## Searching Posts
+
+The AT protocol defines a search function at `app.bsky.feed.searchPosts`, however, it is not currently active, as far as we could tell.
+As soon as the functionality is added by BlueSky, we will implement it here.
+
+
+## Get profiles + follow graph
+
+### Take an account
+### Get description
+### Get all followers/follows
+### Get description of all followers/follows
+
+
+## Create a post
+
+### support for media
+
+## Get list of members in a feed
+
+### Get the list of people in the rstats feed
+### Top poster from a specific feed
+### Top popular poster from a specific feed
+
+## Get likes from a post
+
+### Most famous rstats post
+### Like anlaysis
+### Eventual temporal structure
