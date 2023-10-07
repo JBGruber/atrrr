@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' feed <- get_skeets_authored_by("profmusgrave.bsky.social")
+#' }
 get_skeets_authored_by <- function(actor,
                             limit = 25L,
                             cursor = NULL,

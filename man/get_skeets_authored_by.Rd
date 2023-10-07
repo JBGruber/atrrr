@@ -35,5 +35,7 @@ a data frame (or nested list) of posts
 A view of an actor's feed.
 }
 \examples{
+\dontrun{
 feed <- get_skeets_authored_by("profmusgrave.bsky.social")
+}
 }
