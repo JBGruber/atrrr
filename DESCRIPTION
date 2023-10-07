@@ -30,6 +30,10 @@ Imports:
     curl,
     glue,
     httr2,
+    lifecycle,
     methods,
     rlang,
     utils
+Depends: 
+    R (>= 2.10)
+LazyData: true

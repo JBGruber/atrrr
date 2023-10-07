@@ -9,6 +9,7 @@ auth(
   password,
   domain = "https://bsky.app/",
   verbose = TRUE,
+  overwrite = FALSE,
   token = NULL
 )
 }
@@ -22,6 +23,8 @@ auth(
 
 \item{verbose}{If TRUE, prints success message.}
 
+\item{overwrite}{If TRUE, overwrites old token without asking for confirmation.}
+
 \item{token}{(Stale) token object. Usually you don't need to use this. But if
 you manage your own tokens and they get stale, you can use this parameter
 and request a fresh token.}
@@ -30,10 +33,11 @@ and request a fresh token.}
 An authentication token (invisible)
 }
 \description{
-Authenticate for the  API
+Run authentication for a network using the AT protocol (e.g.,
+\href{https://bsky.app/}{'Blue Sky'}) and save the token permanently.
 }
 \details{
-After requesting the token, it is safed in the location returned by
+After requesting the token, it is saved in the location returned by
 \code{file.path(tools::R_user_dir("atr", "cache"), Sys.getenv("BSKY_TOKEN", unset = "token.rds"))}. If you have multiple tokens, you can use
 \code{Sys.setenv(BSKY_TOKEN = "filename.rds")} to save/load the token with a
 different name.

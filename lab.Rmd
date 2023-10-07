@@ -1,0 +1,697 @@
+---
+title: "lab"
+output: html_document
+date: "2023-09-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Internal document for coordination and tests. Will be removed soon.
+
+## Todo
+
++ Add to make-request an error message when token is expired
++ default argument set to JSON for .return
++ Try deleteRecord
++ Transform browser URL into at-uri
+
+
+## Packages
+
+```{r}
+library(tidyverse)
+devtools::load_all()
+```
+
+
+## Potential examples
+
+* Make a skeet with text
+* Make a skeet with picture
+
+* Get a profile's skeet/following/followers
+* Get all members/skeets from one feed
+* Get the likes from a post
+* Get likes from a profile
+
+## Testing high level-functions
+
+### search_users
+
+```{r}
+search_user(query = "benguinaudeau.bsky.social") %>%
+  glimpse
+```
+
+### Lookup users
+
+```{r}
+get_user_info(actor = c("atpr.bsky.social"))
+get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))
+```
+
+
+### Get followers
+
+```{r}
+get_followers(actor = "benguinaudeau.bsky.social", limit = 10) %>%
+  glimpse
+
+get_followers(actor = "benguinaudeau.bsky.social", limit = 200) %>%
+  glimpse
+```
+
+### Get follows
+
+```{r}
+get_follows(actor = "benguinaudeau.bsky.social", limit = 10) %>%
+  glimpse
+
+get_follows(actor = "benguinaudeau.bsky.social", limit = 200) %>%
+  glimpse
+```
+
+### Get feed
+
+```{r}
+get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = T)
+```
+
+
+### Get timeline
+
+```{r}
+get_own_timeline(limit = 100)
+```
+
+### Follow/Unfollow
+
+```{r}
+follow(actor = "benguinaudeau.bsky.social")
+unfollow(actor = "benguinaudeau.bsky.social")
+```
+
+
+### TODO: Get reposts
+
+```{r}
+# Post
+uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
+app_bsky_feed_get_reposted_by(uri = uri)
+```
+
+### NW: Get actor likes
+
+```{r}
+app_bsky_feed_get_actor_likes(actor = "atr.bsky.social")
+app_bsky_feed_get_actor_likes(actor = resolve_handle("atr.bsky.social"))
+app_bsky_feed_get_actor_likes(actor = resolve_handle("benguinaudeau.bsky.social"))
+```
+
+
+### TODO: Get likes
+
+```{r}
+# Post
+uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
+app_bsky_feed_get_likes(uri = uri)
+
+# Feed
+uri <- convert_http_to_at("https://bsky.app/profile/did:plc:kyttpb6um57f4c2wep25lqhq/feed/aaalfpmnev6yc")
+app_bsky_feed_get_likes(uri = uri, limit = 100)
+
+# Lists (But not possible to like lists)
+uri <- convert_http_to_at("https://bsky.app/profile/profmusgrave.bsky.social/lists/3k2djx2vgyn2x")
+app_bsky_feed_get_likes(uri = uri)
+```
+
+
+### TODO: Follow feed/Unfollow feed
+
+```{r}
+
+```
+
+### Post thread
+
+```{r}
+library(ggplot2)
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+f1 <- ggsave(tempfile(pattern = "1", fileext = ".png"))
+
+lty <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
+linetypes <- data.frame(
+  y = seq_along(lty),
+  lty = lty
+) 
+ggplot(linetypes, aes(0, y)) + 
+  geom_segment(aes(xend = 5, yend = y, linetype = lty)) + 
+  scale_linetype_identity() + 
+  geom_text(aes(label = lty), hjust = 0, nudge_y = 0.2) +
+  scale_x_continuous(NULL, breaks = NULL) + 
+  scale_y_reverse(NULL, breaks = NULL)
+
+f2 <- ggsave(tempfile(pattern = "2", fileext = ".png"))
+post_thread(texts = c("This is the first plot on the ggplot2 website",
+                      "This is the second plot on the ggplot2 website",
+                      "And this is just text sent from the atr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"), 
+            images = c(f1, f2, ""),
+            image_alts = c("first ggplot2 plot",
+                           "second ggplot2 plot",
+                           ""))
+
+thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
+delete_post(thread$uri)
+```
+
+
+
+search_skeet (aka search_post)	app/bsky/feed/searchPosts.json	❌ does not work/exist
+search_users	app/bsky/actor/searchActors.json	✅
+get_followers	app/bsky/graph/getFollowers.json	✅
+get_following	app/bsky/graph/getFollows.json	✅
+get_timeline	app/bsky/feed/getAuthorFeed.json	✅ but seems to show feeds created by user
+get_feed	app/bsky/feed/getTimeline.json	✅
+get_reposts	app/bsky/feed/getRepostedBy.json	
+get_likes	app/bsky/feed/getLikes.json	❌ returns who liked a feed -> feed_following
+post_skeet	app/bsky/feed/post.json	✅
+follow_user	app/bsky/graph/follow.json	✅
+follow_feed	app/bsky/graph/follow.json	✅
+unfollow_user	app/bsky/graph/follow.json	
+unfollow_feed	app/bsky/graph/follow.json	
+lookup_users	app/bsky/actor/getProfile.json	✅
+feed_following	?	
+
+## Streming content
+
+This does stream content to disk, but the file is written in the binary DAG-CBOR encoding, which I don't know how to decode in R.
+
+```{r}
+library(websocket)
+## Blusky firehose socket
+ws_firehose <- "wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos"
+ws <- WebSocket$new(ws_firehose, autoConnect = FALSE)
+ws$onOpen(function(event) {
+  cat("Connection opened\n")
+})
+ws$onMessage(function(event) {
+  event <<- event
+  con <- file("test.txt", "ab", raw = TRUE)
+  on.exit(close(con))
+  writeBin(event$data, con)
+})
+ws$onClose(function(event) {
+  cat("Client disconnected with code ", event$code,
+    " and reason ", event$reason, "\n", sep = "")
+})
+ws$onError(function(event) {
+  cat("Client failed to connect: ", event$message, "\n")
+})
+ws$connect()
+ws$close()
+```
+
+
+
+## Easy example
+
+```{r}
+# Sys.setenv(BSKY_TOKEN = "test_account.rds")
+auth(user = "atpr.bsky.social", 
+     password = "cmpd-5mvw-yauz-2lwu")
+```
+
+### Get actor preferences
+
+```{r}
+app_bsky_actor_get_preferences()
+```
+
+### Create a post
+
+```{r}
+repo <- "atpr.bsky.social"
+collection <- "app.bsky.feed.post"
+
+record <- list(
+  "text" = "Testing around",
+  "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
+
+record <- list(
+  "text" = "Posting from the past!",
+  "createdAt" = "1970-10-05T16:50:03.572495Z"
+)
+
+
+
+resp <- com_atproto_repo_create_record(repo, collection, record)
+resp %>% glimpse
+```
+
+
+### Remove post based on at-url
+
+```{r}
+#  "at://did:plc:j42kj4qc5vfz344weywpkair/app.bsky.feed.post/3kaz3hsyov22f"
+post_info <- parse_at_uri(resp$uri)
+
+
+
+resp_delte <- com_atproto_repo_delete_record(repo = post_info$repo, 
+                                             collection = post_info$collection, 
+                                             rkey = post_info$rkey)
+```
+
+### Remove post based on http-url
+
+```{r}
+http_url <- "https://bsky.app/profile/atpr.bsky.social/post/3kaz3famddr23"
+
+post_info <- parse_http_url(http_url)
+resp_deleted <- com_atproto_repo_delete_record(repo = post_info$repo, 
+                                               collection = post_info$collection, 
+                                               rkey = post_info$rkey)
+```
+
+
+### Follow a user
+
+```{r}
+repo <- "atpr.bsky.social"
+collection <- "app.bsky.graph.follow"
+handle <- "benguinaudeau.bsky.social"
+
+prof_did <- com_atproto_identity_resolve_handle(handle)[["did"]]
+
+record <- list(
+  "subject" = prof_did, 
+  "createdAt" = format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+)
+
+resp <- com_atproto_repo_create_record(repo, collection, record)
+resp
+```
+
+### Pagination
+
+```{r}
+repo <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.graph.follow"
+
+limit <- 1000
+out <- c()
+last_cursor <- NULL
+cli::cli_progress_bar(format = "Got {length(out)} records, but there is more..", 
+                      format_done = "Got {length(out)} records. All done!")
+while(length(out) < limit){
+  resp <- com_atproto_repo_list_records(repo, 
+                                        collection, 
+                                        limit = 1, 
+                                        cursor = last_cursor)
+  if(is.null(resp$cursor)) break
+  last_cursor <- resp$cursor
+  out <- c(out, resp[["records"]]) 
+  cli::cli_progress_update()
+}
+cli::cli_progress_done()
+```
+
+### Parse output
+
+```{r}
+purrr::map(out, function(r) {
+  purrr::list_flatten(r) |> 
+    tibble::as_tibble() |> 
+    janitor::clean_names()
+}) |> 
+  dplyr::bind_rows()
+```
+
+
+
+### Unfollow a user
+
+```{r}
+repo <- "atpr.bsky.social"
+handle_to_unfollow <- "benguinaudeau.bsky.social"
+collection <- "app.bsky.graph.follow"
+
+
+resp <- com_atproto_repo_list_records(repo, 
+                                      collection, 
+                                      limit = 100)
+
+prof_did <- com_atproto_identity_resolve_handle(handle)[["did"]]
+
+record <- resp$records |>
+  keep(~.x$value$subject == prof$did)
+
+follow_info <- parse_at_uri(record[[1]]$uri)
+
+follow_deleted <- com_atproto_repo_delete_record(
+  repo = follow_info$repo, 
+  collection = follow_info$collection, 
+  rkey = follow_info$rkey
+)
+
+follow_deleted
+```
+
+### Search posts
+
+```{r}
+search_post <- function(q, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "search.bsky.social/search/posts",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+resp <- app_bsky_feed_search_term(q = "rstats")
+resp %>%
+  glimpse
+```
+
+### Search actors
+
+```{r}
+
+
+# Funktionniert nicht
+app_bsky_actor_search_actors(q = "benguinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "benguinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "fav+stats") 
+# Funktionniert
+app_bsky_actor_search_actors_typeahead(q = "guinaudeau") 
+# Funktionniert
+app_bsky_actor_search_actors(q = "benguinaudeau.bsky.social") 
+```
+
+
+## Test value used in the unit tests
+
+```{r}
+tv <- list(
+  handle1 = "aurman21.bsky.social",
+  handle2 = "profmusgrave.bsky.social",
+  ownhandle = "benguinaudeau.bsky.social",
+  
+  list1 = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.graph.list/3k4diugcw3k2p",
+  
+  feed_gen1 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy', # Polisky
+  feed_gen2 = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy', # Skynet
+  post_uri = 'at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.post/3k7vuxaw6ew2n',
+  post_uri = "https://bsky.app/profile/aoc.bsky.social/post/3jzszuihulm2m",
+  feed_gens = c(feed_gen1, feed_gen2),
+  aoc_post_1 = "at://did:plc:p7gxyfr5vii5ntpwo7f6dhe2/app.bsky.feed.post/3k26nvf2xdz2m",
+  aoc_post_2 = "at://did:plc:p7gxyfr5vii5ntpwo7f6dhe2/app.bsky.feed.post/3k24roywgx726",
+  aoc_posts = c(aoc_post_1, aoc_post_2),
+  
+  feed1 = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaalfodybabzy",
+  feed = "at://did:plc:kyttpb6um57f4c2wep25lqhq/app.bsky.feed.generator/aaaevewijfbqy"
+)
+usethis::use_data(tv)
+```
+
+## Get all lexicons
+
+### Update lexicons
+
+```{r}
+# list_lexicons <- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", 
+#                            folder = "lexicons") |>
+#   str_remove("lexicons") |>
+#   set_names(
+#     fs::path_file(.) |>
+#       str_remove(".json")
+#   ) |>
+#   as.list()
+# usethis::use_data(list_lexicons)
+```
+
+### Read all lexicons
+
+```{r}
+all <- list_lexicons |>
+  map_dfr(~{
+    tibble::tibble(
+      id = .x,
+      lexicon = list(read_lexicon(.x))
+    ) |>
+      mutate(
+        type = lexicon[[1]] |>
+          purrr::pluck("defs", "main", "type")
+      )
+  })
+
+all |> glimpse
+
+all |> count(type, sort = T)
+all |> filter(is.na(type))
+```
+
+
+### Check lexicons type
+
+```{r}
+all |>
+  add_count(type) |>
+  distinct(type, .keep_all = T) |>
+  rename(example = id) |>
+  arrange(desc(n))
+```
+
+## Generate functions
+
+### Generate the functions
+
+```{r}
+# dput(names(list_lexicons[str_detect(names(list_lexicons), "^get")]))
+
+list_lexicons |> #bashR::simule_map(4)
+  walk(~{
+    glimpse(.x)
+    out_file <- paste0("R/auto_", janitor::make_clean_names(fs::path_dir(.x)), ".R")
+    build_function(lexicon = .x, out_file = out_file)
+  })
+
+```
+
+
+## Testing function
+
+```{r}
+arg_list <-  ls("package:atr") |>
+  str_subset("^(app|com)") |>
+  map_dfr(~{
+    tibble::tibble(
+      fun = .x,
+      param = formalArgs(get(.x, envir = asNamespace('atr')))
+    )
+  })
+
+arg_list |>
+  filter(!param %in% c("actor", "actors", "limit", "cursor")) |>
+  arrange(param) |>
+  glimpse
+```
+
+## Automatize Testing
+
+```{r}
+# app_bsky_actor_get_profile <- function(actor){
+#   
+#   get_params <- match.call(expand.dots = FALSE) |>
+#     flatten_query_params()
+#   
+#   list(
+#     scheme = 'https', 
+#     hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+#     query = as.list(get_params)
+#   ) |>
+#     app_bsky_actor_get_profile_int() |> 
+#     httr2::resp_body_json()
+# }
+
+# app_bsky_actor_get_profile_int <- function(all_params){
+#   all_params |>
+#     httr2::url_build() |>
+#     httr2::request() |> 
+#     httr2::req_method('GET') |>
+#     httr2::req_headers(
+#       Authorization = paste0('Bearer ', token$accessJwt)
+#     ) |> 
+#     httr2::req_perform()
+# }
+
+req <- list(
+  scheme = 'https', 
+  hostname = glue::glue('bsky.social/xrpc/app.bsky.actor.getProfile'),
+  query = list(actor = "benguinaudeau.bsky.social")
+) |>
+  app_bsky_actor_get_profile_int
+
+# <httr2_response>
+# GET https://bsky.social/xrpc/app.bsky.actor.getProfile?actor=benguinaudeau.bsky.social
+# Status: 200 OK
+# Content-Type: application/json
+# Body: In memory (785 bytes)
+
+httr2::resp_body_string(req)
+
+# "{\"did\":\"did:plc:vuvsifrusnjsys7mhkpk662u\",\"handle\":\"benguinaudeau.bsky.social\",\"displayName\":\"Benjamin Guinaudeau\",\"description\":\"Postdoc @CSMaP_NYU. \\n\\nPolitics, data science, and hacking stuff in #rstats. \\n\\n🇫🇷 in 🇩🇪/🇨🇦 he/him\\n\\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\\n\\nWebsite: http://benguinaudeau.com\",\"avatar\":\"https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg\",\"banner\":\"https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg\",\"followsCount\":129,\"followersCount\":223,\"postsCount\":15,\"indexedAt\":\"2023-09-19T00:08:33.661Z\",\"viewer\":{\"muted\":false,\"blockedBy\":false},\"labels\":[]}"
+
+app_bsky_actor_get_profile(actor = "benguinaudeau.bsky.social") |>
+  jsonlite::toJSON()
+
+{"did":["did:plc:vuvsifrusnjsys7mhkpk662u"],"handle":["benguinaudeau.bsky.social"],"displayName":["Benjamin Guinaudeau"],"description":["Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacking stuff in #rstats. \n\n🇫🇷 in 🇩🇪/🇨🇦 he/him\n\nPrev: PoliSci PhD @UniKonstanz and @Meta CDS\n\nWebsite: http://benguinaudeau.com"],"avatar":["https://av-cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreieahfe2ttg5dfk7btivcpr2onoztgzdjh4valkxqpji42qpkmwacq@jpeg"],"banner":["https://av-cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnjsys7mhkpk662u/bafkreigv4ycltavnhofcjgkrzhxuoaa6eotimeocfdqmirc2dxfrvfbsuu@jpeg"],"followsCount":[129],"followersCount":[223],"postsCount":[15],"indexedAt":["2023-09-19T00:08:33.661Z"],"viewer":{"muted":[false],"blockedBy":[false]},"labels":[]} 
+
+```
+
+0. Intro
+1. Function code
+2. Row response
+3. Parsed response
+
+
+```{r}
+all_funs <- unique(arg_list$fun) |>
+  str_subset("^(app|com)") |>
+  str_subset("get")
+
+fun_name <- sample(all_funs, 1)
+```
+
+```{r}
+fun_code <- paste0(fun_name, "< - ", paste(deparse(get(fun_name)), collapse = "\n"))
+
+all_test <- get_params(fun_name)
+
+test <- all_test |> 
+  sample(ceiling(.2 * length(.))) |>
+  map_dfr(~{
+    resp <- eval(parse(text = one_test))
+    json <- resp |>
+      httr2::resp_body_json() |>
+      jsonlite::toJSON()
+    
+    tibble::tibble(
+      code = .x, 
+      resp = list(resp), 
+      json = list(json)
+    )
+    
+  })
+
+test_for_prompt <- test |>
+  split(1:nrow(.)) |> #bashR::simule_map(1)
+  map_chr(~{
+    
+    out <- list()
+    out[[1]] <- paste(.x$code, "|> glimpse")
+    out[[2]] <- capture.output(.x$resp[[1]] |> glimpse)
+    out[[3]] <- "\n\nJSON content: "
+    out[[4]] <- .x$json[[1]]
+    
+    paste(out, collapse = "\n")
+    
+  })
+
+final_prompt <- c(
+  "I am writting an R package to query data stored and transfered using the AT protocol described on this webpage: https://atproto.com/guides/overview. 
+
+This is many ways similar to the python library atproto: https://github.com/MarshalX/atproto
+
+I have generated the function querying the API and need your help to write unit testing of the functions.
+Write unit test in the style of testthat, only include code that can write into an Rscript file and run devtools::test(). Include as many test as possible", 
+"Function code: ", fun_code, 
+"Output examples:", paste(test_for_prompt[1], collapse = "\n")
+) |>
+  paste(collapse = "\n")
+
+# str_length(final_prompt)
+# writeLines(final_prompt, "test_prompt.txt")
+
+new_fun <- askgpt::chat_api(prompt = final_prompt,
+                            model = "gpt-3.5-turbo-16k") |>
+  askgpt::parse_response()
+
+
+cat(new_fun )
+```
+
+## Manual testing
+
+
+```{r}
+app_bsky_actor_get_preferences(.token = token, .return =  "resp")
+app_bsky_actor_get_preferences(.token = token, .return =  "json")
+
+app_bsky_actor_get_profile(actor = handle1)
+app_bsky_actor_get_profiles(actors = c(handle1, handle2))
+
+app_bsky_actor_get_suggestions(.token = token)
+
+app_bsky_notification_get_unread_count(.token = token)
+app_bsky_notification_list_notifications(.token = token)
+res1 <-app_bsky_notification_list_notifications(limit = 5)
+res2 <-app_bsky_notification_list_notifications(limit = 5, cursor = res1$cursor)
+
+app_bsky_graph_get_followers(actor = handle1)
+res1 <- app_bsky_graph_get_followers(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_followers(actor = handle1, limit = 5, cursor = res2$cursor)
+
+app_bsky_graph_get_follows(actor = handle1)
+res1 <- app_bsky_graph_get_follows(actor = handle1, limit = 5)
+res2 <- app_bsky_graph_get_follows(actor = handle1, limit = 5, cursor = res2$cursor)
+
+
+posts <- app_bsky_feed_get_actor_feeds("profmusgrave.bsky.social")
+posts$feeds |>
+  map_chr(~.x$uri)
+
+
+app_bsky_graph_get_list(list = list1)
+app_bsky_feed_get_list_feed(list = list1)
+app_bsky_graph_get_lists(actor = handle2)
+app_bsky_graph_get_list_blocks(.token = token)
+app_bsky_graph_get_list_mutes(.token = token)
+
+# app_bsky_feed_get_actor_feeds(actor = )
+app_bsky_feed_get_author_feed(actor = handle2)
+app_bsky_feed_get_author_feed(actor = handle2, filter = "posts_with_media")
+
+# Only for own account
+app_bsky_feed_get_actor_likes(actor = handle3)
+
+# Generator
+
+
+app_bsky_feed_get_feed(feed = feed_gen1)
+app_bsky_feed_get_feed_generator(feed = feed_gen1)
+app_bsky_feed_get_feed_generators(feed = feed_gens)
+
+app_bsky_feed_get_likes(uri = feed_gen1)
+app_bsky_feed_get_likes(uri = post_uri)
+app_bsky_feed_get_reposted_by(uri = post_uri)
+
+app_bsky_feed_get_suggested_feeds(.token = token)
+
+app_bsky_feed_get_posts(uris = c(post_uri))
+
+
+# Unclear
+# app_bsky_feed_get_feed_skeleton(feed = feed_gen1)
+
+```
