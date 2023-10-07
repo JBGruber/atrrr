@@ -2,13 +2,17 @@
 #'
 #' @param repo target github repository
 #' @param folder the subfolder that should be searched
-#' @param depth the maximum depth taht should be explored
+#' @param max_depth the maximum depth taht should be explored
 #'
-#' @return The list of corresponding paths. If the depth is reached, it returns the folder where max-depth was reached
+#' @return The list of corresponding paths. If the depth is reached, it returns
+#'   the folder where max-depth was reached
 #' @export
 #'
 #' @examples
-#' github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
+#' \dontrun{
+#' github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents",
+#'           folder = "lexicons")
+#' }
 github_ls <- function(repo, folder, max_depth = 10) {
   paths <- glue::glue("{repo}/{folder}")
 

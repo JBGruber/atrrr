@@ -314,6 +314,7 @@ get_feed_likes <- function(feed_url,
 #' Post a skeet
 #'
 #' @param text Text to post
+#' @param in_reply_to URL or URI of a skeet this should reply to.
 #' @param image path to an image to post
 #' @param image_alt alt text for the image
 #' @param created_at time stamp of the post
@@ -441,13 +442,13 @@ delete_post <- delete_skeet
 #' @export
 #'
 #' @examples
-#' \dontrun(
+#' \dontrun{
 #' # post three messages in a thread
 #' thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
 #'
 #' # delete the thread
 #' delete_post(thread$uri)
-#' )
+#' }
 post_thread <- function(texts,
                         images = NULL,
                         image_alts = NULL,

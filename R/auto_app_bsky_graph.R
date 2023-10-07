@@ -1,6 +1,6 @@
 #' app_bsky_graph_get_blocks
 #' Who is the requester's account blocking?
-#' @export
+#' @noRd
 app_bsky_graph_get_blocks <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getBlocks",
@@ -16,7 +16,7 @@ app_bsky_graph_get_blocks <- function(limit = NULL, cursor = NULL, .token = NULL
 
 #' app_bsky_graph_get_followers
 #' Who is following an actor?
-#' @export
+#' @noRd
 app_bsky_graph_get_followers <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getFollowers",
@@ -32,7 +32,7 @@ app_bsky_graph_get_followers <- function(actor, limit = NULL, cursor = NULL, .to
 
 #' app_bsky_graph_get_follows
 #' Who is an actor following?
-#' @export
+#' @noRd
 app_bsky_graph_get_follows <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getFollows",
@@ -48,7 +48,7 @@ app_bsky_graph_get_follows <- function(actor, limit = NULL, cursor = NULL, .toke
 
 #' app_bsky_graph_get_list
 #' Fetch a list of actors
-#' @export
+#' @noRd
 app_bsky_graph_get_list <- function(list, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getList",
@@ -64,7 +64,7 @@ app_bsky_graph_get_list <- function(list, limit = NULL, cursor = NULL, .token = 
 
 #' app_bsky_graph_get_list_blocks
 #' Which lists is the requester's account blocking?
-#' @export
+#' @noRd
 app_bsky_graph_get_list_blocks <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getListBlocks",
@@ -80,7 +80,7 @@ app_bsky_graph_get_list_blocks <- function(limit = NULL, cursor = NULL, .token =
 
 #' app_bsky_graph_get_list_mutes
 #' Which lists is the requester's account muting?
-#' @export
+#' @noRd
 app_bsky_graph_get_list_mutes <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getListMutes",
@@ -96,7 +96,7 @@ app_bsky_graph_get_list_mutes <- function(limit = NULL, cursor = NULL, .token = 
 
 #' app_bsky_graph_get_lists
 #' Fetch a list of lists that belong to an actor
-#' @export
+#' @noRd
 app_bsky_graph_get_lists <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getLists",
@@ -112,7 +112,7 @@ app_bsky_graph_get_lists <- function(actor, limit = NULL, cursor = NULL, .token 
 
 #' app_bsky_graph_get_mutes
 #' Who does the viewer mute?
-#' @export
+#' @noRd
 app_bsky_graph_get_mutes <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getMutes",
@@ -128,7 +128,7 @@ app_bsky_graph_get_mutes <- function(limit = NULL, cursor = NULL, .token = NULL,
 
 #' app_bsky_graph_get_suggested_follows_by_actor
 #' Get suggested follows related to a given actor.
-#' @export
+#' @noRd
 app_bsky_graph_get_suggested_follows_by_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.getSuggestedFollowsByActor",
@@ -144,7 +144,7 @@ app_bsky_graph_get_suggested_follows_by_actor <- function(actor, .token = NULL, 
 
 #' app_bsky_graph_mute_actor
 #' Mute an actor by did or handle.
-#' @export
+#' @noRd
 app_bsky_graph_mute_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.muteActor",
@@ -160,7 +160,7 @@ app_bsky_graph_mute_actor <- function(actor, .token = NULL, .return = c("json", 
 
 #' app_bsky_graph_mute_actor_list
 #' Mute a list of actors.
-#' @export
+#' @noRd
 app_bsky_graph_mute_actor_list <- function(list, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.muteActorList",
@@ -176,7 +176,7 @@ app_bsky_graph_mute_actor_list <- function(list, .token = NULL, .return = c("jso
 
 #' app_bsky_graph_unmute_actor
 #' Unmute an actor by did or handle.
-#' @export
+#' @noRd
 app_bsky_graph_unmute_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.unmuteActor",
@@ -192,7 +192,7 @@ app_bsky_graph_unmute_actor <- function(actor, .token = NULL, .return = c("json"
 
 #' app_bsky_graph_unmute_actor_list
 #' Unmute a list of actors.
-#' @export
+#' @noRd
 app_bsky_graph_unmute_actor_list <- function(list, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.graph.unmuteActorList",

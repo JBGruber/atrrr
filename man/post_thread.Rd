@@ -33,11 +33,11 @@ list of the URIs and CIDs of the posts (invisible)
 Post a thread
 }
 \examples{
-\dontrun(
+\dontrun{
 # post three messages in a thread
 thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
 
 # delete the thread
 delete_post(thread$uri)
-)
+}
 }

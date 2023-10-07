@@ -32,6 +32,8 @@ delete_post(post_url, .token = NULL)
 \arguments{
 \item{text}{Text to post}
 
+\item{in_reply_to}{URL or URI of a skeet this should reply to.}
+
 \item{image}{path to an image to post}
 
 \item{image_alt}{alt text for the image}

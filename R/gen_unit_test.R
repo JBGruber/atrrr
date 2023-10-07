@@ -1,6 +1,6 @@
 get_params <- function(fun_name, .token) {
   fun <- get(fun_name, envir = asNamespace("atr"))
-  args <- formalArgs(fun)
+  args <- methods::formalArgs(fun)
 
   params <- list()
   if ("actor" %in% args) {
@@ -40,19 +40,18 @@ get_params <- function(fun_name, .token) {
     params[["cursor"]] <- c(T, F)
   }
 
-  param_grid <- expand_grid(!!!params) |>
-    mutate(index = row_number())
+  param_grid <- tidyr::expand_grid(!!!params) |>
+    dplyr::mutate(index = dplyr::row_number())
 
-  param_grid |>
-    split(1:nrow(.)) |>
-    map_chr(~ {
+  split(param_grid, 1:nrow(param_grid)) |>
+    purrr::map_chr(~ {
       index <- .x$index
 
       .x[["index"]] <- NULL
       .x[["cursor"]] <- NULL
 
       arg_declaration <- .x |>
-        discard(~ .x == "NULL") |>
+        purrr::discard(~ .x == "NULL") |>
         purrr::imap_chr(~ paste(.y, .x, sep = " = ")) |>
         paste(collapse = ", ")
 

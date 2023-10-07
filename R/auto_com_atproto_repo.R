@@ -1,6 +1,6 @@
 #' com_atproto_repo_apply_writes
 #' Apply a batch transaction of creates, updates, and deletes.
-#' @export
+#' @noRd
 com_atproto_repo_apply_writes <- function(repo, writes, validate = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.applyWrites",
@@ -16,7 +16,7 @@ com_atproto_repo_apply_writes <- function(repo, writes, validate = NULL, swapCom
 
 #' com_atproto_repo_create_record
 #' Create a new record.
-#' @export
+#' @noRd
 com_atproto_repo_create_record <- function(repo, collection, record, rkey = NULL, validate = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.createRecord",
@@ -32,7 +32,7 @@ com_atproto_repo_create_record <- function(repo, collection, record, rkey = NULL
 
 #' com_atproto_repo_delete_record
 #' Delete a record, or ensure it doesn't exist.
-#' @export
+#' @noRd
 com_atproto_repo_delete_record <- function(repo, collection, rkey, swapRecord = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.deleteRecord",
@@ -48,7 +48,7 @@ com_atproto_repo_delete_record <- function(repo, collection, rkey, swapRecord = 
 
 #' com_atproto_repo_describe_repo
 #' Get information about the repo, including the list of collections.
-#' @export
+#' @noRd
 com_atproto_repo_describe_repo <- function(repo, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.describeRepo",
@@ -64,7 +64,7 @@ com_atproto_repo_describe_repo <- function(repo, .token = NULL, .return = c("jso
 
 #' com_atproto_repo_get_record
 #' Get a record.
-#' @export
+#' @noRd
 com_atproto_repo_get_record <- function(repo, collection, rkey, cid = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.getRecord",
@@ -80,7 +80,7 @@ com_atproto_repo_get_record <- function(repo, collection, rkey, cid = NULL, .tok
 
 #' com_atproto_repo_list_records
 #' List a range of records in a collection.
-#' @export
+#' @noRd
 com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor = NULL, rkeyStart = NULL, rkeyEnd = NULL, reverse = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.listRecords",
@@ -96,7 +96,7 @@ com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor
 
 #' com_atproto_repo_put_record
 #' Write a record, creating or updating it as needed.
-#' @export
+#' @noRd
 com_atproto_repo_put_record <- function(repo, collection, rkey, record, validate = NULL, swapRecord = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.putRecord",
@@ -112,7 +112,7 @@ com_atproto_repo_put_record <- function(repo, collection, rkey, record, validate
 
 #' com_atproto_repo_upload_blob
 #' Upload a new blob to be added to repo in a later request.
-#' @export
+#' @noRd
 com_atproto_repo_upload_blob <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.uploadBlob",

@@ -11,14 +11,18 @@ github_ls(repo, folder, max_depth = 10)
 
 \item{folder}{the subfolder that should be searched}
 
-\item{depth}{the maximum depth taht should be explored}
+\item{max_depth}{the maximum depth taht should be explored}
 }
 \value{
-The list of corresponding paths. If the depth is reached, it returns the folder where max-depth was reached
+The list of corresponding paths. If the depth is reached, it returns
+the folder where max-depth was reached
 }
 \description{
 List all files in github subfolders up to a certain depth
 }
 \examples{
-github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents", folder = "lexicons")
+\dontrun{
+github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents",
+          folder = "lexicons")
+}
 }

@@ -1,6 +1,6 @@
 #' com_atproto_identity_resolve_handle
 #' Provides the DID of a repo.
-#' @export
+#' @noRd
 com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.identity.resolveHandle",
@@ -16,7 +16,7 @@ com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return =
 
 #' com_atproto_identity_update_handle
 #' Updates the handle of the account
-#' @export
+#' @noRd
 com_atproto_identity_update_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.identity.updateHandle",

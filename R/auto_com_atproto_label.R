@@ -1,6 +1,6 @@
 #' com_atproto_label_query_labels
 #' Find labels relevant to the provided URI patterns.
-#' @export
+#' @noRd
 com_atproto_label_query_labels <- function(uriPatterns, sources = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.label.queryLabels",

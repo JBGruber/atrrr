@@ -28,12 +28,23 @@ Imports:
     askpass,
     cli,
     curl,
+    dplyr,
     glue,
     httr2,
-    lifecycle,
+    janitor,
+    jsonlite,
+    magick,
     methods,
+    purrr,
     rlang,
+    stringr,
+    tibble,
+    tidyr,
     utils
 Depends: 
     R (>= 2.10)
 LazyData: true
+Suggests: 
+    askgpt,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

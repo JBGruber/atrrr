@@ -48,6 +48,7 @@ build_function <- function(lexicon,
 
 
   if (gpt_documentation) {
+    rlang::check_installed("askgpt")
     new_fun <- askgpt::chat_api(
       prompt = glue::glue(
         "Document this R function using roxygen2 syntax.",

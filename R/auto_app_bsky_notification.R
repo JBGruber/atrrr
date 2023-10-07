@@ -1,6 +1,6 @@
 #' app_bsky_notification_get_unread_count
 #'
-#' @export
+#' @noRd
 app_bsky_notification_get_unread_count <- function(seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.notification.getUnreadCount",
@@ -16,7 +16,7 @@ app_bsky_notification_get_unread_count <- function(seenAt = NULL, .token = NULL,
 
 #' app_bsky_notification_list_notifications
 #'
-#' @export
+#' @noRd
 app_bsky_notification_list_notifications <- function(limit = NULL, cursor = NULL, seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.notification.listNotifications",
@@ -32,7 +32,7 @@ app_bsky_notification_list_notifications <- function(limit = NULL, cursor = NULL
 
 #' app_bsky_notification_register_push
 #' Register for push notifications with a service
-#' @export
+#' @noRd
 app_bsky_notification_register_push <- function(serviceDid, token, platform, appId, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.notification.registerPush",
@@ -48,7 +48,7 @@ app_bsky_notification_register_push <- function(serviceDid, token, platform, app
 
 #' app_bsky_notification_update_seen
 #' Notify server that the user has seen notifications.
-#' @export
+#' @noRd
 app_bsky_notification_update_seen <- function(seenAt, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.notification.updateSeen",

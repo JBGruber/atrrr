@@ -1,6 +1,6 @@
 #' app_bsky_unspecced_get_popular
 #' DEPRECATED: will be removed soon, please find a feed generator alternative
-#' @export
+#' @noRd
 app_bsky_unspecced_get_popular <- function(includeNsfw = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.getPopular",
@@ -16,7 +16,7 @@ app_bsky_unspecced_get_popular <- function(includeNsfw = NULL, limit = NULL, cur
 
 #' app_bsky_unspecced_get_popular_feed_generators
 #' An unspecced view of globally popular feed generators
-#' @export
+#' @noRd
 app_bsky_unspecced_get_popular_feed_generators <- function(limit = NULL, cursor = NULL, query = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.getPopularFeedGenerators",
@@ -32,7 +32,7 @@ app_bsky_unspecced_get_popular_feed_generators <- function(limit = NULL, cursor 
 
 #' app_bsky_unspecced_get_timeline_skeleton
 #' A skeleton of a timeline - UNSPECCED & WILL GO AWAY SOON
-#' @export
+#' @noRd
 app_bsky_unspecced_get_timeline_skeleton <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.getTimelineSkeleton",
@@ -48,7 +48,7 @@ app_bsky_unspecced_get_timeline_skeleton <- function(limit = NULL, cursor = NULL
 
 #' app_bsky_unspecced_search_actors_skeleton
 #' Backend Actors (profile) search, returning only skeleton
-#' @export
+#' @noRd
 app_bsky_unspecced_search_actors_skeleton <- function(q, typeahead = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.searchActorsSkeleton",
@@ -64,7 +64,7 @@ app_bsky_unspecced_search_actors_skeleton <- function(q, typeahead = NULL, limit
 
 #' app_bsky_unspecced_search_posts_skeleton
 #' Backend Posts search, returning only skeleton
-#' @export
+#' @noRd
 app_bsky_unspecced_search_posts_skeleton <- function(q, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.searchPostsSkeleton",

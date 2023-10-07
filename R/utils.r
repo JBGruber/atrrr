@@ -47,7 +47,7 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
   .token <- params[[".token"]] %||% get_token()
   params[[".token"]] <- NULL
 
-  .return <- head(params[[".return"]], 1L) %||% ""
+  .return <- utils::head(params[[".return"]], 1L) %||% ""
   params[[".return"]] <- NULL
 
   if (req_method == "GET") { #
@@ -205,6 +205,7 @@ get_thread_root <- function(thread) {
 
 
 #' lexicon seems wrong. translated from https://atproto.com/blog/create-post#images-embeds
+#' @noRd
 com_atproto_repo_upload_blob2 <- function(image,
                                           .token = NULL) {
 
