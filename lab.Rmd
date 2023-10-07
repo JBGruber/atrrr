@@ -8,6 +8,8 @@ date: "2023-09-27"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Internal document for coordination and tests. Will be removed soon.
+
 ## Todo
 
 + Add to make-request an error message when token is expired
