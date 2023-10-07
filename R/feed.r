@@ -317,6 +317,7 @@ get_feed_likes <- function(feed_url,
 #' @param image path to an image to post
 #' @param image_alt alt text for the image
 #' @param created_at time stamp of the post
+#' @param post_url URL or URI of post to delete
 #' @inheritParams search_user
 #'
 #' @returns list of the URI and CID of the post (invisible)
@@ -353,7 +354,7 @@ post <- function(text,
                           convert_http_to_at(in_reply_to),
                           in_reply_to)
 
-    thread <- app_bsky_feed_get_post_thread(in_reply_to, .token = .token)
+    thread <- do.call(app_bsky_feed_get_post_thread, list(in_reply_to, .token = .token))
     thread_root <- get_thread_root(thread)
     record[["reply"]] <- list(
       root = list(
@@ -367,7 +368,7 @@ post <- function(text,
     )
   }
 
-  if (!is.null(image)) {
+  if (!is.null(image) && image != "") {
     image_alt <- image_alt  %||% ""
     # TODO: make it possible to post several images (up to 4 are allowed)
     blob <- com_atproto_repo_upload_blob2(image, .token = .token)
@@ -379,7 +380,12 @@ post <- function(text,
     )
   }
 
-  invisible(com_atproto_repo_create_record(repo, collection, record, .token = .token))
+  # TODO: mentions-and-links also need to be embedded
+  # https://atproto.com/blog/create-post#mentions-and-links
+
+  invisible(do.call(what = com_atproto_repo_create_record,
+                    args = list(repo, collection, record, .token = .token)))
+
 }
 
 
@@ -387,56 +393,94 @@ post <- function(text,
 post_skeet <- post
 
 
-#' lexicon seems wrong. translated from https://atproto.com/blog/create-post#images-embeds
-com_atproto_repo_upload_blob2 <- function(image,
-                                          .token = NULL) {
-
-  .token <- .token %||% get_token()
-  img <- magick::image_read(image)
-  image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
-
-  # TODO: not sure how to get the magick image as raw vector
-  img <- readBin(image, "raw", file.info(image)$size)
-
-  httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
-    httr2::req_auth_bearer_token(token = .token$accessJwt) |>
-    httr2::req_headers("Content-Type" = image_mimetype) |>
-    httr2::req_body_raw(img) |>
-    httr2::req_perform() |>
-    httr2::resp_body_json()
-}
-
-
-
-#' Delete post
-#'
-#' @param post_url URL of post to delete
-#' @inheritParams post
-#'
-#' @returns Nothing. Called to delete a post.
-#' @export
+#' @rdname post
 delete_skeet <- function(post_url,
                          .token = NULL) {
 
+  id <- basename(post_url)
   cli::cli_progress_step(
-    msg = "Request to delete post {.emph {text}}",
-    msg_done = "Posted {.emph {text}}",
+    msg = "Request to delete post {.emph {id}}",
+    msg_done = "Deleted {.emph {id}}",
     msg_failed = "Something went wrong"
   )
 
-  post_info <- parse_at_uri(convert_http_to_at(post_url))
+  invisible(purrr::map(post_url, function(u) {
+    post_info <- ifelse(grepl("^http", u),
+                        convert_http_to_at(u),
+                        u) |>
+      parse_at_uri()
 
-  invisible(do.call(
-    what = com_atproto_repo_delete_record,
-    args = list(
-      repo = post_info$repo,
-      collection = post_info$collection,
-      rkey = post_info$rkey,
-      .token = .token,
-      .return = "json"
-    )))
+    do.call(
+      what = com_atproto_repo_delete_record,
+      args = list(
+        repo = post_info$repo,
+        collection = post_info$collection,
+        rkey = post_info$rkey,
+        .token = .token,
+        .return = "json"
+      ))
+  }))
 
 }
 
 
+#' @rdname post
 delete_post <- delete_skeet
+
+
+#' Post a thread
+#'
+#' @param texts a vector of skeet (post) texts
+#' @param images paths to images to be included in each post
+#' @param image_alts alt texts for the images to be included in each post
+#' @param thread_df instead of defining texts, images and image_alts, you can
+#'   also create a data frame with the information in columns of the same names.
+#' @inheritParams search_user
+#'
+#' @return list of the URIs and CIDs of the posts (invisible)
+#' @export
+#'
+#' @examples
+#' \dontrun(
+#' # post three messages in a thread
+#' thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
+#'
+#' # delete the thread
+#' delete_post(thread$uri)
+#' )
+post_thread <- function(texts,
+                        images = NULL,
+                        image_alts = NULL,
+                        thread_df = NULL,
+                        .token = NULL) {
+
+  if (is.null(thread_df)) {
+    images <- images  %||% rep("", length(texts))
+    image_alts <- image_alts  %||% rep("", length(texts))
+    if (length(unique(lengths(list(texts, images, image_alts)))) != 1L) {
+      cli::cli_abort("texts, images, image_alts must all have the same length or be NULL.")
+    }
+
+    thread_df <- data.frame(
+      text = texts,
+      image = images,
+      image_alt = image_alts
+    )
+  }
+
+  ref <- NULL
+  refs <- list()
+
+  for (i in seq_along(thread_df$text)) {
+    ref <- do.call(
+      what = post_skeet,
+      args = list(text = thread_df$text[i],
+                  image = thread_df$image[i],
+                  image_alt = thread_df$image_alt[i],
+                  in_reply_to = ref)
+    )
+    refs <- c(refs, list(ref))
+    ref <- ref$uri
+  }
+  return(dplyr::bind_rows(refs))
+}

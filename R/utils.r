@@ -193,11 +193,32 @@ convert_http_to_at <- function(http_url,
 
 
 get_thread_root <- function(thread) {
+  parent <- NULL
   parent_1_up <- purrr::pluck(thread$thread, "parent")
   while (!is.null(parent_1_up)) {
     parent <- parent_1_up
     parent_1_up <- purrr::pluck(parent, "parent")
   }
+  if (is.null(parent)) parent <- thread$thread
   return(parent)
 }
 
+
+#' lexicon seems wrong. translated from https://atproto.com/blog/create-post#images-embeds
+com_atproto_repo_upload_blob2 <- function(image,
+                                          .token = NULL) {
+
+  .token <- .token %||% get_token()
+  img <- magick::image_read(image)
+  image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
+
+  # TODO: not sure how to get the magick image as raw vector
+  img <- readBin(image, "raw", file.info(image)$size)
+
+  httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
+    httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+    httr2::req_headers("Content-Type" = image_mimetype) |>
+    httr2::req_body_raw(img) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json()
+}

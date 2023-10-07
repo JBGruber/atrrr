@@ -3,6 +3,8 @@
 \name{post}
 \alias{post}
 \alias{post_skeet}
+\alias{delete_skeet}
+\alias{delete_post}
 \title{Post a skeet}
 \usage{
 post(
@@ -22,6 +24,10 @@ post_skeet(
   created_at = Sys.time(),
   .token = NULL
 )
+
+delete_skeet(post_url, .token = NULL)
+
+delete_post(post_url, .token = NULL)
 }
 \arguments{
 \item{text}{Text to post}
@@ -35,6 +41,8 @@ post_skeet(
 \item{.token}{If you manage your own tokens, you can supply it here. Usually
 \code{NULL} is OK and will automatically load or guide you to generate a
 token.}
+
+\item{post_url}{URL or URI of post to delete}
 }
 \value{
 list of the URI and CID of the post (invisible)

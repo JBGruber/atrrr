@@ -132,6 +132,38 @@ app_bsky_feed_get_likes(uri = uri)
 
 ```
 
+### Post thread
+
+```{r}
+library(ggplot2)
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+f1 <- ggsave(tempfile(pattern = "1", fileext = ".png"))
+
+lty <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
+linetypes <- data.frame(
+  y = seq_along(lty),
+  lty = lty
+) 
+ggplot(linetypes, aes(0, y)) + 
+  geom_segment(aes(xend = 5, yend = y, linetype = lty)) + 
+  scale_linetype_identity() + 
+  geom_text(aes(label = lty), hjust = 0, nudge_y = 0.2) +
+  scale_x_continuous(NULL, breaks = NULL) + 
+  scale_y_reverse(NULL, breaks = NULL)
+
+f2 <- ggsave(tempfile(pattern = "2", fileext = ".png"))
+post_thread(texts = c("This is the first plot on the ggplot2 website",
+                      "This is the second plot on the ggplot2 website",
+                      "And this is just text sent from the atr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"), 
+            images = c(f1, f2, ""),
+            image_alts = c("first ggplot2 plot",
+                           "second ggplot2 plot",
+                           ""))
+
+thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
+delete_post(thread$uri)
+```
 
 
 
@@ -151,6 +183,34 @@ unfollow_feed	app/bsky/graph/follow.json
 lookup_users	app/bsky/actor/getProfile.json	✅
 feed_following	?	
 
+## Streming content
+
+This does stream content to disk, but the file is written in the binary DAG-CBOR encoding, which I don't know how to decode in R.
+
+```{r}
+library(websocket)
+## Blusky firehose socket
+ws_firehose <- "wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos"
+ws <- WebSocket$new(ws_firehose, autoConnect = FALSE)
+ws$onOpen(function(event) {
+  cat("Connection opened\n")
+})
+ws$onMessage(function(event) {
+  event <<- event
+  con <- file("test.txt", "ab", raw = TRUE)
+  on.exit(close(con))
+  writeBin(event$data, con)
+})
+ws$onClose(function(event) {
+  cat("Client disconnected with code ", event$code,
+    " and reason ", event$reason, "\n", sep = "")
+})
+ws$onError(function(event) {
+  cat("Client failed to connect: ", event$message, "\n")
+})
+ws$connect()
+ws$close()
+```
 
 
 
