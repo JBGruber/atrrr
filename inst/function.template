@@ -1,6 +1,6 @@
 #' {fun_name}
 #' {lexicon_description}
-#' @export
+#' @noRd
 {fun_name} <- function({param_declaration}, .return = c("json", "resp")){{
 
   make_request(

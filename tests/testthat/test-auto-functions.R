@@ -42,7 +42,7 @@ mock_test <- function(req) {
 
   }
 
-  # check body parameters
+  # TODO: check body parameters
   req$body
 
   return(httr2::response(status_code = 200))
@@ -85,6 +85,7 @@ prep_args <- function(fun) {
   return(args)
 }
 
+library(atr) # ls only works for attached packages
 auto_functions <- ls("package:atr", pattern = "^com_|app_") |>
   setdiff("com_atproto_repo_upload_blob2")
 #auto_functions <- ls("package:atr", pattern = "app_bsky_actor_get_prof")
