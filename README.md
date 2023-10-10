@@ -66,23 +66,20 @@ library(atr)
 
 ## Authentication
 
-You will be automatically asked to authenticated once you use your first
-`atr` function!
-
-You can also run `auth()` if you want to initiate hte process manually.
-
-The first time you make a request, you will be prompted to enter your
-user handle and an app password.
+The first time you make a request, you will be prompted automatically to
+enter your user handle and an app password to authenticate `atr` to
+communicate with BlueSky for you.
 
 <figure>
-<img src="password_popup.png" alt="RStudio Popup" />
+<img src="vignettes/figures/password_popup.png" alt="RStudio Popup" />
 <figcaption aria-hidden="true">RStudio Popup</figcaption>
 </figure>
 
 The page to generate app passwords is also automatically opened for you.
 
 <figure>
-<img src="app_password.png" alt="page to create new app passwords" />
+<img src="vignettes/figures/app_password.png"
+alt="page to create new app passwords" />
 <figcaption aria-hidden="true">page to create new app
 passwords</figcaption>
 </figure>
@@ -118,14 +115,14 @@ get_user_info(actor = "atpr.bsky.social")  |>
   dplyr::glimpse()
 #> Rows: 1
 #> Columns: 8
-#> $ did              <chr> "did:plc:j42kj4qc5vfz344weywpkair"
-#> $ handle           <chr> "atpr.bsky.social"
+#> $ did              <chr> "did:plc:j42kj4q…
+#> $ handle           <chr> "atpr.bsky.socia…
 #> $ followsCount     <int> 2
 #> $ followersCount   <int> 4
 #> $ postsCount       <int> 8
 #> $ viewer_muted     <lgl> FALSE
 #> $ viewer_blockedBy <lgl> FALSE
-#> $ viewer_following <chr> "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph.follo…
+#> $ viewer_following <chr> "at://did:plc:nt…
 ```
 
 This function gives us counts of followers, follows, posts for each
@@ -140,20 +137,20 @@ get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
   dplyr::glimpse()
 #> Rows: 2
 #> Columns: 14
-#> $ did               <chr> "did:plc:vuvsifrusnjsys7mhkpk662u", "did:plc:j42kj4qc5vfz3…
-#> $ handle            <chr> "benguinaudeau.bsky.social", "atpr.bsky.social"
-#> $ displayName       <chr> "Benjamin Guinaudeau", NA
-#> $ description       <chr> "Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacki…
-#> $ avatar            <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnj…
-#> $ banner            <chr> "https://cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnj…
+#> $ did               <chr> "did:plc:vuvsif…
+#> $ handle            <chr> "benguinaudeau.…
+#> $ displayName       <chr> "Benjamin Guina…
+#> $ description       <chr> "Postdoc @CSMaP…
+#> $ avatar            <chr> "https://cdn.bs…
+#> $ banner            <chr> "https://cdn.bs…
 #> $ followsCount      <int> 134, 2
 #> $ followersCount    <int> 329, 4
 #> $ postsCount        <int> 18, 8
-#> $ indexedAt         <chr> "2023-09-19T00:08:33.661Z", NA
+#> $ indexedAt         <chr> "2023-09-19T00:…
 #> $ viewer_muted      <lgl> FALSE, FALSE
 #> $ viewer_blockedBy  <lgl> FALSE, FALSE
-#> $ viewer_following  <chr> "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph.foll…
-#> $ viewer_followedBy <chr> "at://did:plc:vuvsifrusnjsys7mhkpk662u/app.bsky.graph.foll…
+#> $ viewer_following  <chr> "at://did:plc:n…
+#> $ viewer_followedBy <chr> "at://did:plc:v…
 ```
 
 ## Retrieve Skeets (`get_skeets_authored_by`)
@@ -169,16 +166,16 @@ option which results in a (more) tidy tibble.
   dplyr::glimpse()
 #> Rows: 24
 #> Columns: 10
-#> $ uri          <chr> "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post/3kazc…
-#> $ cid          <chr> "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebgghor3a", …
-#> $ author       <list> ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.bsky.so…
-#> $ text         <chr> "I am very much looking forward to the CPPE talks put together …
-#> $ record       <list> ["I am very much looking forward to the CPPE talks put togethe…
-#> $ reply_count  <int> 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 3, …
-#> $ repost_count <int> 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 38, 0, …
-#> $ like_count   <int> 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 34, 2, …
-#> $ indexed_at   <dttm> 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:37:07,…
-#> $ reply        <list> <NULL>, <NULL>, [["app.bsky.feed.defs#postView", "at://did:plc…
+#> $ uri          <chr> "at://did:plc:l6z5l7…
+#> $ cid          <chr> "bafyreihfmnxonlhluk…
+#> $ author       <list> ["did:plc:l6z5l7dtm…
+#> $ text         <chr> "I am very much look…
+#> $ record       <list> ["I am very much lo…
+#> $ reply_count  <int> 0, 3, 0, 2, 0, 2, 0,…
+#> $ repost_count <int> 2, 45, 0, 12, 0, 0, …
+#> $ like_count   <int> 8, 38, 2, 36, 1, 5, …
+#> $ indexed_at   <dttm> 2023-10-05 15:53:49…
+#> $ reply        <list> <NULL>, <NULL>, [["…
 ```
 
 Feeling adventurous? Increase the `limit` and explore more of their
@@ -189,16 +186,16 @@ get_skeets_authored_by(actor = "favstats.bsky.social", limit = 30) |>
   dplyr::glimpse()
 #> Rows: 30
 #> Columns: 10
-#> $ uri          <chr> "at://did:plc:7ao77wemnhl63qnpuy7psebr/app.bsky.feed.post/3kb32…
-#> $ cid          <chr> "bafyreih2ave4w472kho4wzhdfe66pvfg7gaecg4s2onelgltii3gp4upwu", …
-#> $ author       <list> ["did:plc:7ao77wemnhl63qnpuy7psebr", "whotargetsme.bsky.social…
-#> $ text         <chr> "Hallo to all our new followers from Germany!\n\nWie geht's dir…
-#> $ record       <list> ["Hallo to all our new followers from Germany!\n\nWie geht's d…
-#> $ reply_count  <int> 0, 0, 6, 0, 1, 1, 1, 3, 0, 1, 1, 0, 3, 0, 1, 2, 1, 1, 0, 1, 1, …
-#> $ repost_count <int> 1, 3, 25, 0, 0, 0, 28, 10, 0, 0, 3, 0, 0, 1, 18, 12, 10, 7, 0, …
-#> $ like_count   <int> 3, 7, 50, 3, 2, 0, 62, 32, 1, 1, 12, 1, 4, 3, 18, 36, 11, 8, 0,…
-#> $ indexed_at   <dttm> 2023-10-06 08:28:06, 2023-10-05 14:41:15, 2023-10-05 10:30:21,…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, [["app.bsky.feed.defs#postView", "at:/…
+#> $ uri          <chr> "at://did:plc:7ao77w…
+#> $ cid          <chr> "bafyreih2ave4w472kh…
+#> $ author       <list> ["did:plc:7ao77wemn…
+#> $ text         <chr> "Hallo to all our ne…
+#> $ record       <list> ["Hallo to all our …
+#> $ reply_count  <int> 0, 0, 6, 0, 1, 1, 1,…
+#> $ repost_count <int> 1, 3, 25, 0, 0, 0, 2…
+#> $ like_count   <int> 3, 7, 50, 3, 2, 0, 6…
+#> $ indexed_at   <dttm> 2023-10-06 08:28:06…
+#> $ reply        <list> <NULL>, <NULL>, <NU…
 ```
 
 # Exploring Connections: Get Followers and Follows
@@ -214,17 +211,17 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 204
 #> Columns: 11
-#> $ did                <chr> "did:plc:g6qynlb7jv5pd6uageiddvmj", "did:plc:j42kj4qc5vfz…
-#> $ handle             <chr> "mgmacdonald.bsky.social", "atpr.bsky.social", "ivasrbino…
-#> $ display_name       <chr> "Maggie Macdonald, PhD", NA, "Iva Srbinovska", "Frederik …
-#> $ description        <chr> "Asst Prof UKY Poli Sci | Previous: CSMaP, Emory Poli Sci…
-#> $ avatar             <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:g6qynlb7jv…
-#> $ indexed_at         <chr> "2023-09-26T15:43:14.051Z", NA, "2023-10-10T12:56:06.515Z…
-#> $ viewer_muted       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
-#> $ viewer_blocked_by  <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
-#> $ viewer_following   <chr> NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph…
-#> $ viewer_followed_by <chr> NA, NA, NA, NA, "at://did:plc:infik3u33zvx65g4czref7vr/ap…
-#> $ labels             <named list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <N…
+#> $ did                <chr> "did:plc:g6qyn…
+#> $ handle             <chr> "mgmacdonald.b…
+#> $ display_name       <chr> "Maggie Macdon…
+#> $ description        <chr> "Asst Prof UKY…
+#> $ avatar             <chr> "https://cdn.b…
+#> $ indexed_at         <chr> "2023-09-26T15…
+#> $ viewer_muted       <lgl> FALSE, FALSE, …
+#> $ viewer_blocked_by  <lgl> FALSE, FALSE, …
+#> $ viewer_following   <chr> NA, "at://did:…
+#> $ viewer_followed_by <chr> NA, NA, NA, NA…
+#> $ labels             <named list> <NULL>,…
 ```
 
 ## `get_follows`
@@ -234,17 +231,17 @@ atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 152
 #> Columns: 11
-#> $ did                  <chr> "did:plc:zxuic5k6po2kaxrkzb3c5uoc", "did:plc:ymuuiceuqh…
-#> $ handle               <chr> "marcdebus.bsky.social", "chrisbail.bsky.social", "atpr…
-#> $ display_name         <chr> "Marc Debus", "Chris Bail", NA, "Jan Schwalbach", "Auré…
-#> $ description          <chr> "Professor of Political Science at the University of Ma…
-#> $ avatar               <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:zxuic5k6…
-#> $ indexed_at           <chr> "2023-10-04T08:18:44.258Z", "2023-10-06T13:31:13.061Z",…
-#> $ viewer_muted         <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_blocked_by    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_following     <chr> NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky…
-#> $ viewer_followed_by   <chr> NA, NA, NA, "at://did:plc:5ax6yywsizse3cfjq22x5yqu/app.…
-#> $ viewer_muted_by_list <named list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, …
+#> $ did                  <chr> "did:plc:zxu…
+#> $ handle               <chr> "marcdebus.b…
+#> $ display_name         <chr> "Marc Debus"…
+#> $ description          <chr> "Professor o…
+#> $ avatar               <chr> "https://cdn…
+#> $ indexed_at           <chr> "2023-10-04T…
+#> $ viewer_muted         <lgl> FALSE, FALSE…
+#> $ viewer_blocked_by    <lgl> FALSE, FALSE…
+#> $ viewer_following     <chr> NA, NA, "at:…
+#> $ viewer_followed_by   <chr> NA, NA, NA, …
+#> $ viewer_muted_by_list <named list> <NULL…
 ```
 
 You’ll notice each follower/following has a description (i.e. their
@@ -272,14 +269,14 @@ library(tidygraph)
 # Retrieve the followers for the main user
 some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
 
-# For each follower, retrieve their own set of followers. 
-# This provides a nested view of relationships. 
+# For each follower, retrieve their own set of followers.
+# This provides a nested view of relationships.
 followers_of_followers <- some_followers |>
   purrr::map_dfr(~{
-    get_followers(actor = .x, limit = 200) |> 
+    get_followers(actor = .x, limit = 200) |>
     mutate(from = .x)
-  }) %>% 
-  dplyr::rename(to = handle) %>% 
+  }) %>%
+  dplyr::rename(to = handle) %>%
   dplyr::select(from, to)
 ```
 
@@ -290,22 +287,18 @@ followers_of_followers <- some_followers |>
 # Construct the network graph and plot
 graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
 
-# Use ggraph to visualize the network. 
+# Use ggraph to visualize the network.
 ggraph::ggraph(graph,  layout = 'kk') +
-  ggraph::geom_edge_link(width = 0.2) + 
+  ggraph::geom_edge_link(width = 0.2) +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank())) +
   ggplot2::theme_void()
-#> Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 <figure>
-<img src="figure/unnamed-chunk-19-1.png"
-alt="plot of chunk unnamed-chunk-19" />
+<img src="vignettes/figures/unnamed-chunk-10-1.png"
+alt="plot of chunk unnamed-chunk-10" />
 <figcaption aria-hidden="true">plot of chunk
-unnamed-chunk-19</figcaption>
+unnamed-chunk-10</figcaption>
 </figure>
 
 # Interacting with Blue Sky: Posts, Replies, and Deletions
@@ -429,24 +422,24 @@ feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
 #> Rows: 4
 #> Columns: 18
-#> $ uri                      <chr> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.fee…
-#> $ cid                      <chr> "bafyreicvjczzxxhrkrl4c2xvfu7yhnm2ad7efzom6bohzy777…
-#> $ did                      <chr> "did:web:skyfeed.me", "did:web:skyfeed.me", "did:we…
-#> $ creator_did              <chr> "did:plc:2zcfjzyocp6kapg6jc4eacok", "did:plc:2zcfjz…
-#> $ creator_handle           <chr> "andrew.heiss.phd", "andrew.heiss.phd", "andrew.hei…
-#> $ creator_displayName      <chr> "Andrew Heiss, but ~🎃spoOOoky👻~", "Andrew Heiss, …
-#> $ creator_description      <chr> "Assistant professor at Georgia State University. 6…
-#> $ creator_avatar           <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcf…
-#> $ creator_indexedAt        <chr> "2023-10-01T13:25:49.025Z", "2023-10-01T13:25:49.02…
-#> $ creator_viewer_muted     <lgl> FALSE, FALSE, FALSE, FALSE
-#> $ creator_viewer_blockedBy <lgl> FALSE, FALSE, FALSE, FALSE
-#> $ displayName              <chr> "Public Admin/Policy", "Nonprofit Studies", "Andrew…
-#> $ description              <chr> "A feed for public administration and public policy…
-#> $ avatar                   <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcf…
-#> $ likeCount                <int> 72, 15, 0, 73
-#> $ indexedAt                <chr> "2023-09-21T01:37:55.774Z", "2023-09-21T01:11:24.07…
-#> $ created_at               <dttm> 2023-09-21 01:37:55, 2023-09-21 01:11:24, 2023-09-2…
-#> $ viewer_like              <chr> NA, NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/…
+#> $ uri                      <chr> "at://di…
+#> $ cid                      <chr> "bafyrei…
+#> $ did                      <chr> "did:web…
+#> $ creator_did              <chr> "did:plc…
+#> $ creator_handle           <chr> "andrew.…
+#> $ creator_displayName      <chr> "Andrew …
+#> $ creator_description      <chr> "Assista…
+#> $ creator_avatar           <chr> "https:/…
+#> $ creator_indexedAt        <chr> "2023-10…
+#> $ creator_viewer_muted     <lgl> FALSE, F…
+#> $ creator_viewer_blockedBy <lgl> FALSE, F…
+#> $ displayName              <chr> "Public …
+#> $ description              <chr> "A feed …
+#> $ avatar                   <chr> "https:/…
+#> $ likeCount                <int> 72, 15, …
+#> $ indexedAt                <chr> "2023-09…
+#> $ created_at               <dttm> 2023-09…
+#> $ viewer_like              <chr> NA, NA, …
 
 # Filtering for a specific keyword, for example "#rstats"
 rstat_feed <- feeds |>
@@ -456,20 +449,20 @@ rstat_feed <- feeds |>
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   # Extracting user handle from the author
   mutate(handle = author |> map_chr(~{.x$handle}))  |>
-  dplyr::glimpse() 
-#> Rows: 92
+  dplyr::glimpse()
+#> Rows: 91
 #> Columns: 11
-#> $ uri          <chr> "at://did:plc:esmiuxk53vmsllayghrq676w/app.bsky.feed.post/3kbgb…
-#> $ cid          <chr> "bafyreihm5rx4f2sz4ag7uh2d4zkvgwu2gm3l5yzvtwcbxgjo545a5fdjcy", …
-#> $ author       <list> ["did:plc:esmiuxk53vmsllayghrq676w", "osc.ac", "Olivier Simard…
-#> $ text         <chr> "The tutorial should be up tomorrow!\n\nDo not miss up by subsc…
-#> $ record       <list> ["The tutorial should be up tomorrow!\n\nDo not miss up by sub…
-#> $ reply_count  <int> 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 4, 0, 1, 0, 1, 0, 1, …
-#> $ repost_count <int> 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 0, 0, 4, 0, 0, 0, 0, …
-#> $ like_count   <int> 3, 0, 1, 2, 0, 5, 0, 1, 2, 5, 3, 1, 3, 10, 5, 1, 8, 0, 3, 6, 0,…
-#> $ indexed_at   <dttm> 2023-10-10 19:35:03, 2023-10-10 18:36:27, 2023-10-10 17:10:51,…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, [["app…
-#> $ handle       <chr> "osc.ac", "jeffclement.bsky.social", "opisthokonta.bsky.social"…
+#> $ uri          <chr> "at://did:plc:esmiux…
+#> $ cid          <chr> "bafyreihm5rx4f2sz4a…
+#> $ author       <list> ["did:plc:esmiuxk53…
+#> $ text         <chr> "The tutorial should…
+#> $ record       <list> ["The tutorial shou…
+#> $ reply_count  <int> 0, 0, 1, 0, 0, 2, 0,…
+#> $ repost_count <int> 1, 0, 0, 0, 0, 0, 1,…
+#> $ like_count   <int> 3, 0, 1, 2, 0, 5, 0,…
+#> $ indexed_at   <dttm> 2023-10-10 19:35:03…
+#> $ reply        <list> <NULL>, <NULL>, <NU…
+#> $ handle       <chr> "osc.ac", "jeffcleme…
 ```
 
 ## Identifying Top Contributors
@@ -482,19 +475,19 @@ library(ggplot2)
 
 # Identifying the top 10 contributors
 rstat_posts |>
-  count(handle, sort = T) %>% 
-  slice(1:10) %>% 
-  mutate(handle = forcats::fct_reorder(handle, n)) %>% 
+  count(handle, sort = T) %>%
+  slice(1:10) %>%
+  mutate(handle = forcats::fct_reorder(handle, n)) %>%
   ggplot(aes(handle, n)) +
   geom_col() +
   coord_flip()
 ```
 
 <figure>
-<img src="figure/unnamed-chunk-27-1.png"
-alt="plot of chunk unnamed-chunk-27" />
+<img src="vignettes/figures/unnamed-chunk-18-1.png"
+alt="plot of chunk unnamed-chunk-18" />
 <figcaption aria-hidden="true">plot of chunk
-unnamed-chunk-27</figcaption>
+unnamed-chunk-18</figcaption>
 </figure>
 
 ### Recognizing Influential Voices
@@ -517,10 +510,10 @@ rstat_posts |>
 ```
 
 <figure>
-<img src="figure/unnamed-chunk-28-1.png"
-alt="plot of chunk unnamed-chunk-28" />
+<img src="vignettes/figures/unnamed-chunk-19-1.png"
+alt="plot of chunk unnamed-chunk-19" />
 <figcaption aria-hidden="true">plot of chunk
-unnamed-chunk-28</figcaption>
+unnamed-chunk-19</figcaption>
 </figure>
 
 ### Most Famous \#rstats skeet
@@ -537,9 +530,9 @@ rstat_posts |>
   pull(text)
 #> Rows: 1
 #> Columns: 3
-#> $ handle             <chr> "andrew.heiss.phd"
+#> $ handle             <chr> "andrew.heiss.…
 #> $ total_interactions <int> 234
-#> $ text               <chr> "New #rstats color palette package just dropped: {MoMACol…
+#> $ text               <chr> "New #rstats c…
 #> [1] "New #rstats color palette package just dropped: {MoMAColors}! It has gorgeous colors from art at the Museum of Modern Art in NYC"
 ```
 

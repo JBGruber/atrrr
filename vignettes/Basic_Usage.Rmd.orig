@@ -12,6 +12,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  fig.path = "vignettes/figures/",
   message = FALSE
 )
 ```
@@ -45,17 +46,13 @@ library(atr)
 
 ## Authentication
 
-You will be automatically asked to authenticated once you use your first `atr` function!
+The first time you make a request, you will be prompted automatically to enter your user handle and an app password to authenticate `atr` to communicate with BlueSky for you.
 
-You can also run `auth()` if you want to initiate hte process manually.
-
-The first time you make a request, you will be prompted to enter your user handle and an app password.
-
-![RStudio Popup](password_popup.png)
+![RStudio Popup](vignettes/figures/password_popup.png)
 
 The page to generate app passwords is also automatically opened for you.
 
-![page to create new app passwords](app_password.png)
+![page to create new app passwords](vignettes/figures/app_password.png)
 
 However, you can also trigger this process manually:
 
@@ -136,7 +133,7 @@ atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
 You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
 
 
-## Follower Network Visualization 
+## Follower Network Visualization
 
 This section guides you through the process of visualizing a follower network for a given user on Blue Sky. The primary focus is on the "skeets" (posts) and the interconnected relationships among followers.
 
@@ -155,14 +152,14 @@ library(tidygraph)
 # Retrieve the followers for the main user
 some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
 
-# For each follower, retrieve their own set of followers. 
-# This provides a nested view of relationships. 
+# For each follower, retrieve their own set of followers.
+# This provides a nested view of relationships.
 followers_of_followers <- some_followers |>
   purrr::map_dfr(~{
-    get_followers(actor = .x, limit = 200) |> 
+    get_followers(actor = .x, limit = 200) |>
     mutate(from = .x)
-  }) %>% 
-  dplyr::rename(to = handle) %>% 
+  }) %>%
+  dplyr::rename(to = handle) %>%
   dplyr::select(from, to)
 
 ```
@@ -175,9 +172,9 @@ followers_of_followers <- some_followers |>
 # Construct the network graph and plot
 graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
 
-# Use ggraph to visualize the network. 
+# Use ggraph to visualize the network.
 ggraph::ggraph(graph,  layout = 'kk') +
-  ggraph::geom_edge_link(width = 0.2) + 
+  ggraph::geom_edge_link(width = 0.2) +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank())) +
   ggplot2::theme_void()
 ```
@@ -186,7 +183,7 @@ ggraph::ggraph(graph,  layout = 'kk') +
 
 In this section, we will cover how to interact with the Blue Sky platform by creating posts (skeets), replying to them, and eventually, if necessary, deleting them.
 
-## Posting a Skeet 
+## Posting a Skeet
 
 Here's how you can easily post a skeet to your account:
 
@@ -241,7 +238,7 @@ post_thread(texts = c("This is the first amazing skeet.",
 ## Following and Unfollowing Users in Blue Sky
 
 
-One of the fundamental ways to connect with other users is by following them, allowing you to see their posts in your feed. Conversely, if you decide that you no longer want to see updates from a particular user, you can unfollow them. 
+One of the fundamental ways to connect with other users is by following them, allowing you to see their posts in your feed. Conversely, if you decide that you no longer want to see updates from a particular user, you can unfollow them.
 
 ```{r, eval=F}
 # Follow a user by their handle
@@ -317,7 +314,7 @@ rstat_feed <- feeds |>
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   # Extracting user handle from the author
   mutate(handle = author |> map_chr(~{.x$handle}))  |>
-  dplyr::glimpse() 
+  dplyr::glimpse()
 
 ```
 
@@ -332,9 +329,9 @@ library(ggplot2)
 
 # Identifying the top 10 contributors
 rstat_posts |>
-  count(handle, sort = T) %>% 
-  slice(1:10) %>% 
-  mutate(handle = forcats::fct_reorder(handle, n)) %>% 
+  count(handle, sort = T) %>%
+  slice(1:10) %>%
+  mutate(handle = forcats::fct_reorder(handle, n)) %>%
   ggplot(aes(handle, n)) +
   geom_col() +
   coord_flip()
