@@ -137,7 +137,7 @@ follow <- function(actor,
   )
   actor_did <- resolve_handle(actor, .token = .token)
 
-  repo <- "atpr.bsky.social"
+  repo <- get_token()[["handle"]]
   collection <- "app.bsky.graph.follow"
   record <- list(
     "subject" = actor_did,
@@ -163,7 +163,7 @@ unfollow <- function(actor,
     msg_failed = "Something went wrong"
   )
 
-  repo <- "atpr.bsky.social"
+  repo <- get_token()[["handle"]]
   collection <- "app.bsky.graph.follow"
 
   # list follow records

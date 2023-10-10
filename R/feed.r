@@ -477,7 +477,7 @@ post <- function(text,
     msg_failed = "Something went wrong"
   )
 
-  repo <- "atpr.bsky.social"
+  repo <- get_token()[["handle"]]
   collection <- "app.bsky.feed.post"
 
   record <- list(
