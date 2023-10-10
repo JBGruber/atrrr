@@ -37,7 +37,7 @@ You can install the development version of atr like so (`pak` works similar to `
 pak::pak("JBGruber/atr")
 ```
 
-# Basic Usage(#basic-usage)
+# Basic Usage
 
 ```{r, child="vignettes/Basic_Usage.Rmd"}
 ```

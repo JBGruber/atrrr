@@ -8,7 +8,13 @@ vignette: >
 ---
 
 
-
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE
+)
+```
 
 # Introduction
 
@@ -33,8 +39,7 @@ pak::pak("JBGruber/atr")
 
 ## Load the package
 
-
-```r
+```{r setup}
 library(atr)
 ```
 
@@ -54,8 +59,7 @@ The page to generate app passwords is also automatically opened for you.
 
 However, you can also trigger this process manually:
 
-
-```r
+```{r eval=FALSE}
 auth("jbgruber.bsky.social")
 ```
 
@@ -76,20 +80,9 @@ As soon as the functionality is added by BlueSky, we will implement it here.
 A good starting point is understanding a user's digital footprint on the platform. The get_user_info function becomes our handy tool, fetching an array of information about a user. All you need? Their handle!
 
 
-
-```r
+```{r}
 get_user_info(actor = "atpr.bsky.social")  |>
   dplyr::glimpse()
-#> Rows: 1
-#> Columns: 8
-#> $ did              <chr> "did:plc:j42kj4qc5vfz344weywpkair"
-#> $ handle           <chr> "atpr.bsky.social"
-#> $ followsCount     <int> 2
-#> $ followersCount   <int> 4
-#> $ postsCount       <int> 8
-#> $ viewer_muted     <lgl> FALSE
-#> $ viewer_blockedBy <lgl> FALSE
-#> $ viewer_following <chr> "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph.follo…
 ```
 
 This function gives us counts of followers, follows, posts for each user.
@@ -98,27 +91,10 @@ This function gives us counts of followers, follows, posts for each user.
 You can also retrieve information for multiple users by providing a vector of user handles:
 
 
-
-```r
+```{r}
 
 get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
   dplyr::glimpse()
-#> Rows: 2
-#> Columns: 14
-#> $ did               <chr> "did:plc:vuvsifrusnjsys7mhkpk662u", "did:plc:j42kj4qc5vfz3…
-#> $ handle            <chr> "benguinaudeau.bsky.social", "atpr.bsky.social"
-#> $ displayName       <chr> "Benjamin Guinaudeau", NA
-#> $ description       <chr> "Postdoc @CSMaP_NYU. \n\nPolitics, data science, and hacki…
-#> $ avatar            <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:vuvsifrusnj…
-#> $ banner            <chr> "https://cdn.bsky.app/img/banner/plain/did:plc:vuvsifrusnj…
-#> $ followsCount      <int> 134, 2
-#> $ followersCount    <int> 329, 4
-#> $ postsCount        <int> 18, 8
-#> $ indexedAt         <chr> "2023-09-19T00:08:33.661Z", NA
-#> $ viewer_muted      <lgl> FALSE, FALSE
-#> $ viewer_blockedBy  <lgl> FALSE, FALSE
-#> $ viewer_following  <chr> "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph.foll…
-#> $ viewer_followedBy <chr> "at://did:plc:vuvsifrusnjsys7mhkpk662u/app.bsky.graph.foll…
 ```
 
 
@@ -127,43 +103,18 @@ get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
 To fetch all the skeets by a specific user, use the `get_skeets_authored_by` function. *Note this also includes quote skeets and reskeets.* You can also opt not to parse the result by setting `parse = FALSE`, however it is recommended to use the default parse option which results in a (more) tidy tibble.
 
 
-
-```r
+```{r}
  get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
-#> Rows: 24
-#> Columns: 10
-#> $ uri          <chr> "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post/3kazc…
-#> $ cid          <chr> "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebgghor3a", …
-#> $ author       <list> ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.bsky.so…
-#> $ text         <chr> "I am very much looking forward to the CPPE talks put together …
-#> $ record       <list> ["I am very much looking forward to the CPPE talks put togethe…
-#> $ reply_count  <int> 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 3, …
-#> $ repost_count <int> 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 38, 0, …
-#> $ like_count   <int> 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 34, 2, …
-#> $ indexed_at   <dttm> 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:37:07,…
-#> $ reply        <list> <NULL>, <NULL>, [["app.bsky.feed.defs#postView", "at://did:plc…
+
 ```
 
 Feeling adventurous? Increase the `limit` and explore more of their content.
 
 
-
-```r
+```{r}
 get_skeets_authored_by(actor = "favstats.bsky.social", limit = 30) |>
   dplyr::glimpse()
-#> Rows: 30
-#> Columns: 10
-#> $ uri          <chr> "at://did:plc:7ao77wemnhl63qnpuy7psebr/app.bsky.feed.post/3kb32…
-#> $ cid          <chr> "bafyreih2ave4w472kho4wzhdfe66pvfg7gaecg4s2onelgltii3gp4upwu", …
-#> $ author       <list> ["did:plc:7ao77wemnhl63qnpuy7psebr", "whotargetsme.bsky.social…
-#> $ text         <chr> "Hallo to all our new followers from Germany!\n\nWie geht's dir…
-#> $ record       <list> ["Hallo to all our new followers from Germany!\n\nWie geht's d…
-#> $ reply_count  <int> 0, 0, 6, 0, 1, 1, 1, 3, 0, 1, 1, 0, 3, 0, 1, 2, 1, 1, 0, 1, 1, …
-#> $ repost_count <int> 1, 3, 25, 0, 0, 0, 28, 10, 0, 0, 3, 0, 0, 1, 18, 12, 10, 7, 0, …
-#> $ like_count   <int> 3, 7, 50, 3, 2, 0, 62, 32, 1, 1, 12, 1, 4, 3, 18, 36, 11, 8, 0,…
-#> $ indexed_at   <dttm> 2023-10-06 08:28:06, 2023-10-05 14:41:15, 2023-10-05 10:30:21,…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, [["app.bsky.feed.defs#postView", "at:/…
 ```
 # Exploring Connections: Get Followers and Follows
 
@@ -171,43 +122,15 @@ You can retrieve a list of followers and those followed by a user through the `g
 
 ## `get_followers`
 
-
-```r
+```{r}
 get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
-#> Rows: 204
-#> Columns: 11
-#> $ did                <chr> "did:plc:g6qynlb7jv5pd6uageiddvmj", "did:plc:j42kj4qc5vfz…
-#> $ handle             <chr> "mgmacdonald.bsky.social", "atpr.bsky.social", "ivasrbino…
-#> $ display_name       <chr> "Maggie Macdonald, PhD", NA, "Iva Srbinovska", "Frederik …
-#> $ description        <chr> "Asst Prof UKY Poli Sci | Previous: CSMaP, Emory Poli Sci…
-#> $ avatar             <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:g6qynlb7jv…
-#> $ indexed_at         <chr> "2023-09-26T15:43:14.051Z", NA, "2023-10-10T12:56:06.515Z…
-#> $ viewer_muted       <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
-#> $ viewer_blocked_by  <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…
-#> $ viewer_following   <chr> NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph…
-#> $ viewer_followed_by <chr> NA, NA, NA, NA, "at://did:plc:infik3u33zvx65g4czref7vr/ap…
-#> $ labels             <named list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <N…
 ```
 ## `get_follows`
 
-
-```r
+```{r}
 atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
-#> Rows: 152
-#> Columns: 11
-#> $ did                  <chr> "did:plc:zxuic5k6po2kaxrkzb3c5uoc", "did:plc:ymuuiceuqh…
-#> $ handle               <chr> "marcdebus.bsky.social", "chrisbail.bsky.social", "atpr…
-#> $ display_name         <chr> "Marc Debus", "Chris Bail", NA, "Jan Schwalbach", "Auré…
-#> $ description          <chr> "Professor of Political Science at the University of Ma…
-#> $ avatar               <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:zxuic5k6…
-#> $ indexed_at           <chr> "2023-10-04T08:18:44.258Z", "2023-10-06T13:31:13.061Z",…
-#> $ viewer_muted         <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_blocked_by    <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_following     <chr> NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky…
-#> $ viewer_followed_by   <chr> NA, NA, NA, "at://did:plc:5ax6yywsizse3cfjq22x5yqu/app.…
-#> $ viewer_muted_by_list <named list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, …
 ```
 
 You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
@@ -220,8 +143,7 @@ This section guides you through the process of visualizing a follower network fo
 The first step is to load some additional packages. Then we get the followers for the main user we are interested in. We will then delve deeper and fetch the followers for each of these followers.
 
 
-
-```r
+```{r}
 library(ggplot2)
 library(dplyr)
 library(purrr)
@@ -242,13 +164,13 @@ followers_of_followers <- some_followers |>
   }) %>% 
   dplyr::rename(to = handle) %>% 
   dplyr::select(from, to)
+
 ```
 
 ## Building and Visualizing the Follower Network
 
 
-
-```r
+```{r}
 
 # Construct the network graph and plot
 graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
@@ -258,13 +180,7 @@ ggraph::ggraph(graph,  layout = 'kk') +
   ggraph::geom_edge_link(width = 0.2) + 
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank())) +
   ggplot2::theme_void()
-#> Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
-
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png)
 
 # Interacting with Blue Sky: Posts, Replies, and Deletions
 
@@ -274,8 +190,7 @@ In this section, we will cover how to interact with the Blue Sky platform by cre
 
 Here's how you can easily post a skeet to your account:
 
-
-```r
+```{r, eval=F}
 
 post <- post_skeet(text = "Posting around")
 
@@ -292,8 +207,7 @@ Engaging with the Blue Sky community often means replying to existing skeets. He
 
 
 
-
-```r
+```{r, eval=F}
 
 reply <- post_skeet(text = "Replying around", in_reply_to = post$uri)
 
@@ -307,8 +221,7 @@ Notice the in_reply_to parameter? This ensures that our reply is linked to the o
 Whether it's to correct an error, remove outdated information, or any other reason, sometimes you might want to delete a skeet. Here's how:
 
 
-
-```r
+```{r, eval=F}
 delete_skeet(post_url = reply$uri)
 ```
 
@@ -318,8 +231,7 @@ Threads are a series of connected posts or "skeets" on Blue Sky. They're a great
 
 A thread is essentially a series of individual skeets. Here's how you can do it programmatically using `post_thread`:
 
-
-```r
+```{r, eval=F}
 post_thread(texts = c("This is the first amazing skeet.",
                       "Now I am expanding upon my skeet!",
                       "Conclusion: I skeet therefore I am."))
@@ -331,15 +243,13 @@ post_thread(texts = c("This is the first amazing skeet.",
 
 One of the fundamental ways to connect with other users is by following them, allowing you to see their posts in your feed. Conversely, if you decide that you no longer want to see updates from a particular user, you can unfollow them. 
 
-
-```r
+```{r, eval=F}
 # Follow a user by their handle
 follow(actor = "benguinaudeau.bsky.social")
 
 ```
 
-
-```r
+```{r, eval=F}
 # Follow a user by their handle
 follow(actor = "benguinaudeau.bsky.social")
 
@@ -394,31 +304,10 @@ On Blue Sky users have the ability to create custom feeds based on specific keyw
 Our starting point is to extract the posts from a user-curated feed. We're focusing on a feed curated by "andrew.heiss.phd".
 
 
-
-```r
+```{r}
 # Fetching the feed posts
 feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
-#> Rows: 4
-#> Columns: 18
-#> $ uri                      <chr> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.fee…
-#> $ cid                      <chr> "bafyreicvjczzxxhrkrl4c2xvfu7yhnm2ad7efzom6bohzy777…
-#> $ did                      <chr> "did:web:skyfeed.me", "did:web:skyfeed.me", "did:we…
-#> $ creator_did              <chr> "did:plc:2zcfjzyocp6kapg6jc4eacok", "did:plc:2zcfjz…
-#> $ creator_handle           <chr> "andrew.heiss.phd", "andrew.heiss.phd", "andrew.hei…
-#> $ creator_displayName      <chr> "Andrew Heiss, but ~🎃spoOOoky👻~", "Andrew Heiss, …
-#> $ creator_description      <chr> "Assistant professor at Georgia State University. 6…
-#> $ creator_avatar           <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcf…
-#> $ creator_indexedAt        <chr> "2023-10-01T13:25:49.025Z", "2023-10-01T13:25:49.02…
-#> $ creator_viewer_muted     <lgl> FALSE, FALSE, FALSE, FALSE
-#> $ creator_viewer_blockedBy <lgl> FALSE, FALSE, FALSE, FALSE
-#> $ displayName              <chr> "Public Admin/Policy", "Nonprofit Studies", "Andrew…
-#> $ description              <chr> "A feed for public administration and public policy…
-#> $ avatar                   <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcf…
-#> $ likeCount                <int> 72, 15, 0, 73
-#> $ indexedAt                <chr> "2023-09-21T01:37:55.774Z", "2023-09-21T01:11:24.07…
-#> $ created_at               <dttm> 2023-09-21 01:37:55, 2023-09-21 01:11:24, 2023-09-2…
-#> $ viewer_like              <chr> NA, NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/…
 
 # Filtering for a specific keyword, for example "#rstats"
 rstat_feed <- feeds |>
@@ -429,19 +318,7 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   # Extracting user handle from the author
   mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse() 
-#> Rows: 92
-#> Columns: 11
-#> $ uri          <chr> "at://did:plc:esmiuxk53vmsllayghrq676w/app.bsky.feed.post/3kbgb…
-#> $ cid          <chr> "bafyreihm5rx4f2sz4ag7uh2d4zkvgwu2gm3l5yzvtwcbxgjo545a5fdjcy", …
-#> $ author       <list> ["did:plc:esmiuxk53vmsllayghrq676w", "osc.ac", "Olivier Simard…
-#> $ text         <chr> "The tutorial should be up tomorrow!\n\nDo not miss up by subsc…
-#> $ record       <list> ["The tutorial should be up tomorrow!\n\nDo not miss up by sub…
-#> $ reply_count  <int> 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 4, 0, 1, 0, 1, 0, 1, …
-#> $ repost_count <int> 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 0, 0, 4, 0, 0, 0, 0, …
-#> $ like_count   <int> 3, 0, 1, 2, 0, 5, 0, 1, 2, 5, 3, 1, 3, 10, 5, 1, 8, 0, 3, 6, 0,…
-#> $ indexed_at   <dttm> 2023-10-10 19:35:03, 2023-10-10 18:36:27, 2023-10-10 17:10:51,…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, [["app…
-#> $ handle       <chr> "osc.ac", "jeffclement.bsky.social", "opisthokonta.bsky.social"…
+
 ```
 
 
@@ -450,8 +327,7 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
 Who are the leading voices within a particular topic? This analysis highlights users who are frequently contributing to the `#rstats` feed.
 
 
-
-```r
+```{r}
 library(ggplot2)
 
 # Identifying the top 10 contributors
@@ -462,9 +338,10 @@ rstat_posts |>
   ggplot(aes(handle, n)) +
   geom_col() +
   coord_flip()
-```
 
-![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27-1.png)
+
+
+```
 
 
 ### Recognizing Influential Voices
@@ -473,8 +350,7 @@ Volume doesn't always translate to influence. Some users may post less frequentl
 
 
 
-
-```r
+```{r}
 # Identifying top 10 influential voices based on likes
 rstat_posts |>
   group_by(handle) |>
@@ -486,9 +362,8 @@ rstat_posts |>
   ggplot(aes(handle, like_count)) +
   geom_col() +
   coord_flip()
-```
 
-![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28-1.png)
+```
 
 
 
@@ -496,8 +371,7 @@ rstat_posts |>
 
 ### Most Famous #rstats skeet
 
-
-```r
+```{r}
 
 # Finding the standout post in the rstats feed
 rstat_posts |>
@@ -507,12 +381,7 @@ rstat_posts |>
   select(handle, total_interactions, text) |>
   dplyr::glimpse() |>
   pull(text)
-#> Rows: 1
-#> Columns: 3
-#> $ handle             <chr> "andrew.heiss.phd"
-#> $ total_interactions <int> 234
-#> $ text               <chr> "New #rstats color palette package just dropped: {MoMACol…
-#> [1] "New #rstats color palette package just dropped: {MoMAColors}! It has gorgeous colors from art at the Museum of Modern Art in NYC"
+
 ```
 
 
