@@ -11,11 +11,15 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  message = FALSE
 )
+
+
+
 ```
 
-## Introduction
+# Introduction
 
 
 Welcome to the `atr` vignette! This guide will delve deeper into the functionalities offered by the package-
@@ -24,11 +28,30 @@ Before diving in, let's clarify some terminology. In the context of Blue Sky, a 
 
 Now, let's delve deeper into the functionalities that allow users to interact with skeets, followers, and their descriptions.
 
-Let's load the package first:
+## Installation
+
+
+Let's install the package first:
+
+You can install the development version of atr like so (`pak` works similar to `remotes` here, but it's what the cool kids use now):
+
+``` r
+# install.packages("pak")
+pak::pak("JBGruber/atr")
+```
+
+## Load the package
 
 ```{r setup}
 library(atr)
 ```
+
+## Authentication
+
+You will be automatically asked to authenticated once you use your first `atr` function!
+
+You can also run `auth()` if you want to initiate hte process manually.
+
 
 # Searching Posts
 

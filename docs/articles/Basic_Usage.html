@@ -76,9 +76,9 @@
 
     
     
-<div class="section level3">
-<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h3>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Welcome to the <code>atr</code> vignette! This guide will delve
 deeper into the functionalities offered by the package-</p>
 <p>Before diving in, let’s clarify some terminology. In the context of
@@ -87,9 +87,31 @@ retrieving or working with “skeets,” we are talking about individual
 posts made on Blue Sky.</p>
 <p>Now, let’s delve deeper into the functionalities that allow users to
 interact with skeets, followers, and their descriptions.</p>
-<p>Let’s load the package first:</p>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>Let’s install the package first:</p>
+<p>You can install the development version of atr like so
+(<code>pak</code> works similar to <code>remotes</code> here, but it’s
+what the cool kids use now):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"JBGruber/atr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="load-the-package">Load the package<a class="anchor" aria-label="anchor" href="#load-the-package"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">atr</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
+</h3>
+<p>You will be automatically asked to authenticated once you use your
+first <code>atr</code> function!</p>
+<p>You can also run <code><a href="../reference/auth.html">auth()</a></code> if you want to initiate hte
+process manually.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="searching-posts">Searching Posts<a class="anchor" aria-label="anchor" href="#searching-posts"></a>
@@ -110,7 +132,7 @@ it here.</p>
 the platform. The get_user_info function becomes our handy tool,
 fetching an array of information about a user. All you need? Their
 handle!</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_user_info.html">get_user_info</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"atpr.bsky.social"</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
@@ -127,7 +149,7 @@ handle!</p>
 user.</p>
 <p>You can also retrieve information for multiple users by providing a
 vector of user handles:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/get_user_info.html">get_user_info</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"benguinaudeau.bsky.social"</span>, <span class="st">"atpr.bsky.social"</span><span class="op">)</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -157,52 +179,38 @@ includes quote skeets and reskeets.</em> You can also opt not to parse
 the result by setting <code>parse = FALSE</code>, however it is
 recommended to use the default parse option which results in a (more)
 tidy tibble.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a> <span class="fu">get_skeets_authored_by</span>(<span class="at">actor =</span> <span class="st">"benguinaudeau.bsky.social"</span>, <span class="at">parse =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>⠙ Got <span class="dv">24</span> skeets, but there is more.. [193ms]</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                                             </span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">24</span> results.</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">24</span> results. All done<span class="sc">!</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; Rows: 24</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; Columns: 10</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; $ uri           [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post…</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; $ cid           [3m [38;5;246m&lt;chr&gt; [39m [23m "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebggho…</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; $ author        [3m [38;5;246m&lt;list&gt; [39m [23m ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.b…</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; $ text          [3m [38;5;246m&lt;chr&gt; [39m [23m "I am very much looking forward to the CPPE talks put tog…</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; $ record        [3m [38;5;246m&lt;list&gt; [39m [23m ["I am very much looking forward to the CPPE talks put t…</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; $ reply_count   [3m [38;5;246m&lt;int&gt; [39m [23m 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, …</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; $ repost_count  [3m [38;5;246m&lt;int&gt; [39m [23m 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3…</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; $ like_count    [3m [38;5;246m&lt;int&gt; [39m [23m 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 3…</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; $ indexed_at    [3m [38;5;246m&lt;dttm&gt; [39m [23m 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:…</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; $ reply         [3m [38;5;246m&lt;list&gt; [39m [23m &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView", "at://d…</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span> <span class="fu"><a href="../reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, parse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 24</span></span>
+<span><span class="co">#&gt; Columns: 10</span></span>
+<span><span class="co">#&gt; $ uri          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post…</span></span>
+<span><span class="co">#&gt; $ cid          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebggho…</span></span>
+<span><span class="co">#&gt; $ author       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.b…</span></span>
+<span><span class="co">#&gt; $ text         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "I am very much looking forward to the CPPE talks put tog…</span></span>
+<span><span class="co">#&gt; $ record       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["I am very much looking forward to the CPPE talks put t…</span></span>
+<span><span class="co">#&gt; $ reply_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, …</span></span>
+<span><span class="co">#&gt; $ repost_count <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3…</span></span>
+<span><span class="co">#&gt; $ like_count   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 3…</span></span>
+<span><span class="co">#&gt; $ indexed_at   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:…</span></span>
+<span><span class="co">#&gt; $ reply        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView", "at://d…</span></span></code></pre></div>
 <p>Feeling adventurous? Increase the <code>limit</code> and explore more
 of their content.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">get_skeets_authored_by</span>(<span class="at">actor =</span> <span class="st">"favstats.bsky.social"</span>, <span class="at">limit =</span> <span class="dv">30</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>⠙ Got <span class="dv">30</span> skeets, but there is more.. [218ms]</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                                             </span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">30</span> results.</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">30</span> results. All done<span class="sc">!</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; Rows: 30</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; Columns: 10</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; $ uri           [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:7ao77wemnhl63qnpuy7psebr/app.bsky.feed.post…</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; $ cid           [3m [38;5;246m&lt;chr&gt; [39m [23m "bafyreih2ave4w472kho4wzhdfe66pvfg7gaecg4s2onelgltii3gp4u…</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; $ author        [3m [38;5;246m&lt;list&gt; [39m [23m ["did:plc:7ao77wemnhl63qnpuy7psebr", "whotargetsme.bsky.…</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; $ text          [3m [38;5;246m&lt;chr&gt; [39m [23m "Hallo to all our new followers from Germany!\n\nWie geht…</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; $ record        [3m [38;5;246m&lt;list&gt; [39m [23m ["Hallo to all our new followers from Germany!\n\nWie ge…</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; $ reply_count   [3m [38;5;246m&lt;int&gt; [39m [23m 0, 0, 6, 0, 1, 1, 1, 3, 0, 1, 1, 0, 3, 0, 1, 2, 1, 1, 0, …</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; $ repost_count  [3m [38;5;246m&lt;int&gt; [39m [23m 1, 3, 25, 0, 0, 0, 28, 10, 0, 0, 3, 0, 0, 1, 18, 12, 10, …</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; $ like_count    [3m [38;5;246m&lt;int&gt; [39m [23m 3, 7, 50, 3, 2, 0, 62, 32, 1, 1, 12, 1, 4, 3, 18, 36, 11,…</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; $ indexed_at    [3m [38;5;246m&lt;dttm&gt; [39m [23m 2023-10-06 08:28:06, 2023-10-05 14:41:15, 2023-10-05 10:…</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; $ reply         [3m [38;5;246m&lt;list&gt; [39m [23m &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView",…</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"favstats.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 30</span></span>
+<span><span class="co">#&gt; Columns: 10</span></span>
+<span><span class="co">#&gt; $ uri          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:7ao77wemnhl63qnpuy7psebr/app.bsky.feed.post…</span></span>
+<span><span class="co">#&gt; $ cid          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "bafyreih2ave4w472kho4wzhdfe66pvfg7gaecg4s2onelgltii3gp4u…</span></span>
+<span><span class="co">#&gt; $ author       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["did:plc:7ao77wemnhl63qnpuy7psebr", "whotargetsme.bsky.…</span></span>
+<span><span class="co">#&gt; $ text         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hallo to all our new followers from Germany!\n\nWie geht…</span></span>
+<span><span class="co">#&gt; $ record       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["Hallo to all our new followers from Germany!\n\nWie ge…</span></span>
+<span><span class="co">#&gt; $ reply_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 0, 6, 0, 1, 1, 1, 3, 0, 1, 1, 0, 3, 0, 1, 2, 1, 1, 0, …</span></span>
+<span><span class="co">#&gt; $ repost_count <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 3, 25, 0, 0, 0, 28, 10, 0, 0, 3, 0, 0, 1, 18, 12, 10, …</span></span>
+<span><span class="co">#&gt; $ like_count   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 7, 50, 3, 2, 0, 62, 32, 1, 1, 12, 1, 4, 3, 18, 36, 11,…</span></span>
+<span><span class="co">#&gt; $ indexed_at   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-10-06 08:28:06, 2023-10-05 14:41:15, 2023-10-05 10:…</span></span>
+<span><span class="co">#&gt; $ reply        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView",…</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -216,60 +224,42 @@ on the platform.</p>
 <h3 id="get_followers">
 <code>get_followers</code><a class="anchor" aria-label="anchor" href="#get_followers"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">get_followers</span>(<span class="at">actor =</span> <span class="st">"benguinaudeau.bsky.social"</span>, <span class="at">limit =</span> <span class="dv">200</span>)  <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>⠙ Got <span class="dv">100</span> followers, but there is more.. [212ms]</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>⠹ Got <span class="dv">200</span> followers, but there is more.. [459ms]</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                                                 </span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">200</span> results.</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">204</span> results. All done<span class="sc">!</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; Rows: 204</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; Columns: 11</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; $ did                 [3m [38;5;246m&lt;chr&gt; [39m [23m "did:plc:g6qynlb7jv5pd6uageiddvmj", "did:plc:j42kj4…</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; $ handle              [3m [38;5;246m&lt;chr&gt; [39m [23m "mgmacdonald.bsky.social", "atpr.bsky.social", "iva…</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; $ display_name        [3m [38;5;246m&lt;chr&gt; [39m [23m "Maggie Macdonald, PhD", NA, "Iva Srbinovska", "Fre…</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; $ description         [3m [38;5;246m&lt;chr&gt; [39m [23m "Asst Prof UKY Poli Sci | Previous: CSMaP, Emory Po…</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; $ avatar              [3m [38;5;246m&lt;chr&gt; [39m [23m "https://cdn.bsky.app/img/avatar/plain/did:plc:g6qy…</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; $ indexed_at          [3m [38;5;246m&lt;chr&gt; [39m [23m "2023-09-26T15:43:14.051Z", NA, "2023-10-10T12:56:0…</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; $ viewer_muted        [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; $ viewer_blocked_by   [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; $ viewer_following    [3m [38;5;246m&lt;chr&gt; [39m [23m NA, "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.bsky…</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; $ viewer_followed_by  [3m [38;5;246m&lt;chr&gt; [39m [23m NA, NA, NA, NA, "at://did:plc:infik3u33zvx65g4czref…</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; $ labels              [3m [38;5;246m&lt;named list&gt; [39m [23m &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NUL…</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 204</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ did                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:plc:g6qynlb7jv5pd6uageiddvmj", "did:plc:j42kj4…</span></span>
+<span><span class="co">#&gt; $ handle             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "mgmacdonald.bsky.social", "atpr.bsky.social", "iva…</span></span>
+<span><span class="co">#&gt; $ display_name       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Maggie Macdonald, PhD", NA, "Iva Srbinovska", "Fre…</span></span>
+<span><span class="co">#&gt; $ description        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Asst Prof UKY Poli Sci | Previous: CSMaP, Emory Po…</span></span>
+<span><span class="co">#&gt; $ avatar             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/img/avatar/plain/did:plc:g6qy…</span></span>
+<span><span class="co">#&gt; $ indexed_at         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2023-09-26T15:43:14.051Z", NA, "2023-10-10T12:56:0…</span></span>
+<span><span class="co">#&gt; $ viewer_muted       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
+<span><span class="co">#&gt; $ viewer_blocked_by  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
+<span><span class="co">#&gt; $ viewer_following   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.bsky…</span></span>
+<span><span class="co">#&gt; $ viewer_followed_by <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, NA, NA, NA, "at://did:plc:infik3u33zvx65g4czref…</span></span>
+<span><span class="co">#&gt; $ labels             <span style="color: #949494; font-style: italic;">&lt;named list&gt;</span> &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NUL…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get_follows">
 <code>get_follows</code><a class="anchor" aria-label="anchor" href="#get_follows"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>atr<span class="sc">:::</span><span class="fu">get_follows</span>(<span class="at">actor =</span> <span class="st">"benguinaudeau.bsky.social"</span>, <span class="at">limit =</span> <span class="dv">200</span>)  <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>⠙ Got <span class="dv">100</span> follows, but there is more.. [235ms]</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>⠹ Got <span class="dv">134</span> follows, but there is more.. [417ms]</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>                                               </span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">134</span> results.</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">134</span> results. All done<span class="sc">!</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Rows: 134</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; Columns: 10</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; $ did                 [3m [38;5;246m&lt;chr&gt; [39m [23m "did:plc:zxuic5k6po2kaxrkzb3c5uoc", "did:plc:ymuuic…</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; $ handle              [3m [38;5;246m&lt;chr&gt; [39m [23m "marcdebus.bsky.social", "chrisbail.bsky.social", "…</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; $ display_name        [3m [38;5;246m&lt;chr&gt; [39m [23m "Marc Debus", "Chris Bail", NA, "Jan Schwalbach", "…</span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; $ description         [3m [38;5;246m&lt;chr&gt; [39m [23m "Professor of Political Science at the University o…</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; $ avatar              [3m [38;5;246m&lt;chr&gt; [39m [23m "https://cdn.bsky.app/img/avatar/plain/did:plc:zxui…</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; $ indexed_at          [3m [38;5;246m&lt;chr&gt; [39m [23m "2023-10-04T08:18:44.258Z", "2023-10-06T13:31:13.06…</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; $ viewer_muted        [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; $ viewer_blocked_by   [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; $ viewer_following    [3m [38;5;246m&lt;chr&gt; [39m [23m NA, NA, "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.…</span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; $ viewer_followed_by  [3m [38;5;246m&lt;chr&gt; [39m [23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "at://did:p…</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">atr</span><span class="fu">:::</span><span class="fu"><a href="../reference/get_followers.html">get_follows</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 134</span></span>
+<span><span class="co">#&gt; Columns: 10</span></span>
+<span><span class="co">#&gt; $ did                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:plc:zxuic5k6po2kaxrkzb3c5uoc", "did:plc:ymuuic…</span></span>
+<span><span class="co">#&gt; $ handle             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "marcdebus.bsky.social", "chrisbail.bsky.social", "…</span></span>
+<span><span class="co">#&gt; $ display_name       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Marc Debus", "Chris Bail", NA, "Jan Schwalbach", "…</span></span>
+<span><span class="co">#&gt; $ description        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Professor of Political Science at the University o…</span></span>
+<span><span class="co">#&gt; $ avatar             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/img/avatar/plain/did:plc:zxui…</span></span>
+<span><span class="co">#&gt; $ indexed_at         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2023-10-04T08:18:44.258Z", "2023-10-06T13:31:13.06…</span></span>
+<span><span class="co">#&gt; $ viewer_muted       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
+<span><span class="co">#&gt; $ viewer_blocked_by  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…</span></span>
+<span><span class="co">#&gt; $ viewer_following   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, NA, "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.…</span></span>
+<span><span class="co">#&gt; $ viewer_followed_by <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "at://did:p…</span></span></code></pre></div>
 <p>You’ll notice each follower/following has a description (i.e. their
 bio). It’s a nifty way to get to know a bit about them at a glance!</p>
 </div>
@@ -283,163 +273,36 @@ followers.</p>
 <p>The first step is to load some additional packages. Then we get the
 followers for the main user we are interested in. We will then delve
 deeper and fetch the followers for each of these followers.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.2.3</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Warning: package 'purrr' was built under R version 4.2.3</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; Attaching package: 'igraph'</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; The following object is masked from 'package:tidyr':</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;     crossing</span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:purrr':</span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;     compose, simplify</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;     as_data_frame, groups, union</span></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt;     decompose, spectrum</span></span>
-<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt;     union</span></span>
-<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
-<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; Warning: package 'ggraph' was built under R version 4.2.3</span></span>
-<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span>
-<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; Warning: package 'tidygraph' was built under R version 4.2.3</span></span>
-<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; Attaching package: 'tidygraph'</span></span>
-<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; The following object is masked from 'package:igraph':</span></span>
-<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt;     groups</span></span>
-<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; The following object is masked from 'package:stats':</span></span>
-<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt;     filter</span></span>
-<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a></span>
-<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co"># Retrieve the followers for the main user</span></span>
-<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a>some_followers <span class="ot">&lt;-</span> <span class="fu">get_followers</span>(<span class="at">actor =</span> <span class="st">"benguinaudeau.bsky.social"</span>, <span class="at">limit =</span> <span class="dv">10</span>)<span class="sc">$</span>handle</span>
-<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; ⠙ Got 10 followers, but there is more.. [157ms]</span></span>
-<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a>                                                </span>
-<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a></span>
-<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">10</span> results.</span>
-<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a></span>
-<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">10</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a></span>
-<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co"># For each follower, retrieve their own set of followers. </span></span>
-<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co"># This provides a nested view of relationships. </span></span>
-<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a>followers_of_followers <span class="ot">&lt;-</span> some_followers <span class="sc">|&gt;</span></span>
-<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="sc">~</span>{</span>
-<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a>    <span class="fu">get_followers</span>(<span class="at">actor =</span> .x, <span class="at">limit =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">from =</span> .x)</span>
-<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a>  }) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">to =</span> handle) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-64"><a href="#cb8-64" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(from, to)</span>
-<span id="cb8-65"><a href="#cb8-65" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-66"><a href="#cb8-66" tabindex="-1"></a>⠙ Got <span class="dv">100</span> followers, but there is more.. [222ms]</span>
-<span id="cb8-67"><a href="#cb8-67" tabindex="-1"></a></span>
-<span id="cb8-68"><a href="#cb8-68" tabindex="-1"></a>⠹ Got <span class="dv">125</span> followers, but there is more.. [416ms]</span>
-<span id="cb8-69"><a href="#cb8-69" tabindex="-1"></a></span>
-<span id="cb8-70"><a href="#cb8-70" tabindex="-1"></a>                                                 </span>
-<span id="cb8-71"><a href="#cb8-71" tabindex="-1"></a></span>
-<span id="cb8-72"><a href="#cb8-72" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">125</span> results.</span>
-<span id="cb8-73"><a href="#cb8-73" tabindex="-1"></a></span>
-<span id="cb8-74"><a href="#cb8-74" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">129</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-75"><a href="#cb8-75" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-76"><a href="#cb8-76" tabindex="-1"></a>⠙ Got <span class="dv">4</span> followers, but there is more.. [196ms]</span>
-<span id="cb8-77"><a href="#cb8-77" tabindex="-1"></a></span>
-<span id="cb8-78"><a href="#cb8-78" tabindex="-1"></a>                                               </span>
-<span id="cb8-79"><a href="#cb8-79" tabindex="-1"></a></span>
-<span id="cb8-80"><a href="#cb8-80" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">4</span> results.</span>
-<span id="cb8-81"><a href="#cb8-81" tabindex="-1"></a></span>
-<span id="cb8-82"><a href="#cb8-82" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">4</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-83"><a href="#cb8-83" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-84"><a href="#cb8-84" tabindex="-1"></a>⠙ Got <span class="dv">36</span> followers, but there is more.. [260ms]</span>
-<span id="cb8-85"><a href="#cb8-85" tabindex="-1"></a></span>
-<span id="cb8-86"><a href="#cb8-86" tabindex="-1"></a>                                                </span>
-<span id="cb8-87"><a href="#cb8-87" tabindex="-1"></a></span>
-<span id="cb8-88"><a href="#cb8-88" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">36</span> results.</span>
-<span id="cb8-89"><a href="#cb8-89" tabindex="-1"></a></span>
-<span id="cb8-90"><a href="#cb8-90" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">36</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-91"><a href="#cb8-91" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-92"><a href="#cb8-92" tabindex="-1"></a>⠙ Got <span class="dv">13</span> followers, but there is more.. [159ms]</span>
-<span id="cb8-93"><a href="#cb8-93" tabindex="-1"></a></span>
-<span id="cb8-94"><a href="#cb8-94" tabindex="-1"></a>                                                </span>
-<span id="cb8-95"><a href="#cb8-95" tabindex="-1"></a></span>
-<span id="cb8-96"><a href="#cb8-96" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">13</span> results.</span>
-<span id="cb8-97"><a href="#cb8-97" tabindex="-1"></a></span>
-<span id="cb8-98"><a href="#cb8-98" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">13</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-99"><a href="#cb8-99" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-100"><a href="#cb8-100" tabindex="-1"></a>⠙ Got <span class="dv">100</span> followers, but there is more.. [226ms]</span>
-<span id="cb8-101"><a href="#cb8-101" tabindex="-1"></a></span>
-<span id="cb8-102"><a href="#cb8-102" tabindex="-1"></a>⠹ Got <span class="dv">104</span> followers, but there is more.. [393ms]</span>
-<span id="cb8-103"><a href="#cb8-103" tabindex="-1"></a></span>
-<span id="cb8-104"><a href="#cb8-104" tabindex="-1"></a>                                                 </span>
-<span id="cb8-105"><a href="#cb8-105" tabindex="-1"></a></span>
-<span id="cb8-106"><a href="#cb8-106" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">104</span> results.</span>
-<span id="cb8-107"><a href="#cb8-107" tabindex="-1"></a></span>
-<span id="cb8-108"><a href="#cb8-108" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">104</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-109"><a href="#cb8-109" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-110"><a href="#cb8-110" tabindex="-1"></a>⠙ Got <span class="dv">100</span> followers, but there is more.. [555ms]</span>
-<span id="cb8-111"><a href="#cb8-111" tabindex="-1"></a></span>
-<span id="cb8-112"><a href="#cb8-112" tabindex="-1"></a>⠹ Got <span class="dv">108</span> followers, but there is more.. [735ms]</span>
-<span id="cb8-113"><a href="#cb8-113" tabindex="-1"></a></span>
-<span id="cb8-114"><a href="#cb8-114" tabindex="-1"></a>                                                 </span>
-<span id="cb8-115"><a href="#cb8-115" tabindex="-1"></a></span>
-<span id="cb8-116"><a href="#cb8-116" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">108</span> results.</span>
-<span id="cb8-117"><a href="#cb8-117" tabindex="-1"></a></span>
-<span id="cb8-118"><a href="#cb8-118" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">116</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-119"><a href="#cb8-119" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-120"><a href="#cb8-120" tabindex="-1"></a>⠙ Got <span class="dv">10</span> followers, but there is more.. [165ms]</span>
-<span id="cb8-121"><a href="#cb8-121" tabindex="-1"></a></span>
-<span id="cb8-122"><a href="#cb8-122" tabindex="-1"></a>                                                </span>
-<span id="cb8-123"><a href="#cb8-123" tabindex="-1"></a></span>
-<span id="cb8-124"><a href="#cb8-124" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">10</span> results.</span>
-<span id="cb8-125"><a href="#cb8-125" tabindex="-1"></a></span>
-<span id="cb8-126"><a href="#cb8-126" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">10</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-127"><a href="#cb8-127" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-128"><a href="#cb8-128" tabindex="-1"></a>⠙ Got <span class="dv">19</span> followers, but there is more.. [166ms]</span>
-<span id="cb8-129"><a href="#cb8-129" tabindex="-1"></a></span>
-<span id="cb8-130"><a href="#cb8-130" tabindex="-1"></a>                                                </span>
-<span id="cb8-131"><a href="#cb8-131" tabindex="-1"></a></span>
-<span id="cb8-132"><a href="#cb8-132" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">19</span> results.</span>
-<span id="cb8-133"><a href="#cb8-133" tabindex="-1"></a></span>
-<span id="cb8-134"><a href="#cb8-134" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">19</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-135"><a href="#cb8-135" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-136"><a href="#cb8-136" tabindex="-1"></a>⠙ Got <span class="dv">100</span> followers, but there is more.. [276ms]</span>
-<span id="cb8-137"><a href="#cb8-137" tabindex="-1"></a></span>
-<span id="cb8-138"><a href="#cb8-138" tabindex="-1"></a>⠹ Got <span class="dv">196</span> followers, but there is more.. [523ms]</span>
-<span id="cb8-139"><a href="#cb8-139" tabindex="-1"></a></span>
-<span id="cb8-140"><a href="#cb8-140" tabindex="-1"></a>                                                 </span>
-<span id="cb8-141"><a href="#cb8-141" tabindex="-1"></a></span>
-<span id="cb8-142"><a href="#cb8-142" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">196</span> results.</span>
-<span id="cb8-143"><a href="#cb8-143" tabindex="-1"></a></span>
-<span id="cb8-144"><a href="#cb8-144" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">196</span> results. All done<span class="sc">!</span></span>
-<span id="cb8-145"><a href="#cb8-145" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb8-146"><a href="#cb8-146" tabindex="-1"></a>⠙ Got <span class="dv">39</span> followers, but there is more.. [197ms]</span>
-<span id="cb8-147"><a href="#cb8-147" tabindex="-1"></a></span>
-<span id="cb8-148"><a href="#cb8-148" tabindex="-1"></a>                                                </span>
-<span id="cb8-149"><a href="#cb8-149" tabindex="-1"></a></span>
-<span id="cb8-150"><a href="#cb8-150" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">39</span> results.</span>
-<span id="cb8-151"><a href="#cb8-151" tabindex="-1"></a></span>
-<span id="cb8-152"><a href="#cb8-152" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">39</span> results. All done<span class="sc">!</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.2.3</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'purrr' was built under R version 4.2.3</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://igraph.org" class="external-link">igraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'ggraph' was built under R version 4.2.3</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'tidygraph' was built under R version 4.2.3</span></span>
+<span></span>
+<span><span class="co"># Retrieve the followers for the main user</span></span>
+<span><span class="va">some_followers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">handle</span></span>
+<span></span>
+<span><span class="co"># For each follower, retrieve their own set of followers. </span></span>
+<span><span class="co"># This provides a nested view of relationships. </span></span>
+<span><span class="va">followers_of_followers</span> <span class="op">&lt;-</span> <span class="va">some_followers</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="op">~</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="va">.x</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">.x</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">handle</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="building-and-visualizing-the-follower-network">Building and Visualizing the Follower Network<a class="anchor" aria-label="anchor" href="#building-and-visualizing-the-follower-network"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Construct the network graph and plot</span></span>
 <span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span><span class="va">followers_of_followers</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -447,7 +310,7 @@ deeper and fetch the followers for each of these followers.</p>
 <span><span class="co"># Use ggraph to visualize the network. </span></span>
 <span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph</span>,  layout <span class="op">=</span> <span class="st">'kk'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>size <span class="op">=</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/centrality.html" class="external-link">centrality_pagerank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/centrality.html" class="external-link">centrality_pagerank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` in the `default_aes` field and elsewhere instead.</span></span>
@@ -467,7 +330,7 @@ if necessary, deleting them.</p>
 <h3 id="posting-a-skeet">Posting a Skeet<a class="anchor" aria-label="anchor" href="#posting-a-skeet"></a>
 </h3>
 <p>Here’s how you can easily post a skeet to your account:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">post</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/post.html">post_skeet</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Posting around"</span><span class="op">)</span></span></code></pre></div>
 <p>By running the above command, you’ve successfully created a skeet
@@ -478,7 +341,7 @@ with the content “Posting around.”</p>
 </h3>
 <p>Engaging with the Blue Sky community often means replying to existing
 skeets. Here’s how you can craft a reply:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">reply</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/post.html">post_skeet</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"Replying around"</span>, in_reply_to <span class="op">=</span> <span class="va">post</span><span class="op">$</span><span class="va">uri</span><span class="op">)</span></span></code></pre></div>
 <p>Notice the in_reply_to parameter? This ensures that our reply is
@@ -490,7 +353,7 @@ linked to the original post, creating a thread of conversation.</p>
 <p>Whether it’s to correct an error, remove outdated information, or any
 other reason, sometimes you might want to delete a skeet. Here’s
 how:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/post.html">delete_skeet</a></span><span class="op">(</span>post_url <span class="op">=</span> <span class="va">reply</span><span class="op">$</span><span class="va">uri</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -502,7 +365,7 @@ skeet builds on the previous one. In this section, we’ll explore how to
 create a thread seamlessly.</p>
 <p>A thread is essentially a series of individual skeets. Here’s how you
 can do it programmatically using <code>post_thread</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/post_thread.html">post_thread</a></span><span class="op">(</span>texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"This is the first amazing skeet."</span>,</span>
 <span>                      <span class="st">"Now I am expanding upon my skeet!"</span>,</span>
 <span>                      <span class="st">"Conclusion: I skeet therefore I am."</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -514,10 +377,10 @@ can do it programmatically using <code>post_thread</code>:</p>
 following them, allowing you to see their posts in your feed.
 Conversely, if you decide that you no longer want to see updates from a
 particular user, you can unfollow them.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Follow a user by their handle</span></span>
 <span><span class="fu"><a href="../reference/follow.html">follow</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Follow a user by their handle</span></span>
 <span><span class="fu"><a href="../reference/follow.html">follow</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span><span class="op">)</span></span></code></pre></div>
 <!-- ## Support for posting media -->
@@ -564,65 +427,54 @@ user-curated feeds.</p>
 </h3>
 <p>Our starting point is to extract the posts from a user-curated feed.
 We’re focusing on a feed curated by “andrew.heiss.phd”.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Fetching the feed posts</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>feeds <span class="ot">&lt;-</span> <span class="fu">get_feeds_created_by</span>(<span class="at">actor =</span> <span class="st">"andrew.heiss.phd"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>⠙ Got <span class="dv">4</span> feeds, but there is more.. [163ms]</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>                                           </span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">4</span> results.</span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">4</span> results. All done<span class="sc">!</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; Rows: 4</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; Columns: 19</span></span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt; $ uri                        [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.b…</span></span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; $ cid                        [3m [38;5;246m&lt;chr&gt; [39m [23m "bafyreicvjczzxxhrkrl4c2xvfu7yhnm2ad7efzom6b…</span></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; $ did                        [3m [38;5;246m&lt;chr&gt; [39m [23m "did:web:skyfeed.me", "did:web:skyfeed.me", …</span></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt; $ creator_did                [3m [38;5;246m&lt;chr&gt; [39m [23m "did:plc:2zcfjzyocp6kapg6jc4eacok", "did:plc…</span></span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; $ creator_handle             [3m [38;5;246m&lt;chr&gt; [39m [23m "andrew.heiss.phd", "andrew.heiss.phd", "and…</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt; $ creator_displayName        [3m [38;5;246m&lt;chr&gt; [39m [23m "Andrew Heiss, but ~🎃spoOOoky👻~", "Andrew …</span></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt; $ creator_description        [3m [38;5;246m&lt;chr&gt; [39m [23m "Assistant professor at Georgia State Univer…</span></span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt; $ creator_avatar             [3m [38;5;246m&lt;chr&gt; [39m [23m "https://cdn.bsky.app/img/avatar/plain/did:p…</span></span>
-<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="co">#&gt; $ creator_indexedAt          [3m [38;5;246m&lt;chr&gt; [39m [23m "2023-10-01T13:25:49.025Z", "2023-10-01T13:2…</span></span>
-<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co">#&gt; $ creator_viewer_muted       [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE</span></span>
-<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co">#&gt; $ creator_viewer_blockedBy   [3m [38;5;246m&lt;lgl&gt; [39m [23m FALSE, FALSE, FALSE, FALSE</span></span>
-<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="co">#&gt; $ creator_viewer_following   [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.b…</span></span>
-<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="co">#&gt; $ creator_viewer_followedBy  [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.b…</span></span>
-<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a><span class="co">#&gt; $ displayName                [3m [38;5;246m&lt;chr&gt; [39m [23m "Public Admin/Policy", "Nonprofit Studies", …</span></span>
-<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a><span class="co">#&gt; $ description                [3m [38;5;246m&lt;chr&gt; [39m [23m "A feed for public administration and public…</span></span>
-<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a><span class="co">#&gt; $ avatar                     [3m [38;5;246m&lt;chr&gt; [39m [23m "https://cdn.bsky.app/img/avatar/plain/did:p…</span></span>
-<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a><span class="co">#&gt; $ likeCount                  [3m [38;5;246m&lt;int&gt; [39m [23m 72, 15, 0, 73</span></span>
-<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a><span class="co">#&gt; $ indexedAt                  [3m [38;5;246m&lt;chr&gt; [39m [23m "2023-09-21T01:37:55.774Z", "2023-09-21T01:1…</span></span>
-<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a><span class="co">#&gt; $ created_at                 [3m [38;5;246m&lt;dttm&gt; [39m [23m 2023-09-21 01:37:55, 2023-09-21 01:11:24, 20…</span></span>
-<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a></span>
-<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a><span class="co"># Filtering for a specific keyword, for example "#rstats"</span></span>
-<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a>rstat_feed <span class="ot">&lt;-</span> feeds <span class="sc">|&gt;</span></span>
-<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a>  <span class="fu">filter</span>(displayName <span class="sc">==</span> <span class="st">"#rstats"</span>)</span>
-<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a></span>
-<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a><span class="co"># Extracting posts from this curated feed</span></span>
-<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a>rstat_posts <span class="ot">&lt;-</span> <span class="fu">get_feed</span>(rstat_feed<span class="sc">$</span>uri, <span class="at">limit =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-40"><a href="#cb16-40" tabindex="-1"></a>  <span class="co"># Extracting user handle from the author</span></span>
-<span id="cb16-41"><a href="#cb16-41" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">handle =</span> author <span class="sc">|&gt;</span> <span class="fu">map_chr</span>(<span class="sc">~</span>{.x<span class="sc">$</span>handle}))  <span class="sc">|&gt;</span></span>
-<span id="cb16-42"><a href="#cb16-42" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">glimpse</span>() </span>
-<span id="cb16-43"><a href="#cb16-43" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb16-44"><a href="#cb16-44" tabindex="-1"></a> [36mℹ [39m Parsing <span class="dv">92</span> results.</span>
-<span id="cb16-45"><a href="#cb16-45" tabindex="-1"></a></span>
-<span id="cb16-46"><a href="#cb16-46" tabindex="-1"></a> [32m✔ [39m Got <span class="dv">92</span> results. All done<span class="sc">!</span></span>
-<span id="cb16-47"><a href="#cb16-47" tabindex="-1"></a><span class="co">#&gt; Rows: 92</span></span>
-<span id="cb16-48"><a href="#cb16-48" tabindex="-1"></a><span class="co">#&gt; Columns: 11</span></span>
-<span id="cb16-49"><a href="#cb16-49" tabindex="-1"></a><span class="co">#&gt; $ uri           [3m [38;5;246m&lt;chr&gt; [39m [23m "at://did:plc:esmiuxk53vmsllayghrq676w/app.bsky.feed.post…</span></span>
-<span id="cb16-50"><a href="#cb16-50" tabindex="-1"></a><span class="co">#&gt; $ cid           [3m [38;5;246m&lt;chr&gt; [39m [23m "bafyreihm5rx4f2sz4ag7uh2d4zkvgwu2gm3l5yzvtwcbxgjo545a5fd…</span></span>
-<span id="cb16-51"><a href="#cb16-51" tabindex="-1"></a><span class="co">#&gt; $ author        [3m [38;5;246m&lt;list&gt; [39m [23m ["did:plc:esmiuxk53vmsllayghrq676w", "osc.ac", "Olivier …</span></span>
-<span id="cb16-52"><a href="#cb16-52" tabindex="-1"></a><span class="co">#&gt; $ text          [3m [38;5;246m&lt;chr&gt; [39m [23m "The tutorial should be up tomorrow!\n\nDo not miss up by…</span></span>
-<span id="cb16-53"><a href="#cb16-53" tabindex="-1"></a><span class="co">#&gt; $ record        [3m [38;5;246m&lt;list&gt; [39m [23m ["The tutorial should be up tomorrow!\n\nDo not miss up …</span></span>
-<span id="cb16-54"><a href="#cb16-54" tabindex="-1"></a><span class="co">#&gt; $ reply_count   [3m [38;5;246m&lt;int&gt; [39m [23m 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 4, 0, 1, 0, 1, …</span></span>
-<span id="cb16-55"><a href="#cb16-55" tabindex="-1"></a><span class="co">#&gt; $ repost_count  [3m [38;5;246m&lt;int&gt; [39m [23m 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 0, 0, 4, 0, 0, …</span></span>
-<span id="cb16-56"><a href="#cb16-56" tabindex="-1"></a><span class="co">#&gt; $ like_count    [3m [38;5;246m&lt;int&gt; [39m [23m 0, 0, 1, 2, 0, 5, 0, 1, 2, 5, 3, 1, 3, 10, 5, 1, 8, 0, 2,…</span></span>
-<span id="cb16-57"><a href="#cb16-57" tabindex="-1"></a><span class="co">#&gt; $ indexed_at    [3m [38;5;246m&lt;dttm&gt; [39m [23m 2023-10-10 19:35:03, 2023-10-10 18:36:27, 2023-10-10 17:…</span></span>
-<span id="cb16-58"><a href="#cb16-58" tabindex="-1"></a><span class="co">#&gt; $ reply         [3m [38;5;246m&lt;list&gt; [39m [23m &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, …</span></span>
-<span id="cb16-59"><a href="#cb16-59" tabindex="-1"></a><span class="co">#&gt; $ handle        [3m [38;5;246m&lt;chr&gt; [39m [23m "osc.ac", "jeffclement.bsky.social", "opisthokonta.bsky.s…</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Fetching the feed posts</span></span>
+<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_feeds_created_by.html">get_feeds_created_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"andrew.heiss.phd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 4</span></span>
+<span><span class="co">#&gt; Columns: 19</span></span>
+<span><span class="co">#&gt; $ uri                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.b…</span></span>
+<span><span class="co">#&gt; $ cid                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "bafyreicvjczzxxhrkrl4c2xvfu7yhnm2ad7efzom6b…</span></span>
+<span><span class="co">#&gt; $ did                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:web:skyfeed.me", "did:web:skyfeed.me", …</span></span>
+<span><span class="co">#&gt; $ creator_did               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:plc:2zcfjzyocp6kapg6jc4eacok", "did:plc…</span></span>
+<span><span class="co">#&gt; $ creator_handle            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "andrew.heiss.phd", "andrew.heiss.phd", "and…</span></span>
+<span><span class="co">#&gt; $ creator_displayName       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Andrew Heiss, but ~🎃spoOOoky👻~", "Andrew …</span></span>
+<span><span class="co">#&gt; $ creator_description       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Assistant professor at Georgia State Univer…</span></span>
+<span><span class="co">#&gt; $ creator_avatar            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/img/avatar/plain/did:p…</span></span>
+<span><span class="co">#&gt; $ creator_indexedAt         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2023-10-01T13:25:49.025Z", "2023-10-01T13:2…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_muted      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE</span></span>
+<span><span class="co">#&gt; $ creator_viewer_blockedBy  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE</span></span>
+<span><span class="co">#&gt; $ creator_viewer_following  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:46yyakot3byghwqc6rhmqzqd/app.b…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_followedBy <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.b…</span></span>
+<span><span class="co">#&gt; $ displayName               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Public Admin/Policy", "Nonprofit Studies", …</span></span>
+<span><span class="co">#&gt; $ description               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A feed for public administration and public…</span></span>
+<span><span class="co">#&gt; $ avatar                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/img/avatar/plain/did:p…</span></span>
+<span><span class="co">#&gt; $ likeCount                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 72, 15, 0, 73</span></span>
+<span><span class="co">#&gt; $ indexedAt                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2023-09-21T01:37:55.774Z", "2023-09-21T01:1…</span></span>
+<span><span class="co">#&gt; $ created_at                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-09-21 01:37:55, 2023-09-21 01:11:24, 20…</span></span>
+<span></span>
+<span><span class="co"># Filtering for a specific keyword, for example "#rstats"</span></span>
+<span><span class="va">rstat_feed</span> <span class="op">&lt;-</span> <span class="va">feeds</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">displayName</span> <span class="op">==</span> <span class="st">"#rstats"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extracting posts from this curated feed</span></span>
+<span><span class="va">rstat_posts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_feed.html">get_feed</a></span><span class="op">(</span><span class="va">rstat_feed</span><span class="op">$</span><span class="va">uri</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># Extracting user handle from the author</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>handle <span class="op">=</span> <span class="va">author</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="op">~</span><span class="op">{</span><span class="va">.x</span><span class="op">$</span><span class="va">handle</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Rows: 92</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ uri          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "at://did:plc:esmiuxk53vmsllayghrq676w/app.bsky.feed.post…</span></span>
+<span><span class="co">#&gt; $ cid          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "bafyreihm5rx4f2sz4ag7uh2d4zkvgwu2gm3l5yzvtwcbxgjo545a5fd…</span></span>
+<span><span class="co">#&gt; $ author       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["did:plc:esmiuxk53vmsllayghrq676w", "osc.ac", "Olivier …</span></span>
+<span><span class="co">#&gt; $ text         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "The tutorial should be up tomorrow!\n\nDo not miss up by…</span></span>
+<span><span class="co">#&gt; $ record       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> ["The tutorial should be up tomorrow!\n\nDo not miss up …</span></span>
+<span><span class="co">#&gt; $ reply_count  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 4, 0, 1, 0, 1, …</span></span>
+<span><span class="co">#&gt; $ repost_count <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4, 0, 0, 4, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ like_count   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 0, 1, 2, 0, 5, 0, 1, 2, 5, 3, 1, 3, 10, 5, 1, 8, 0, 3,…</span></span>
+<span><span class="co">#&gt; $ indexed_at   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-10-10 19:35:03, 2023-10-10 18:36:27, 2023-10-10 17:…</span></span>
+<span><span class="co">#&gt; $ reply        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, …</span></span>
+<span><span class="co">#&gt; $ handle       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "osc.ac", "jeffclement.bsky.social", "opisthokonta.bsky.s…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="identifying-top-contributors">Identifying Top Contributors<a class="anchor" aria-label="anchor" href="#identifying-top-contributors"></a>
@@ -630,14 +482,14 @@ We’re focusing on a feed curated by “andrew.heiss.phd”.</p>
 <p>Who are the leading voices within a particular topic? This analysis
 highlights users who are frequently contributing to the
 <code>#rstats</code> feed.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Identifying the top 10 contributors</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">count</span><span class="op">(</span><span class="va">handle</span>, sort <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>handle <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">handle</span>, sort <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>handle <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -648,15 +500,15 @@ highlights users who are frequently contributing to the
 <p>Volume doesn’t always translate to influence. Some users may post
 less frequently but their contributions resonate deeply with the
 community.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Identifying top 10 influential voices based on likes</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>like_count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>handle <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>like_count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>handle <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">like_count</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -665,16 +517,16 @@ community.</p>
 <div class="section level4">
 <h4 id="most-famous-rstats-skeet">Most Famous #rstats skeet<a class="anchor" aria-label="anchor" href="#most-famous-rstats-skeet"></a>
 </h4>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Finding the standout post in the rstats feed</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>total_interactions <span class="op">=</span> <span class="va">reply_count</span><span class="op">+</span><span class="va">repost_count</span><span class="op">+</span><span class="va">like_count</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">total_interactions</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">handle</span>, <span class="va">total_interactions</span>, <span class="va">text</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>total_interactions <span class="op">=</span> <span class="va">reply_count</span><span class="op">+</span><span class="va">repost_count</span><span class="op">+</span><span class="va">like_count</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">total_interactions</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">handle</span>, <span class="va">total_interactions</span>, <span class="va">text</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">text</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
 <span><span class="co">#&gt; Columns: 3</span></span>
 <span><span class="co">#&gt; $ handle             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "andrew.heiss.phd"</span></span>
