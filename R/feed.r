@@ -11,10 +11,10 @@
 #' feed <- get_skeets_authored_by("profmusgrave.bsky.social")
 #' }
 get_skeets_authored_by <- function(actor,
-                            limit = 25L,
-                            cursor = NULL,
-                            parse = TRUE,
-                            .token = NULL) {
+                                   limit = 25L,
+                                   cursor = NULL,
+                                   parse = TRUE,
+                                   .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
@@ -191,6 +191,74 @@ get_feed <- function(feed_url,
   return(out)
 }
 
+#' Search a specific feed
+#'
+#' Search the feed named after a given query
+#'
+#' @param query The term to be searched
+#' @inheritParams search_user
+#'
+#' @returns a data frame (or nested list) of posts
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' search_feed("rstats")
+#' }
+search_feed <- function(query,
+                        limit = 25L,
+                        cursor = NULL,
+                        parse = TRUE,
+                        .token = NULL) {
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_unspecced_get_popular_feed_generators,
+      args = list(
+        query = query,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$feed)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.")
+    out <- res |>
+      purrr::map_dfr(~{
+        .x |>
+          purrr::list_flatten() |>
+          purrr::list_flatten() |>
+          purrr::compact() |>
+          tibble::as_tibble()
+      }) |>
+      dplyr::bind_rows()
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
 
 #' Get your own timeline
 #'
@@ -208,10 +276,10 @@ get_feed <- function(feed_url,
 #' get_own_timeline(algorithm = "reverse-chronological")
 #' }
 get_own_timeline <- function(algorithm = NULL,
-                         limit = 25L,
-                         cursor = NULL,
-                         parse = TRUE,
-                         .token = NULL) {
+                             limit = 25L,
+                             cursor = NULL,
+                             parse = TRUE,
+                             .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
@@ -244,7 +312,15 @@ get_own_timeline <- function(algorithm = NULL,
 
   if (parse) {
     cli::cli_progress_step("Parsing {length(res)} results.")
-    out <- parse_feed(res)
+    out <-  res |>
+      purrr::map_dfr(~{
+        .x |>
+          purrr::list_flatten() |>
+          purrr::list_flatten() |>
+          purrr::compact() |>
+          tibble::as_tibble()
+      }) |>
+      dplyr::bind_rows()
     cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
@@ -324,10 +400,10 @@ get_likes <- function(post_url,
 
 #' @rdname get_likes
 get_reposts <- function(post_url,
-                      limit = 25L,
-                      cursor = NULL,
-                      parse = TRUE,
-                      .token = NULL) {
+                        limit = 25L,
+                        cursor = NULL,
+                        parse = TRUE,
+                        .token = NULL) {
 
   uri <- convert_http_to_at(post_url, .token = .token)
 
