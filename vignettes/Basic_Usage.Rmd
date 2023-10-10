@@ -7,6 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -14,163 +15,358 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Introduction
+
+
+Welcome to the `atr` vignette! This guide will delve deeper into the functionalities offered by the package-
+
+Before diving in, let's clarify some terminology. In the context of Blue Sky, a post is referred to as a "skeet." So, when we mention retrieving or working with "skeets," we are talking about individual posts made on Blue Sky.
+
+Now, let's delve deeper into the functionalities that allow users to interact with skeets, followers, and their descriptions.
+
+Let's load the package first:
+
 ```{r setup}
 library(atr)
 ```
 
-## Searching Posts
+# Searching Posts
 
 The AT protocol defines a search function at `app.bsky.feed.searchPosts`, however, it is not currently active, as far as we could tell.
+
 As soon as the functionality is added by BlueSky, we will implement it here.
 
 
-## Get profiles + follow graph
-
-### Take an account
+# Blue Sky Users
 
 
-### Get description
+## Retrieve user info (`get_user_info`)
+
+A good starting point is understanding a user's digital footprint on the platform. The get_user_info function becomes our handy tool, fetching an array of information about a user. All you need? Their handle!
+
 
 ```{r}
-get_user_info(actor = c("atpr.bsky.social"))
-get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))
+get_user_info(actor = "atpr.bsky.social")  |>
+  dplyr::glimpse()
 ```
 
-### Get all the skeets from one person
+This function gives us counts of followers, follows, posts for each user.
+
+
+You can also retrieve information for multiple users by providing a vector of user handles:
+
 
 ```{r}
-get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = T)
-```
 
-
-### Get all followers/follows
-
-```{r}
-get_followers(actor = "benguinaudeau.bsky.social", limit = 200) %>%
-  glimpse
-
-get_follows(actor = "benguinaudeau.bsky.social", limit = 200) %>%
-  glimpse
+get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
+  dplyr::glimpse()
 ```
 
 
-### Get description of all followers/follows
+## Retrieve Skeets (`get_skeets_authored_by`)
+
+To fetch all the skeets by a specific user, use the `get_skeets_authored_by` function. *Note this also includes quote skeets and reskeets.* You can also opt not to parse the result by setting `parse = FALSE`, however it is recommended to use the default parse option which results in a (more) tidy tibble.
+
 
 ```{r}
-follows <- get_follows(actor = "benguinaudeau.bsky.social", limit = 200) %>%
-  glimpse
-
-follows$handle %>%
-  split(ceiling(seq_along(.)/25)) %>%
-  map_dfr(~{
-    get_user_info(actor = .x)
-  }) %>%
-  glimpse
+ get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
+  dplyr::glimpse()
 
 ```
 
+Feeling adventurous? Increase the `limit` and explore more of their content.
 
-## Create a post
 
 ```{r}
+get_skeets_authored_by(actor = "favstats.bsky.social", limit = 30) |>
+  dplyr::glimpse()
+```
+# Exploring Connections: Get Followers and Follows
+
+You can retrieve a list of followers and those followed by a user through the `get_followers` and `get_follows` functions, respectively. This gives a glimpse of their social dynamics on the platform.
+
+## `get_followers`
+
+```{r}
+get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+  dplyr::glimpse()
+```
+## `get_follows`
+
+```{r}
+atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+  dplyr::glimpse()
+```
+
+You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
+
+
+## Follower Network Visualization 
+
+This section guides you through the process of visualizing a follower network for a given user on Blue Sky. The primary focus is on the "skeets" (posts) and the interconnected relationships among followers.
+
+The first step is to load some additional packages. Then we get the followers for the main user we are interested in. We will then delve deeper and fetch the followers for each of these followers.
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(igraph)
+library(ggraph)
+library(tidygraph)
+
+# Retrieve the followers for the main user
+some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
+
+# For each follower, retrieve their own set of followers. 
+# This provides a nested view of relationships. 
+followers_of_followers <- some_followers |>
+  purrr::map_dfr(~{
+    get_followers(actor = .x, limit = 200) |> 
+    mutate(from = .x)
+  }) %>% 
+  dplyr::rename(to = handle) %>% 
+  dplyr::select(from, to)
+
+```
+
+## Building and Visualizing the Follower Network
+
+
+```{r}
+
+# Construct the network graph and plot
+graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
+
+# Use ggraph to visualize the network. 
+ggraph::ggraph(graph,  layout = 'kk') +
+  ggraph::geom_edge_link(width = 0.2) + 
+  ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank())) +
+  ggplot2::theme_void()
+```
+
+# Interacting with Blue Sky: Posts, Replies, and Deletions
+
+In this section, we will cover how to interact with the Blue Sky platform by creating posts (skeets), replying to them, and eventually, if necessary, deleting them.
+
+## Posting a Skeet 
+
+Here's how you can easily post a skeet to your account:
+
+```{r, eval=F}
+
 post <- post_skeet(text = "Posting around")
 
 ```
 
-### Reply to a post
+By running the above command, you've successfully created a skeet with the content "Posting around."
 
-```{r}
+
+
+
+## Replying to a Skeet
+
+Engaging with the Blue Sky community often means replying to existing skeets. Here's how you can craft a reply:
+
+
+
+```{r, eval=F}
+
 reply <- post_skeet(text = "Replying around", in_reply_to = post$uri)
+
 ```
+Notice the in_reply_to parameter? This ensures that our reply is linked to the original post, creating a thread of conversation.
 
-### Delete a post
 
-```{r}
+
+## Deleting a Skeet
+
+Whether it's to correct an error, remove outdated information, or any other reason, sometimes you might want to delete a skeet. Here's how:
+
+
+```{r, eval=F}
 delete_skeet(post_url = reply$uri)
 ```
 
-### support for media
+##  Crafting Threads in Blue Sky
 
-```{r}
-## Not working
-library(ggplot2)
-ggplot(mpg, aes(displ, hwy, colour = class)) + 
-  geom_point()
-f1 <- ggsave(tempfile(pattern = "1", fileext = ".png"))
+Threads are a series of connected posts or "skeets" on Blue Sky. They're a great way to communicate longer ideas or stories, where each skeet builds on the previous one. In this section, we'll explore how to create a thread seamlessly.
 
-lty <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
-linetypes <- data.frame(
-  y = seq_along(lty),
-  lty = lty
-) 
-ggplot(linetypes, aes(0, y)) + 
-  geom_segment(aes(xend = 5, yend = y, linetype = lty)) + 
-  scale_linetype_identity() + 
-  geom_text(aes(label = lty), hjust = 0, nudge_y = 0.2) +
-  scale_x_continuous(NULL, breaks = NULL) + 
-  scale_y_reverse(NULL, breaks = NULL)
+A thread is essentially a series of individual skeets. Here's how you can do it programmatically using `post_thread`:
 
-f2 <- ggsave(tempfile(pattern = "2", fileext = ".png"))
-post_thread(texts = c("This is the first plot on the ggplot2 website",
-                      "This is the second plot on the ggplot2 website",
-                      "And this is just text sent from the atr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"), 
-            images = c(f1, f2, ""),
-            image_alts = c("first ggplot2 plot",
-                           "second ggplot2 plot",
-                           ""))
-
-thread <- post_thread(c("Post 1", "Post 2", "Post 3"))
-delete_post(thread$uri)
+```{r, eval=F}
+post_thread(texts = c("This is the first amazing skeet.",
+                      "Now I am expanding upon my skeet!",
+                      "Conclusion: I skeet therefore I am."))
 ```
 
-### (un)/Follow user
 
-```{r}
+## Following and Unfollowing Users in Blue Sky
+
+
+One of the fundamental ways to connect with other users is by following them, allowing you to see their posts in your feed. Conversely, if you decide that you no longer want to see updates from a particular user, you can unfollow them. 
+
+```{r, eval=F}
+# Follow a user by their handle
 follow(actor = "benguinaudeau.bsky.social")
-unfollow(actor = "benguinaudeau.bsky.social")
+
+```
+
+```{r, eval=F}
+# Follow a user by their handle
+follow(actor = "benguinaudeau.bsky.social")
+
 ```
 
 
-## Feed analysis
+<!-- ## Support for posting media -->
+
+<!-- ```{r, eval=F} -->
+
+<!-- ## Not working -->
+<!-- library(ggplot2) -->
+<!-- ggplot(mpg, aes(displ, hwy, colour = class)) +  -->
+<!--   geom_point() -->
+
+<!-- f1 <- ggsave(tempfile(pattern = "1", fileext = ".png")) -->
+
+<!-- lty <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash") -->
+<!-- linetypes <- data.frame( -->
+<!--   y = seq_along(lty), -->
+<!--   lty = lty -->
+<!-- )  -->
+<!-- ggplot(linetypes, aes(0, y)) +  -->
+<!--   geom_segment(aes(xend = 5, yend = y, linetype = lty)) +  -->
+<!--   scale_linetype_identity() +  -->
+<!--   geom_text(aes(label = lty), hjust = 0, nudge_y = 0.2) + -->
+<!--   scale_x_continuous(NULL, breaks = NULL) +  -->
+<!--   scale_y_reverse(NULL, breaks = NULL) -->
+
+<!-- f2 <- ggsave(tempfile(pattern = "2", fileext = ".png")) -->
+<!-- post_thread(texts = c("This is the first plot on the ggplot2 website", -->
+<!--                       "This is the second plot on the ggplot2 website", -->
+<!--                       "And this is just text sent from the atr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"),  -->
+<!--             images = c(f1, f2, ""), -->
+<!--             image_alts = c("first ggplot2 plot", -->
+<!--                            "second ggplot2 plot", -->
+<!--                            "")) -->
+
+<!-- thread <- post_thread(c("Post 1", "Post 2", "Post 3")) -->
+<!-- delete_post(thread$uri) -->
+<!-- ``` -->
+
+
+
+
+# Analyzing Feeds on Blue Sky
+
+On Blue Sky users have the ability to create custom feeds based on specific keywords. These feeds aggregate content, for instance, a user might curate a feed around the hashtag `#rstats` to gather all relevant content about. Let's delve into the dynamics of such user-curated feeds.
+
+## Retrieving a Curated Feed
+
+Our starting point is to extract the posts from a user-curated feed. We're focusing on a feed curated by "andrew.heiss.phd".
+
 
 ```{r}
-feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") %>%
-  glimpse
+# Fetching the feed posts
+feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
+  dplyr::glimpse()
 
-rstat_feed <- feeds %>%
+# Filtering for a specific keyword, for example "#rstats"
+rstat_feed <- feeds |>
   filter(displayName == "#rstats")
 
-rstat_posts <- get_feed(rstat_feed$uri, limit = 200) %>%
-  glimpse
+# Extracting posts from this curated feed
+rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
+  # Extracting user handle from the author
+  mutate(handle = author |> map_chr(~{.x$handle}))  |>
+  dplyr::glimpse() 
+
 ```
 
 
-### Top poster from a specific feed
-### Top popular poster from a specific feed
+## Identifying Top Contributors
 
-## Get likes from a post
+Who are the leading voices within a particular topic? This analysis highlights users who are frequently contributing to the `#rstats` feed.
 
-### Most famous rstats post
+
+```{r}
+library(ggplot2)
+
+# Identifying the top 10 contributors
+rstat_posts |>
+  count(handle, sort = T) %>% 
+  slice(1:10) %>% 
+  mutate(handle = forcats::fct_reorder(handle, n)) %>% 
+  ggplot(aes(handle, n)) +
+  geom_col() +
+  coord_flip()
+
+
+
+```
+
+
+### Recognizing Influential Voices
+
+Volume doesn't always translate to influence. Some users may post less frequently but their contributions resonate deeply with the community.
+
+
+
+```{r}
+# Identifying top 10 influential voices based on likes
+rstat_posts |>
+  group_by(handle) |>
+  summarize(like_count = sum(like_count)) |>
+  ungroup() |>
+  arrange(desc(like_count)) |>
+  slice(1:10) |>
+  mutate(handle = forcats::fct_reorder(handle, like_count)) |>
+  ggplot(aes(handle, like_count)) +
+  geom_col() +
+  coord_flip()
+
+```
+
+
+
+
+
+### Most Famous #rstats skeet
 
 ```{r}
 
-```
+# Finding the standout post in the rstats feed
+rstat_posts |>
+  mutate(total_interactions = reply_count+repost_count+like_count) |>
+  arrange(desc(total_interactions)) |>
+  slice(1) |>
+  select(handle, total_interactions, text) |>
+  dplyr::glimpse() |>
+  pull(text)
 
-### Like analysis
-
-```{r}
-uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
-# Not working for now
-get_likes(uri)
-```
-
-### Repost analysis
-
-```{r}
-uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")
-# Not working for now
-get_reposts(post_url = uri)
 ```
 
 
-### Eventual temporal structure
+<!-- ## Get likes from a post -->
+
+<!-- ### Like analysis -->
+
+<!-- ```{r} -->
+<!-- uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t") -->
+<!-- # Not working for now -->
+<!-- get_likes(uri) -->
+<!-- ``` -->
+
+<!-- ### Repost analysis -->
+
+<!-- ```{r} -->
+<!-- uri <- convert_http_to_at("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t") -->
+<!-- # Not working for now -->
+<!-- get_reposts(post_url = uri) -->
+<!-- ``` -->
+
+
+<!-- ### Eventual temporal structure -->

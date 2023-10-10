@@ -59,6 +59,7 @@ get_followers <- function(actor,
 
 
 #' @rdname get_followers
+#' @export
 get_follows <- function(actor,
                         limit = 25L,
                         cursor = NULL,

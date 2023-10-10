@@ -1,6 +1,7 @@
 pandoc: 3.1.1
 pkgdown: 2.0.6
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-10-02T16:42Z
+articles:
+  Basic_Usage: Basic_Usage.html
+last_built: 2023-10-10T19:45Z
 

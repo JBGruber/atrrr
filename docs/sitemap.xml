@@ -4,6 +4,12 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/Basic_Usage.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -16,15 +22,63 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
+    <loc>/reference/atr-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/auth.html</loc>
+  </url>
+  <url>
+    <loc>/reference/follow.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_feed.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_feeds_created_by.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_feed_likes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_followers.html</loc>
   </url>
   <url>
     <loc>/reference/get_lexicon.html</loc>
   </url>
   <url>
+    <loc>/reference/get_likes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_own_timeline.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_skeets_authored_by.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_user_info.html</loc>
+  </url>
+  <url>
+    <loc>/reference/github_ls.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/list_lexicons.html</loc>
+  </url>
+  <url>
+    <loc>/reference/post.html</loc>
+  </url>
+  <url>
+    <loc>/reference/post_thread.html</loc>
+  </url>
+  <url>
     <loc>/reference/print.bsky_token.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_lexicon.html</loc>
+  </url>
+  <url>
+    <loc>/reference/search_user.html</loc>
   </url>
 </urlset>

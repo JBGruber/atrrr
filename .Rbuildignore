@@ -9,3 +9,5 @@
 ^data-raw$
 ^lab.Rmd$
 ^codecov\.yml$
+^doc$
+^Meta$

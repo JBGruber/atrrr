@@ -134,7 +134,7 @@ get_feeds_created_by <- function(actor,
 #'
 #' Get the skeets that would be shown when you open the given feed
 #'
-#' @feed_url The url of the requested feed
+#' @param feed_url The url of the requested feed
 #' @inheritParams search_user
 #'
 #' @returns a data frame (or nested list) of posts

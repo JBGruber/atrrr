@@ -33,7 +33,7 @@ Start with the [Basic Usage](#basic-usage) section below to learn more.
 You can install the development version of atr like so (`pak` works similar to `remotes` here, but it's what the cool kids use now :grin:):
 
 ``` r
-# install.packages("pak)
+# install.packages("pak")
 pak::pak("JBGruber/atr")
 ```
 
