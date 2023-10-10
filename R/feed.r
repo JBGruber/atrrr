@@ -1,4 +1,4 @@
-#' A view of an actor's feed.
+#' A view of an actor's skeets.
 #'
 #' @param actor user handle to retrieve feed for.
 #' @inheritParams get_followers
@@ -53,6 +53,140 @@ get_skeets_authored_by <- function(actor,
     out <- res
   }
 
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+#' A view of the feed created by an actor.
+#'
+#' @param actor user handle to retrieve feed from
+#' @inheritParams get_followers
+#'
+#' @returns a data frame (or nested list) of feeds
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' feed <- get_feeds_created_by("profmusgrave.bsky.social")
+#' }
+get_feeds_created_by <- function(actor,
+                                 limit = 25L,
+                                 cursor = NULL,
+                                 parse = TRUE,
+                                 .token = NULL) {
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} feeds, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_actor_feeds,
+      args = list(
+        actor = actor,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = NULL,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$feed)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.")
+
+    out <- res %>%
+      map_dfr(~{
+        l <- .x |>
+          purrr::list_flatten() |>
+          purrr::list_flatten() |>
+          purrr::compact()
+
+        if(!is.null(l[["created_at"]])) l$created_at = parse_time(l$createdAt)
+        if(!is.null(l[["indexedAt"]])) l$created_at = parse_time(l$indexedAt)
+
+        return(as_tibble(l))
+
+      })
+
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+  } else {
+    out <- res
+  }
+
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+#' Get the skeets from a specific feed
+#'
+#' Get the skeets that would be shown when you open the given feed
+#'
+#' @feed_url The url of the requested feed
+#' @inheritParams search_user
+#'
+#' @returns a data frame (or nested list) of posts
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_own_timeline()
+#' get_own_timeline(algorithm = "reverse-chronological")
+#' }
+get_feed <- function(feed_url,
+                     limit = 25L,
+                     cursor = NULL,
+                     parse = TRUE,
+                     .token = NULL) {
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_feed,
+      args = list(
+        feed = feed_url,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$feed)
+
+    if (is.null(resp$cursor)) break
+    cli::cli_progress_update(force = TRUE)
+  }
+
+  cli::cli_progress_done()
+
+  if (parse) {
+    cli::cli_progress_step("Parsing {length(res)} results.")
+    out <- parse_feed(res)
+    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+  } else {
+    out <- res
+  }
   attr(out, "last_cursor") <- last_cursor
   return(out)
 }
