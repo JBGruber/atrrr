@@ -6,7 +6,6 @@
 #'
 #' @return The list of corresponding paths. If the depth is reached, it returns
 #'   the folder where max-depth was reached
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -47,7 +46,6 @@ github_ls <- function(repo, folder, max_depth = 10) {
 #'   <https://github.com/bluesky-social/atproto>.
 #'
 #' @return Nothing, downloads files into appropriate folder
-#' @export
 #'
 #' @examples
 #' get_lexicon("app/bsky/actor/getProfile.json")
@@ -70,7 +68,6 @@ get_lexicon <- function(path) {
 #'   <https://github.com/bluesky-social/atproto>.
 #'
 #' @return The corresopnding json file
-#' @export
 #'
 #' @examples
 #' read_lexicon("app/bsky/actor/getProfile.json")
