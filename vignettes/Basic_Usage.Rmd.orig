@@ -12,7 +12,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "vignettes/figures/",
+  fig.path = "figures/",
   message = FALSE
 )
 ```
@@ -48,11 +48,11 @@ library(atr)
 
 The first time you make a request, you will be prompted automatically to enter your user handle and an app password to authenticate `atr` to communicate with BlueSky for you.
 
-![RStudio Popup](vignettes/figures/password_popup.png)
+![RStudio Popup](figures/password_popup.png)
 
 The page to generate app passwords is also automatically opened for you.
 
-![page to create new app passwords](vignettes/figures/app_password.png)
+![page to create new app passwords](figures/app_password.png)
 
 However, you can also trigger this process manually:
 
