@@ -35,11 +35,23 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Build site
+      - name: Build home
         run: pkgdown::build_home()
+        shell: Rscript {0}
+
+      - name: Build reference
         run: pkgdown::build_reference()
+        shell: Rscript {0}
+
+      - name: Build news
         run: pkgdown::build_news()
+        shell: Rscript {0}
+
+      - name: Build favicons
         run: pkgdown::build_favicons()
+        shell: Rscript {0}
+
+      - name: Build search
         run: pkgdown::build_search()
         shell: Rscript {0}
 
