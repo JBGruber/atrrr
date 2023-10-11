@@ -36,7 +36,11 @@ jobs:
           needs: website
 
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: pkgdown::build_home()
+        run: pkgdown::build_reference()
+        run: pkgdown::build_news()
+        run: pkgdown::build_favicons()
+        run: pkgdown::build_search()
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages 🚀
