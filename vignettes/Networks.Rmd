@@ -92,16 +92,18 @@ followers_of_followers <- some_followers |>
 
 ## Building and Visualizing the Follower Network
 
-```{r, fig.cap="Follower Network", fig.width=8, fig.height=6}
+```{r, fig.cap="Follower Network", fig.width=8, fig.height=6, dpi = 900}
 # Construct the network graph and plot
 graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
 
 # Use ggraph to visualize the network.
-ggraph::ggraph(graph, layout = "kk") +
+ggraph::ggraph(graph, layout = 'fr') +
   ggraph::geom_edge_link() +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank()), color = "lightblue") +
-  ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank()), 
-                   vjust = 1, hjust = 1, check_overlap = T, color = "blue") +
+  ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank(), family = "mono", fontface = "bold"), 
+                   vjust = 1, hjust = 1, check_overlap = T, color = "white", show.legend = F) +
+  ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank(), family = "mono"), 
+                   vjust = 1, hjust = 1, check_overlap = T, color = "blue", show.legend = F) +
   ggplot2::theme_void() +
   ggplot2::theme(legend.position = "bottom")
 ```
