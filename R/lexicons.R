@@ -48,7 +48,9 @@ github_ls <- function(repo, folder, max_depth = 10) {
 #' @return Nothing, downloads files into appropriate folder
 #'
 #' @examples
+#' \dontrun{
 #' get_lexicon("app/bsky/actor/getProfile.json")
+#' }
 get_lexicon <- function(path) {
   base_url <- "https://raw.githubusercontent.com/bluesky-social/atproto/main/lexicons/"
   d_url <- file.path(base_url, path)
@@ -70,7 +72,9 @@ get_lexicon <- function(path) {
 #' @return The corresopnding json file
 #'
 #' @examples
+#' \dontrun{
 #' read_lexicon("app/bsky/actor/getProfile.json")
+#' }
 read_lexicon <- function(path) {
   local_path <- file.path(system.file("lexicons", package = "atr"), path)
 
