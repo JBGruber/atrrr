@@ -48,6 +48,7 @@ get_skeets_authored_by <- function(actor,
   if (parse) {
     cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
+    out$is_repost <- purrr::map_lgl(out$author, function(a) a$handle != actor)
     cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
