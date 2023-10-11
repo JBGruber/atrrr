@@ -154,6 +154,7 @@ follow <- function(actor,
 
 
 #' @rdname follow
+#' @export
 unfollow <- function(actor,
                      .token = NULL) {
 

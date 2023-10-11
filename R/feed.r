@@ -48,7 +48,7 @@ get_skeets_authored_by <- function(actor,
   if (parse) {
     cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
-    out$is_repost <- purrr::map_lgl(out$author, function(a) a$handle != actor)
+    out$is_reskeet <- purrr::map_lgl(out$author, function(a) a$handle != actor)
     cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
@@ -400,6 +400,7 @@ get_likes <- function(post_url,
 
 
 #' @rdname get_likes
+#' @export
 get_reposts <- function(post_url,
                         limit = 25L,
                         cursor = NULL,
@@ -604,10 +605,12 @@ post <- function(text,
 
 
 #' @rdname post
+#' @export
 post_skeet <- post
 
 
 #' @rdname post
+#' @export
 delete_skeet <- function(post_url,
                          .token = NULL) {
 
@@ -639,6 +642,7 @@ delete_skeet <- function(post_url,
 
 
 #' @rdname post
+#' @export
 delete_post <- delete_skeet
 
 

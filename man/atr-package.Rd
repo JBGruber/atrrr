@@ -11,6 +11,13 @@
 The goal of atr is to wrap the AT Protocol (Authenticated Transfer Protocol)
 behind Bluesky.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://jbgruber.github.io/atr/}
+}
+
+}
 \author{
 \strong{Maintainer}: Johannes B. Gruber \email{JohannesB.Gruber@gmail.com} (\href{https://orcid.org/0000-0001-9177-1772}{ORCID})
 
