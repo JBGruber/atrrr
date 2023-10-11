@@ -1,0 +1,162 @@
+---
+title: "Networks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Networks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/",
+  message = FALSE,
+  warning = FALSE,
+  out.width = "100%",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+
+# Get Followers and Follows
+
+You can retrieve a list of followers and those followed by a user through the `get_followers` and `get_follows` functions, respectively. This gives a glimpse of their social dynamics on the platform.
+
+
+## Load the package
+
+```{r}
+library(atr)
+```
+
+## `get_followers`
+
+Retrieve the followers of a specific account with `get_followers`:
+
+```{r}
+get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+  dplyr::glimpse()
+```
+
+
+## `get_follows`
+
+Retrieve the accounts that are followed by a specific account with `get_follows`:
+
+```{r}
+atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+  dplyr::glimpse()
+```
+
+You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
+
+
+## Follower Network Visualization
+
+This section guides you through the process of visualizing a follower network for a given user on Blue Sky. The primary focus is on the interconnected relationships among followers.
+
+The first step is to load some additional packages. Then we get the followers for the main user we are interested in. We will then delve deeper and fetch the followers for each of these followers.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(igraph)
+library(ggraph)
+library(tidygraph)
+
+# Retrieve the followers for the main user
+some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
+
+# For each follower, retrieve their own set of followers.
+# This provides a nested view of relationships.
+followers_of_followers <- some_followers |>
+  purrr::map_dfr(~{
+    get_followers(actor = .x, limit = 200) |>
+    mutate(from = .x)
+  }) |>
+  dplyr::rename(to = handle) |>
+  dplyr::select(from, to) %>% 
+  dplyr::add_count(to, name = "n_to") %>% 
+  dplyr::add_count(from, name = "n_from") %>% 
+  dplyr::filter(n_to > 1 | n_from > 1) %>% 
+  dplyr::select(-n_to:-n_from)
+```
+
+
+## Building and Visualizing the Follower Network
+
+```{r, fig.cap="Follower Network", fig.width=8, fig.height=6}
+# Construct the network graph and plot
+graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
+
+# Use ggraph to visualize the network.
+ggraph::ggraph(graph, layout = "kk") +
+  ggraph::geom_edge_link() +
+  ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank()), color = "lightblue") +
+  ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank()), 
+                   vjust = 1, hjust = 1, check_overlap = T, color = "blue") +
+  ggplot2::theme_void() +
+  ggplot2::theme(legend.position = "bottom")
+```
+
+
+## Find people to follow
+
+You can use a similar approach to find new people you might want to follow.
+First get all the people you already follow by quering your own account:
+
+```{r}
+my_follows <- get_follows(actor = "jbgruber.bsky.social",
+                              limit = 10)$handle # limit only for demonstration
+
+# For each account you follow, retrieve who they follow.
+follows_of_follows <- my_follows |>
+  purrr::map_dfr(~{
+    get_followers(actor = .x, limit = 100) |>
+      mutate(from = .x)
+  })
+
+# Now we can check which accounts are popular among the people you already follow
+follows_of_follows |>
+  dplyr::filter(!handle %in% my_follows) |> # exclude accounts you already follow
+  dplyr::count(display_name, handle, sort = TRUE)
+```
+
+The original account shows up in this overview, as do accounts that were excluded because of the limit set to do the demonstration.
+
+But all of these accounts look interesting!
+
+# Likes and Reposts
+
+You can also retrieve the accounts that liked or reposted your skeets.
+
+## Who liked your skeets?
+
+Want to create like networks? The `get_likes` function allows you to extract information about users who liked a specific post. By simply providing the post's URL, you can get a list of users who expressed their appreciation for the content.
+
+
+
+```{r}
+get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
+  dplyr::glimpse()
+```
+
+## Who reposted your skeets?
+
+Want to create repost networks? Reposts (or reskeets), akin to retweets on platforms like Twitter, amplify the reach of content by sharing it with a wider audience.
+
+The `get_reposts` function is designed to retrieve information about users who reposted a specific piece of content.
+
+```{r}
+get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
+  dplyr::glimpse()
+```
+
+

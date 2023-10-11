@@ -1,0 +1,111 @@
+---
+title: "Feed Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Feed_Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/",
+  message = FALSE,
+  out.width = "100%",
+  fig.width = 7,
+  fig.height = 4
+)
+
+library(dplyr)
+library(purrr)
+```
+
+
+
+# Analyzing Feeds on Blue Sky
+
+On Blue Sky users have the ability to create custom feeds based on specific keywords. These feeds aggregate content, for instance, a user might create a feed around the hashtag `#rstats` to gather all relevant content about. Let's delve into the dynamics of such feeds created by users.
+
+## Load the package
+
+```{r setup}
+library(atr)
+```
+
+## Retrieving a Feed
+
+Our starting point is to extract the posts from a feed. We're focusing on a feed curated by "andrew.heiss.phd".
+
+
+```{r}
+# Fetching the feed posts
+feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
+  dplyr::glimpse()
+
+# Filtering for a specific keyword, for example "#rstats"
+rstat_feed <- feeds |>
+  filter(displayName == "#rstats")
+
+# Extracting posts from this curated feed
+rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
+  # Extracting user handle from the author
+  mutate(handle = author |> map_chr(~{.x$handle}))  |>
+  dplyr::glimpse()
+```
+
+
+## Identifying Top Contributors
+
+Who are the leading voices within a particular topic? This analysis highlights users who are frequently contributing to the `#rstats` feed.
+
+
+```{r, fig.cap="Top 10 #rstats contributors"}
+library(ggplot2)
+
+# Identifying the top 10 contributors
+rstat_posts |>
+  count(handle, sort = T) |>
+  slice(1:10) |>
+  mutate(handle = forcats::fct_reorder(handle, n)) |>
+  ggplot(aes(handle, n)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal()
+```
+
+
+### Recognizing Influential Voices
+
+Volume doesn't always translate to influence. Some users may post less frequently but their contributions resonate deeply with the community.
+
+```{r, fig.cap="Top 10 #rstats contributors based on likes"}
+# Identifying top 10 influential voices based on likes
+rstat_posts |>
+  group_by(handle) |>
+  summarize(like_count = sum(like_count)) |>
+  ungroup() |>
+  arrange(desc(like_count)) |>
+  slice(1:10) |>
+  mutate(handle = forcats::fct_reorder(handle, like_count)) |>
+  ggplot(aes(handle, like_count)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal()
+```
+
+
+### Most Famous #rstats skeet
+
+```{r}
+# Finding the standout post in the rstats feed
+rstat_posts |>
+  mutate(total_interactions = reply_count+repost_count+like_count) |>
+  arrange(desc(total_interactions)) |>
+  slice(1) |>
+  select(handle, total_interactions, text) |>
+  dplyr::glimpse() |>
+  pull(text)
+```

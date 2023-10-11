@@ -108,8 +108,8 @@ get_feeds_created_by <- function(actor,
   if (parse) {
     cli::cli_progress_step("Parsing {length(res)} results.")
 
-    out <- res %>%
-      map_dfr(~{
+    out <- res |>
+      purrr::map_dfr(~{
         l <- .x |>
           purrr::list_flatten() |>
           purrr::list_flatten() |>
