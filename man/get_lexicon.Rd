@@ -17,5 +17,7 @@ Nothing, downloads files into appropriate folder
 Download new lexicon and save it into the inst folder
 }
 \examples{
+\dontrun{
 get_lexicon("app/bsky/actor/getProfile.json")
+}
 }

@@ -15,6 +15,7 @@ behind Bluesky.
 Useful links:
 \itemize{
   \item \url{https://jbgruber.github.io/atr/}
+  \item \url{https://github.com/JBGruber/atr}
 }
 
 }

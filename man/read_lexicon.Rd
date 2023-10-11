@@ -17,5 +17,7 @@ The corresopnding json file
 Download new lexicon and save it into the inst folder
 }
 \examples{
+\dontrun{
 read_lexicon("app/bsky/actor/getProfile.json")
+}
 }
