@@ -35,6 +35,9 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
+      - name: Install pdflatex
+        run: sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+
       - name: Build home
         run: pkgdown::build_home()
         shell: Rscript {0}
