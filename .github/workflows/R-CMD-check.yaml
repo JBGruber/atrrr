@@ -44,6 +44,9 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Install pdflatex
+        run: sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
