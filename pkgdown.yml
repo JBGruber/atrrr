@@ -1,9 +1,11 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Basic_Usage: Basic_Usage.html
-last_built: 2023-10-11T10:33Z
+  Feed_Analysis: Feed_Analysis.html
+  Interactions: Interactions.html
+last_built: 2023-10-11T11:01Z
 urls:
   reference: https://jbgruber.github.io/atr/reference
   article: https://jbgruber.github.io/atr/articles

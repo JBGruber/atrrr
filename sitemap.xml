@@ -4,22 +4,28 @@
     <loc>https://jbgruber.github.io/atr/404.html</loc>
   </url>
   <url>
-    <loc>https://jbgruber.github.io/atr/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://jbgruber.github.io/atr/LICENSE.html</loc>
-  </url>
-  <url>
     <loc>https://jbgruber.github.io/atr/articles/Basic_Usage.html</loc>
   </url>
   <url>
+    <loc>https://jbgruber.github.io/atr/articles/Feed_Analysis.html</loc>
+  </url>
+  <url>
     <loc>https://jbgruber.github.io/atr/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jbgruber.github.io/atr/articles/Interactions.html</loc>
   </url>
   <url>
     <loc>https://jbgruber.github.io/atr/authors.html</loc>
   </url>
   <url>
     <loc>https://jbgruber.github.io/atr/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jbgruber.github.io/atr/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://jbgruber.github.io/atr/LICENSE.html</loc>
   </url>
   <url>
     <loc>https://jbgruber.github.io/atr/reference/atr-package.html</loc>
@@ -34,10 +40,10 @@
     <loc>https://jbgruber.github.io/atr/reference/get_feed.html</loc>
   </url>
   <url>
-    <loc>https://jbgruber.github.io/atr/reference/get_feed_likes.html</loc>
+    <loc>https://jbgruber.github.io/atr/reference/get_feeds_created_by.html</loc>
   </url>
   <url>
-    <loc>https://jbgruber.github.io/atr/reference/get_feeds_created_by.html</loc>
+    <loc>https://jbgruber.github.io/atr/reference/get_feed_likes.html</loc>
   </url>
   <url>
     <loc>https://jbgruber.github.io/atr/reference/get_followers.html</loc>
