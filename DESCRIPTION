@@ -46,9 +46,15 @@ Depends:
 LazyData: true
 Suggests: 
     askgpt,
+    forcats,
+    ggplot2,
+    ggraph,
+    igraph,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidygraph,
+    withr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://jbgruber.github.io/atr/, https://github.com/JBGruber/atr
