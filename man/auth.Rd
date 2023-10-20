@@ -21,7 +21,10 @@ auth(
 
 \item{domain}{For now https://bsky.app/, but could change in the future.}
 
-\item{verbose}{If TRUE, prints success message.}
+\item{verbose}{Whether to print status messages to the Console
+(\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
+status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
+  FALSE)}.}
 
 \item{overwrite}{If TRUE, overwrites old token without asking for confirmation.}
 

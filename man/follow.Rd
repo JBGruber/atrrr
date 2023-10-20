@@ -5,12 +5,17 @@
 \alias{unfollow}
 \title{Un/Follow an account}
 \usage{
-follow(actor, .token = NULL)
+follow(actor, verbose = NULL, .token = NULL)
 
-unfollow(actor, .token = NULL)
+unfollow(actor, verbose = NULL, .token = NULL)
 }
 \arguments{
 \item{actor}{User handle to follow or unfollow}
+
+\item{verbose}{Whether to print status messages to the Console
+(\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
+status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
+  FALSE)}.}
 
 \item{.token}{If you manage your own tokens, you can supply it here. Usually
 \code{NULL} is OK and will automatically load or guide you to generate a

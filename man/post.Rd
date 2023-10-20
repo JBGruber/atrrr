@@ -13,6 +13,7 @@ post(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  verbose = NULL,
   .token = NULL
 )
 
@@ -22,12 +23,13 @@ post_skeet(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  verbose = NULL,
   .token = NULL
 )
 
-delete_skeet(post_url, .token = NULL)
+delete_skeet(post_url, verbose = NULL, .token = NULL)
 
-delete_post(post_url, .token = NULL)
+delete_post(post_url, verbose = NULL, .token = NULL)
 }
 \arguments{
 \item{text}{Text to post}
@@ -39,6 +41,11 @@ delete_post(post_url, .token = NULL)
 \item{image_alt}{alt text for the image}
 
 \item{created_at}{time stamp of the post}
+
+\item{verbose}{Whether to print status messages to the Console
+(\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
+status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
+  FALSE)}.}
 
 \item{.token}{If you manage your own tokens, you can supply it here. Usually
 \code{NULL} is OK and will automatically load or guide you to generate a

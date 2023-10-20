@@ -14,13 +14,14 @@ get_skeets_authored_by <- function(actor,
                                    limit = 25L,
                                    cursor = NULL,
                                    parse = TRUE,
+                                   verbose = NULL,
                                    .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -40,16 +41,16 @@ get_skeets_authored_by <- function(actor,
     res <- c(res, resp$feed)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
     out$is_reskeet <- purrr::map_lgl(out$author, function(a) a$handle != actor)
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -74,13 +75,14 @@ get_feeds_created_by <- function(actor,
                                  limit = 25L,
                                  cursor = NULL,
                                  parse = TRUE,
+                                 verbose = NULL,
                                  .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} feeds, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -100,13 +102,13 @@ get_feeds_created_by <- function(actor,
     res <- c(res, resp$feed)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- res |>
       purrr::map_dfr(~{
@@ -122,7 +124,7 @@ get_feeds_created_by <- function(actor,
 
       })
 
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -150,13 +152,14 @@ get_feed <- function(feed_url,
                      limit = 25L,
                      cursor = NULL,
                      parse = TRUE,
+                     verbose = NULL,
                      .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -176,15 +179,15 @@ get_feed <- function(feed_url,
     res <- c(res, resp$feed)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -280,13 +283,14 @@ get_own_timeline <- function(algorithm = NULL,
                              limit = 25L,
                              cursor = NULL,
                              parse = TRUE,
+                             verbose = NULL,
                              .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -306,13 +310,13 @@ get_own_timeline <- function(algorithm = NULL,
     res <- c(res, resp$feed)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
     out <-  res |>
       purrr::map_dfr(~{
         .x |>
@@ -322,7 +326,7 @@ get_own_timeline <- function(algorithm = NULL,
           tibble::as_tibble()
       }) |>
       dplyr::bind_rows()
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -342,6 +346,7 @@ get_likes <- function(post_url,
                       limit = 25L,
                       cursor = NULL,
                       parse = TRUE,
+                      verbose = NULL,
                       .token = NULL) {
 
   uri <- convert_http_to_at(post_url, .token = .token)
@@ -350,7 +355,7 @@ get_likes <- function(post_url,
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -371,13 +376,13 @@ get_likes <- function(post_url,
     res <- c(res, resp$likes)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- purrr::map(res, function(l) {
       tibble::tibble(
@@ -390,7 +395,7 @@ get_likes <- function(post_url,
     }) |>
       dplyr::bind_rows()
 
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -405,6 +410,7 @@ get_reposts <- function(post_url,
                         limit = 25L,
                         cursor = NULL,
                         parse = TRUE,
+                        verbose = NULL,
                         .token = NULL) {
 
   uri <- convert_http_to_at(post_url, .token = .token)
@@ -413,7 +419,7 @@ get_reposts <- function(post_url,
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} reposts, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} reposts. All done! [{cli::pb_elapsed}]"
   )
@@ -434,13 +440,13 @@ get_reposts <- function(post_url,
     res <- c(res, resp$repostedBy)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- purrr::map(res, function(l) {
       purrr::list_flatten(l) |>
@@ -448,7 +454,7 @@ get_reposts <- function(post_url,
     }) |>
       dplyr::bind_rows()
 
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
 
   } else {
     out <- res
@@ -469,6 +475,7 @@ get_feed_likes <- function(feed_url,
                            limit = 25L,
                            cursor = NULL,
                            parse = TRUE,
+                           verbose = NULL,
                            .token = NULL) {
 
   uri <- convert_http_to_at(feed_url, .token = .token)
@@ -477,7 +484,7 @@ get_feed_likes <- function(feed_url,
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -498,13 +505,13 @@ get_feed_likes <- function(feed_url,
     res <- c(res, resp$likes)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
     out <- purrr::map(res, function(l) {
       tibble::tibble(
@@ -516,7 +523,7 @@ get_feed_likes <- function(feed_url,
       )
     }) |>
       dplyr::bind_rows()
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -547,9 +554,10 @@ post <- function(text,
                  image = NULL,
                  image_alt = NULL,
                  created_at = Sys.time(),
+                 verbose = NULL,
                  .token = NULL) {
 
-  cli::cli_progress_step(
+  if (verbosity(verbose)) cli::cli_progress_step(
     msg = "Request to post {.emph {text}}",
     msg_done = "Posted {.emph {text}}",
     msg_failed = "Something went wrong"
@@ -612,10 +620,11 @@ post_skeet <- post
 #' @rdname post
 #' @export
 delete_skeet <- function(post_url,
+                         verbose = NULL,
                          .token = NULL) {
 
   id <- basename(post_url)
-  cli::cli_progress_step(
+  if (verbosity(verbose)) cli::cli_progress_step(
     msg = "Request to delete post {.emph {id}}",
     msg_done = "Deleted {.emph {id}}",
     msg_failed = "Something went wrong"
@@ -670,6 +679,7 @@ post_thread <- function(texts,
                         images = NULL,
                         image_alts = NULL,
                         thread_df = NULL,
+                        verbose = NULL,
                         .token = NULL) {
 
   if (is.null(thread_df)) {

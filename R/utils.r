@@ -204,6 +204,13 @@ get_thread_root <- function(thread) {
 }
 
 
+#' Check verbosity
+#' @noRd
+verbosity <- function(verbose) {
+  verbose %||% as.logical(Sys.getenv("ATR_VERBOSE", unset = TRUE))
+}
+
+
 #' lexicon seems wrong. translated from https://atproto.com/blog/create-post#images-embeds
 #' @noRd
 com_atproto_repo_upload_blob2 <- function(image,

@@ -7,6 +7,10 @@
 #' @param cursor Cursor for pagination (to pick up an old search).
 #' @param parse Parse the results or return the original nested object sent by
 #'   the server.
+#' @param verbose Whether to print status messages to the Console
+#'   (\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
+#'   status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
+#'   FALSE)}.
 #' @param .token If you manage your own tokens, you can supply it here. Usually
 #'   \code{NULL} is OK and will automatically load or guide you to generate a
 #'   token.
@@ -22,16 +26,17 @@
 #' search_user("rstats", limit = 1000L)
 #' }
 search_user <- function(query,
-                         limit = 25L,
-                         cursor = NULL,
-                         parse = TRUE,
-                         .token = NULL) {
+                        limit = 25L,
+                        cursor = NULL,
+                        parse = TRUE,
+                        verbose = NULL,
+                        .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} records, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -51,15 +56,15 @@ search_user <- function(query,
     res <- c(res, resp$actors)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_response(res)
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -82,8 +87,8 @@ search_user <- function(query,
 #' get_user_info(rstats_user$handle)
 #' }
 get_user_info <- function(actor,
-                        parse = TRUE,
-                        .token = NULL) {
+                          parse = TRUE,
+                          .token = NULL) {
 
   resp <- do.call(
     what = app_bsky_actor_get_profiles,

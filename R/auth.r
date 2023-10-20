@@ -7,12 +7,12 @@
 #' @param password Your app password (usually created on
 #'   <https://bsky.app/settings/app-passwords>).
 #' @param domain For now https://bsky.app/, but could change in the future.
-#' @param verbose If TRUE, prints success message.
 #' @param overwrite If TRUE, overwrites old token without asking for confirmation.
 #' @param token (Stale) token object. Usually you don't need to use this. But if
 #'   you manage your own tokens and they get stale, you can use this parameter
 #'   and request a fresh token.
 #'
+#' @inheritParams search_user
 #' @returns An authentication token (invisible)
 #'
 #' @details After requesting the token, it is saved in the location returned by
@@ -44,7 +44,7 @@ auth <- function(user,
 
     if(missing(password) || is.null(password)) {
       if (interactive()) {
-        cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
+        if (verbosity(verbose)) cli::cli_alert_info("Navigate to {.url {url}} and create a new app password")
         utils::browseURL(url)
         password <- askpass::askpass("Please enter your app password")
       } else {
@@ -94,7 +94,7 @@ auth <- function(user,
       x = token, path = file.path(p, f),
       key = I(rlang::hash("musksucks"))
     )
-    if (verbose) cli::cli_alert_success("Succesfully authenticated!")
+    if (verbosity(verbose)) cli::cli_alert_success("Succesfully authenticated!")
     invisible(token)
   }
 }

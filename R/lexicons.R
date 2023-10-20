@@ -4,6 +4,8 @@
 #' @param folder the subfolder that should be searched
 #' @param max_depth the maximum depth taht should be explored
 #'
+#' @inheritParams search_user
+#'
 #' @return The list of corresponding paths. If the depth is reached, it returns
 #'   the folder where max-depth was reached
 #'
@@ -12,7 +14,7 @@
 #' github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents",
 #'           folder = "lexicons")
 #' }
-github_ls <- function(repo, folder, max_depth = 10) {
+github_ls <- function(repo, folder, max_depth = 10, verbose = NULL) {
   paths <- glue::glue("{repo}/{folder}")
 
   files <- c()
@@ -21,7 +23,7 @@ github_ls <- function(repo, folder, max_depth = 10) {
   while (length(paths) > 0 && depth <= max_depth) {
     new_path <- c()
     for (path in paths) {
-      cli::cli_progress_step("Crawl path {sub(repo, '', path, fixed = TRUE)}")
+      if (verbosity(verbose)) cli::cli_progress_step("Crawl path {sub(repo, '', path, fixed = TRUE)}")
       res <- jsonlite::read_json(path)
       new <- res |>
         purrr::keep(~ .x$type == "dir") |>
@@ -36,7 +38,7 @@ github_ls <- function(repo, folder, max_depth = 10) {
     paths <- new_path
     depth <- depth + 1
   }
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
   return(c(files, paths))
 }
 

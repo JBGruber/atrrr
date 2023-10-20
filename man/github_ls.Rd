@@ -4,7 +4,7 @@
 \alias{github_ls}
 \title{List all files in github subfolders up to a certain depth}
 \usage{
-github_ls(repo, folder, max_depth = 10)
+github_ls(repo, folder, max_depth = 10, verbose = NULL)
 }
 \arguments{
 \item{repo}{target github repository}
@@ -12,6 +12,11 @@ github_ls(repo, folder, max_depth = 10)
 \item{folder}{the subfolder that should be searched}
 
 \item{max_depth}{the maximum depth taht should be explored}
+
+\item{verbose}{Whether to print status messages to the Console
+(\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
+status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
+  FALSE)}.}
 }
 \value{
 The list of corresponding paths. If the depth is reached, it returns
