@@ -10,6 +10,7 @@
 post(
   text,
   in_reply_to = NULL,
+  quote = NULL,
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
@@ -20,6 +21,7 @@ post(
 post_skeet(
   text,
   in_reply_to = NULL,
+  quote = NULL,
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
@@ -35,6 +37,8 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 \item{text}{Text to post}
 
 \item{in_reply_to}{URL or URI of a skeet this should reply to.}
+
+\item{quote}{URL or URI of a skeet this should quote.}
 
 \item{image}{path to an image to post}
 
