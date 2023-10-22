@@ -230,3 +230,28 @@ com_atproto_repo_upload_blob2 <- function(image,
     httr2::req_perform() |>
     httr2::resp_body_json()
 }
+
+
+#' matches the behavior of Python's re.find with multi-byte characters
+#' @noRd
+str_locate_all_bytes <- function(string, pattern) {
+
+  # calculate byte length of each character
+  byte_len <- tibble::tibble(character = strsplit(string, split = "")[[1]]) |>
+    dplyr::mutate(b_len = stringi::stri_numbytes(character))
+
+  # match the pattern
+  spans <- stringr::str_locate_all(string, pattern)[[1]] |>
+    tibble::as_tibble()
+
+  if (nrow(spans) > 0) {
+    # add matched text before shifting locations
+    spans$match <- substr(string, spans$start, spans$end)
+    # shift locations using byte lengths
+    for (i in seq_along(spans$start)) {
+      spans$start[i] <- sum(byte_len$b_len[1:spans$start[i]])
+      spans$end[i] = sum(byte_len$b_len[1:spans$end[i]]) + 1
+    }
+  }
+  return(spans)
+}

@@ -532,64 +532,38 @@ get_feed_likes <- function(feed_url,
 }
 
 
-
-# Parse mentions from the text
-parse_mentions <- function(text) {
-  mention_regex <- "[$|\\W](@([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)"
-  matches <- str_match_all(text, mention_regex)
-  spans <- lapply(matches[[1]], function(m) {
-    list(
-      start = as.numeric(m[2]),
-      end = as.numeric(m[3]),
-      handle = substr(m[1], 2, nchar(m[1]))
-    )
-  })
-  return(spans)
-}
-
-# Parse URLs from the text
-parse_urls <- function(text) {
-  url_regex <- "[$|\\W](https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*[-a-zA-Z0-9@%_\\+~#//=])?)"
-  matches <- str_locate_all(text, url_regex)
-  urls <- str_extract_all(text, url_regex) %>% unlist()
-
-
-  ### this doesn't get the right boundaries why?
-  spans <- 1:nrow(matches[[1]]) |>
-    purrr::map(~{
-      list(
-        start = matches[[1]][.x,1] + 1,
-        end = matches[[1]][.x,2],
-        url = str_trim(urls[.x])
-      )
-    })
-
-  return(spans)
-}
-
 # Parse facets from text and resolve the handles to DIDs
 parse_facets <- function(text) {
+
   facets <- list()
-  mentions <- parse_mentions(text)
-  for(m in mentions) {
-    resp <- GET("https://bsky.social/xrpc/com.atproto.identity.resolveHandle", query = list(handle = m$handle))
-    if(status_code(resp) != 400) {
-      did <- content(resp, "parsed")$did
-      facets <- append(facets, list(list(
-        index = list(byteStart = m$start, byteEnd = m$end),
-        features = list(list("$type" = "app.bsky.richtext.facet#mention", "did" = did))
-      )))
-    }
-  }
-  urls <- parse_urls(text)
-  for(u in urls) {
-    facets <- append(facets, list(list(
-      index = list(byteStart = u$start, byteEnd = u$end),
-      features = list(list("$type" = "app.bsky.richtext.facet#link", "uri" = u$url))
-    )))
-  }
+  mention_regex <- "(?<=[$|\\W])(@([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)"
+  mentions <- str_locate_all_bytes(text, mention_regex)
+  facets <- purrr::pmap(mentions, function(start, end, match) {
+
+    handle <- stringr::str_remove(match, "@")
+    did <- do.call(com_atproto_identity_resolve_handle, list(handle = handle)) |>
+      purrr::pluck("did")
+
+    list(
+      index = list(byteStart = start - 1, byteEnd = end - 1),
+      features = list(list("$type" = "app.bsky.richtext.facet#mention", "did" = did))
+    )
+
+  }) |>
+    append(facets)
+
+  url_regex <- "(?<=[$|\\W])(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*[-a-zA-Z0-9@%_\\+~#//=])?)"
+  urls <- str_locate_all_bytes(text, url_regex)
+  facets <- purrr::pmap(urls, function(start, end, match) {
+    list(
+      index = list(byteStart = start - 1, byteEnd = end - 1),
+      features = list(list("$type" = "app.bsky.richtext.facet#link", "uri" = match))
+    )
+  }) |>
+    append(facets)
   return(facets)
 }
+
 
 #' Post a skeet
 #'
@@ -618,19 +592,13 @@ post <- function(text,
                  verbose = NULL,
                  .token = NULL) {
 
-  # if (verbosity(verbose)) cli::cli_progress_step(
-  #   msg = "Request to post {.emph {text}}",
-  #   msg_done = "Posted {.emph {text}}",
-  #   msg_failed = "Something went wrong"
-  # )
-
  cli::cli_progress_step(
     msg = "Request to post {.emph {text}}",
     msg_done = "Posted {.emph {text}}",
     msg_failed = "Something went wrong"
   )
 
-  repo <- atr:::get_token()[["handle"]]
+  repo <- get_token()[["handle"]]
   collection <- "app.bsky.feed.post"
 
   record <- list(
@@ -658,23 +626,13 @@ post <- function(text,
     )
   }
 
-
-  # "embed": {
-  #   "$type": "app.bsky.embed.record",
-  #   "record": {
-  #     "uri": "at://did:plc:u5cwb2mwiv2bfq53cjufe6yn/app.bsky.feed.post/3k44deefqdk2g",
-  #     "cid": "bafyreiecx6dujwoeqpdzl27w67z4h46hyklk3an4i4cvvmioaqb2qbyo5u"
-  #   }
-  # }
-# }
-
   # quote <- "https://bsky.app/profile/favstats.bsky.social/post/3kc57mkoi6a2k"
   if (!is.null(quote)) {
     quote <- ifelse(grepl("^http", quote),
-                          atr:::convert_http_to_at(quote),
+                          convert_http_to_at(quote),
                           quote)
 
-    quote_post <- do.call(atr:::app_bsky_feed_get_posts, list(quote, .token = .token))
+    quote_post <- do.call(app_bsky_feed_get_posts, list(quote, .token = .token))
 
 
     # thread <- do.call(app_bsky_feed_get_post_thread, list(quote, .token = .token))
@@ -700,22 +658,18 @@ post <- function(text,
     )
   }
 
-  # TODO: mentions-and-links also need to be embedded
   # https://atproto.com/blog/create-post#mentions-and-links
-  ### adding hyperlinks doesn't work for now but this is the start
-  # parsed_richtext <- parse_facets(stringi::stri_enc_toutf8(text))
-  # if(!any(is.na(unlist(parsed_richtext)))){
-  #   record[["facets"]] <- parsed_richtext
-  # }
+  parsed_richtext <- parse_facets(text)
+  if (!any(is.na(unlist(parsed_richtext)))) {
+    record[["facets"]] <- parsed_richtext
+  }
 
-
-
-  invisible(do.call(what = atr:::com_atproto_repo_create_record,
+  invisible(do.call(what = com_atproto_repo_create_record,
                     args = list(repo, collection, record, .token = .token)))
 
 }
 
-# atr:::app_bsky_feed_get_posts()
+# app_bsky_feed_get_posts()
 
 #' @rdname post
 #' @export
