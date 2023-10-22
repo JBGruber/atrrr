@@ -246,11 +246,11 @@ str_locate_all_bytes <- function(string, pattern) {
 
   if (nrow(spans) > 0) {
     # add matched text before shifting locations
-    spans$match <- substr(string, spans$start, spans$end)
+    spans$match <- substr(string, spans$start + 1, spans$end)
     # shift locations using byte lengths
     for (i in seq_along(spans$start)) {
       spans$start[i] <- sum(byte_len$b_len[1:spans$start[i]])
-      spans$end[i] = sum(byte_len$b_len[1:spans$end[i]]) + 1
+      spans$end[i] = sum(byte_len$b_len[1:spans$end[i]])
     }
   }
   return(spans)

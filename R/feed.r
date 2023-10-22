@@ -536,27 +536,25 @@ get_feed_likes <- function(feed_url,
 parse_facets <- function(text) {
 
   facets <- list()
-  mention_regex <- "(?<=[$|\\W])(@([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)"
-  mentions <- str_locate_all_bytes(text, mention_regex)
+  mentions <- str_locate_all_bytes(text, regexs$mention_regex)
+  mentions$match <- stringr::str_remove(mentions$match, "@")
   facets <- purrr::pmap(mentions, function(start, end, match) {
 
-    handle <- stringr::str_remove(match, "@")
-    did <- do.call(com_atproto_identity_resolve_handle, list(handle = handle)) |>
+    did <- do.call(com_atproto_identity_resolve_handle, list(handle = match)) |>
       purrr::pluck("did")
 
     list(
-      index = list(byteStart = start - 1, byteEnd = end - 1),
+      index = list(byteStart = start, byteEnd = end),
       features = list(list("$type" = "app.bsky.richtext.facet#mention", "did" = did))
     )
 
   }) |>
     append(facets)
 
-  url_regex <- "(?<=[$|\\W])(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*[-a-zA-Z0-9@%_\\+~#//=])?)"
-  urls <- str_locate_all_bytes(text, url_regex)
+  urls <- str_locate_all_bytes(text, regexs$url_regex)
   facets <- purrr::pmap(urls, function(start, end, match) {
     list(
-      index = list(byteStart = start - 1, byteEnd = end - 1),
+      index = list(byteStart = start, byteEnd = end),
       features = list(list("$type" = "app.bsky.richtext.facet#link", "uri" = match))
     )
   }) |>
