@@ -86,7 +86,7 @@ prep_args <- function(fun) {
 }
 
 library(atr) # ls only works for attached packages
-auto_functions <- ls("package:atr", pattern = "^com_|app_") |>
+auto_functions <- ls(getNamespace("atr"), pattern = "^com_|app_") |>
   setdiff("com_atproto_repo_upload_blob2")
 #auto_functions <- ls("package:atr", pattern = "app_bsky_actor_get_prof")
 
