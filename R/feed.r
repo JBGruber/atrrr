@@ -559,6 +559,20 @@ parse_facets <- function(text) {
     )
   }) |>
     append(facets)
+
+  # # in theory, we could use an approach like this to support hashtags. The
+  # # problem is that the linked search does not work. It simply ignores the #
+  # hashtags <- str_locate_all_bytes(text, "\\W#\\w+")
+  # hashtags$match <- stringr::str_remove(hashtags$match, "#")
+  # facets <- purrr::pmap(hashtags, function(start, end, match) {
+  #   list(
+  #     index = list(byteStart = start, byteEnd = end),
+  #     features = list(list(
+  #       "$type" = "app.bsky.richtext.facet#link",
+  #       "uri" = glue::glue("https://bsky.app/search?q=%23{match}")))
+  #   )
+  # }) |>
+  #   append(facets)
   return(facets)
 }
 
@@ -661,9 +675,9 @@ post <- function(text,
   if (!any(is.na(unlist(parsed_richtext)))) {
     record[["facets"]] <- parsed_richtext
   }
-
+  
   invisible(do.call(what = com_atproto_repo_create_record,
-                    args = list(repo, collection, record, .token = .token)))
+  args = list(repo, collection, record, .token = .token)))
 
 }
 
