@@ -1,6 +1,8 @@
 #' Find users (profiles) matching search criteria.
 #'
-#' @param query The search query. Searches in user names and descriptions.
+#' @param query The search query. Searches in user names and descriptions or
+#'   \strong{exact} matches in user handles (including the \emph{.bsky.social}
+#'   part).
 #' @param limit Maximum number of records to return. For queries with more than
 #'   100 results, pagination is used automatically (one request per 100
 #'   results).
@@ -19,7 +21,7 @@
 #' @returns a data frame (or nested list) of found actors.
 #' @examples
 #' \dontrun{
-#' search_user("benguinaudeau.com")
+#' search_user("benguinaudeau.bsky.social")
 #' search_user("Blog: favstats.eu")
 #' search_user("JBGruber")
 #' search_user("@UvA_ASCoR")
