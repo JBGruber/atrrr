@@ -43,7 +43,7 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
 
   .token <- params[[".token"]] %||% get_token()
   params[[".token"]] <- NULL
-  if (!methods::is(.token, "bsky_token") && file.exists(.token)) {
+  if (methods::is(.token, "character") && file.exists(.token)) {
     .token <- read_token(.token)
   }
 

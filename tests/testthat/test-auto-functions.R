@@ -53,21 +53,21 @@ mock_test <- function(req) {
 test_that("test", {
   expect_error({
     test_env$fail <- NULL
-    httr2::with_mock(mock_test, {
+    httr2::with_mocked_responses(mock_test, {
       app_bsky_actor_get_profile(actor = c("test1", "test2"), .token = list(accessJwt = "test"), .return = c("json", "resp"))
     })
     if (!is.null(test_env$fail)) stop(fail)
   })
   expect_no_error({
     test_env$fail <- NULL
-    httr2::with_mock(mock_test, {
+    httr2::with_mocked_responses(mock_test, {
       x <- app_bsky_actor_get_profile(actor = "test", .token = list(accessJwt = "test"), .return = c("json", "resp"))
     })
     if (!is.null(test_env$fail)) stop(fail)
   })
   expect_no_error({
     test_env$fail <- NULL
-    httr2::with_mock(mock_test, {
+    httr2::with_mocked_responses(mock_test, {
       app_bsky_actor_get_profiles(actor = c("test1", "test2"), .token = list(accessJwt = "test"), .return = c("json", "resp"))
     })
     if (!is.null(test_env$fail)) stop(fail)
@@ -96,7 +96,7 @@ lapply(auto_functions, function(f) {
     test_env <- new.env()
     expect_no_error({
       test_env$fail <- NULL
-      httr2::with_mock(mock_test, {
+      httr2::with_mocked_responses(mock_test, {
         do.call(what = eval(f), args = prep_args(eval(f)))
       })
       if (!is.null(test_env$fail)) stop(fail)
