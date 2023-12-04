@@ -29,7 +29,7 @@ status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
 token.}
 }
 \value{
-a data frame (or nested list) of likes/reposts
+a data frame (or nested list) of posts
 }
 \description{
 Search Posts

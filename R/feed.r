@@ -604,7 +604,7 @@ post <- function(text,
                  verbose = NULL,
                  .token = NULL) {
 
- cli::cli_progress_step(
+  cli::cli_progress_step(
     msg = "Request to post {.emph {text}}",
     msg_done = "Posted {.emph {text}}",
     msg_failed = "Something went wrong"
@@ -641,8 +641,8 @@ post <- function(text,
   # quote <- "https://bsky.app/profile/favstats.bsky.social/post/3kc57mkoi6a2k"
   if (!is.null(quote)) {
     quote <- ifelse(grepl("^http", quote),
-                          convert_http_to_at(quote),
-                          quote)
+                    convert_http_to_at(quote),
+                    quote)
 
     quote_post <- do.call(app_bsky_feed_get_posts, list(quote, .token = .token))
 
@@ -677,7 +677,7 @@ post <- function(text,
   }
 
   invisible(do.call(what = com_atproto_repo_create_record,
-  args = list(repo, collection, record, .token = .token)))
+                    args = list(repo, collection, record, .token = .token)))
 
 }
 
@@ -793,7 +793,8 @@ post_thread <- function(texts,
 #'   queries). But only whitespace as implicit AN seems to work.
 #' @inheritParams search_user
 #'
-#' @returns a data frame (or nested list) of likes/reposts
+#' @returns a data frame (or nested list) of posts
+#'
 #' @examples
 #' \dontrun{
 #' search_post("rstats")
@@ -814,7 +815,7 @@ search_post <- function(q,
   last_cursor <- NULL
 
   if (verbosity(verbose)) cli::cli_progress_bar(
-    format = "{cli::pb_spin} Got {length(res)} like posts, but there is more.. [{cli::pb_elapsed}]",
+    format = "{cli::pb_spin} Got {length(res)} posts, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Retrieved {length(res)} posts from {resp$hitsTotal} total hits. All done! [{cli::pb_elapsed}]"
   )
 
@@ -829,6 +830,8 @@ search_post <- function(q,
         .return = "json"
       ))
 
+    if (is.null(resp$hitsTotal))
+      resp$hitsTotal <- "an *unknown total* of"
     if (is.null(last_cursor) && verbosity(verbose))
       cli::cli_alert_info("Found {resp$hitsTotal} posts that fit the query")
 
@@ -852,9 +855,9 @@ search_post <- function(q,
         author_handle = l$author$handle,
         author_name = l$author$displayName,
         text = l$record$text,
-        l$replyCount,
-        l$repostCount,
-        l$likeCount,
+        reply_count = l$replyCount,
+        repost_count = l$repostCount,
+        like_count = l$likeCount,
         indexed_at = parse_time(l$indexedAt),
         author_data = list(l$author),
         post_data = list(l$record),
