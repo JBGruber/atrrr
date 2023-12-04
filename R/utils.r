@@ -41,19 +41,18 @@ flatten_query_params <- function(arg_calls) {
 make_request <- function(hostname, params, req_method = c("GET", "POST")) {
   req_method <- match.arg(req_method)
 
-  # TODO: remove
-  params <<- params
-
   .token <- params[[".token"]] %||% get_token()
   params[[".token"]] <- NULL
+  if (!methods::is(.token, "bsky_token") && file.exists(.token)) {
+    .token <- read_token(.token)
+  }
 
   .return <- utils::head(params[[".return"]], 1L) %||% ""
   params[[".return"]] <- NULL
 
   if (req_method == "GET") { #
 
-    # TODO: remove
-    all_params <<- all_params <- flatten_query_params(params)
+    all_params <- flatten_query_params(params)
 
     resp <- list(
       scheme = "https",

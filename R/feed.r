@@ -33,7 +33,7 @@ get_skeets_authored_by <- function(actor,
         actor = actor,
         limit = req_limit,
         cursor = last_cursor,
-        .token = NULL,
+        .token = .token,
         .return = "json"
       ))
 
@@ -94,7 +94,7 @@ get_feeds_created_by <- function(actor,
         actor = actor,
         limit = req_limit,
         cursor = last_cursor,
-        .token = NULL,
+        .token = .token,
         .return = "json"
       ))
 
@@ -675,7 +675,7 @@ post <- function(text,
   if (!any(is.na(unlist(parsed_richtext)))) {
     record[["facets"]] <- parsed_richtext
   }
-  
+
   invisible(do.call(what = com_atproto_repo_create_record,
   args = list(repo, collection, record, .token = .token)))
 
