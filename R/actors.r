@@ -5,7 +5,8 @@
 #'   part).
 #' @param limit Maximum number of records to return. For queries with more than
 #'   100 results, pagination is used automatically (one request per 100
-#'   results).
+#'   results). The function stops when the limit is reached, but you will
+#'   usually get a few items more than requested.
 #' @param cursor Cursor for pagination (to pick up an old search).
 #' @param parse Parse the results or return the original nested object sent by
 #'   the server.

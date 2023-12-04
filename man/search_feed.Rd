@@ -11,7 +11,8 @@ search_feed(query, limit = 25L, cursor = NULL, parse = TRUE, .token = NULL)
 
 \item{limit}{Maximum number of records to return. For queries with more than
 100 results, pagination is used automatically (one request per 100
-results).}
+results). The function stops when the limit is reached, but you will
+usually get a few items more than requested.}
 
 \item{cursor}{Cursor for pagination (to pick up an old search).}
 

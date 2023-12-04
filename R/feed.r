@@ -784,3 +784,89 @@ post_thread <- function(texts,
   }
   return(dplyr::bind_rows(refs))
 }
+
+
+#' Search Posts
+#'
+#' @param q Find posts matching search criteria. API docs claim that Lucene
+#'   query syntax is supported (boolean operators and brackets for complex
+#'   queries). But only whitespace as implicit AN seems to work.
+#' @inheritParams search_user
+#'
+#' @returns a data frame (or nested list) of likes/reposts
+#' @examples
+#' \dontrun{
+#' search_post("rstats")
+#' # finds post with rstats and Bluesky in text
+#' search_post("rstats Bluesky")
+#' # does not find anything, since hashtags seem to be treated differently
+#' search_post("#rstats")
+#' }
+#' @export
+search_post <- function(q,
+                        limit = 100L,
+                        parse = TRUE,
+                        verbose = NULL,
+                        .token = NULL) {
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  if (verbosity(verbose)) cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} like posts, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Retrieved {length(res)} posts from {resp$hitsTotal} total hits. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_search_posts,
+      args = list(
+        q = q,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    if (is.null(last_cursor) && verbosity(verbose))
+      cli::cli_alert_info("Found {resp$hitsTotal} posts that fit the query")
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$posts)
+
+    if (is.null(resp$cursor)) break
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
+  }
+
+  if (verbosity(verbose)) cli::cli_progress_done()
+
+  if (parse) {
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
+
+    out <- purrr::map(res, function(l) {
+      tibble::tibble(
+        uri = l$uri,
+        cid = l$cid,
+        created_at = parse_time(l$record$createdAt),
+        author_handle = l$author$handle,
+        author_name = l$author$displayName,
+        text = l$record$text,
+        l$replyCount,
+        l$repostCount,
+        l$likeCount,
+        indexed_at = parse_time(l$indexedAt),
+        author_data = list(l$author),
+        post_data = list(l$record),
+        embed_data = list(l$embed)
+      )
+    }) |>
+      dplyr::bind_rows()
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
