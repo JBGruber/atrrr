@@ -659,6 +659,7 @@ post <- function(text,
   }
 
   if (!is.null(image) && image != "") {
+    rlang::check_installed("magick")
     image_alt <- image_alt  %||% ""
     # TODO: make it possible to post several images (up to 4 are allowed)
     blob <- com_atproto_repo_upload_blob2(image, .token = .token)

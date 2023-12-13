@@ -216,6 +216,7 @@ com_atproto_repo_upload_blob2 <- function(image,
                                           .token = NULL) {
 
   .token <- .token %||% get_token()
+  rlang::check_installed("magick")
   img <- magick::image_read(image)
   image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
 
