@@ -26,12 +26,13 @@ documentation and examples.
 
 ## Installation
 
-You can install the development version of `atr` like so (`pak` works
-similar to `remotes` here, but it’s what the cool kids use now :grin:):
+You can install the development version of `atr` like so (install the
+`remotes` package first, with `install.packages("remotes")`, if you
+don’t have that yet):
 
 ``` r
-# install.packages("pak")
-pak::pak("JBGruber/atr")
+# install.packages("remotes")
+remotes::install_github("JBGruber/atr")
 ```
 
 ## Load the package
@@ -80,19 +81,19 @@ option which results in a (more) tidy tibble.
 ``` r
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
-#> Rows: 24
+#> Rows: 25
 #> Columns: 11
-#> $ uri          <chr> "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post…
-#> $ cid          <chr> "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebggho…
-#> $ author       <list> ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.b…
-#> $ text         <chr> "I am very much looking forward to the CPPE talks put tog…
-#> $ record       <list> ["I am very much looking forward to the CPPE talks put t…
-#> $ reply_count  <int> 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, …
-#> $ repost_count <int> 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3…
-#> $ like_count   <int> 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 3…
-#> $ indexed_at   <dttm> 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:…
-#> $ reply        <list> <NULL>, <NULL>, [["app.bsky.feed.defs#postView", "at://d…
-#> $ is_reskeet   <lgl> TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALS…
+#> $ uri          <chr> "at://did:plc:3tve46l2ba37hqp4htuk6idu/app.bsky.feed.post…
+#> $ cid          <chr> "bafyreies5zvlow37zywh75afj4whnmr4h4teratzxrsxa6cmhvhdm5x…
+#> $ author       <list> ["did:plc:3tve46l2ba37hqp4htuk6idu", "alonadoli.bsky.soc…
+#> $ text         <chr> "Happy to share my working paper with @lenamariahuber.bsk…
+#> $ record       <list> ["Happy to share my working paper with @lenamariahuber.b…
+#> $ reply_count  <int> 0, 1, 0, 0, 0, 0, 1, 12, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 3,…
+#> $ repost_count <int> 4, 28, 0, 0, 0, 0, 0, 290, 14, 1, 17, 0, 0, 0, 0, 3, 11, …
+#> $ like_count   <int> 10, 34, 0, 0, 1, 4, 2, 455, 37, 8, 41, 0, 0, 0, 4, 25, 24…
+#> $ indexed_at   <dttm> 2023-11-20 13:25:55, 2023-11-14 20:53:32, 2023-11-15 22:…
+#> $ reply        <list> <NULL>, <NULL>, <NULL>, [["app.bsky.feed.defs#postView",…
+#> $ is_reskeet   <lgl> TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALS…
 ```
 
 ## Analyzing Feeds on Blue Sky
@@ -118,19 +119,19 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   # Extracting user handle from the author
   mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse()
-#> Rows: 89
+#> Rows: 146
 #> Columns: 11
-#> $ uri          <chr> "at://did:plc:bpwmgq35v7snpvi6xxjhgucy/app.bsky.feed.post…
-#> $ cid          <chr> "bafyreic7iiamtnin5oluodqsrq4ivuh5kgiapnsvug2c6lm5kyyule5…
-#> $ author       <list> ["did:plc:bpwmgq35v7snpvi6xxjhgucy", "fdechterenko.bsky.…
-#> $ text         <chr> "Hi Bluesky! I finally made it to the other site. Hope th…
-#> $ record       <list> ["Hi Bluesky! I finally made it to the other site. Hope …
-#> $ reply_count  <int> 0, 1, 1, 0, 0, 1, 1, 0, 3, 3, 0, 0, 1, 2, 0, 0, 0, 4, 0, …
-#> $ repost_count <int> 1, 1, 1, 2, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 4, 0, 0, …
-#> $ like_count   <int> 8, 6, 8, 5, 1, 1, 5, 0, 9, 1, 1, 3, 6, 4, 5, 4, 11, 6, 1,…
-#> $ indexed_at   <dttm> 2023-10-11 06:18:40, 2023-10-11 00:53:13, 2023-10-10 21:…
+#> $ uri          <chr> "at://did:plc:lv7kan7iizgudi6oof3ykyoo/app.bsky.feed.post…
+#> $ cid          <chr> "bafyreifdodzqbdapzf4soomtkzpkbc7b4aw3es6rc3drh53rlnkwewc…
+#> $ author       <list> ["did:plc:lv7kan7iizgudi6oof3ykyoo", "bsvars.bsky.social…
+#> $ text         <chr> "𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is pl…
+#> $ record       <list> ["𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is …
+#> $ reply_count  <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …
+#> $ repost_count <int> 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 1, 8, 1, 0, 0, …
+#> $ like_count   <int> 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 3, 0, 5, 1, 7, 1, 0, 3, …
+#> $ indexed_at   <dttm> 2023-12-13 05:36:43, 2023-12-13 01:26:09, 2023-12-12 21:…
 #> $ reply        <list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, …
-#> $ handle       <chr> "fdechterenko.bsky.social", "ceenell.bsky.social", "gabsp…
+#> $ handle       <chr> "bsvars.bsky.social", "ryanahart.bsky.social", "pmaier197…
 ```
 
 ## Learn More?
@@ -143,7 +144,11 @@ vignette to learn more.
 
 You can help by creating an
 [issue](https://github.com/JBGruber/atr/issues/new/choose) requesting
-new features or reporting bugs. If you are a developer, we are happy to
-accept pull requests. It should be fairly straightforward, as all
-endpoints are already covered by automatically generated function. But
-please open an issue first, so we don’t do duplicated work.
+new features or reporting bugs.
+
+If you are a developer, we are happy to accept pull requests.
+
+It should be fairly straightforward, as all endpoints are already
+covered by automatically generated function.
+
+But please open an issue first, so we don’t do duplicated work.

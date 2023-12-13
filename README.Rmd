@@ -37,11 +37,11 @@ Rather we have some nice human-generated functions with documentation and exampl
 
 ## Installation
 
-You can install the development version of `atr` like so (`pak` works similar to `remotes` here, but it's what the cool kids use now :grin:):
+You can install the development version of `atr` like so (install the `remotes` package first, with `install.packages("remotes")`, if you don't have that yet):
 
 ``` r
-# install.packages("pak")
-pak::pak("JBGruber/atr")
+# install.packages("remotes")
+remotes::install_github("JBGruber/atr")
 ```
 
 ## Load the package
