@@ -815,6 +815,11 @@ search_post <- function(q,
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
+  if (stringr::str_detect(q, "^#")) {
+    q <- stringr::str_remove(q, "^#")
+    cli::cli_alert_info("The search endpoint currently does not support searching for hashtags. Searching for \"{q}\" instead")
+  }
+
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} posts, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Retrieved {length(res)} posts from {resp$hitsTotal} total hits. All done! [{cli::pb_elapsed}]"
@@ -862,10 +867,15 @@ search_post <- function(q,
         indexed_at = parse_time(l$indexedAt),
         author_data = list(l$author),
         post_data = list(l$record),
-        embed_data = list(l$embed)
+        embed_data = list(l$embed),
+        # TODO: return URL instead of URI
+        in_reply_to = l$record$reply$parent$uri,
+        in_reply_root = l$record$reply$root$uri,
+        quotes = l$record$embed$record$uri
       )
     }) |>
       dplyr::bind_rows()
+
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
