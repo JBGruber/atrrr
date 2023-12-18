@@ -532,6 +532,50 @@ get_feed_likes <- function(feed_url,
 }
 
 
+#' Get all skeets in a thread
+#'
+#' Retrieve all skeets in a thread (all replies to an original skeet by any
+#' author). It does not matter if you use the original skeet or any reply as
+#' \code{post_url}.
+#'
+#' @param post_url the URL of any skeet in a thread.
+#' @inheritParams search_user
+#'
+#' @returns a data frame of skeets
+#' @export
+get_thread <- function(post_url,
+                       .token = NULL) {
+
+  post_uri <- convert_http_to_at(post_url)
+  root <- do.call(app_bsky_feed_get_post_thread, list(post_uri, .token = .token)) |>
+    get_thread_root()
+  thread <- do.call(app_bsky_feed_get_post_thread,
+                    list(purrr::pluck(root, "post", "uri"), .token = .token))
+
+  return(parse_threads(thread))
+
+}
+
+
+#' Get all replies
+#'
+#' Get all replies and replies on replies of a skeet.
+#'
+#' @param post_url the URL of a skeet.
+#' @inheritParams search_user
+#'
+#' @returns a data frame of skeets
+#' @export
+get_replies <- function(post_url,
+                        .token = NULL) {
+
+  post_uri <- convert_http_to_at(post_url)
+  replies <- do.call(app_bsky_feed_get_post_thread, list(post_uri, .token = .token))
+  return(parse_threads(replies))
+
+}
+
+
 # Parse facets from text and resolve the handles to DIDs
 parse_facets <- function(text) {
 
