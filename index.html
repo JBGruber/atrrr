@@ -16,8 +16,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Wrapper for the AT Protocol behind Bluesky">
 <meta property="og:description" content="atr wraps the AT Protocol (Authenticated Transfer Protocol) behind 
@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">atr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,10 +90,10 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>atr</code> like so (<code>pak</code> works similar to <code>remotes</code> here, but it’s what the cool kids use now <span class="emoji" data-emoji="grin">😁</span>):</p>
+<p>You can install the development version of <code>atr</code> like so (install the <code>remotes</code> package first, with <code>install.packages("remotes")</code>, if you don’t have that yet):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"JBGruber/atr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"JBGruber/atr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="load-the-package">Load the package<a class="anchor" aria-label="anchor" href="#load-the-package"></a>
@@ -122,19 +122,19 @@ page to create new app passwords
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, parse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 24</span></span>
+<span><span class="co">#&gt; Rows: 25</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ uri          &lt;chr&gt; "at://did:plc:l6z5l7dtmoalsxl6v6a57mjk/app.bsky.feed.post…</span></span>
-<span><span class="co">#&gt; $ cid          &lt;chr&gt; "bafyreihfmnxonlhlukswv6flaf4xzporosdbwo57ii3lo3fgzebggho…</span></span>
-<span><span class="co">#&gt; $ author       &lt;list&gt; ["did:plc:l6z5l7dtmoalsxl6v6a57mjk", "elisadeisshelbig.b…</span></span>
-<span><span class="co">#&gt; $ text         &lt;chr&gt; "I am very much looking forward to the CPPE talks put tog…</span></span>
-<span><span class="co">#&gt; $ record       &lt;list&gt; ["I am very much looking forward to the CPPE talks put t…</span></span>
-<span><span class="co">#&gt; $ reply_count  &lt;int&gt; 0, 3, 0, 2, 0, 2, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 0, 1, …</span></span>
-<span><span class="co">#&gt; $ repost_count &lt;int&gt; 2, 45, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3…</span></span>
-<span><span class="co">#&gt; $ like_count   &lt;int&gt; 8, 38, 2, 36, 1, 5, 4, 1, 0, 4, 4, 3, 0, 1, 0, 5, 0, 3, 3…</span></span>
-<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-10-05 15:53:49, 2023-10-04 13:15:35, 2023-10-02 01:…</span></span>
-<span><span class="co">#&gt; $ reply        &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView", "at://d…</span></span>
-<span><span class="co">#&gt; $ is_reskeet   &lt;lgl&gt; TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALS…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ uri          &lt;chr&gt; "at://did:plc:3tve46l2ba37hqp4htuk6idu/app.bsky.feed.post…</span></span>
+<span><span class="co">#&gt; $ cid          &lt;chr&gt; "bafyreies5zvlow37zywh75afj4whnmr4h4teratzxrsxa6cmhvhdm5x…</span></span>
+<span><span class="co">#&gt; $ author       &lt;list&gt; ["did:plc:3tve46l2ba37hqp4htuk6idu", "alonadoli.bsky.soc…</span></span>
+<span><span class="co">#&gt; $ text         &lt;chr&gt; "Happy to share my working paper with @lenamariahuber.bsk…</span></span>
+<span><span class="co">#&gt; $ record       &lt;list&gt; ["Happy to share my working paper with @lenamariahuber.b…</span></span>
+<span><span class="co">#&gt; $ reply_count  &lt;int&gt; 0, 1, 0, 0, 0, 0, 1, 12, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 3,…</span></span>
+<span><span class="co">#&gt; $ repost_count &lt;int&gt; 4, 28, 0, 0, 0, 0, 0, 290, 14, 1, 17, 0, 0, 0, 0, 3, 11, …</span></span>
+<span><span class="co">#&gt; $ like_count   &lt;int&gt; 10, 34, 0, 0, 1, 4, 2, 455, 37, 8, 41, 0, 0, 0, 4, 25, 24…</span></span>
+<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-11-20 13:25:55, 2023-11-14 20:53:32, 2023-11-15 22:…</span></span>
+<span><span class="co">#&gt; $ reply        &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, [["app.bsky.feed.defs#postView",…</span></span>
+<span><span class="co">#&gt; $ is_reskeet   &lt;lgl&gt; TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALS…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="analyzing-feeds-on-blue-sky">Analyzing Feeds on Blue Sky<a class="anchor" aria-label="anchor" href="#analyzing-feeds-on-blue-sky"></a>
@@ -154,19 +154,19 @@ page to create new app passwords
 <span>  <span class="co"># Extracting user handle from the author</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>handle <span class="op">=</span> <span class="va">author</span> <span class="op">|&gt;</span> <span class="fu">map_chr</span><span class="op">(</span><span class="op">~</span><span class="op">{</span><span class="va">.x</span><span class="op">$</span><span class="va">handle</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 89</span></span>
+<span><span class="co">#&gt; Rows: 146</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ uri          &lt;chr&gt; "at://did:plc:bpwmgq35v7snpvi6xxjhgucy/app.bsky.feed.post…</span></span>
-<span><span class="co">#&gt; $ cid          &lt;chr&gt; "bafyreic7iiamtnin5oluodqsrq4ivuh5kgiapnsvug2c6lm5kyyule5…</span></span>
-<span><span class="co">#&gt; $ author       &lt;list&gt; ["did:plc:bpwmgq35v7snpvi6xxjhgucy", "fdechterenko.bsky.…</span></span>
-<span><span class="co">#&gt; $ text         &lt;chr&gt; "Hi Bluesky! I finally made it to the other site. Hope th…</span></span>
-<span><span class="co">#&gt; $ record       &lt;list&gt; ["Hi Bluesky! I finally made it to the other site. Hope …</span></span>
-<span><span class="co">#&gt; $ reply_count  &lt;int&gt; 0, 1, 1, 0, 0, 1, 1, 0, 3, 3, 0, 0, 1, 2, 0, 0, 0, 4, 0, …</span></span>
-<span><span class="co">#&gt; $ repost_count &lt;int&gt; 1, 1, 1, 2, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 4, 0, 0, …</span></span>
-<span><span class="co">#&gt; $ like_count   &lt;int&gt; 8, 6, 8, 5, 1, 1, 5, 0, 9, 1, 1, 3, 6, 4, 5, 4, 11, 6, 1,…</span></span>
-<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-10-11 06:18:40, 2023-10-11 00:53:13, 2023-10-10 21:…</span></span>
+<span><span class="co">#&gt; $ uri          &lt;chr&gt; "at://did:plc:lv7kan7iizgudi6oof3ykyoo/app.bsky.feed.post…</span></span>
+<span><span class="co">#&gt; $ cid          &lt;chr&gt; "bafyreifdodzqbdapzf4soomtkzpkbc7b4aw3es6rc3drh53rlnkwewc…</span></span>
+<span><span class="co">#&gt; $ author       &lt;list&gt; ["did:plc:lv7kan7iizgudi6oof3ykyoo", "bsvars.bsky.social…</span></span>
+<span><span class="co">#&gt; $ text         &lt;chr&gt; "𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is pl…</span></span>
+<span><span class="co">#&gt; $ record       &lt;list&gt; ["𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is …</span></span>
+<span><span class="co">#&gt; $ reply_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ repost_count &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 1, 8, 1, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ like_count   &lt;int&gt; 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 3, 0, 5, 1, 7, 1, 0, 3, …</span></span>
+<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-12-13 05:36:43, 2023-12-13 01:26:09, 2023-12-12 21:…</span></span>
 <span><span class="co">#&gt; $ reply        &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, …</span></span>
-<span><span class="co">#&gt; $ handle       &lt;chr&gt; "fdechterenko.bsky.social", "ceenell.bsky.social", "gabsp…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ handle       &lt;chr&gt; "bsvars.bsky.social", "ryanahart.bsky.social", "pmaier197…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn More?<a class="anchor" aria-label="anchor" href="#learn-more"></a>
@@ -177,7 +177,10 @@ page to create new app passwords
 <div class="section level1">
 <h1 id="want-to-help">Want to help?<a class="anchor" aria-label="anchor" href="#want-to-help"></a>
 </h1>
-<p>You can help by creating an <a href="https://github.com/JBGruber/atr/issues/new/choose" class="external-link">issue</a> requesting new features or reporting bugs. If you are a developer, we are happy to accept pull requests. It should be fairly straightforward, as all endpoints are already covered by automatically generated function. But please open an issue first, so we don’t do duplicated work.</p>
+<p>You can help by creating an <a href="https://github.com/JBGruber/atr/issues/new/choose" class="external-link">issue</a> requesting new features or reporting bugs.</p>
+<p>If you are a developer, we are happy to accept pull requests.</p>
+<p>It should be fairly straightforward, as all endpoints are already covered by automatically generated function.</p>
+<p>But please open an issue first, so we don’t do duplicated work.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
