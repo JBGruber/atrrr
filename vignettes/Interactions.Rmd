@@ -8,17 +8,7 @@ vignette: >
 ---
 
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "figures/",
-  message = FALSE,
-  out.width = "100%",
-  fig.width = 7,
-  fig.height = 4
-)
-```
+
 
 
 
@@ -28,7 +18,8 @@ In this section, we will cover how to interact with the Blue Sky platform by cre
 
 ## Load the package
 
-```{r setup}
+
+```r
 library(atr)
 ```
 
@@ -36,7 +27,8 @@ library(atr)
 
 Here's how you can easily post a skeet to your account:
 
-```{r, eval=FALSE}
+
+```r
 post <- post_skeet(text = "Posting around")
 ```
 
@@ -47,7 +39,8 @@ By running the above command, you've successfully created a skeet with the conte
 
 Engaging with the Blue Sky community often means replying to existing skeets. Here's how you can craft a reply:
 
-```{r, eval=FALSE}
+
+```r
 reply <- post_skeet(text = "Replying around", in_reply_to = post$uri)
 
 ```
@@ -60,7 +53,8 @@ If you don't have the URI of a skeet, a link to it will also do.
 
 Whether it's to correct an error, remove outdated information, or any other reason, sometimes you might want to delete a skeet. Here's how:
 
-```{r, eval=FALSE}
+
+```r
 delete_skeet(post_url = reply$uri)
 ```
 
@@ -71,7 +65,8 @@ Threads are a series of connected posts or "skeets" on Blue Sky. They're a great
 
 A thread is essentially a series of individual skeets. Here's how you can do it programmatically using `post_thread`:
 
-```{r, eval=FALSE}
+
+```r
 post_thread(texts = c("This is the first amazing skeet.",
                       "Now I am expanding upon my skeet!",
                       "Conclusion: I skeet therefore I am."))
@@ -82,7 +77,8 @@ post_thread(texts = c("This is the first amazing skeet.",
 
 One of the fundamental ways to connect with other users is by following them, allowing you to see their posts in your feed. Conversely, if you decide that you no longer want to see updates from a particular user, you can unfollow them.
 
-```{r, eval=FALSE}
+
+```r
 # Follow a user by their handle
 follow(actor = "benguinaudeau.bsky.social")
 ```
@@ -95,7 +91,8 @@ Media can be posted by using a path to a file. They can also be included in a th
 
 First let's create some plots that we want to send:
 
-```{r, eval=FALSE}
+
+```r
 # make a basic plot
 plot <- ggplot(mpg, aes(displ, hwy, colour = class)) +
   geom_point()
@@ -122,7 +119,8 @@ f2 <- ggsave(tempfile(pattern = "2", fileext = ".png"), plot = plot2)
 
 Now we post the pictures in a thread:
 
-```{r, eval=FALSE}
+
+```r
 post_thread(texts = c("This is the first plot on the ggplot2 website",
                       "This is the second plot on the ggplot2 website",
                       "And this is just text sent from the atr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"),

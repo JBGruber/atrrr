@@ -8,20 +8,7 @@ vignette: >
 ---
 
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "figures/",
-  message = FALSE,
-  out.width = "100%",
-  fig.width = 7,
-  fig.height = 4
-)
 
-library(dplyr)
-library(purrr)
-```
 
 
 
@@ -31,7 +18,8 @@ On Blue Sky users have the ability to create custom feeds based on specific keyw
 
 ## Load the package
 
-```{r setup}
+
+```r
 library(atr)
 ```
 
@@ -40,10 +28,33 @@ library(atr)
 Our starting point is to extract the posts from a feed. We're focusing on a feed curated by "andrew.heiss.phd".
 
 
-```{r}
+
+```r
 # Fetching the feed posts
 feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
+#> Rows: 4
+#> Columns: 20
+#> $ uri                       <chr> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.feed.ge…
+#> $ cid                       <chr> "bafyreicvjczzxxhrkrl4c2xvfu7yhnm2ad7efzom6bohzy777shu6…
+#> $ did                       <chr> "did:web:skyfeed.me", "did:web:skyfeed.me", "did:web:sk…
+#> $ creator_did               <chr> "did:plc:2zcfjzyocp6kapg6jc4eacok", "did:plc:2zcfjzyocp…
+#> $ creator_handle            <chr> "andrew.heiss.phd", "andrew.heiss.phd", "andrew.heiss.p…
+#> $ creator_displayName       <chr> "Andrew Heiss (🎄festive version ⛄️)", "Andrew Heiss (…
+#> $ creator_description       <chr> "Assistant professor at Georgia State University. 6 kid…
+#> $ creator_avatar            <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcfjzyo…
+#> $ creator_indexedAt         <chr> "2023-11-26T17:07:49.687Z", "2023-11-26T17:07:49.687Z",…
+#> $ creator_viewer_muted      <lgl> FALSE, FALSE, FALSE, FALSE
+#> $ creator_viewer_blockedBy  <lgl> FALSE, FALSE, FALSE, FALSE
+#> $ creator_viewer_following  <chr> "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.graph.f…
+#> $ creator_viewer_followedBy <chr> "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.graph.f…
+#> $ displayName               <chr> "Public Admin/Policy", "Nonprofit Studies", "Andrew Hei…
+#> $ description               <chr> "A feed for public administration and public policy res…
+#> $ avatar                    <chr> "https://cdn.bsky.app/img/avatar/plain/did:plc:2zcfjzyo…
+#> $ likeCount                 <int> 80, 19, 0, 93
+#> $ indexedAt                 <chr> "2023-09-21T01:37:55.774Z", "2023-09-21T01:11:24.078Z",…
+#> $ created_at                <dttm> 2023-09-21 01:37:55, 2023-09-21 01:11:24, 2023-09-21 00…
+#> $ viewer_like               <chr> NA, NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.…
 
 # Filtering for a specific keyword, for example "#rstats"
 rstat_feed <- feeds |>
@@ -54,6 +65,19 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   # Extracting user handle from the author
   mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse()
+#> Rows: 122
+#> Columns: 11
+#> $ uri          <chr> "at://did:plc:eud5k5xodg6ilcnngpaa7yzg/app.bsky.feed.post/3kgtethky2…
+#> $ cid          <chr> "bafyreib6uif4rndjwfgf4f4e7ru4kbzrcczq4ln5jnrrn2kbs4pjn2ddwe", "bafy…
+#> $ author       <list> ["did:plc:eud5k5xodg6ilcnngpaa7yzg", "ryanahart.bsky.social", "Ryan…
+#> $ text         <chr> "#TidyTuesday | Week 51 | Holiday Episodes\n\nAverage user ratings o…
+#> $ record       <list> ["#TidyTuesday | Week 51 | Holiday Episodes\n\nAverage user ratings…
+#> $ reply_count  <int> 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+#> $ repost_count <int> 0, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 0, 5, 0, 0, 0, 2, 0, 2, 1, 0, 0, 2,…
+#> $ like_count   <int> 0, 1, 6, 0, 13, 3, 3, 3, 4, 4, 1, 1, 1, 6, 0, 0, 8, 7, 1, 8, 0, 0, 1…
+#> $ indexed_at   <dttm> 2023-12-18 15:49:43, 2023-12-18 13:13:15, 2023-12-18 12:51:42, 2023…
+#> $ reply        <list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NU…
+#> $ handle       <chr> "ryanahart.bsky.social", "eddelbuettel.com", "tterence.bsky.social",…
 ```
 
 
@@ -62,7 +86,8 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
 Who are the leading voices within a particular topic? This analysis highlights users who are frequently contributing to the `#rstats` feed.
 
 
-```{r, fig.cap="Top 10 #rstats contributors"}
+
+```r
 library(ggplot2)
 
 # Identifying the top 10 contributors
@@ -76,12 +101,18 @@ rstat_posts |>
   theme_minimal()
 ```
 
+<div class="figure">
+<img src="figures/unnamed-chunk-3-1.png" alt="Top 10 #rstats contributors" width="100%" />
+<p class="caption">Top 10 #rstats contributors</p>
+</div>
+
 
 ### Recognizing Influential Voices
 
 Volume doesn't always translate to influence. Some users may post less frequently but their contributions resonate deeply with the community.
 
-```{r, fig.cap="Top 10 #rstats contributors based on likes"}
+
+```r
 # Identifying top 10 influential voices based on likes
 rstat_posts |>
   group_by(handle) |>
@@ -96,10 +127,16 @@ rstat_posts |>
   theme_minimal()
 ```
 
+<div class="figure">
+<img src="figures/unnamed-chunk-4-1.png" alt="Top 10 #rstats contributors based on likes" width="100%" />
+<p class="caption">Top 10 #rstats contributors based on likes</p>
+</div>
+
 
 ### Most Famous #rstats skeet
 
-```{r}
+
+```r
 # Finding the standout post in the rstats feed
 rstat_posts |>
   mutate(total_interactions = reply_count+repost_count+like_count) |>
@@ -108,4 +145,10 @@ rstat_posts |>
   select(handle, total_interactions, text) |>
   dplyr::glimpse() |>
   pull(text)
+#> Rows: 1
+#> Columns: 3
+#> $ handle             <chr> "gmcd.bsky.social"
+#> $ total_interactions <int> 98
+#> $ text               <chr> "Took a winding road to get there, but I'm pleased to say that…
+#> [1] "Took a winding road to get there, but I'm pleased to say that `ggfixest` is up on CRAN. grantmcdermott.com/ggfixest/\n\nAs the 📦 name suggests, `ggfixest` provides dedicated `ggplot2` methods for `fixest` model objects. So you can make nice coefficient/interaction plots with minimal effort. \n\n#rstats"
 ```
