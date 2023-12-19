@@ -190,6 +190,16 @@ convert_http_to_at <- function(http_url,
   glue::glue("at://{repo}/{collection}/{rkey}", .envir = http_info)
 }
 
+#' Convert an an at uri to http url
+#' @noRd
+convert_at_to_http <- function(uri) {
+
+  at_info <- parse_at_uri(uri)
+
+  glue::glue("https://bsky.app/profile/{at_info$repo}/post/{at_info$rkey}",
+             .envir = http_info)
+}
+
 
 get_thread_root <- function(thread) {
   parent <- NULL

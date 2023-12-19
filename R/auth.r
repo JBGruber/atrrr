@@ -54,6 +54,7 @@ auth <- function(user,
                  verbose = TRUE,
                  overwrite = FALSE,
                  token = NULL) {
+
   if (is.null(token)) {
     url <- list(
       scheme = "https",

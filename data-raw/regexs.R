@@ -7,4 +7,4 @@ regexs <- list(
   url_regex = "[$|\\W](https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=!]*[-a-zA-Z0-9@%_\\+~#//=!])?)"
 )
 
-usethis::use_data(regexs, overwrite = TRUE)
+usethis::use_data(regexs, internal = TRUE, overwrite = TRUE)

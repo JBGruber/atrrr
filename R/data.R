@@ -10,15 +10,3 @@
 #' }
 #' @source <https://github.com/bluesky-social/atproto>
 "list_lexicons"
-
-
-#' Regular expressions to match mentions and URLs
-#'
-#' @format ## `regexs`
-#' A list with regular expressions to match:
-#' \describe{
-#'   \item{mention_regex}{Mentions of user handles like @atproto.com}
-#'   \item{url_regex}{URLs}
-#' }
-#' @source <https://atproto.com/blog/create-post#mentions-and-links>
-"regexs"
