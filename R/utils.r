@@ -252,11 +252,11 @@ str_locate_all_bytes <- function(string, pattern) {
 
   # match the pattern
   spans <- stringr::str_locate_all(string, pattern)[[1]] |>
-    tibble::as_tibble()
+    tibble::as_tibble() |>
+    tibble::add_column(match = "")
 
   if (nrow(spans) > 0) {
     # add matched text before shifting locations
-    spans$match <- ""
     for (i in seq_along(spans$start)) {
       spans$match[i] <- substr(string, spans$start[i] + 1, spans$end[i])
     }
