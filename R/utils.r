@@ -216,7 +216,9 @@ get_thread_root <- function(thread) {
 #' Check verbosity
 #' @noRd
 verbosity <- function(verbose) {
-  verbose %||% as.logical(Sys.getenv("ATR_VERBOSE", unset = TRUE))
+  verbose %||%
+    as.logical(getOption("ATR_VERBOSE")) %||%
+    as.logical(Sys.getenv("ATR_VERBOSE", unset = TRUE))
 }
 
 
