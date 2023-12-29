@@ -145,8 +145,12 @@ get_feeds_created_by <- function(actor,
 #'
 #' @examples
 #' \dontrun{
-#' get_own_timeline()
-#' get_own_timeline(algorithm = "reverse-chronological")
+#' # use the URL of a feed
+#' get_feed("https://bsky.app/profile/did:plc:2zcfjzyocp6kapg6jc4eacok/feed/aaaeckvqc3gzg")
+#'
+#' # or search for a feed by name
+#' res <- search_feed("#rstats")
+#' get_feed(res$uri[1])
 #' }
 get_feed <- function(feed_url,
                      limit = 25L,
@@ -163,6 +167,10 @@ get_feed <- function(feed_url,
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
+
+  if (grepl("^http", feed_url)) {
+    feed_url <- convert_http_to_at(feed_url)
+  }
 
   while (length(res) < limit) {
     resp <- do.call(
@@ -317,15 +325,7 @@ get_own_timeline <- function(algorithm = NULL,
 
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
-    out <-  res |>
-      purrr::map_dfr(~{
-        .x |>
-          purrr::list_flatten() |>
-          purrr::list_flatten() |>
-          purrr::compact() |>
-          tibble::as_tibble()
-      }) |>
-      dplyr::bind_rows()
+    out <- parse_timeline(res)
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res

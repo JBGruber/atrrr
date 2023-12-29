@@ -31,3 +31,27 @@ parse_threads <- function(thread) {
     in_reply_root = purrr::map_chr(post_list, c("record", "reply", "root", "uri"), .default = NA_character_),
   )
 }
+
+
+parse_timeline <- function(res) {
+  post_list <- purrr::map(res, "post", .default = list())
+
+  tibble::tibble(
+    uri           = purrr::map_chr(post_list, "uri"),
+    cid           = purrr::map_chr(post_list, "cid"),
+    author_handle = purrr::map_chr(post_list, c("author", "handle")),
+    author_name   = purrr::map_chr(post_list, c("author", "displayName")),
+    text          = purrr::map_chr(post_list, c("record", "text")),
+    author_data   = purrr::map(post_list, "author"),
+    record_data   = purrr::map(post_list, "record"),
+    embed_data    = purrr::map(post_list, "embed"),
+    replyCount    = purrr::map_int(post_list, "replyCount"),
+    repostCount   = purrr::map_int(post_list, "repostCount"),
+    likeCount     = purrr::map_int(post_list, "likeCount"),
+    indexedAt     = parse_time(purrr::map_chr(post_list, "indexedAt")),
+    # TODO: return URL instead of URI
+    in_reply_to   = purrr::map_chr(post_list, c("record", "reply", "parent", "uri"), .default = NA_character_),
+    in_reply_root = purrr::map_chr(post_list, c("record", "reply", "root", "uri"), .default = NA_character_),
+  )
+
+}
