@@ -43,7 +43,11 @@ Get the skeets that would be shown when you open the given feed
 }
 \examples{
 \dontrun{
-get_own_timeline()
-get_own_timeline(algorithm = "reverse-chronological")
+# use the URL of a feed
+get_feed("https://bsky.app/profile/did:plc:2zcfjzyocp6kapg6jc4eacok/feed/aaaeckvqc3gzg")
+
+# or search for a feed by name
+res <- search_feed("#rstats")
+get_feed(res$uri[1])
 }
 }

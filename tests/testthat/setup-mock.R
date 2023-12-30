@@ -3,7 +3,7 @@
 mocked_record <- function(req) {
   endpoint <- sub("\\?.*", "", basename(req$url))
   f <- paste0(file.path("recorded_responses", endpoint), ".rds")
-  if (file.exists(f)) {
+  if (file.exists(f) && endpoint != "com.atproto.server.createSession") {
     resp <- readRDS(f)
   } else {
     resp <- httr2::req_perform(req, mock = NULL)
@@ -14,8 +14,6 @@ mocked_record <- function(req) {
 
 # setting this option makes sure all requests are mocked from here on.
 op_mock <- options("httr2_mock" = mocked_record)
-on.exit(options(op_mock), add = TRUE, after = FALSE)
 
-# set the package to perform actions quietly
+# set the package to perform actions quietly during tests.
 op_verbose <- options("ATR_VERBOSE" = FALSE)
-on.exit(options(op_verbose), add = TRUE, after = FALSE)

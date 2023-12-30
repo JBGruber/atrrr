@@ -49,7 +49,7 @@ get_skeets_authored_by <- function(actor,
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
     out <- parse_feed(res)
-    out$is_reskeet <- purrr::map_lgl(out$author, function(a) a$handle != actor)
+    out$is_reskeet <- out$author_handle != actor
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
