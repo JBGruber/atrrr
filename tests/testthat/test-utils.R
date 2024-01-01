@@ -28,3 +28,14 @@ test_that("byte-accurate string locate", {
     str_locate_all_bytes(text, regexs$url_regex)
   }, tibble::tibble(start = 74, end = 108, match = "https://en.wikipedia.org/wiki/CBOR"))
 })
+
+
+test_that("http to at conversion", {
+  link <- "https://bsky.app/profile/did:plc:2zcfjzyocp6kapg6jc4eacok/feed/aaaeckvqc3gzg"
+  at_link <- "at://did:plc:2zcfjzyocp6kapg6jc4eacok/app.bsky.feed.generator/aaaeckvqc3gzg"
+  expect_equal(convert_http_to_at(link), at_link)
+  expect_equal(convert_http_to_at(at_link), at_link)
+})
+
+
+convert_at_to_http
