@@ -3,7 +3,14 @@
 mocked_record <- function(req) {
   endpoint <- sub("\\?.*", "", basename(req$url))
   f <- paste0(file.path("recorded_responses", endpoint), ".rds")
-  if (file.exists(f) && endpoint != "com.atproto.server.createSession") {
+
+  if (endpoint == "com.atproto.server.createSession") { # needs password
+    resp <- httr2::response(
+      status_code = 200,
+      method = "POST",
+      headers = list()
+    )
+  } else if (file.exists(f)) {
     resp <- readRDS(f)
   } else {
     resp <- httr2::req_perform(req, mock = NULL)
@@ -17,3 +24,8 @@ op_mock <- options("httr2_mock" = mocked_record)
 
 # set the package to perform actions quietly during tests.
 op_verbose <- options("ATR_VERBOSE" = FALSE)
+
+# clean up afterwards
+if (!dir.exists(tools::R_user_dir("atr", "cache"))) {
+  on.exit(unlink(tools::R_user_dir("atr", "cache"), recursive = TRUE))
+}

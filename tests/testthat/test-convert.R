@@ -3,6 +3,7 @@ at_link <- "at://did:plc:vuvsifrusnjsys7mhkpk662u/app.bsky.feed.post/3kbi5v7oncq
 
 test_that("conversion works", {
   # turn off mocking for these
+  skip_if(!dir.exists(tools::R_user_dir("atr", "cache")))
   op_mock <- options("httr2_mock" = NULL)
   on.exit(options(op_mock), add = TRUE, after = FALSE)
 
@@ -12,6 +13,7 @@ test_that("conversion works", {
 })
 
 test_that("conversion is safe", {
+  skip_if(!dir.exists(tools::R_user_dir("atr", "cache")))
   # turn off mocking for these
   op_mock <- options("httr2_mock" = NULL)
   on.exit(options(op_mock), add = TRUE, after = FALSE)
