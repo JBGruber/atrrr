@@ -57,7 +57,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_feed</span><span class="op">(</span><span class="va">query</span>, limit <span class="op">=</span> <span class="fl">25L</span>, cursor <span class="op">=</span> <span class="cn">NULL</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_feed</span><span class="op">(</span></span>
+<span>  <span class="va">query</span>,</span>
+<span>  limit <span class="op">=</span> <span class="fl">25L</span>,</span>
+<span>  cursor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,6 +87,13 @@ usually get a few items more than requested.</p></dd>
 <dt>parse</dt>
 <dd><p>Parse the results or return the original nested object sent by
 the server.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Whether to print status messages to the Console
+(<code>TRUE</code>/<code>FALSE</code>). Package default (when <code>NULL</code>) is to have
+status messages. Can be changed with <code>Sys.setenv(ATR_VERBOSE =
+  FALSE)</code>.</p></dd>
 
 
 <dt>.token</dt>
