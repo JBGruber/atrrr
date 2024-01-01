@@ -51,3 +51,8 @@ a data frame (or nested list) of likes/reposts
 \description{
 Get likes/reposts of a skeet
 }
+\examples{
+\dontrun{
+get_likes("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi55xm6u62v")
+}
+}

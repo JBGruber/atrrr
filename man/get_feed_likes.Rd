@@ -41,3 +41,13 @@ a data frame (or nested list) of likes/reposts
 \description{
 Get likes of a feed
 }
+\examples{
+\dontrun{
+# use the URL of a feed
+get_feed_likes("https://bsky.app/profile/did:plc:2zcfjzyocp6kapg6jc4eacok/feed/aaaeckvqc3gzg")
+
+# or search for a feed by name
+res <- search_feed("#rstats")
+get_feed_likes(res$uri[1])
+}
+}

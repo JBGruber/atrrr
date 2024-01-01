@@ -110,19 +110,7 @@ get_feeds_created_by <- function(actor,
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
-    out <- res |>
-      purrr::map_dfr(~{
-        l <- .x |>
-          purrr::list_flatten() |>
-          purrr::list_flatten() |>
-          purrr::compact()
-
-        if(!is.null(l[["created_at"]])) l$created_at = parse_time(l$createdAt)
-        if(!is.null(l[["indexedAt"]])) l$created_at = parse_time(l$indexedAt)
-
-        return(as_tibble(l))
-
-      })
+    out <- parse_feeds_list(res)
 
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
@@ -168,9 +156,7 @@ get_feed <- function(feed_url,
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
 
-  if (grepl("^http", feed_url)) {
-    feed_url <- convert_http_to_at(feed_url)
-  }
+  feed_url <- convert_http_to_at(feed_url, .token = .token)
 
   while (length(res) < limit) {
     resp <- do.call(
@@ -221,13 +207,14 @@ search_feed <- function(query,
                         limit = 25L,
                         cursor = NULL,
                         parse = TRUE,
+                        verbose = NULL,
                         .token = NULL) {
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
 
-  cli::cli_progress_bar(
+  if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
     format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
   )
@@ -247,23 +234,15 @@ search_feed <- function(query,
     res <- c(res, resp$feed)
 
     if (is.null(resp$cursor)) break
-    cli::cli_progress_update(force = TRUE)
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
   }
 
-  cli::cli_progress_done()
+  if (verbosity(verbose)) cli::cli_progress_done()
 
   if (parse) {
-    cli::cli_progress_step("Parsing {length(res)} results.")
-    out <- res |>
-      purrr::map_dfr(~{
-        .x |>
-          purrr::list_flatten() |>
-          purrr::list_flatten() |>
-          purrr::compact() |>
-          tibble::as_tibble()
-      }) |>
-      dplyr::bind_rows()
-    cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
+    out <- parse_feeds_list(res)
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
   }
@@ -341,7 +320,14 @@ get_own_timeline <- function(algorithm = NULL,
 #' @inheritParams search_user
 #'
 #' @returns a data frame (or nested list) of likes/reposts
+#'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_likes("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi55xm6u62v")
+#' get_reposts("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi55xm6u62v")
+#' }
 get_likes <- function(post_url,
                       limit = 25L,
                       cursor = NULL,
@@ -384,16 +370,7 @@ get_likes <- function(post_url,
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
-    out <- purrr::map(res, function(l) {
-      tibble::tibble(
-        created_at = parse_time(l$createdAt),
-        indexed_at = parse_time(l$indexedAt),
-        actor_handle = l$actor$handle,
-        actor_name = l$actor$displayName,
-        actor_data = list(l$actor)
-      )
-    }) |>
-      dplyr::bind_rows()
+    out <- parse_likes(res)
 
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
@@ -448,11 +425,7 @@ get_reposts <- function(post_url,
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
-    out <- purrr::map(res, function(l) {
-      purrr::list_flatten(l) |>
-        tibble::as_tibble()
-    }) |>
-      dplyr::bind_rows()
+    out <- parse_actors(res)
 
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
 
@@ -471,6 +444,16 @@ get_reposts <- function(post_url,
 #'
 #' @returns a data frame (or nested list) of likes/reposts
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # use the URL of a feed
+#' get_feed_likes("https://bsky.app/profile/did:plc:2zcfjzyocp6kapg6jc4eacok/feed/aaaeckvqc3gzg")
+#'
+#' # or search for a feed by name
+#' res <- search_feed("#rstats")
+#' get_feed_likes(res$uri[1])
+#' }
 get_feed_likes <- function(feed_url,
                            limit = 25L,
                            cursor = NULL,
@@ -512,17 +495,7 @@ get_feed_likes <- function(feed_url,
 
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
-
-    out <- purrr::map(res, function(l) {
-      tibble::tibble(
-        created_at = parse_time(l$createdAt),
-        indexed_at = parse_time(l$indexedAt),
-        actor_handle = l$actor$handle,
-        actor_name = l$actor$displayName,
-        actor_data = list(l$actor)
-      )
-    }) |>
-      dplyr::bind_rows()
+    out <- parse_likes(res)
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
@@ -546,7 +519,7 @@ get_feed_likes <- function(feed_url,
 get_thread <- function(post_url,
                        .token = NULL) {
 
-  post_uri <- convert_http_to_at(post_url)
+  post_uri <- convert_http_to_at(post_url, .token = .token)
   root <- do.call(app_bsky_feed_get_post_thread, list(post_uri, .token = .token)) |>
     get_thread_root()
   thread <- do.call(app_bsky_feed_get_post_thread,
@@ -569,55 +542,10 @@ get_thread <- function(post_url,
 get_replies <- function(post_url,
                         .token = NULL) {
 
-  post_uri <- convert_http_to_at(post_url)
+  post_uri <- convert_http_to_at(post_url, .token = .token)
   replies <- do.call(app_bsky_feed_get_post_thread, list(post_uri, .token = .token))
   return(parse_threads(replies))
 
-}
-
-
-# Parse facets from text and resolve the handles to DIDs
-parse_facets <- function(text) {
-
-  facets <- list()
-  mentions <- str_locate_all_bytes(text, regexs$mention_regex)
-  mentions$match <- stringr::str_remove(mentions$match, "@")
-  facets <- purrr::pmap(mentions, function(start, end, match) {
-
-    did <- do.call(com_atproto_identity_resolve_handle, list(handle = match)) |>
-      purrr::pluck("did")
-
-    list(
-      index = list(byteStart = start, byteEnd = end),
-      features = list(list("$type" = "app.bsky.richtext.facet#mention", "did" = did))
-    )
-
-  }) |>
-    append(facets)
-
-  urls <- str_locate_all_bytes(text, regexs$url_regex)
-  facets <- purrr::pmap(urls, function(start, end, match) {
-    list(
-      index = list(byteStart = start, byteEnd = end),
-      features = list(list("$type" = "app.bsky.richtext.facet#link", "uri" = match))
-    )
-  }) |>
-    append(facets)
-
-  # # in theory, we could use an approach like this to support hashtags. The
-  # # problem is that the linked search does not work. It simply ignores the #
-  # hashtags <- str_locate_all_bytes(text, "\\W#\\w+")
-  # hashtags$match <- stringr::str_remove(hashtags$match, "#")
-  # facets <- purrr::pmap(hashtags, function(start, end, match) {
-  #   list(
-  #     index = list(byteStart = start, byteEnd = end),
-  #     features = list(list(
-  #       "$type" = "app.bsky.richtext.facet#link",
-  #       "uri" = glue::glue("https://bsky.app/search?q=%23{match}")))
-  #   )
-  # }) |>
-  #   append(facets)
-  return(facets)
 }
 
 
@@ -665,7 +593,7 @@ post <- function(text,
 
   if (!is.null(in_reply_to)) {
     in_reply_to <- ifelse(grepl("^http", in_reply_to),
-                          convert_http_to_at(in_reply_to),
+                          convert_http_to_at(in_reply_to, .token = .token),
                           in_reply_to)
 
     thread <- do.call(app_bsky_feed_get_post_thread, list(in_reply_to, .token = .token))
@@ -685,7 +613,7 @@ post <- function(text,
   # quote <- "https://bsky.app/profile/favstats.bsky.social/post/3kc57mkoi6a2k"
   if (!is.null(quote)) {
     quote <- ifelse(grepl("^http", quote),
-                    convert_http_to_at(quote),
+                    convert_http_to_at(quote, .token = .token),
                     quote)
 
     quote_post <- do.call(app_bsky_feed_get_posts, list(quote, .token = .token))
@@ -726,12 +654,10 @@ post <- function(text,
 
 }
 
-# app_bsky_feed_get_posts()
 
 #' @rdname post
 #' @export
 post_skeet <- post
-
 
 
 #' @rdname post
@@ -749,7 +675,7 @@ delete_skeet <- function(post_url,
 
   invisible(purrr::map(post_url, function(u) {
     post_info <- ifelse(grepl("^http", u),
-                        convert_http_to_at(u),
+                        convert_http_to_at(u, .token = .token),
                         u) |>
       parse_at_uri()
 
@@ -897,28 +823,7 @@ search_post <- function(q,
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
 
-    out <- purrr::map(res, function(l) {
-      tibble::tibble(
-        uri = l$uri,
-        cid = l$cid,
-        created_at = parse_time(l$record$createdAt),
-        author_handle = l$author$handle,
-        author_name = l$author$displayName,
-        text = l$record$text,
-        reply_count = l$replyCount,
-        repost_count = l$repostCount,
-        like_count = l$likeCount,
-        indexed_at = parse_time(l$indexedAt),
-        author_data = list(l$author),
-        post_data = list(l$record),
-        embed_data = list(l$embed),
-        # TODO: return URL instead of URI
-        in_reply_to = l$record$reply$parent$uri,
-        in_reply_root = l$record$reply$root$uri,
-        quotes = l$record$embed$record$uri
-      )
-    }) |>
-      dplyr::bind_rows()
+    out <- parse_post_list(res)
 
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {

@@ -93,21 +93,17 @@ get_user_info <- function(actor,
                           parse = TRUE,
                           .token = NULL) {
 
-  resp <- do.call(
+  res <- do.call(
     what = app_bsky_actor_get_profiles,
     args = list(
       actor,
       .token = NULL,
       .return = "json"
-    ))
+    )) |>
+    purrr::pluck("profiles")
 
   if (parse) {
-    purrr::map(resp$profiles, function(p) {
-      purrr::list_flatten(p) |>
-        tibble::as_tibble()
-    }) |>
-      dplyr::bind_rows()
-  } else {
-    return(resp$profiles[[1]])
+    res <- parse_actors(res)
   }
+  return(res)
 }
