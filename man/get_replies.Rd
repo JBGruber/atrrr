@@ -19,3 +19,8 @@ a data frame of skeets
 \description{
 Get all replies and replies on replies of a skeet.
 }
+\examples{
+\dontrun{
+get_replies("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi57u4sys2l")
+}
+}

@@ -56,7 +56,7 @@ github_ls <- function(repo, folder, max_depth = 10, verbose = NULL) {
 get_lexicon <- function(path) {
   base_url <- "https://raw.githubusercontent.com/bluesky-social/atproto/main/lexicons/"
   d_url <- file.path(base_url, path)
-  # TODO: check if inside_pkg() is neccesary
+  # TODO: check if inside_pkg() is necessary
   if (inside_pkg()) {
     d <- file.path("inst/lexicons", dirname(path))
   } else {
@@ -71,7 +71,7 @@ get_lexicon <- function(path) {
 #' @param path relative path from repository
 #'   <https://github.com/bluesky-social/atproto>.
 #'
-#' @return The corresopnding json file
+#' @return The corresponding json file
 #'
 #' @examples
 #' \dontrun{

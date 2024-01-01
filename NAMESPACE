@@ -2,6 +2,8 @@
 
 S3method(print,bsky_token)
 export(auth)
+export(convert_at_to_http)
+export(convert_http_to_at)
 export(delete_post)
 export(delete_skeet)
 export(follow)

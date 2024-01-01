@@ -11,7 +11,7 @@ read_lexicon(path)
 \url{https://github.com/bluesky-social/atproto}.}
 }
 \value{
-The corresopnding json file
+The corresponding json file
 }
 \description{
 Download new lexicon and save it into the inst folder

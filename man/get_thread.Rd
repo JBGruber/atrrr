@@ -21,3 +21,8 @@ Retrieve all skeets in a thread (all replies to an original skeet by any
 author). It does not matter if you use the original skeet or any reply as
 \code{post_url}.
 }
+\examples{
+\dontrun{
+get_thread("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi57u4sys2l")
+}
+}

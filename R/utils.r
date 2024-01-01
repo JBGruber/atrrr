@@ -87,39 +87,39 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
 
 parse_at_uri <- function(uri){
 
-  uri |>
-    stringr::str_split("\\/+") |>
-    purrr::map_dfr(~{
-      .x |>
-        purrr::set_names(c("protocol", "repo", "collection", "rkey")) |>
-        as.list() |>
-        tibble::as_tibble()
-    })
+  parts <- uri |>
+    stringr::str_split("\\/+")
+
+  tibble::tibble(
+    protocol   = purrr::map_chr(parts, 1, .default = NA_character_),
+    repo       = purrr::map_chr(parts, 2, .default = NA_character_),
+    collection = purrr::map_chr(parts, 3, .default = NA_character_),
+    rkey       = purrr::map_chr(parts, 4, .default = NA_character_)
+  )
 
 }
 
 parse_http_url <- function(url){
 
-  url |>
-    purrr::map_dfr(~{
-      url_parts <- httr2::url_parse(.x)
+  parts <- purrr::map(url, function(u) try(httr2::url_parse(u), silent = TRUE) |>
+                        purrr::pluck("path") |>
+                        stringr::str_split("(?<=.)\\/"))
 
-      url_parts$path |>
-        stringr::str_split("(?<=.)\\/") |>
-        purrr::pluck(1) |>
-        purrr::set_names(c("repo_type", "repo", "collection", "rkey")) |>
-        as.list() |>
-        tibble::as_tibble() |>
-        dplyr::mutate(
-          collection = switch(
-            collection,
-            "post" = "app.bsky.feed.post",
-            "feed" = "app.bsky.feed.generator",
-            "lists" = "app.bsky.graph.list",
-            collection
-          )
-        )
-    })
+  out <- tibble::tibble(
+    repo_type  = purrr::map_chr(parts, c(1, 1), .default = NA_character_),
+    repo       = purrr::map_chr(parts, c(1, 2), .default = NA_character_),
+    collection = purrr::map_chr(parts, c(1, 3), .default = NA_character_),
+    rkey       = purrr::map_chr(parts, c(1, 4), .default = NA_character_)
+  )
+
+  map <- c(
+    "post" = "app.bsky.feed.post",
+    "feed" = "app.bsky.feed.generator",
+    "lists" = "app.bsky.graph.list"
+  )
+  out$collection <- unname(map[out$collection])
+
+  return(out)
 
 }
 
@@ -133,34 +133,13 @@ resolve_handle <- function(.handle, .token = NULL){
   )[["did"]]
 }
 
-is_did <- function(str){
-  stringr::str_detect(str, "^did\\:")
+is_did <- function(str) {
+  isTRUE(stringr::str_detect(str, "^did\\:"))
 }
 
-#' Convert an http url to an at uri
-#' @noRd
-convert_http_to_at <- function(http_url,
-                               .token = NULL) {
-
-  http_info <- parse_http_url(http_url)
-
-  if(!is_did(http_info$repo)){
-    http_info$repo <- resolve_handle(http_info$repo, .token = .token)
-  }
-
-  glue::glue("at://{repo}/{collection}/{rkey}", .envir = http_info)
+is_at <- function(str) {
+  isTRUE(stringr::str_detect(str, "^at\\:"))
 }
-
-#' Convert an an at uri to http url
-#' @noRd
-convert_at_to_http <- function(uri) {
-
-  at_info <- parse_at_uri(uri)
-
-  glue::glue("https://bsky.app/profile/{at_info$repo}/post/{at_info$rkey}",
-             .envir = http_info)
-}
-
 
 get_thread_root <- function(thread) {
   parent <- NULL
