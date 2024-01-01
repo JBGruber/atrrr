@@ -152,6 +152,13 @@ get_token <- function(f = NULL) {
     token <- rlang::env_get(the, nm = "bsky_token", I(rlang::hash("musksucks")))
   } else if (file.exists(f)) {
     token <- read_token(f)
+  } else if (!is.null(getOption("httr2_mock", NULL))) {
+    token <- list(
+      valid_until = Sys.time() + 10 ^ 7,
+      accessJwt = "testing",
+      handle = "testing",
+      password = "testing",
+    )
   } else {
     token <- auth()
   }

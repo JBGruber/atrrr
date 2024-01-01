@@ -51,7 +51,7 @@ search_user <- function(query,
         q = query,
         limit = req_limit,
         cursor = last_cursor,
-        .token = NULL,
+        .token = .token,
         .return = "json"
       ))
 
@@ -97,7 +97,7 @@ get_user_info <- function(actor,
     what = app_bsky_actor_get_profiles,
     args = list(
       actor,
-      .token = NULL,
+      .token = .token,
       .return = "json"
     )) |>
     purrr::pluck("profiles")
