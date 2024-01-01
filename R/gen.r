@@ -1,5 +1,5 @@
 build_function <- function(lexicon,
-                           gpt_documentation = F,
+                           gpt_documentation = FALSE,
                            out_file = "R/auto_generated.r") {
   if (is.character(lexicon)) {
     lexicon <- read_lexicon(lexicon)
@@ -45,20 +45,6 @@ build_function <- function(lexicon,
 
   new_fun <- readLines(system.file("function.template", package = "atr")) |>
     purrr::map_chr(glue::glue, .envir = cur_env)
-
-
-  if (gpt_documentation) {
-    rlang::check_installed("askgpt")
-    new_fun <- askgpt::chat_api(
-      prompt = glue::glue(
-        "Document this R function using roxygen2 syntax.",
-        "Only return the code, no other comments and no new syntax:",
-        "\n{new_fun}"
-      ),
-      model = "gpt-4"
-    ) |>
-      askgpt::parse_response()
-  }
 
   funs <- ""
   if (file.exists(out_file)) {

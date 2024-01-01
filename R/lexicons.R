@@ -24,6 +24,7 @@ github_ls <- function(repo, folder, max_depth = 10, verbose = NULL) {
     new_path <- c()
     for (path in paths) {
       if (verbosity(verbose)) cli::cli_progress_step("Crawl path {sub(repo, '', path, fixed = TRUE)}")
+      rlang::check_installed("jsonlite")
       res <- jsonlite::read_json(path)
       new <- res |>
         purrr::keep(~ .x$type == "dir") |>
@@ -63,6 +64,7 @@ get_lexicon <- function(path) {
     d <- file.path(system.file("lexicons", package = "atr"), dirname(path))
   }
   dir.create(d, showWarnings = FALSE, recursive = TRUE)
+  rlang::check_installed("curl")
   curl::curl_download(d_url, file.path(d, basename(path)))
 }
 
@@ -88,6 +90,6 @@ read_lexicon <- function(path) {
   if (!file.exists(local_path)) {
     stop(glue::glue("No lexicon found at {path}. Check the path. "))
   }
-
+  rlang::check_installed("jsonlite")
   jsonlite::read_json(local_path)
 }

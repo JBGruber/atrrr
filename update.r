@@ -9,8 +9,3 @@ knitr::knit("Feed_Analysis.Rmd.orig", output = "Feed_Analysis.Rmd")
 knitr::knit("Interactions.Rmd.orig", output = "Interactions.Rmd")
 knitr::knit("Networks.Rmd.orig", output = "Networks.Rmd")
 
-# only build when something has changed
-setwd(here::here())
-pkgdown::build_site()
-devtools::build_readme()
-devtools::build_vignettes()

@@ -190,8 +190,11 @@ com_atproto_repo_upload_blob2 <- function(image,
 str_locate_all_bytes <- function(string, pattern) {
 
   # calculate byte length of each character
-  byte_len <- tibble::tibble(character = strsplit(string, split = "")[[1]]) |>
-    dplyr::mutate(b_len = stringi::stri_numbytes(character))
+  character  <-  strsplit(string, split = "")[[1]]
+  byte_len <- tibble::tibble(
+    character,
+    b_len = purrr::map_int(character, function(str) length(charToRaw(str)))
+  )
 
   # match the pattern
   spans <- stringr::str_locate_all(string, pattern)[[1]] |>

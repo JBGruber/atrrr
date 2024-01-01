@@ -516,6 +516,11 @@ get_feed_likes <- function(feed_url,
 #'
 #' @returns a data frame of skeets
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_thread("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi57u4sys2l")
+#' }
 get_thread <- function(post_url,
                        .token = NULL) {
 
@@ -539,6 +544,11 @@ get_thread <- function(post_url,
 #'
 #' @returns a data frame of skeets
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_replies("https://bsky.app/profile/jbgruber.bsky.social/post/3kbi57u4sys2l")
+#' }
 get_replies <- function(post_url,
                         .token = NULL) {
 
@@ -740,7 +750,7 @@ post_thread <- function(texts,
   }
 
   ref <- NULL
-  refs <- list()
+  refs <- data.frame()
 
   for (i in seq_along(thread_df$text)) {
     ref <- do.call(
@@ -750,10 +760,10 @@ post_thread <- function(texts,
                   image_alt = thread_df$image_alt[i],
                   in_reply_to = ref)
     )
-    refs <- c(refs, list(ref))
+    refs <- rbind(refs, as.data.frame(ref))
     ref <- ref$uri
   }
-  return(dplyr::bind_rows(refs))
+  return(refs)
 }
 
 

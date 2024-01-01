@@ -69,6 +69,7 @@ parse_feed <- function(res) {
 #' feeds list parser
 #' @noRd
 parse_feeds_list <- function(res) {
+  rlang::check_installed("dplyr")
   purrr::map(res, ~ {
     l <- .x |>
       purrr::list_flatten() |>
@@ -135,14 +136,19 @@ parse_time <- function(x) {
   strptime(x, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
 }
 
+clean_names <- function(str) {
+  tolower(gsub("(.)([A-Z])([a-z]{2,})", "\\1_\\2\\3", make.names(str)))
+}
+
 
 #' simple default parser
 #' @noRd
 parse_response <- function(x) {
+  rlang::check_installed("dplyr")
   purrr::map(x, function(r) {
     purrr::list_flatten(r) |>
-      tibble::as_tibble() |>
-      janitor::clean_names()
+      tibble::as_tibble(.name_repair = function(n)
+        snakecase::to_snake_case(make.names(n)))
   }) |>
     dplyr::bind_rows()
 }

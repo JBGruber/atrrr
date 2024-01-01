@@ -7,7 +7,7 @@ mock_test <- function(req) {
   if (req$headers$Authorization != "Bearer test") test_env$fail <- "no auth"
 
   endpoint <- stringr::str_remove(basename(req$url), "\\?.*")
-
+  rlang::check_installed("jsonlite")
   lex <- system.file(paste0("lexicons/", gsub(".", "/", endpoint, fixed = TRUE), ".json"), package = "atr") |>
     jsonlite::read_json()
 

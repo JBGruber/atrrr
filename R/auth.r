@@ -64,6 +64,7 @@ auth <- function(user,
       httr2::url_build()
 
     if (missing(user)) {
+      rlang::check_installed("askpass")
       user <- askpass::askpass(
         "Please enter your username (e.g., \"jbgruber.bsky.social\") password"
       )

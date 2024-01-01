@@ -25,37 +25,33 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
-    askpass,
     cli,
-    curl,
-    dplyr,
     glue,
     httr2,
-    janitor,
-    jsonlite,
     methods,
     purrr,
     rlang,
-    stringi,
     stringr,
+    snakecase,
     tibble,
-    tidyr,
     utils
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1)
 LazyData: true
 Suggests: 
-    askgpt,
+    askpass,
+    curl,
+    dplyr,
     forcats,
     ggplot2,
     ggraph,
     igraph,
+    jsonlite,
     knitr,
     magick,
     rmarkdown,
     testthat (>= 3.0.0),
-    tidygraph,
-    withr
+    tidygraph
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://jbgruber.github.io/atr/, https://github.com/JBGruber/atr
