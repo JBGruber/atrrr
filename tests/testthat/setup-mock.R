@@ -20,10 +20,10 @@ mocked_record <- function(req) {
 }
 
 # setting this option makes sure all requests are mocked from here on.
-op_mock <- options("httr2_mock" = mocked_record)
+options("httr2_mock" = mocked_record)
 
 # set the package to perform actions quietly during tests.
-op_verbose <- options("ATR_VERBOSE" = FALSE)
+options("ATR_VERBOSE" = FALSE)
 
 # clean up afterwards
 if (!dir.exists(tools::R_user_dir("atr", "cache"))) {

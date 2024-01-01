@@ -157,7 +157,7 @@ get_token <- function(f = NULL) {
       valid_until = Sys.time() + 10 ^ 7,
       accessJwt = "testing",
       handle = "testing",
-      password = "testing",
+      password = "testing"
     )
   } else {
     token <- auth()
