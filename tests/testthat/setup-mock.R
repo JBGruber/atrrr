@@ -8,7 +8,7 @@ mocked_record <- function(req) {
     resp <- httr2::response(
       status_code = 200,
       method = "POST",
-      headers = list()
+      headers = "Content-Type: application/json"
     )
   } else if (file.exists(f)) {
     resp <- readRDS(f)

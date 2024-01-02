@@ -82,18 +82,23 @@ option which results in a (more) tidy tibble.
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
 #> Rows: 25
-#> Columns: 11
-#> $ uri          <chr> "at://did:plc:3tve46l2ba37hqp4htuk6idu/app.bsky.feed.post…
-#> $ cid          <chr> "bafyreies5zvlow37zywh75afj4whnmr4h4teratzxrsxa6cmhvhdm5x…
-#> $ author       <list> ["did:plc:3tve46l2ba37hqp4htuk6idu", "alonadoli.bsky.soc…
-#> $ text         <chr> "Happy to share my working paper with @lenamariahuber.bsk…
-#> $ record       <list> ["Happy to share my working paper with @lenamariahuber.b…
-#> $ reply_count  <int> 0, 1, 0, 0, 0, 0, 1, 12, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 3,…
-#> $ repost_count <int> 4, 28, 0, 0, 0, 0, 0, 290, 14, 1, 17, 0, 0, 0, 0, 3, 11, …
-#> $ like_count   <int> 10, 34, 0, 0, 1, 4, 2, 455, 37, 8, 41, 0, 0, 0, 4, 25, 24…
-#> $ indexed_at   <dttm> 2023-11-20 13:25:55, 2023-11-14 20:53:32, 2023-11-15 22:…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, [["app.bsky.feed.defs#postView",…
-#> $ is_reskeet   <lgl> TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALS…
+#> Columns: 16
+#> $ uri           <chr> "at://did:plc:hwbpa3fiiv6mmqkrmaxckntk/app.bsky.feed.pos…
+#> $ cid           <chr> "bafyreidvg65cygp7h3dtyn64tiyic5ediahrixfdan7gyg2ve3xgoi…
+#> $ author_handle <chr> "fortunato.bsky.social", "mathieugallard.bsky.social", "…
+#> $ author_name   <chr> "David Fortunato", "mathieu gallard", "Benjamin Guinaude…
+#> $ text          <chr> "Inspired by the monotony of my review queue, here are 1…
+#> $ author_data   <list> ["did:plc:hwbpa3fiiv6mmqkrmaxckntk", "fortunato.bsky.so…
+#> $ post_data     <list> ["Inspired by the monotony of my review queue, here are…
+#> $ embed_data    <list> <NULL>, ["app.bsky.embed.images#view", [["https://cdn.b…
+#> $ reply_count   <int> 5, 0, 1, 7, 0, 1, 0, 1, 0, 0, 0, 0, 1, 12, 0, 0, 1, 1, 1…
+#> $ repost_count  <int> 15, 2, 1, 366, 3, 1, 4, 28, 0, 0, 0, 0, 0, 290, 14, 1, 1…
+#> $ like_count    <int> 43, 6, 1, 498, 8, 3, 10, 34, 0, 0, 1, 4, 2, 455, 37, 8, …
+#> $ indexed_at    <dttm> 2023-12-23 22:08:11, 2023-12-24 14:57:01, 2023-12-21 03…
+#> $ in_reply_to   <chr> NA, "at://did:plc:cy3nxnkuk6qvibtybejs65nm/app.bsky.feed…
+#> $ in_reply_root <chr> NA, "at://did:plc:cy3nxnkuk6qvibtybejs65nm/app.bsky.feed…
+#> $ quotes        <chr> NA, NA, "at://did:plc:3mcek454ldmpf2xr43auvhac/app.bsky.…
+#> $ is_reskeet    <lgl> TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE,…
 ```
 
 ## Analyzing Feeds on Blue Sky
@@ -116,22 +121,24 @@ rstat_feed <- feeds |>
 
 # Extracting posts from this curated feed
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
-  # Extracting user handle from the author
-  mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse()
-#> Rows: 146
-#> Columns: 11
-#> $ uri          <chr> "at://did:plc:lv7kan7iizgudi6oof3ykyoo/app.bsky.feed.post…
-#> $ cid          <chr> "bafyreifdodzqbdapzf4soomtkzpkbc7b4aw3es6rc3drh53rlnkwewc…
-#> $ author       <list> ["did:plc:lv7kan7iizgudi6oof3ykyoo", "bsvars.bsky.social…
-#> $ text         <chr> "𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is pl…
-#> $ record       <list> ["𝗯𝘀𝘃𝗮𝗿𝘀 is not only a fantastic 𝗥 package 📦 \n\nIt is …
-#> $ reply_count  <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …
-#> $ repost_count <int> 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 1, 8, 1, 0, 0, …
-#> $ like_count   <int> 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3, 3, 0, 5, 1, 7, 1, 0, 3, …
-#> $ indexed_at   <dttm> 2023-12-13 05:36:43, 2023-12-13 01:26:09, 2023-12-12 21:…
-#> $ reply        <list> <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, <NULL>, …
-#> $ handle       <chr> "bsvars.bsky.social", "ryanahart.bsky.social", "pmaier197…
+#> Rows: 79
+#> Columns: 15
+#> $ uri           <chr> "at://did:plc:kizxn77jkp4p5vqzapbedvg2/app.bsky.feed.pos…
+#> $ cid           <chr> "bafyreiaabdszn3z7ka5c5zm2e2ufkjrlqpqubchphbexhoknrozkab…
+#> $ author_handle <chr> "pmaier1971.bsky.social", "pmaier1971.bsky.social", "nre…
+#> $ author_name   <chr> "Philipp Maier", "Philipp Maier", "Nicola Rennie", "Rcha…
+#> $ text          <chr> "US #HouseholdDebt in Jul 2023 at 75.24%. This index mea…
+#> $ author_data   <list> ["did:plc:kizxn77jkp4p5vqzapbedvg2", "pmaier1971.bsky.s…
+#> $ post_data     <list> ["US #HouseholdDebt in Jul 2023 at 75.24%. This index m…
+#> $ embed_data    <list> ["app.bsky.embed.images#view", [["https://cdn.bsky.app/…
+#> $ reply_count   <int> 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0,…
+#> $ repost_count  <int> 0, 0, 0, 2, 0, 0, 3, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 0,…
+#> $ like_count    <int> 0, 0, 7, 2, 5, 11, 2, 9, 0, 0, 0, 0, 11, 0, 1, 4, 0, 21,…
+#> $ indexed_at    <dttm> 2024-01-02 13:17:27, 2024-01-02 10:32:49, 2024-01-02 09…
+#> $ in_reply_to   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ in_reply_root <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ quotes        <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 ```
 
 ## Learn More?
@@ -146,9 +153,37 @@ You can help by creating an
 [issue](https://github.com/JBGruber/atr/issues/new/choose) requesting
 new features or reporting bugs.
 
-If you are a developer, we are happy to accept pull requests.
+If you are a developer, we are happy to accept pull requests. It should
+be fairly straightforward, as all endpoints are already covered by
+automatically generated function. For example, the endpoint
+[app.bsky.actor.getProfiles](https://atproto.com/lexicons/app-bsky) is
+accessible via `atr:::app_bsky_actor_get_profiles()`. The function
+`get_user_info()` is just a thin wrapper around that and calls an
+optional parsing function:
 
-It should be fairly straightforward, as all endpoints are already
-covered by automatically generated function.
+    get_user_info <- function(actor,
+                              parse = TRUE,
+                              .token = NULL) {
 
-But please open an issue first, so we don’t do duplicated work.
+      # we need to use do.call so objects are passed to the right environment
+      res <- do.call( 
+        what = app_bsky_actor_get_profiles,
+        args = list(
+          actor,
+          .token = .token,
+          .return = "json"
+        )) |>
+        purrr::pluck("profiles")
+
+      if (parse) {
+        res <- parse_actors(res)
+      }
+      return(res)
+    }
+
+If you find an endpoint at <https://atproto.com/lexicons/com-atproto> or
+<https://atproto.com/lexicons/app-bsky> that interests you, you can
+write a similar wrapper and contribute it to the package (or build
+something new on top of it). But please open an
+[issue](https://github.com/JBGruber/atr/issues) first, so we don’t do
+duplicated work.

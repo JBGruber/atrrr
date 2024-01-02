@@ -26,6 +26,7 @@ library(purrr)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/JBGruber/atr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/atr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/JBGruber/atr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/atr?branch=main)
+[![say-thanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/JBGruber)
 <!-- badges: end -->
 
 The goal of atr is to wrap the AT Protocol (Authenticated Transfer Protocol) behind Bluesky. *And we have actually already fulfilled this goal!*
@@ -101,8 +102,6 @@ rstat_feed <- feeds |>
 
 # Extracting posts from this curated feed
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
-  # Extracting user handle from the author
-  mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse()
 ```
 
@@ -115,7 +114,30 @@ Start with the [Basic Usage](https://jbgruber.github.io/atr/articles/Basic_Usage
 You can help by creating an [issue](https://github.com/JBGruber/atr/issues/new/choose) requesting new features or reporting bugs.
 
 If you are a developer, we are happy to accept pull requests.
-
 It should be fairly straightforward, as all endpoints are already covered by automatically generated function.
+For example, the endpoint [app.bsky.actor.getProfiles](https://atproto.com/lexicons/app-bsky) is accessible via `atr:::app_bsky_actor_get_profiles()`.
+The function `get_user_info()` is just a thin wrapper around that and calls an optional parsing function:
 
-But please open an issue first, so we don't do duplicated work.
+```
+get_user_info <- function(actor,
+                          parse = TRUE,
+                          .token = NULL) {
+
+  # we need to use do.call so objects are passed to the right environment
+  res <- do.call( 
+    what = app_bsky_actor_get_profiles,
+    args = list(
+      actor,
+      .token = .token, # tokens are handled automatically under the hood
+      .return = "json"
+    )) |>
+    purrr::pluck("profiles")
+
+  if (parse) {
+    res <- parse_actors(res)
+  }
+  return(res)
+}
+```
+If you find an endpoint at <https://atproto.com/lexicons/com-atproto> or <https://atproto.com/lexicons/app-bsky> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it).
+But please open an [issue](https://github.com/JBGruber/atr/issues) first, so we don't do duplicated work.

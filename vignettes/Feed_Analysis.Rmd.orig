@@ -51,8 +51,6 @@ rstat_feed <- feeds |>
 
 # Extracting posts from this curated feed
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
-  # Extracting user handle from the author
-  mutate(handle = author |> map_chr(~{.x$handle}))  |>
   dplyr::glimpse()
 ```
 
@@ -67,7 +65,7 @@ library(ggplot2)
 
 # Identifying the top 10 contributors
 rstat_posts |>
-  count(handle, sort = T) |>
+  count(handle = author_handle, sort = T) |>
   slice(1:10) |>
   mutate(handle = forcats::fct_reorder(handle, n)) |>
   ggplot(aes(handle, n)) +
@@ -84,12 +82,12 @@ Volume doesn't always translate to influence. Some users may post less frequentl
 ```{r, fig.cap="Top 10 #rstats contributors based on likes"}
 # Identifying top 10 influential voices based on likes
 rstat_posts |>
-  group_by(handle) |>
+  group_by(author_handle) |>
   summarize(like_count = sum(like_count)) |>
   ungroup() |>
   arrange(desc(like_count)) |>
   slice(1:10) |>
-  mutate(handle = forcats::fct_reorder(handle, like_count)) |>
+  mutate(handle = forcats::fct_reorder(author_handle, like_count)) |>
   ggplot(aes(handle, like_count)) +
   geom_col() +
   coord_flip() +
@@ -102,10 +100,10 @@ rstat_posts |>
 ```{r}
 # Finding the standout post in the rstats feed
 rstat_posts |>
-  mutate(total_interactions = reply_count+repost_count+like_count) |>
+  mutate(total_interactions = reply_count + repost_count + like_count) |>
   arrange(desc(total_interactions)) |>
   slice(1) |>
-  select(handle, total_interactions, text) |>
+  select(author_handle, total_interactions, text) |>
   dplyr::glimpse() |>
   pull(text)
 ```
