@@ -61,7 +61,7 @@ get_lexicon <- function(path) {
   if (inside_pkg()) {
     d <- file.path("inst/lexicons", dirname(path))
   } else {
-    d <- file.path(system.file("lexicons", package = "atr"), dirname(path))
+    d <- file.path(system.file("lexicons", package = "atrrr"), dirname(path))
   }
   dir.create(d, showWarnings = FALSE, recursive = TRUE)
   rlang::check_installed("curl")
@@ -80,7 +80,7 @@ get_lexicon <- function(path) {
 #' read_lexicon("app/bsky/actor/getProfile.json")
 #' }
 read_lexicon <- function(path) {
-  local_path <- file.path(system.file("lexicons", package = "atr"), path)
+  local_path <- file.path(system.file("lexicons", package = "atrrr"), path)
 
   if (!file.exists(local_path)) {
     warning("No corresponding lexicon found. Trying to download the lexicon.")

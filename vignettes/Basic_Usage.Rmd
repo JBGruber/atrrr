@@ -13,7 +13,7 @@ vignette: >
 # Introduction
 
 
-Welcome to the `atr` vignette! This guide will delve deeper into the functionalities offered by the package-
+Welcome to the `atrrr` vignette! This guide will delve deeper into the functionalities offered by the package-
 
 Before diving in, let's clarify some terminology. In the context of Blue Sky, a post is referred to as a "skeet." So, when we mention retrieving or working with "skeets," we are talking about individual posts made on Blue Sky.
 
@@ -21,11 +21,11 @@ Now, let's delve deeper into the functionalities that allow users to interact wi
 
 ## Installation
 
-If you haven't done so, you can install the development version of atr like so (`pak` works similar to `remotes` here, but it's what the cool kids use now :grin:):
+If you haven't done so, you can install the development version of atrrr like so (`pak` works similar to `remotes` here, but it's what the cool kids use now :grin:):
 
 ``` r
 # install.packages("pak")
-pak::pak("JBGruber/atr")
+pak::pak("JBGruber/atrrr")
 ```
 
 
@@ -33,12 +33,12 @@ pak::pak("JBGruber/atr")
 
 
 ```r
-library(atr)
+library(atrrr)
 ```
 
 ## Authentication
 
-The first time you make a request, you will be prompted automatically to enter your user handle and an app password to authenticate `atr` to communicate with BlueSky for you.
+The first time you make a request, you will be prompted automatically to enter your user handle and an app password to authenticate `atrrr` to communicate with BlueSky for you.
 
 ![RStudio Popup](figures/password_popup.png)
 
@@ -235,7 +235,7 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
 
 
 ```r
-atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+atrrr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 187
 #> Columns: 11

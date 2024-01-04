@@ -7,5 +7,5 @@ knitr::knit("vignettes/Interactions.Rmd.orig", output = "vignettes/Interactions.
 knitr::knit("vignettes/Networks.Rmd.orig", output = "vignettes/Networks.Rmd")
 ```
 
-This will use your `atr` token to run the commands.
+This will use your `atrrr` token to run the commands.
 The RMDs then only contain the results.

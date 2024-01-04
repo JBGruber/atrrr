@@ -2,9 +2,9 @@ the <- new.env()
 
 
 inside_pkg <- function() {
-  d <- basename(getwd()) == "atr"
+  d <- basename(getwd()) == "atrrr"
   p <- 0
-  if (d) p <- any(grepl("Package: atr", readLines("DESCRIPTION")))
+  if (d) p <- any(grepl("Package: atrrr", readLines("DESCRIPTION")))
   d + p == 2L
 }
 

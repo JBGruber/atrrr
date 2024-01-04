@@ -20,7 +20,7 @@ On Blue Sky users have the ability to create custom feeds based on specific keyw
 
 
 ```r
-library(atr)
+library(atrrr)
 ```
 
 ## Retrieving a Feed

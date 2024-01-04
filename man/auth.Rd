@@ -42,7 +42,7 @@ Run authentication for a network using the AT protocol (e.g.,
 }
 \details{
 After requesting the token, it is saved in the location returned by
-\code{file.path(tools::R_user_dir("atr", "cache"), Sys.getenv("BSKY_TOKEN", unset = "token.rds"))}. If you have multiple tokens, you can use
+\code{file.path(tools::R_user_dir("atrrr", "cache"), Sys.getenv("BSKY_TOKEN", unset = "token.rds"))}. If you have multiple tokens, you can use
 \code{Sys.setenv(BSKY_TOKEN = "filename.rds")} to save/load the token with a
 different name.
 }
@@ -52,7 +52,7 @@ different name.
 auth() # this will guide you through all steps
 
 # the token is stored in the location returned by this command
-file.path(tools::R_user_dir("atr", "cache"),
+file.path(tools::R_user_dir("atrrr", "cache"),
           Sys.getenv("BSKY_TOKEN", unset = "token.rds"))
 
 # to use a different than the default file name for the token, set BSKY_TOKEN
@@ -62,11 +62,11 @@ Sys.setenv(BSKY_TOKEN = "identity-2.rds")
 auth()
 
 # the cache now contains two tokens
-list.files(tools::R_user_dir("atr", "cache"))
+list.files(tools::R_user_dir("atrrr", "cache"))
 
 # functions that interact with the API also take a .token argument with the
 # path. For example:
-tok_path <- file.path(tools::R_user_dir("atr", "cache"), "identity-2.rds")
+tok_path <- file.path(tools::R_user_dir("atrrr", "cache"), "identity-2.rds")
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE,
                        .token = tok_path)
 }

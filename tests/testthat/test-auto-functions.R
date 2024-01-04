@@ -8,7 +8,7 @@ mock_test <- function(req) {
 
   endpoint <- stringr::str_remove(basename(req$url), "\\?.*")
   rlang::check_installed("jsonlite")
-  lex <- system.file(paste0("lexicons/", gsub(".", "/", endpoint, fixed = TRUE), ".json"), package = "atr") |>
+  lex <- system.file(paste0("lexicons/", gsub(".", "/", endpoint, fixed = TRUE), ".json"), package = "atrrr") |>
     jsonlite::read_json()
 
   # Check correct request method
@@ -85,10 +85,10 @@ prep_args <- function(fun) {
   return(args)
 }
 
-library(atr) # ls only works for attached packages
-auto_functions <- ls(getNamespace("atr"), pattern = "^com_|app_") |>
+library(atrrr) # ls only works for attached packages
+auto_functions <- ls(getNamespace("atrrr"), pattern = "^com_|app_") |>
   setdiff("com_atproto_repo_upload_blob2")
-#auto_functions <- ls("package:atr", pattern = "app_bsky_actor_get_prof")
+#auto_functions <- ls("package:atrrr", pattern = "app_bsky_actor_get_prof")
 
 
 lapply(auto_functions, function(f) {

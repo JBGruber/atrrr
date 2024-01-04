@@ -26,6 +26,6 @@ options("httr2_mock" = mocked_record)
 options("ATR_VERBOSE" = FALSE)
 
 # clean up afterwards
-if (!dir.exists(tools::R_user_dir("atr", "cache"))) {
-  on.exit(unlink(tools::R_user_dir("atr", "cache"), recursive = TRUE))
+if (!dir.exists(tools::R_user_dir("atrrr", "cache"))) {
+  on.exit(unlink(tools::R_user_dir("atrrr", "cache"), recursive = TRUE))
 }

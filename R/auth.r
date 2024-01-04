@@ -17,7 +17,7 @@
 #' @returns An authentication token (invisible)
 #'
 #' @details After requesting the token, it is saved in the location returned by
-#'   `file.path(tools::R_user_dir("atr", "cache"), Sys.getenv("BSKY_TOKEN",
+#'   `file.path(tools::R_user_dir("atrrr", "cache"), Sys.getenv("BSKY_TOKEN",
 #'   unset = "token.rds"))`. If you have multiple tokens, you can use
 #'   `Sys.setenv(BSKY_TOKEN = "filename.rds")` to save/load the token with a
 #'   different name.
@@ -28,7 +28,7 @@
 #' auth() # this will guide you through all steps
 #'
 #' # the token is stored in the location returned by this command
-#' file.path(tools::R_user_dir("atr", "cache"),
+#' file.path(tools::R_user_dir("atrrr", "cache"),
 #'           Sys.getenv("BSKY_TOKEN", unset = "token.rds"))
 #'
 #' # to use a different than the default file name for the token, set BSKY_TOKEN
@@ -38,11 +38,11 @@
 #' auth()
 #'
 #' # the cache now contains two tokens
-#' list.files(tools::R_user_dir("atr", "cache"))
+#' list.files(tools::R_user_dir("atrrr", "cache"))
 #'
 #' # functions that interact with the API also take a .token argument with the
 #' # path. For example:
-#' tok_path <- file.path(tools::R_user_dir("atr", "cache"), "identity-2.rds")
+#' tok_path <- file.path(tools::R_user_dir("atrrr", "cache"), "identity-2.rds")
 #' get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE,
 #'                        .token = tok_path)
 #' }
@@ -103,7 +103,7 @@ auth <- function(user,
   class(token) <- "bsky_token"
 
   f <- Sys.getenv("BSKY_TOKEN", unset = "token.rds")
-  p <- tools::R_user_dir("atr", "cache")
+  p <- tools::R_user_dir("atrrr", "cache")
   dir.create(p, showWarnings = FALSE, recursive = TRUE)
 
   # store in cache
@@ -144,7 +144,7 @@ req_token <- function(user, password) {
 
 get_token <- function(f = NULL) {
   f <- file.path(
-    tools::R_user_dir("atr", "cache"),
+    tools::R_user_dir("atrrr", "cache"),
     Sys.getenv("BSKY_TOKEN", unset = "token.rds")
   )
 

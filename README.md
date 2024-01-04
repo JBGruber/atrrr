@@ -1,18 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# atr <img src="man/figures/logo.png" align="right" height="120">
+# atrrr <img src="man/figures/logo.png" align="right" height="120">
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/JBGruber/atr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/atr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/JBGruber/atr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/atr?branch=main)
+coverage](https://codecov.io/gh/JBGruber/atrrr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/atrrr?branch=main)
 <!-- badges: end -->
 
-The goal of atr is to wrap the AT Protocol (Authenticated Transfer
+The goal of atrrr is to wrap the AT Protocol (Authenticated Transfer
 Protocol) behind Bluesky. *And we have actually already fulfilled this
 goal!*
 
@@ -26,25 +26,25 @@ documentation and examples.
 
 ## Installation
 
-You can install the development version of `atr` like so (install the
+You can install the development version of `atrrr` like so (install the
 `remotes` package first, with `install.packages("remotes")`, if you
 don’t have that yet):
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("JBGruber/atr")
+remotes::install_github("JBGruber/atrrr")
 ```
 
 ## Load the package
 
 ``` r
-library(atr)
+library(atrrr)
 ```
 
 ## Authentication
 
 The first time you make a request, you will be prompted automatically to
-enter your user handle and an app password to authenticate `atr` to
+enter your user handle and an app password to authenticate `atrrr` to
 communicate with BlueSky for you.
 
 <figure>
@@ -144,20 +144,20 @@ rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
 ## Learn More?
 
 Start with the [Basic
-Usage](https://jbgruber.github.io/atr/articles/Basic_Usage.html)
+Usage](https://jbgruber.github.io/atrrr/articles/Basic_Usage.html)
 vignette to learn more.
 
 # Want to help?
 
 You can help by creating an
-[issue](https://github.com/JBGruber/atr/issues/new/choose) requesting
+[issue](https://github.com/JBGruber/atrrr/issues/new/choose) requesting
 new features or reporting bugs.
 
 If you are a developer, we are happy to accept pull requests. It should
 be fairly straightforward, as all endpoints are already covered by
 automatically generated function. For example, the endpoint
 [app.bsky.actor.getProfiles](https://atproto.com/lexicons/app-bsky) is
-accessible via `atr:::app_bsky_actor_get_profiles()`. The function
+accessible via `atrrr:::app_bsky_actor_get_profiles()`. The function
 `get_user_info()` is just a thin wrapper around that and calls an
 optional parsing function:
 
@@ -185,5 +185,5 @@ If you find an endpoint at <https://atproto.com/lexicons/com-atproto> or
 <https://atproto.com/lexicons/app-bsky> that interests you, you can
 write a similar wrapper and contribute it to the package (or build
 something new on top of it). But please open an
-[issue](https://github.com/JBGruber/atr/issues) first, so we don’t do
+[issue](https://github.com/JBGruber/atrrr/issues) first, so we don’t do
 duplicated work.

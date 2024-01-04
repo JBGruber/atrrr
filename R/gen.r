@@ -43,7 +43,7 @@ build_function <- function(lexicon,
   # TODO: Add query rate especially to test the package
   cur_env <- rlang::current_env()
 
-  new_fun <- readLines(system.file("function.template", package = "atr")) |>
+  new_fun <- readLines(system.file("function.template", package = "atrrr")) |>
     purrr::map_chr(glue::glue, .envir = cur_env)
 
   funs <- ""

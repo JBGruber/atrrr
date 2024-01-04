@@ -1,6 +1,6 @@
-Package: atr
-Title: Wrapper for the AT Protocol behind 'Bluesky'
-Version: 0.0.1.9000
+Package: atrrr
+Title: Wrapper for the AT Protocol Behind 'Bluesky'
+Version: 0.0.2
 Authors@R: 
     c(person(given = "Johannes B.",
              family = "Gruber",
@@ -17,7 +17,7 @@ Authors@R:
              email = "fabio.votta@gmail.com", 
              role = c("aut", "ctb"),
              comment = c(ORCID = "0000-0002-3143-5942")))
-Description: atr wraps the AT Protocol (Authenticated Transfer Protocol) behind 
+Description: This package wraps the AT Protocol (Authenticated Transfer Protocol) behind 
     'Bluesky' <https://blueskyweb.xyz>. Functions can be used for, among others, 
     retrieving posts and followers from the network or posting content.
 License: MIT + file LICENSE
@@ -27,7 +27,7 @@ RoxygenNote: 7.2.3
 Imports: 
     cli,
     glue,
-    httr2,
+    httr2 (>= 1.0.0),
     methods,
     purrr,
     rlang,
@@ -54,4 +54,4 @@ Suggests:
     tidygraph
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://jbgruber.github.io/atr/, https://github.com/JBGruber/atr
+URL: https://jbgruber.github.io/atrrr/, https://github.com/JBGruber/atrrr

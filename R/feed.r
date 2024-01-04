@@ -575,7 +575,7 @@ get_replies <- function(post_url,
 #'
 #' @examples
 #' \dontrun{
-#' post("Hello from #rstats with {atr}")
+#' post("Hello from #rstats with {atrrr}")
 #' }
 post <- function(text,
                  in_reply_to = NULL,

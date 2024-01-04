@@ -32,7 +32,7 @@ On Blue Sky users have the ability to create custom feeds based on specific keyw
 ## Load the package
 
 ```{r setup}
-library(atr)
+library(atrrr)
 ```
 
 ## Retrieving a Feed

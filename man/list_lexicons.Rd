@@ -10,7 +10,7 @@
 A list with all lexicons available for the AT protocols.
 \describe{
 \item{names}{Name of the lexicon}
-\item{values}{path relative to \url{https://github.com/bluesky-social/atproto/blob/main/lexicons/}}
+\item{values}{path relative to \url{https://github.com/bluesky-social/atproto/blob/main/lexicons}}
 }
 }
 }

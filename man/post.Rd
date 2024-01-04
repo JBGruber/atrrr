@@ -65,6 +65,6 @@ Post a skeet
 }
 \examples{
 \dontrun{
-post("Hello from #rstats with {atr}")
+post("Hello from #rstats with {atrrr}")
 }
 }

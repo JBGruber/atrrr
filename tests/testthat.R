@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(atr)
+library(atrrr)
 
-test_check("atr")
+test_check("atrrr")

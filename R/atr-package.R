@@ -1,7 +1,7 @@
 #' @description
 #' `r lifecycle::badge('experimental')`
 #'
-#' The goal of atr is to wrap the AT Protocol (Authenticated Transfer Protocol)
+#' The goal of atrrr is to wrap the AT Protocol (Authenticated Transfer Protocol)
 #' behind Bluesky.
 #'
 #' @keywords internal

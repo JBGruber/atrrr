@@ -21,7 +21,7 @@ You can retrieve a list of followers and those followed by a user through the `g
 
 
 ```r
-library(atr)
+library(atrrr)
 ```
 
 ## `get_followers`
@@ -54,7 +54,7 @@ Retrieve the accounts that are followed by a specific account with `get_follows`
 
 
 ```r
-atr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
+get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 187
 #> Columns: 11
