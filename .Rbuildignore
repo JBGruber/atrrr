@@ -12,3 +12,5 @@
 ^doc$
 ^Meta$
 ^update\.r$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

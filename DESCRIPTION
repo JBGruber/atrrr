@@ -1,5 +1,5 @@
 Package: atrrr
-Title: Wrapper for the AT Protocol Behind 'Bluesky'
+Title: Wrapper for the 'AT' Protocol Behind 'Bluesky'
 Version: 0.0.2
 Authors@R: 
     c(person(given = "Johannes B.",
@@ -17,7 +17,7 @@ Authors@R:
              email = "fabio.votta@gmail.com", 
              role = c("aut", "ctb"),
              comment = c(ORCID = "0000-0002-3143-5942")))
-Description: Wraps the AT Protocol (Authenticated Transfer Protocol) behind 
+Description: Wraps the 'AT' Protocol (Authenticated Transfer Protocol) behind 
     'Bluesky' <https://blueskyweb.xyz>. Functions can be used for, among others, 
     retrieving posts and followers from the network or posting content.
 License: MIT + file LICENSE

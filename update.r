@@ -9,3 +9,13 @@ knitr::knit("Feed_Analysis.Rmd.orig", output = "Feed_Analysis.Rmd")
 knitr::knit("Interactions.Rmd.orig", output = "Interactions.Rmd")
 knitr::knit("Networks.Rmd.orig", output = "Networks.Rmd")
 
+# render site to have a look
+setwd(here::here())
+pkgdown::build_site()
+
+# submit to CRAN
+usethis::use_version("minor")
+devtools::check_rhub(interactive = FALSE)
+devtools::submit_cran()
+# once accepted by cran
+usethis::use_github_release()
