@@ -185,6 +185,17 @@ com_atproto_repo_upload_blob2 <- function(image,
 }
 
 
+did_lookup <- function(did) {
+  # cheers hrbrmstr!
+  httr2::request("https://plc.directory/") |>
+    httr2::req_url_path_append(did) |>
+    httr2::req_error(is_error = function(resp) FALSE) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json(check_type = FALSE) |>
+    purrr::pluck("alsoKnownAs", 1, .default = did)
+}
+
+
 #' matches the behavior of Python's re.find with multi-byte characters
 #' @noRd
 str_locate_all_bytes <- function(string, pattern) {

@@ -50,8 +50,8 @@ convert_at_to_http <- function(link) {
 
     if (is.na(r) | is.na(k)) return(NA_character_)
 
-    handle <- try(do.call(get_user_info, list(actor = r)), silent = TRUE) |>
-      purrr::pluck("actor_handle", .default = r)
+    handle <-  did_lookup(r) |>
+      sub("^at://", "", x = _)
 
     glue::glue("https://bsky.app/profile/{handle}/post/{k}")
 

@@ -4,7 +4,7 @@ test_that("search actors", {
   expect_gte(nrow(search_user("JBGruber")), 1L)
 })
 
-test_that("search actors", {
+test_that("use info", {
   expect_type(get_user_info("benguinaudeau.bsky.social", parse = FALSE), "list")
   expect_s3_class(get_user_info("jbgruber.bsky.social"), "tbl_df")
   expect_gte(nrow(get_user_info("favstats.bsky.social")), 1L)
