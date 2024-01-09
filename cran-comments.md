@@ -1,6 +1,10 @@
+## Comment
+
+This is a re-submission after fixing some documentation issues (thank you for 
+pointing them out, Benjamin Altmann).
+
 ## R CMD check results
 
-0 errors | 0 warnings | 2 note
+0 errors | 0 warnings | 1 note
 
 * This is a new release.
-** The suggested title case is not correct as the protocol this package wraps is called AT Protocol.

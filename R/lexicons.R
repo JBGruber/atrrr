@@ -14,6 +14,7 @@
 #' github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents",
 #'           folder = "lexicons")
 #' }
+#' @noRd
 github_ls <- function(repo, folder, max_depth = 10, verbose = NULL) {
   paths <- glue::glue("{repo}/{folder}")
 
@@ -54,6 +55,7 @@ github_ls <- function(repo, folder, max_depth = 10, verbose = NULL) {
 #' \dontrun{
 #' get_lexicon("app/bsky/actor/getProfile.json")
 #' }
+#' @noRd
 get_lexicon <- function(path) {
   base_url <- "https://raw.githubusercontent.com/bluesky-social/atproto/main/lexicons/"
   d_url <- file.path(base_url, path)
@@ -79,6 +81,7 @@ get_lexicon <- function(path) {
 #' \dontrun{
 #' read_lexicon("app/bsky/actor/getProfile.json")
 #' }
+#' @noRd
 read_lexicon <- function(path) {
   local_path <- file.path(system.file("lexicons", package = "atrrr"), path)
 

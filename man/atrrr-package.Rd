@@ -4,7 +4,7 @@
 \name{atrrr-package}
 \alias{atrrr}
 \alias{atrrr-package}
-\title{atrrr: Wrapper for the AT Protocol Behind 'Bluesky'}
+\title{atrrr: Wrapper for the 'AT' Protocol Behind 'Bluesky'}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 

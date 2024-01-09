@@ -191,9 +191,13 @@ refresh_token <- function(token) {
 
 
 #' @title Print token
+#'
 #' @description Print a AT token
+#'
 #' @param x An object of class \code{bsky_token}
 #' @param ... not used.
+#'
+#' @return No return value, called to print the token to screen
 #' @export
 print.bsky_token <- function(x, ...) {
   cli::cli_h1("Blue Sky token")

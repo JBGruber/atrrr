@@ -11,6 +11,9 @@
 
 \item{...}{not used.}
 }
+\value{
+No return value, called to print the token to screen
+}
 \description{
 Print a AT token
 }
