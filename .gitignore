@@ -9,3 +9,7 @@ inst/doc
 /Meta/
 docs
 tests/testthat/recorded_responses/com.atproto.server.createSession.rds
+paper/paper.jats
+paper/paper.md
+paper/paper.pdf
+paper/media/figures/app_password.png
