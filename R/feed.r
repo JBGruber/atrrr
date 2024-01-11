@@ -443,7 +443,6 @@ get_reposts <- function(post_url,
 #' @inheritParams search_user
 #'
 #' @returns a data frame (or nested list) of likes/reposts
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -454,6 +453,7 @@ get_reposts <- function(post_url,
 #' res <- search_feed("#rstats")
 #' get_feed_likes(res$uri[1])
 #' }
+#' @export
 get_feed_likes <- function(feed_url,
                            limit = 25L,
                            cursor = NULL,
