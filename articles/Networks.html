@@ -112,19 +112,16 @@ on the platform.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 220</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ did                &lt;chr&gt; "did:plc:w2gsbanugiw67kud7sieilh7", "did:plc:b…</span></span>
-<span><span class="co">#&gt; $ handle             &lt;chr&gt; "mattgraham.bsky.social", "janvogler.bsky.soci…</span></span>
-<span><span class="co">#&gt; $ display_name       &lt;chr&gt; "Matt Graham", "Jan P. Vogler", "Stéphane Hube…</span></span>
-<span><span class="co">#&gt; $ description        &lt;chr&gt; "Political Scientist. Beliefs, polarization, d…</span></span>
-<span><span class="co">#&gt; $ avatar             &lt;chr&gt; "https://cdn.bsky.app/img/avatar/plain/did:plc…</span></span>
-<span><span class="co">#&gt; $ indexed_at         &lt;chr&gt; "2023-07-31T20:08:07.007Z", "2023-12-27T16:23:…</span></span>
-<span><span class="co">#&gt; $ viewer_muted       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS…</span></span>
-<span><span class="co">#&gt; $ viewer_blocked_by  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS…</span></span>
-<span><span class="co">#&gt; $ labels             &lt;named list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
-<span><span class="co">#&gt; $ viewer_following   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ viewer_followed_by &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 200</span></span>
+<span><span class="co">#&gt; Columns: 8</span></span>
+<span><span class="co">#&gt; $ did               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:plc:sgh7cft2kyxzs…</span></span>
+<span><span class="co">#&gt; $ indexed_at        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-12-22 09:18:49, …</span></span>
+<span><span class="co">#&gt; $ actor_handle      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ladatatata.bsky.socia…</span></span>
+<span><span class="co">#&gt; $ actor_name        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "DaTata Cactus", "ECPR…</span></span>
+<span><span class="co">#&gt; $ actor_description <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Working in Data, R us…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/…</span></span>
+<span><span class="co">#&gt; $ viewer_data       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [FALSE, FALSE], [FALS…</span></span>
+<span><span class="co">#&gt; $ labels_data       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [], [], [], [], [], […</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get_follows">
@@ -135,19 +132,16 @@ on the platform.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_followers.html">get_follows</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 187</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ did                &lt;chr&gt; "did:plc:bgnw6liy2b3bto6tkwgn2lf4", "did:plc:c…</span></span>
-<span><span class="co">#&gt; $ handle             &lt;chr&gt; "julienrobin.bsky.social", "mamartel.bsky.soci…</span></span>
-<span><span class="co">#&gt; $ display_name       &lt;chr&gt; "Julien Robin", "Marc-Antoine Martel", "The Re…</span></span>
-<span><span class="co">#&gt; $ description        &lt;chr&gt; "PhD candidate à l’Université de Montréal. \nP…</span></span>
-<span><span class="co">#&gt; $ avatar             &lt;chr&gt; "https://cdn.bsky.app/img/avatar/plain/did:plc…</span></span>
-<span><span class="co">#&gt; $ indexed_at         &lt;chr&gt; "2023-12-22T19:12:22.412Z", "2023-12-17T20:47:…</span></span>
-<span><span class="co">#&gt; $ viewer_muted       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS…</span></span>
-<span><span class="co">#&gt; $ viewer_blocked_by  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS…</span></span>
-<span><span class="co">#&gt; $ viewer_following   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "at://…</span></span>
-<span><span class="co">#&gt; $ viewer_followed_by &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ labels             &lt;named list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 169</span></span>
+<span><span class="co">#&gt; Columns: 8</span></span>
+<span><span class="co">#&gt; $ did               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "did:plc:n45uwp5ip3uli…</span></span>
+<span><span class="co">#&gt; $ indexed_at        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-11-29 14:31:17, …</span></span>
+<span><span class="co">#&gt; $ actor_handle      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "cathblatter.bsky.soci…</span></span>
+<span><span class="co">#&gt; $ actor_name        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Cath Blatter", "Maart…</span></span>
+<span><span class="co">#&gt; $ actor_description <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "RN, PhD student resea…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "https://cdn.bsky.app/…</span></span>
+<span><span class="co">#&gt; $ viewer_data       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [FALSE, FALSE, "at://…</span></span>
+<span><span class="co">#&gt; $ labels_data       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [], [], [], [], [], […</span></span></code></pre></div>
 <p>You’ll notice each follower/following has a description (i.e. their
 bio). It’s a nifty way to get to know a bit about them at a glance!</p>
 </div>
@@ -170,7 +164,7 @@ deeper and fetch the followers for each of these followers.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Retrieve the followers for the main user</span></span>
-<span><span class="va">some_followers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">handle</span></span>
+<span><span class="va">some_followers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">actor_handle</span></span>
 <span></span>
 <span><span class="co"># For each follower, retrieve their own set of followers.</span></span>
 <span><span class="co"># This provides a nested view of relationships.</span></span>
@@ -179,7 +173,7 @@ deeper and fetch the followers for each of these followers.</p>
 <span>    <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="va">.x</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">.x</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">actor_handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">add_count</a></span><span class="op">(</span><span class="va">to</span>, name <span class="op">=</span> <span class="st">"n_to"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">add_count</a></span><span class="op">(</span><span class="va">from</span>, name <span class="op">=</span> <span class="st">"n_from"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -191,10 +185,10 @@ deeper and fetch the followers for each of these followers.</p>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Construct the network graph and plot</span></span>
-<span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span><span class="va">followers_of_followers</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/tbl_graph.html" class="external-link">as_tbl_graph</a></span><span class="op">(</span><span class="va">followers_of_followers</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Use ggraph to visualize the network.</span></span>
-<span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph</span>, layout <span class="op">=</span> <span class="st">'fr'</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph2</span>, layout <span class="op">=</span> <span class="st">'fr'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/centrality.html" class="external-link">centrality_pagerank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_text.html" class="external-link">geom_node_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span>, size <span class="op">=</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/centrality.html" class="external-link">centrality_pagerank</a></span><span class="op">(</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">"mono"</span>, fontface <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
@@ -213,7 +207,7 @@ follow. First get all the people you already follow by quering your own
 account:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_follows</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_follows</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"jbgruber.bsky.social"</span>,</span>
-<span>                              limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">handle</span> <span class="co"># limit only for demonstration</span></span>
+<span>                              limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">actor_handle</span> <span class="co"># limit only for demonstration</span></span>
 <span></span>
 <span><span class="co"># For each account you follow, retrieve who they follow.</span></span>
 <span><span class="va">follows_of_follows</span> <span class="op">&lt;-</span> <span class="va">my_follows</span> <span class="op">|&gt;</span></span>
@@ -224,22 +218,22 @@ account:</p>
 <span></span>
 <span><span class="co"># Now we can check which accounts are popular among the people you already follow</span></span>
 <span><span class="va">follows_of_follows</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">handle</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_follows</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># exclude accounts you already follow</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">display_name</span>, <span class="va">handle</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 591 × 3</span></span>
-<span><span class="co">#&gt;    display_name         handle                           n</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;                        &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 "Chris MacQuarrie "  cmacquar.bsky.social            12</span></span>
-<span><span class="co">#&gt;  2  &lt;NA&gt;                sedmaar.bsky.social             12</span></span>
-<span><span class="co">#&gt;  3 "Johannes B. Gruber" jbgruber.bsky.social            10</span></span>
-<span><span class="co">#&gt;  4 "Alan Jackson"       akjackson.bsky.social            6</span></span>
-<span><span class="co">#&gt;  5 "Aleksandra Urman"   aurman21.bsky.social             6</span></span>
-<span><span class="co">#&gt;  6 "Alexandra Boutros"  alexandraboutros.bsky.social     6</span></span>
-<span><span class="co">#&gt;  7 "Andy Carr"          andycarr.bsky.social             6</span></span>
-<span><span class="co">#&gt;  8 "Daniel Moccand"     moccand.bsky.social              6</span></span>
-<span><span class="co">#&gt;  9 "Dominar Rygel XVI"  oaklandishdude.bsky.social       6</span></span>
-<span><span class="co">#&gt; 10 "Dr. Ashok Karra"    akarra.bsky.social               6</span></span>
-<span><span class="co">#&gt; # ℹ 581 more rows</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">actor_handle</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_follows</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># exclude accounts you already follow</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">actor_name</span>, <span class="va">actor_handle</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 706 × 3</span></span>
+<span><span class="co">#&gt;    actor_name                   actor_handle     n</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                        &lt;chr&gt;        &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 Johannes B. Gruber           jbgruber.bs…    10</span></span>
+<span><span class="co">#&gt;  2 Adrian Meier                 adrianmeier…     3</span></span>
+<span><span class="co">#&gt;  3 Andreas Rechkemmer           andreasrech…     3</span></span>
+<span><span class="co">#&gt;  4 Daniel Vogler                dnvglr.bsky…     3</span></span>
+<span><span class="co">#&gt;  5 Yotam Ophir, Ph.D.           ophiryotam.…     3</span></span>
+<span><span class="co">#&gt;  6 (A)va (F)rancesca Battocchio afbat.bsky.…     2</span></span>
+<span><span class="co">#&gt;  7 Adam Bouska                  adambouska.…     2</span></span>
+<span><span class="co">#&gt;  8 Alesha Lewis                 ael1999.bsk…     2</span></span>
+<span><span class="co">#&gt;  9 Alessandro Nai               alessandron…     2</span></span>
+<span><span class="co">#&gt; 10 Anna Schorn                  annaschorn.…     2</span></span>
+<span><span class="co">#&gt; # ℹ 696 more rows</span></span></code></pre></div>
 <p>The original account shows up in this overview, as do accounts that
 were excluded because of the limit set to do the demonstration.</p>
 <p>But all of these accounts look interesting!</p>
@@ -262,11 +256,11 @@ expressed their appreciation for the content.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
 <span><span class="co">#&gt; Columns: 5</span></span>
-<span><span class="co">#&gt; $ created_at   &lt;dttm&gt; 2023-12-19 07:52:16, 2023-11-15 11:54:29, 2023-11-0…</span></span>
-<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-12-19 07:52:17, 2023-11-15 11:54:29, 2023-11-0…</span></span>
-<span><span class="co">#&gt; $ actor_handle &lt;chr&gt; "vodkula.bsky.social", "giw.bsky.social", "tillyx.bs…</span></span>
-<span><span class="co">#&gt; $ actor_name   &lt;chr&gt; "Oops", "Gareth Illmann-Walker", "Tilly", "Jack Vaug…</span></span>
-<span><span class="co">#&gt; $ actor_data   &lt;list&gt; ["did:plc:q3fuk5znsrhw6twh3mdo3i2e", "vodkula.bsky.…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ created_at   &lt;dttm&gt; 2023-12-19 07:52:16, 2023-…</span></span>
+<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-12-19 07:52:17, 2023-…</span></span>
+<span><span class="co">#&gt; $ actor_handle &lt;chr&gt; "vodkula.bsky.social", "giw…</span></span>
+<span><span class="co">#&gt; $ actor_name   &lt;chr&gt; "Oops", "Gareth Illmann-Wal…</span></span>
+<span><span class="co">#&gt; $ actor_data   &lt;list&gt; ["did:plc:q3fuk5znsrhw6twh…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="who-reposted-your-skeets">Who reposted your skeets?<a class="anchor" aria-label="anchor" href="#who-reposted-your-skeets"></a>
@@ -279,17 +273,16 @@ information about users who reposted a specific piece of content.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_likes.html">get_reposts</a></span><span class="op">(</span>post_url <span class="op">=</span> <span class="st">"https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t"</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 45</span></span>
-<span><span class="co">#&gt; Columns: 9</span></span>
-<span><span class="co">#&gt; $ did              &lt;chr&gt; "did:plc:rkx7ioruvfkr7ure6epdmqis", "did:plc:s3o…</span></span>
-<span><span class="co">#&gt; $ handle           &lt;chr&gt; "giw.bsky.social", "lawless523.bsky.social", "la…</span></span>
-<span><span class="co">#&gt; $ displayName      &lt;chr&gt; "Gareth Illmann-Walker", "lawless", "lawless", "…</span></span>
-<span><span class="co">#&gt; $ description      &lt;chr&gt; "YamYam, White Hat open source geek old enough t…</span></span>
-<span><span class="co">#&gt; $ avatar           &lt;chr&gt; "https://cdn.bsky.app/img/avatar/plain/did:plc:r…</span></span>
-<span><span class="co">#&gt; $ indexedAt        &lt;chr&gt; "2023-11-08T08:02:57.224Z", "2023-12-22T21:09:54…</span></span>
-<span><span class="co">#&gt; $ viewer_muted     &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ viewer_blockedBy &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ labels           &lt;named list&gt; &lt;NULL&gt;, "did:plc:s3or3peikxebl2moku3kj3dm…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 25</span></span>
+<span><span class="co">#&gt; Columns: 8</span></span>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:rkx7ioruvfkr7…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2023-11-08 08:02:57, …</span></span>
+<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "giw.bsky.social", "la…</span></span>
+<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Gareth Illmann-Walker…</span></span>
+<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "YamYam, White Hat ope…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE], [FALS…</span></span>
+<span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], [["did:plc:s3or3p…</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
