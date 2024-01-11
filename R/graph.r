@@ -9,7 +9,13 @@
 #' @examples
 #' \dontrun{
 #' get_followers("benguinaudeau.bsky.social")
-#' get_follows("favstats.bsky.social")
+#'
+#' # get first page of results
+#' follows_df <- get_follows("favstats.bsky.social", limit = 25L)
+#'
+#' # continue same search, starting from the next match
+#' follows_df2 <- get_follows("favstats.bsky.social", limit = 25L,
+#'                            cursor = attr(follows_df, "last_cursor"))
 #' }
 get_followers <- function(actor,
                           limit = 25L,
@@ -20,7 +26,7 @@ get_followers <- function(actor,
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
-  last_cursor <- NULL
+  last_cursor <- cursor
 
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} followers, but there is more.. [{cli::pb_elapsed}]",
@@ -49,7 +55,7 @@ get_followers <- function(actor,
 
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
-    out <- parse_response(res)
+    out <- parse_actors(res)
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
@@ -70,7 +76,7 @@ get_follows <- function(actor,
 
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
-  last_cursor <- NULL
+  last_cursor <- cursor
 
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} follows, but there is more.. [{cli::pb_elapsed}]",
@@ -99,7 +105,7 @@ get_follows <- function(actor,
 
   if (parse) {
     if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
-    out <- parse_response(res)
+    out <- parse_actors(res)
     if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
   } else {
     out <- res
