@@ -173,8 +173,10 @@ com_atproto_repo_upload_blob2 <- function(image,
   img <- magick::image_read(image)
   image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
 
-  # TODO: not sure how to get the magick image as raw vector
-  img <- readBin(image, "raw", file.info(image)$size)
+  # TODO: find way to do this directly
+  tmp <- tempfile()
+  magick::image_write(img, tmp)
+  img <- readBin(tmp, "raw", file.info(tmp)$size)
 
   httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
     httr2::req_auth_bearer_token(token = .token$accessJwt) |>
@@ -224,4 +226,27 @@ str_locate_all_bytes <- function(string, pattern) {
     }
   }
   return(spans)
+}
+
+
+fetch_preview <- function(record) {
+  uri <- purrr::pluck(record, "facets", 1, "features", 1, "uri",
+                      .default = NA_character_)
+  if (!is.na(uri)) {
+    preview <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
+      httr2::req_url_query(url = uri) |>
+      httr2::req_perform() |>
+      httr2::resp_body_json()
+
+    embed <- list(`$type` = "app.bsky.embed.external",
+                  external = list(uri = preview$url,
+                                  title = preview$title,
+                                  description = preview$description))
+    if (purrr::pluck_exists(preview, "image")) {
+      embed$external$thumb <-
+        com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
+    }
+    record$embed <- embed
+  }
+  return(record)
 }

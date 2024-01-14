@@ -657,6 +657,10 @@ post <- function(text,
   parsed_richtext <- parse_facets(text)
   if (!any(is.na(unlist(parsed_richtext)))) {
     record[["facets"]] <- parsed_richtext
+    if (!purrr::pluck_exists(record, "embed")) {
+      # preview card
+      record <- fetch_preview(record)
+    }
   }
 
   invisible(do.call(what = com_atproto_repo_create_record,
