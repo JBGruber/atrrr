@@ -67,6 +67,7 @@
 <span>  image <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  image_alt <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  created_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  preview_card <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -78,6 +79,7 @@
 <span>  image <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  image_alt <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  created_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  preview_card <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -102,15 +104,20 @@
 
 
 <dt>image</dt>
-<dd><p>path to an image to post</p></dd>
+<dd><p>path to an image to post.</p></dd>
 
 
 <dt>image_alt</dt>
-<dd><p>alt text for the image</p></dd>
+<dd><p>alt text for the image.</p></dd>
 
 
 <dt>created_at</dt>
-<dd><p>time stamp of the post</p></dd>
+<dd><p>time stamp of the post.</p></dd>
+
+
+<dt>preview_card</dt>
+<dd><p>display a preview card for links included in the text
+(only if image is <code>NULL</code>).</p></dd>
 
 
 <dt>verbose</dt>
@@ -127,7 +134,7 @@ token.</p></dd>
 
 
 <dt>post_url</dt>
-<dd><p>URL or URI of post to delete</p></dd>
+<dd><p>URL or URI of post to delete.</p></dd>
 
 </dl></div>
     <div class="section level2">
