@@ -173,10 +173,8 @@ com_atproto_repo_upload_blob2 <- function(image,
   img <- magick::image_read(image)
   image_mimetype <- paste0("image/", tolower(magick::image_info(img)$format))
 
-  # TODO: find way to do this directly
-  tmp <- tempfile()
-  magick::image_write(img, tmp)
-  img <- readBin(tmp, "raw", file.info(tmp)$size)
+  # transform to raw. Thanks Miff! https://stackoverflow.com/a/77824559/5028841
+  img <- magick::image_write(img)
 
   httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
     httr2::req_auth_bearer_token(token = .token$accessJwt) |>
