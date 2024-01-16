@@ -14,6 +14,7 @@ post(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  preview_card = TRUE,
   verbose = NULL,
   .token = NULL
 )
@@ -25,6 +26,7 @@ post_skeet(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  preview_card = TRUE,
   verbose = NULL,
   .token = NULL
 )
@@ -40,11 +42,14 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 
 \item{quote}{URL or URI of a skeet this should quote.}
 
-\item{image}{path to an image to post}
+\item{image}{path to an image to post.}
 
-\item{image_alt}{alt text for the image}
+\item{image_alt}{alt text for the image.}
 
-\item{created_at}{time stamp of the post}
+\item{created_at}{time stamp of the post.}
+
+\item{preview_card}{display a preview card for links included in the text
+(only if image is \code{NULL}).}
 
 \item{verbose}{Whether to print status messages to the Console
 (\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have
@@ -55,7 +60,7 @@ status messages. Can be changed with \code{Sys.setenv(ATR_VERBOSE =
 \code{NULL} is OK and will automatically load or guide you to generate a
 token.}
 
-\item{post_url}{URL or URI of post to delete}
+\item{post_url}{URL or URI of post to delete.}
 }
 \value{
 list of the URI and CID of the post (invisible)

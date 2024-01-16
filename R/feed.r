@@ -564,10 +564,12 @@ get_replies <- function(post_url,
 #' @param text Text to post
 #' @param in_reply_to URL or URI of a skeet this should reply to.
 #' @param quote URL or URI of a skeet this should quote.
-#' @param image path to an image to post
-#' @param image_alt alt text for the image
-#' @param created_at time stamp of the post
-#' @param post_url URL or URI of post to delete
+#' @param image path to an image to post.
+#' @param image_alt alt text for the image.
+#' @param created_at time stamp of the post.
+#' @param preview_card display a preview card for links included in the text
+#'   (only if image is `NULL`).
+#' @param post_url URL or URI of post to delete.
 #' @inheritParams search_user
 #'
 #' @returns list of the URI and CID of the post (invisible)
@@ -583,6 +585,7 @@ post <- function(text,
                  image = NULL,
                  image_alt = NULL,
                  created_at = Sys.time(),
+                 preview_card = TRUE,
                  verbose = NULL,
                  .token = NULL) {
 
@@ -657,7 +660,7 @@ post <- function(text,
   parsed_richtext <- parse_facets(text)
   if (!any(is.na(unlist(parsed_richtext)))) {
     record[["facets"]] <- parsed_richtext
-    if (!purrr::pluck_exists(record, "embed")) {
+    if (!purrr::pluck_exists(record, "embed") && preview_card) {
       # preview card
       record <- fetch_preview(record)
     }

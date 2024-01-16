@@ -233,6 +233,7 @@ fetch_preview <- function(record) {
   uri <- purrr::pluck(record, "facets", 1, "features", 1, "uri",
                       .default = NA_character_)
   if (!is.na(uri)) {
+    # this is the API bsky.app is using. Not sure how robust it is
     preview <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
       httr2::req_url_query(url = uri) |>
       httr2::req_perform() |>
