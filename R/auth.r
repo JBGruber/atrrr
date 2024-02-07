@@ -66,7 +66,7 @@ auth <- function(user,
     if (missing(user)) {
       rlang::check_installed("askpass")
       user <- askpass::askpass(
-        "Please enter your username (e.g., \"jbgruber.bsky.social\") password"
+        "Please enter your username (e.g., \"jbgruber.bsky.social\")"
       )
     }
 
