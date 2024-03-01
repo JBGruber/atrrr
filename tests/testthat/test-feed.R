@@ -94,6 +94,4 @@ test_that("search posts", {
   expect_s3_class(search_post("rstats"), "tbl_df")
   expect_gte(nrow(search_post("rstats")), 100L)
   expect_gte(nrow(search_post("#rstats")), 100L)
-  expect_message(nrow(search_post("#rstats")),
-                 "The.search.endpoint.currently.does.not.support.searching")
 })

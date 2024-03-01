@@ -249,3 +249,14 @@ fetch_preview <- function(record) {
   }
   return(record)
 }
+
+# extract features, e.g., hashtags, links and mentions from an unparsed post
+extrct_ftrs <- function(post, feature_type) {
+  facets <- purrr::pluck(post, "record", "facets")
+  purrr::map(facets, function(fct) {
+    if (purrr::pluck(fct, "features", 1, "$type") == feature_type) {
+      purrr::pluck(fct, "features", 1, "tag")
+    }
+  }) |>
+    unlist()
+}

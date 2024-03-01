@@ -28,6 +28,9 @@ parse_post_list <- function(post_list) {
                                    .default = NA_character_),
     quotes        = purrr::map_chr(post_list, c("record", "embed", "record", "uri"),
                                    .default = NA_character_),
+    tags          = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#tag")),
+    mentions      = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#mention")),
+    links         = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#link"))
   )
 }
 
