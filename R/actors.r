@@ -93,14 +93,19 @@ get_user_info <- function(actor,
                           parse = TRUE,
                           .token = NULL) {
 
-  res <- do.call(
-    what = app_bsky_actor_get_profiles,
-    args = list(
-      actor,
-      .token = .token,
-      .return = "json"
-    )) |>
-    purrr::pluck("profiles")
+  actor_l <- split(actor, ceiling(seq_along(actor) / 25L))
+
+  res <- list()
+  for (actor_i in actor_l) {
+    res <- append(res, do.call(
+      what = app_bsky_actor_get_profiles,
+      args = list(
+        actor_i,
+        .token = .token,
+        .return = "json"
+      )) |>
+        purrr::pluck("profiles"))
+  }
 
   if (parse) {
     res <- parse_actors(res)
