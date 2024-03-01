@@ -787,9 +787,7 @@ post_thread <- function(texts,
 #' \dontrun{
 #' search_post("rstats")
 #' # finds post with rstats and Bluesky in text
-#' search_post("rstats Bluesky")
-#' # does not find anything, since hashtags seem to be treated differently
-#' search_post("#rstats")
+#' search_post("#rstats Bluesky")
 #' }
 #' @export
 search_post <- function(q,
@@ -801,11 +799,6 @@ search_post <- function(q,
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
-
-  if (stringr::str_detect(q, "^#")) {
-    q <- stringr::str_remove(q, "^#")
-    cli::cli_alert_info("The search endpoint currently does not support searching for hashtags. Searching for \"{q}\" instead")
-  }
 
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} posts, but there is more.. [{cli::pb_elapsed}]",
@@ -850,3 +843,6 @@ search_post <- function(q,
   return(out)
 }
 
+#' @rdname search_post
+#' @export
+search_skeet <- search_post

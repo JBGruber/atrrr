@@ -4,6 +4,7 @@
 * unified approach to parsing actor data
 * new function: skeet_shot (high quality screenshots of skeets)
 * properly paginate get_user_info (#14)
+* hashtags can be searched and included in skeets now
 
 # atrrr 0.0.2
 

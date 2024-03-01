@@ -2,9 +2,12 @@
 % Please edit documentation in R/feed.r
 \name{search_post}
 \alias{search_post}
+\alias{search_skeet}
 \title{Search Posts}
 \usage{
 search_post(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
+
+search_skeet(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
 }
 \arguments{
 \item{q}{Find posts matching search criteria. API docs claim that Lucene
@@ -38,8 +41,6 @@ Search Posts
 \dontrun{
 search_post("rstats")
 # finds post with rstats and Bluesky in text
-search_post("rstats Bluesky")
-# does not find anything, since hashtags seem to be treated differently
-search_post("#rstats")
+search_post("#rstats Bluesky")
 }
 }
