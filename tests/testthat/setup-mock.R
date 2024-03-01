@@ -1,8 +1,16 @@
 # this function records replies from the API in an RDS file and loads the
 # response from disk the next time a request is made to the same endpoint.
 mocked_record <- function(req) {
+  req <<- req
+  # to identify requests, we use a combination of endpoint and request data
   endpoint <- sub("\\?.*", "", basename(req$url))
-  f <- paste0(file.path("recorded_responses", endpoint), ".rds")
+  dat <- req$body$data
+  if (is.null(dat)) { # when data is sent as URL parameters
+    dat <- sub(endpoint, "", basename(req$url))
+  }
+  data_hash <- rlang::hash(dat)
+  f <- file.path("recorded_responses", paste0(endpoint,
+                        "_", data_hash, ".rds"))
 
   if (endpoint == "com.atproto.server.createSession") { # needs password
     resp <- httr2::response(
@@ -10,9 +18,10 @@ mocked_record <- function(req) {
       method = "POST",
       headers = "Content-Type: application/json"
     )
+    # for everything but session, see if req has been made
   } else if (file.exists(f)) {
     resp <- readRDS(f)
-  } else {
+  } else { # if not, make request, record response
     resp <- httr2::req_perform(req, mock = NULL)
     saveRDS(resp, f)
   }
