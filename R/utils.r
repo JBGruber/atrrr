@@ -260,3 +260,16 @@ extrct_ftrs <- function(post, feature_type) {
   }) |>
     unlist()
 }
+
+# save ggplot plots in file to post them
+from_ggplot <- function(image) {
+  if (methods::is(image, "ggplot")) {
+    rlang::check_installed("ggplot2")
+    tmp <- tempfile(fileext = ".png")
+    ggplot2::ggsave(tmp, image,
+                    width = 7,
+                    height = 7)
+    image <- tmp
+  }
+  return(image)
+}

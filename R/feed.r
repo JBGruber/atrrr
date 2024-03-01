@@ -643,7 +643,8 @@ post <- function(text,
     )
   }
 
-  if (!is.null(image) && image != "") {
+  if (!is.null(image) && !identical(image, "")) {
+    image <- from_ggplot(image)
     rlang::check_installed("magick")
     image_alt <- image_alt  %||% ""
     # TODO: make it possible to post several images (up to 4 are allowed)
