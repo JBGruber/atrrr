@@ -97,7 +97,7 @@ followers_of_followers <- some_followers |>
 graph <- tidygraph::as_tbl_graph(followers_of_followers, directed = TRUE)
 
 # Use ggraph to visualize the network.
-ggraph::ggraph(graph2, layout = 'fr') +
+ggraph::ggraph(graph, layout = 'fr') +
   ggraph::geom_edge_link() +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank()), color = "lightblue") +
   ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank(), family = "mono", fontface = "bold"),

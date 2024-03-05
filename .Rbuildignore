@@ -14,3 +14,4 @@
 ^update\.r$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^tests/testthat/recorded_responses/$

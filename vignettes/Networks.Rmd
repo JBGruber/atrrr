@@ -34,14 +34,14 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 200
 #> Columns: 8
-#> $ did               [3m[38;5;246m<chr>[39m[23m "did:plc:sgh7cft2kyxzs…
-#> $ indexed_at        [3m[38;5;246m<dttm>[39m[23m 2023-12-22 09:18:49, …
-#> $ actor_handle      [3m[38;5;246m<chr>[39m[23m "ladatatata.bsky.socia…
-#> $ actor_name        [3m[38;5;246m<chr>[39m[23m "DaTata Cactus", "ECPR…
-#> $ actor_description [3m[38;5;246m<chr>[39m[23m "Working in Data, R us…
-#> $ actor_avatar      [3m[38;5;246m<chr>[39m[23m "https://cdn.bsky.app/…
-#> $ viewer_data       [3m[38;5;246m<list>[39m[23m [FALSE, FALSE], [FALS…
-#> $ labels_data       [3m[38;5;246m<list>[39m[23m [], [], [], [], [], […
+#> $ did               <chr> "did:plc:nol67uyam6hzj5…
+#> $ indexed_at        <dttm> 2024-02-29 13:50:12, 2…
+#> $ actor_handle      <chr> "dkarpa.bsky.social", "…
+#> $ actor_name        <chr> "David Karpa", "Rémi Pa…
+#> $ actor_description <chr> "PhD-candidate UBremen.…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 
@@ -53,16 +53,16 @@ Retrieve the accounts that are followed by a specific account with `get_follows`
 ```r
 get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
-#> Rows: 169
+#> Rows: 174
 #> Columns: 8
-#> $ did               [3m[38;5;246m<chr>[39m[23m "did:plc:n45uwp5ip3uli…
-#> $ indexed_at        [3m[38;5;246m<dttm>[39m[23m 2023-11-29 14:31:17, …
-#> $ actor_handle      [3m[38;5;246m<chr>[39m[23m "cathblatter.bsky.soci…
-#> $ actor_name        [3m[38;5;246m<chr>[39m[23m "Cath Blatter", "Maart…
-#> $ actor_description [3m[38;5;246m<chr>[39m[23m "RN, PhD student resea…
-#> $ actor_avatar      [3m[38;5;246m<chr>[39m[23m "https://cdn.bsky.app/…
-#> $ viewer_data       [3m[38;5;246m<list>[39m[23m [FALSE, FALSE, "at://…
-#> $ labels_data       [3m[38;5;246m<list>[39m[23m [], [], [], [], [], […
+#> $ did               <chr> "did:plc:3ryku2cbgpazor…
+#> $ indexed_at        <dttm> 2024-02-08 05:16:04, 2…
+#> $ actor_handle      <chr> "beamagistro.bsky.socia…
+#> $ actor_name        <chr> "Beatrice Magistro", "S…
+#> $ actor_description <chr> "PostDoc @Caltech, thru…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
@@ -111,7 +111,7 @@ followers_of_followers <- some_followers |>
 graph <- tidygraph::as_tbl_graph(followers_of_followers, directed = TRUE)
 
 # Use ggraph to visualize the network.
-ggraph::ggraph(graph2, layout = 'fr') +
+ggraph::ggraph(graph, layout = 'fr') +
   ggraph::geom_edge_link() +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank()), color = "lightblue") +
   ggraph::geom_node_text(aes(label = name, size = tidygraph::centrality_pagerank(), family = "mono", fontface = "bold"),
@@ -122,7 +122,10 @@ ggraph::ggraph(graph2, layout = 'fr') +
   ggplot2::theme(legend.position = "bottom")
 ```
 
+<div class="figure">
 <img src="figures/unnamed-chunk-6-1.png" alt="Follower Network" width="100%" />
+<p class="caption">Follower Network</p>
+</div>
 
 
 ## Find people to follow
@@ -146,20 +149,20 @@ follows_of_follows <- my_follows |>
 follows_of_follows |>
   dplyr::filter(!actor_handle %in% my_follows) |> # exclude accounts you already follow
   dplyr::count(actor_name, actor_handle, sort = TRUE)
-#> # A tibble: 706 × 3
-#>    actor_name                   actor_handle     n
-#>    <chr>                        <chr>        <int>
-#>  1 Johannes B. Gruber           jbgruber.bs…    10
-#>  2 Adrian Meier                 adrianmeier…     3
-#>  3 Andreas Rechkemmer           andreasrech…     3
-#>  4 Daniel Vogler                dnvglr.bsky…     3
-#>  5 Yotam Ophir, Ph.D.           ophiryotam.…     3
-#>  6 (A)va (F)rancesca Battocchio afbat.bsky.…     2
-#>  7 Adam Bouska                  adambouska.…     2
-#>  8 Alesha Lewis                 ael1999.bsk…     2
-#>  9 Alessandro Nai               alessandron…     2
-#> 10 Anna Schorn                  annaschorn.…     2
-#> # ℹ 696 more rows
+#> # A tibble: 704 × 3
+#>    actor_name                actor_handle         n
+#>    <chr>                     <chr>            <int>
+#>  1 Johannes B. Gruber        jbgruber.bsky.s…     9
+#>  2 Center for Ballot Freedom fusionvoting.bs…     4
+#>  3 David Karpa               dkarpa.bsky.soc…     3
+#>  4 Jacob Ware                jacobware.bsky.…     3
+#>  5 Jens Rydgren              jensrydgren.bsk…     3
+#>  6 edminkardes               gorkem.me            3
+#>  7 Adrian Florea             aflorea.bsky.so…     2
+#>  8 Brian O'Meara             omearabrian.bsk…     2
+#>  9 Darren Dahly              statsepi.bsky.s…     2
+#> 10 Erik Angner               erikangner.com       2
+#> # ℹ 694 more rows
 ```
 
 The original account shows up in this overview, as do accounts that were excluded because of the limit set to do the demonstration.
@@ -182,11 +185,11 @@ get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
 #> Columns: 5
-#> $ created_at   <dttm> 2023-12-19 07:52:16, 2023-…
-#> $ indexed_at   <dttm> 2023-12-19 07:52:17, 2023-…
-#> $ actor_handle <chr> "vodkula.bsky.social", "giw…
-#> $ actor_name   <chr> "Oops", "Gareth Illmann-Wal…
-#> $ actor_data   <list> ["did:plc:q3fuk5znsrhw6twh…
+#> $ created_at   <dttm> 2023-10-06 21:22:39, 2023-1…
+#> $ indexed_at   <dttm> 2023-10-06 21:22:39, 2023-1…
+#> $ actor_handle <chr> "csehested.bsky.social", "da…
+#> $ actor_name   <chr> NA, "TassieDevyl", "Hans LeJ…
+#> $ actor_data   <list> ["did:plc:zzsj7hy3wec6fhbwu…
 ```
 
 ## Who reposted your skeets?
@@ -201,14 +204,14 @@ get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda
   dplyr::glimpse()
 #> Rows: 25
 #> Columns: 8
-#> $ did               <chr> "did:plc:rkx7ioruvfkr7…
-#> $ indexed_at        <dttm> 2023-11-08 08:02:57, …
-#> $ actor_handle      <chr> "giw.bsky.social", "la…
-#> $ actor_name        <chr> "Gareth Illmann-Walker…
-#> $ actor_description <chr> "YamYam, White Hat ope…
-#> $ actor_avatar      <chr> "https://cdn.bsky.app/…
-#> $ viewer_data       <list> [FALSE, FALSE], [FALS…
-#> $ labels_data       <list> [], [["did:plc:s3or3p…
+#> $ did               <chr> "did:plc:zyvmwfzbkt3igd…
+#> $ indexed_at        <dttm> 2024-01-26 00:03:39, 2…
+#> $ actor_handle      <chr> "zunguzungu.bsky.social…
+#> $ actor_name        <chr> "Aaron Bady", "Bertie R…
+#> $ actor_description <chr> "Meat blood, bees, thin…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 

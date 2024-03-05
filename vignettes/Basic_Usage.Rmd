@@ -76,13 +76,13 @@ get_user_info(actor = "atpr.bsky.social")  |>
   dplyr::glimpse()
 #> Rows: 1
 #> Columns: 8
-#> $ did               <chr> "did:plc:j42kj4qc5vfz344weyw…
-#> $ indexed_at        <dttm> NA
+#> $ did               <chr> "did:plc:j42kj4qc5vfz34…
+#> $ indexed_at        <dttm> 1-01-01
 #> $ actor_handle      <chr> "atpr.bsky.social"
 #> $ actor_name        <chr> NA
 #> $ actor_description <chr> NA
 #> $ actor_avatar      <chr> NA
-#> $ viewer_data       <list> [FALSE, FALSE, "at://did:pl…
+#> $ viewer_data       <list> [FALSE, FALSE, "at://d…
 #> $ labels_data       <list> []
 ```
 
@@ -96,13 +96,13 @@ get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
   dplyr::glimpse()
 #> Rows: 2
 #> Columns: 8
-#> $ did               <chr> "did:plc:vuvsifrusnjsys7mhkp…
-#> $ indexed_at        <dttm> 2023-09-19 00:08:33, NA
-#> $ actor_handle      <chr> "benguinaudeau.bsky.social"…
-#> $ actor_name        <chr> "Benjamin Guinaudeau", NA
-#> $ actor_description <chr> "Postdoc @CSMaP_NYU. \n\nPol…
-#> $ actor_avatar      <chr> "https://cdn.bsky.app/img/av…
-#> $ viewer_data       <list> [FALSE, FALSE, "at://did:plc…
+#> $ did               <chr> "did:plc:vuvsifrusnjsys…
+#> $ indexed_at        <dttm> 2024-01-26 01:28:47, 1…
+#> $ actor_handle      <chr> "benguinaudeau.bsky.soc…
+#> $ actor_name        <chr> "Benjamin Guinaudeau", …
+#> $ actor_description <chr> "Postdoc @CSMaP_NYU. \n…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE, "at://d…
 #> $ labels_data       <list> [], []
 ```
 
@@ -116,23 +116,26 @@ To fetch all the skeets by a specific user, use the `get_skeets_authored_by` fun
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
 #> Rows: 25
-#> Columns: 16
-#> $ uri           <chr> "at://did:plc:hwbpa3fiiv6mmqkrma…
-#> $ cid           <chr> "bafyreidvg65cygp7h3dtyn64tiyic5…
-#> $ author_handle <chr> "fortunato.bsky.social", "mathie…
-#> $ author_name   <chr> "David Fortunato", "mathieu gall…
-#> $ text          <chr> "Inspired by the monotony of my …
-#> $ author_data   <list> ["did:plc:hwbpa3fiiv6mmqkrmaxck…
-#> $ post_data     <list> ["Inspired by the monotony of m…
-#> $ embed_data    <list> <NULL>, ["app.bsky.embed.images…
-#> $ reply_count   <int> 5, 0, 1, 7, 0, 1, 0, 1, 0, 0, 0,…
-#> $ repost_count  <int> 15, 2, 1, 366, 3, 1, 4, 28, 0, 0…
-#> $ like_count    <int> 43, 6, 1, 498, 8, 3, 10, 34, 0, …
-#> $ indexed_at    <dttm> 2023-12-23 22:08:11, 2023-12-24…
-#> $ in_reply_to   <chr> NA, "at://did:plc:cy3nxnkuk6qvib…
-#> $ in_reply_root <chr> NA, "at://did:plc:cy3nxnkuk6qvib…
-#> $ quotes        <chr> NA, NA, "at://did:plc:3mcek454ld…
-#> $ is_reskeet    <lgl> TRUE, TRUE, FALSE, TRUE, FALSE, …
+#> Columns: 19
+#> $ uri           <chr> "at://did:plc:3ryku2cbgpazo…
+#> $ cid           <chr> "bafyreiabtdobd6w4scrbpqkvp…
+#> $ author_handle <chr> "beamagistro.bsky.social", …
+#> $ author_name   <chr> "Beatrice Magistro", "Johan…
+#> $ text          <chr> "Excited to share my latest…
+#> $ author_data   <list> ["did:plc:3ryku2cbgpazoryt…
+#> $ post_data     <list> ["app.bsky.feed.post", "20…
+#> $ embed_data    <list> ["app.bsky.embed.images#vi…
+#> $ reply_count   <int> 0, 1, 4, 0, 0, 4, 0, 1, 9, …
+#> $ repost_count  <int> 6, 6, 8, 0, 0, 15, 2, 1, 44…
+#> $ like_count    <int> 12, 20, 12, 0, 1, 43, 6, 1,…
+#> $ indexed_at    <dttm> 2024-02-16 17:26:58, 2024-…
+#> $ in_reply_to   <chr> NA, NA, NA, NA, "at://did:p…
+#> $ in_reply_root <chr> NA, NA, NA, NA, "at://did:p…
+#> $ quotes        <chr> NA, "at://did:plc:vgvueqvmb…
+#> $ tags          <list> <NULL>, "rstats", "rstats"…
+#> $ mentions      <list> <NULL>, <NULL>, <NULL>, <N…
+#> $ links         <list> <NULL>, <NULL>, <NULL>, <N…
+#> $ is_reskeet    <lgl> TRUE, TRUE, TRUE, FALSE, FA…
 ```
 
 Feeling adventurous? Increase the `limit` and explore more of their content.
@@ -142,23 +145,26 @@ Feeling adventurous? Increase the `limit` and explore more of their content.
 get_skeets_authored_by(actor = "favstats.bsky.social", limit = 30) |>
   dplyr::glimpse()
 #> Rows: 30
-#> Columns: 16
-#> $ uri           <chr> "at://did:plc:ks244q2qaqc5r3u5uf…
-#> $ cid           <chr> "bafyreif6y3lcz7vu25mnpeaw72qs2l…
-#> $ author_handle <chr> "claesdevreese.bsky.social", "ju…
-#> $ author_name   <chr> "Claes de Vreese", "Judith Moell…
-#> $ text          <chr> "Training material matters. Both…
-#> $ author_data   <list> ["did:plc:ks244q2qaqc5r3u5uftv4…
-#> $ post_data     <list> ["Training material matters. Bo…
-#> $ embed_data    <list> ["app.bsky.embed.external#view"…
-#> $ reply_count   <int> 0, 0, 3, 0, 1, 1, 1, 0, 1, 1, 2,…
-#> $ repost_count  <int> 9, 2, 5, 0, 0, 0, 0, 0, 7, 0, 0,…
-#> $ like_count    <int> 23, 14, 22, 0, 4, 0, 0, 0, 14, 1…
-#> $ indexed_at    <dttm> 2023-12-27 18:01:09, 2023-12-21…
-#> $ in_reply_to   <chr> NA, NA, NA, "at://did:plc:46yyak…
-#> $ in_reply_root <chr> NA, NA, NA, "at://did:plc:46yyak…
-#> $ quotes        <chr> NA, NA, NA, "at://did:plc:46yyak…
-#> $ is_reskeet    <lgl> TRUE, TRUE, TRUE, FALSE, FALSE, …
+#> Columns: 19
+#> $ uri           <chr> "at://did:plc:46yyakot3bygh…
+#> $ cid           <chr> "bafyreihxsllmosnheuxhl234f…
+#> $ author_handle <chr> "favstats.bsky.social", "r-…
+#> $ author_name   <chr> "Fabio Votta📊🐧 ", "R-Blog…
+#> $ text          <chr> "Made an invitation website…
+#> $ author_data   <list> ["did:plc:46yyakot3byghwqc…
+#> $ post_data     <list> ["app.bsky.feed.post", "20…
+#> $ embed_data    <list> ["app.bsky.embed.images#vi…
+#> $ reply_count   <int> 0, 0, 0, 4, 1, 0, 4, 0, 0, …
+#> $ repost_count  <int> 1, 1, 0, 0, 6, 3, 8, 8, 3, …
+#> $ like_count    <int> 5, 5, 2, 13, 20, 3, 12, 23,…
+#> $ indexed_at    <dttm> 2024-02-20 12:21:11, 2024-…
+#> $ in_reply_to   <chr> NA, NA, "at://did:plc:46yya…
+#> $ in_reply_root <chr> NA, NA, "at://did:plc:46yya…
+#> $ quotes        <chr> NA, NA, NA, NA, "at://did:p…
+#> $ tags          <list> "rstats", <NULL>, <NULL>, …
+#> $ mentions      <list> <NULL>, <NULL>, <NULL>, <N…
+#> $ links         <list> <NULL>, <NULL>, <NULL>, <N…
+#> $ is_reskeet    <lgl> FALSE, TRUE, FALSE, FALSE, …
 ```
 
 
@@ -174,11 +180,11 @@ get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
 #> Columns: 5
-#> $ created_at   <dttm> 2023-12-19 07:52:16, 2023-11-15 …
-#> $ indexed_at   <dttm> 2023-12-19 07:52:17, 2023-11-15 …
-#> $ actor_handle <chr> "vodkula.bsky.social", "giw.bsky.…
-#> $ actor_name   <chr> "Oops", "Gareth Illmann-Walker", …
-#> $ actor_data   <list> ["did:plc:q3fuk5znsrhw6twh3mdo3i…
+#> $ created_at   <dttm> 2023-10-06 21:22:39, 2023-1…
+#> $ indexed_at   <dttm> 2023-10-06 21:22:39, 2023-1…
+#> $ actor_handle <chr> "csehested.bsky.social", "da…
+#> $ actor_name   <chr> NA, "TassieDevyl", "Hans LeJ…
+#> $ actor_data   <list> ["did:plc:zzsj7hy3wec6fhbwu…
 ```
 
 ## Who reposted your Skeets?
@@ -193,14 +199,14 @@ get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda
   dplyr::glimpse()
 #> Rows: 25
 #> Columns: 8
-#> $ did               <chr> "did:plc:rkx7ioruvfkr7ure6ep…
-#> $ indexed_at        <dttm> 2023-11-08 08:02:57, 2023-1…
-#> $ actor_handle      <chr> "giw.bsky.social", "lawless5…
-#> $ actor_name        <chr> "Gareth Illmann-Walker", "la…
-#> $ actor_description <chr> "YamYam, White Hat open sour…
-#> $ actor_avatar      <chr> "https://cdn.bsky.app/img/av…
-#> $ viewer_data       <list> [FALSE, FALSE], [FALSE, FAL…
-#> $ labels_data       <list> [], [["did:plc:s3or3peikxeb…
+#> $ did               <chr> "did:plc:zyvmwfzbkt3igd…
+#> $ indexed_at        <dttm> 2024-01-26 00:03:39, 2…
+#> $ actor_handle      <chr> "zunguzungu.bsky.social…
+#> $ actor_name        <chr> "Aaron Bady", "Bertie R…
+#> $ actor_description <chr> "Meat blood, bees, thin…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 
@@ -215,19 +221,16 @@ You can retrieve a list of followers and those followed by a user through the `g
 ```r
 get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
-#> Rows: 220
-#> Columns: 11
-#> $ did                <chr> "did:plc:w2gsbanugiw67kud7s…
-#> $ handle             <chr> "mattgraham.bsky.social", "…
-#> $ display_name       <chr> "Matt Graham", "Jan P. Vogl…
-#> $ description        <chr> "Political Scientist. Belie…
-#> $ avatar             <chr> "https://cdn.bsky.app/img/a…
-#> $ indexed_at         <chr> "2023-07-31T20:08:07.007Z",…
-#> $ viewer_muted       <lgl> FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_blocked_by  <lgl> FALSE, FALSE, FALSE, FALSE,…
-#> $ labels             <named list> <NULL>, <NULL>, <NUL…
-#> $ viewer_following   <chr> NA, NA, NA, NA, NA, NA, NA,…
-#> $ viewer_followed_by <chr> NA, NA, NA, NA, NA, NA, NA,…
+#> Rows: 200
+#> Columns: 8
+#> $ did               <chr> "did:plc:nol67uyam6hzj5…
+#> $ indexed_at        <dttm> 2024-02-29 13:50:12, 2…
+#> $ actor_handle      <chr> "dkarpa.bsky.social", "…
+#> $ actor_name        <chr> "David Karpa", "Rémi Pa…
+#> $ actor_description <chr> "PhD-candidate UBremen.…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 
@@ -237,19 +240,16 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
 ```r
 atrrr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
-#> Rows: 187
-#> Columns: 11
-#> $ did                <chr> "did:plc:bgnw6liy2b3bto6tkw…
-#> $ handle             <chr> "julienrobin.bsky.social", …
-#> $ display_name       <chr> "Julien Robin", "Marc-Antoi…
-#> $ description        <chr> "PhD candidate à l’Universi…
-#> $ avatar             <chr> "https://cdn.bsky.app/img/a…
-#> $ indexed_at         <chr> "2023-12-22T19:12:22.412Z",…
-#> $ viewer_muted       <lgl> FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_blocked_by  <lgl> FALSE, FALSE, FALSE, FALSE,…
-#> $ viewer_following   <chr> NA, NA, NA, NA, NA, NA, NA,…
-#> $ viewer_followed_by <chr> NA, NA, NA, NA, NA, NA, NA,…
-#> $ labels             <named list> <NULL>, <NULL>, <NUL…
+#> Rows: 174
+#> Columns: 8
+#> $ did               <chr> "did:plc:3ryku2cbgpazor…
+#> $ indexed_at        <dttm> 2024-02-08 05:16:04, 2…
+#> $ actor_handle      <chr> "beamagistro.bsky.socia…
+#> $ actor_name        <chr> "Beatrice Magistro", "S…
+#> $ actor_description <chr> "PostDoc @Caltech, thru…
+#> $ actor_avatar      <chr> "https://cdn.bsky.app/i…
+#> $ viewer_data       <list> [FALSE, FALSE], [FALSE…
+#> $ labels_data       <list> [], [], [], [], [], []…
 ```
 
 You'll notice each follower/following has a description (i.e. their bio). It's a nifty way to get to know a bit about them at a glance!
@@ -272,7 +272,7 @@ library(ggraph)
 library(tidygraph)
 
 # Retrieve the followers for the main user
-some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
+some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$actor_handle
 
 # For each follower, retrieve their own set of followers.
 # This provides a nested view of relationships.
@@ -281,7 +281,7 @@ followers_of_followers <- some_followers |>
     get_followers(actor = .x, limit = 200) |>
     mutate(from = .x)
   }) |>
-  dplyr::rename(to = handle) |>
+  dplyr::rename(to = actor_handle) |>
   dplyr::select(from, to)
 ```
 
@@ -298,16 +298,12 @@ ggraph::ggraph(graph, layout = "kk") +
   ggraph::geom_edge_link() +
   ggraph::geom_node_point(aes(size = tidygraph::centrality_pagerank())) +
   ggplot2::theme_void()
-#> Warning: Using the `size` aesthetic in this geom was deprecated
-#> in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` in the `default_aes` field and
-#>   elsewhere instead.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see
-#> where this warning was generated.
 ```
 
-<img src="figures/unnamed-chunk-12-1.png" alt="Follower Network" width="100%" />
+<div class="figure">
+<img src="figures/unnamed-chunk-44-1.png" alt="Follower Network" width="100%" />
+<p class="caption">Follower Network</p>
+</div>
 
 
 ## Find people to follow
@@ -318,7 +314,7 @@ First get all the people you already follow by quering your own account:
 
 ```r
 my_follows <- get_follows(actor = "jbgruber.bsky.social",
-                              limit = 10)$handle # limit only for demonstration
+                              limit = 10)$actor_handle # limit only for demonstration
 
 # For each account you follow, retrieve who they follow.
 follows_of_follows <- my_follows |>
@@ -329,22 +325,22 @@ follows_of_follows <- my_follows |>
 
 # Now we can check which accounts are popular among the people you already follow
 follows_of_follows |>
-  dplyr::filter(!handle %in% my_follows) |> # exclude accounts you already follow
-  dplyr::count(display_name, handle, sort = TRUE)
-#> # A tibble: 591 × 3
-#>    display_name         handle                         n
-#>    <chr>                <chr>                      <int>
-#>  1 "Chris MacQuarrie "  cmacquar.bsky.social          12
-#>  2  <NA>                sedmaar.bsky.social           12
-#>  3 "Johannes B. Gruber" jbgruber.bsky.social          10
-#>  4 "Alan Jackson"       akjackson.bsky.social          6
-#>  5 "Aleksandra Urman"   aurman21.bsky.social           6
-#>  6 "Alexandra Boutros"  alexandraboutros.bsky.soc…     6
-#>  7 "Andy Carr"          andycarr.bsky.social           6
-#>  8 "Daniel Moccand"     moccand.bsky.social            6
-#>  9 "Dominar Rygel XVI"  oaklandishdude.bsky.social     6
-#> 10 "Dr. Ashok Karra"    akarra.bsky.social             6
-#> # ℹ 581 more rows
+  dplyr::filter(!actor_handle %in% my_follows) |> # exclude accounts you already follow
+  dplyr::count(actor_name, actor_handle, sort = TRUE)
+#> # A tibble: 704 × 3
+#>    actor_name                actor_handle         n
+#>    <chr>                     <chr>            <int>
+#>  1 Johannes B. Gruber        jbgruber.bsky.s…     9
+#>  2 Center for Ballot Freedom fusionvoting.bs…     4
+#>  3 David Karpa               dkarpa.bsky.soc…     3
+#>  4 Jacob Ware                jacobware.bsky.…     3
+#>  5 Jens Rydgren              jensrydgren.bsk…     3
+#>  6 edminkardes               gorkem.me            3
+#>  7 Adrian Florea             aflorea.bsky.so…     2
+#>  8 Brian O'Meara             omearabrian.bsk…     2
+#>  9 Darren Dahly              statsepi.bsky.s…     2
+#> 10 Erik Angner               erikangner.com       2
+#> # ℹ 694 more rows
 ```
 
 The original account shows up in this overview, as do accounts that were excluded because of the limit set to do the demonstration.

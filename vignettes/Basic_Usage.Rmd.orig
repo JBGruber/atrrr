@@ -172,7 +172,7 @@ library(ggraph)
 library(tidygraph)
 
 # Retrieve the followers for the main user
-some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$handle
+some_followers <- get_followers(actor = "benguinaudeau.bsky.social", limit = 10)$actor_handle
 
 # For each follower, retrieve their own set of followers.
 # This provides a nested view of relationships.
@@ -181,7 +181,7 @@ followers_of_followers <- some_followers |>
     get_followers(actor = .x, limit = 200) |>
     mutate(from = .x)
   }) |>
-  dplyr::rename(to = handle) |>
+  dplyr::rename(to = actor_handle) |>
   dplyr::select(from, to)
 ```
 
@@ -207,7 +207,7 @@ First get all the people you already follow by quering your own account:
 
 ```{r}
 my_follows <- get_follows(actor = "jbgruber.bsky.social",
-                              limit = 10)$handle # limit only for demonstration
+                              limit = 10)$actor_handle # limit only for demonstration
 
 # For each account you follow, retrieve who they follow.
 follows_of_follows <- my_follows |>
@@ -218,8 +218,8 @@ follows_of_follows <- my_follows |>
 
 # Now we can check which accounts are popular among the people you already follow
 follows_of_follows |>
-  dplyr::filter(!handle %in% my_follows) |> # exclude accounts you already follow
-  dplyr::count(display_name, handle, sort = TRUE)
+  dplyr::filter(!actor_handle %in% my_follows) |> # exclude accounts you already follow
+  dplyr::count(actor_name, actor_handle, sort = TRUE)
 ```
 
 The original account shows up in this overview, as do accounts that were excluded because of the limit set to do the demonstration.

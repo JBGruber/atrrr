@@ -35,26 +35,26 @@ feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
 #> Rows: 4
 #> Columns: 20
-#> $ uri                       <chr> "at://did:plc:2zcfjz…
-#> $ cid                       <chr> "bafyreicvjczzxxhrkr…
-#> $ did                       <chr> "did:web:skyfeed.me"…
-#> $ creator_did               <chr> "did:plc:2zcfjzyocp6…
-#> $ creator_handle            <chr> "andrew.heiss.phd", …
-#> $ creator_displayName       <chr> "Andrew Heiss (🎄fes…
-#> $ creator_description       <chr> "Assistant professor…
-#> $ creator_avatar            <chr> "https://cdn.bsky.ap…
-#> $ creator_indexedAt         <chr> "2023-11-26T17:07:49…
-#> $ creator_viewer_muted      <lgl> FALSE, FALSE, FALSE,…
-#> $ creator_viewer_blockedBy  <lgl> FALSE, FALSE, FALSE,…
-#> $ creator_viewer_following  <chr> "at://did:plc:ntd53a…
-#> $ creator_viewer_followedBy <chr> "at://did:plc:2zcfjz…
-#> $ displayName               <chr> "Public Admin/Policy…
-#> $ description               <chr> "A feed for public a…
-#> $ avatar                    <chr> "https://cdn.bsky.ap…
-#> $ likeCount                 <int> 80, 19, 0, 94
-#> $ indexedAt                 <chr> "2023-09-21T01:37:55…
-#> $ created_at                <dttm> 2023-09-21 01:37:55,…
-#> $ viewer_like               <chr> NA, NA, NA, "at://d…
+#> $ uri                       <chr> "at://did:plc:2…
+#> $ cid                       <chr> "bafyreidmykchh…
+#> $ did                       <chr> "did:web:skyfee…
+#> $ creator_did               <chr> "did:plc:2zcfjz…
+#> $ creator_handle            <chr> "andrew.heiss.p…
+#> $ creator_displayName       <chr> "Andrew Heiss",…
+#> $ creator_avatar            <chr> "https://cdn.bs…
+#> $ creator_viewer_muted      <lgl> FALSE, FALSE, F…
+#> $ creator_viewer_blockedBy  <lgl> FALSE, FALSE, F…
+#> $ creator_viewer_following  <chr> "at://did:plc:n…
+#> $ creator_viewer_followedBy <chr> "at://did:plc:2…
+#> $ creator_description       <chr> "Assistant prof…
+#> $ creator_indexedAt         <chr> "2024-01-26T00:…
+#> $ displayName               <chr> "Nonprofit Stud…
+#> $ description               <chr> "A feed for non…
+#> $ avatar                    <chr> "https://cdn.bs…
+#> $ likeCount                 <int> 20, 81, 0, 102
+#> $ indexedAt                 <chr> "2023-09-20T21:…
+#> $ created_at                <dttm> 2023-09-20 21:1…
+#> $ viewer_like               <chr> NA, NA, NA, "a…
 
 # Filtering for a specific keyword, for example "#rstats"
 rstat_feed <- feeds |>
@@ -63,23 +63,26 @@ rstat_feed <- feeds |>
 # Extracting posts from this curated feed
 rstat_posts <- get_feed(rstat_feed$uri, limit = 200) |>
   dplyr::glimpse()
-#> Rows: 79
-#> Columns: 15
-#> $ uri           <chr> "at://did:plc:kizxn77jkp4p5vqzap…
-#> $ cid           <chr> "bafyreiaabdszn3z7ka5c5zm2e2ufkj…
-#> $ author_handle <chr> "pmaier1971.bsky.social", "pmaie…
-#> $ author_name   <chr> "Philipp Maier", "Philipp Maier"…
-#> $ text          <chr> "US #HouseholdDebt in Jul 2023 a…
-#> $ author_data   <list> ["did:plc:kizxn77jkp4p5vqzapbed…
-#> $ post_data     <list> ["US #HouseholdDebt in Jul 2023…
-#> $ embed_data    <list> ["app.bsky.embed.images#view", …
-#> $ reply_count   <int> 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,…
-#> $ repost_count  <int> 0, 0, 0, 2, 0, 0, 4, 3, 0, 0, 0,…
-#> $ like_count    <int> 0, 0, 7, 2, 5, 11, 2, 9, 0, 0, 0…
-#> $ indexed_at    <dttm> 2024-01-02 13:17:27, 2024-01-02…
-#> $ in_reply_to   <chr> NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ in_reply_root <chr> NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ quotes        <chr> NA, NA, NA, NA, NA, NA, NA, NA, …
+#> Rows: 200
+#> Columns: 18
+#> $ uri           <chr> "at://did:plc:vgvueqvmbqgoy…
+#> $ cid           <chr> "bafyreie2uewopzpmtxwil3a5p…
+#> $ author_handle <chr> "cranberriesfeed.bsky.socia…
+#> $ author_name   <chr> "CRAN Package Updates Bot",…
+#> $ text          <chr> "CRAN updates: lava MissMec…
+#> $ author_data   <list> ["did:plc:vgvueqvmbqgoyxtc…
+#> $ post_data     <list> ["app.bsky.feed.post", "20…
+#> $ embed_data    <list> <NULL>, <NULL>, ["app.bsky…
+#> $ reply_count   <int> 0, 0, 0, 0, 0, 0, 0, 0, 2, …
+#> $ repost_count  <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+#> $ like_count    <int> 0, 0, 0, 0, 0, 0, 0, 0, 6, …
+#> $ indexed_at    <dttm> 2024-03-05 13:02:18, 2024-…
+#> $ in_reply_to   <chr> NA, NA, NA, NA, NA, NA, NA,…
+#> $ in_reply_root <chr> NA, NA, NA, NA, NA, NA, NA,…
+#> $ quotes        <chr> NA, NA, NA, NA, NA, NA, NA,…
+#> $ tags          <list> "rstats", "rstats", "rstat…
+#> $ mentions      <list> <NULL>, <NULL>, <NULL>, <N…
+#> $ links         <list> <NULL>, <NULL>, <NULL>, <N…
 ```
 
 
@@ -103,7 +106,10 @@ rstat_posts |>
   theme_minimal()
 ```
 
+<div class="figure">
 <img src="figures/unnamed-chunk-3-1.png" alt="Top 10 #rstats contributors" width="100%" />
+<p class="caption">Top 10 #rstats contributors</p>
+</div>
 
 
 ### Recognizing Influential Voices
@@ -126,7 +132,10 @@ rstat_posts |>
   theme_minimal()
 ```
 
+<div class="figure">
 <img src="figures/unnamed-chunk-4-1.png" alt="Top 10 #rstats contributors based on likes" width="100%" />
+<p class="caption">Top 10 #rstats contributors based on likes</p>
+</div>
 
 
 ### Most Famous #rstats skeet
@@ -143,8 +152,8 @@ rstat_posts |>
   pull(text)
 #> Rows: 1
 #> Columns: 3
-#> $ author_handle      <chr> "adamkuczynski.bsky.social"
-#> $ total_interactions <int> 69
-#> $ text               <chr> "How do we measure experien…
-#> [1] "How do we measure experiences of loneliness in daily life? A thread for clinical psychologists, relationship scientists, EMA nerds, and measurement geeks 🧵👇\n\nPreregistration, data, analysis scripts, and materials at osf.io/cwgme/.\n\n#psychscisky #rstats #statssky"
+#> $ author_handle      <chr> "omearabrian.bsky.soci…
+#> $ total_interactions <int> 42
+#> $ text               <chr> "New paper! \"dentist:…
+#> [1] "New paper! \"dentist: Quantifying uncertainty by sampling points around maximum likelihood estimates\". Easy thing to plug into R workflows for getting better confidence intervals and detecting potential identifiability issues. #OpenAccess paper at doi.org/10.1111/2041...\n\n#Rstats #OpenSource"
 ```
