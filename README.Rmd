@@ -116,7 +116,7 @@ You can help by creating an [issue](https://github.com/JBGruber/atrrr/issues/new
 
 If you are a developer, we are happy to accept pull requests.
 It should be fairly straightforward, as all endpoints are already covered by automatically generated function.
-For example, the endpoint [app.bsky.actor.getProfiles](https://atproto.com/lexicons/app-bsky) is accessible via `atrrr:::app_bsky_actor_get_profiles()`.
+For example, the endpoint [app.bsky.actor.getProfiles](https://docs.bsky.app/docs/api/app-bsky-actor-get-profiles) is accessible via `atrrr:::app_bsky_actor_get_profiles()`.
 The function `get_user_info()` is just a thin wrapper around that and calls an optional parsing function:
 
 ```
@@ -140,5 +140,5 @@ get_user_info <- function(actor,
   return(res)
 }
 ```
-If you find an endpoint at <https://atproto.com/lexicons/com-atproto> or <https://atproto.com/lexicons/app-bsky> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it).
+If you find an endpoint at <https://docs.bsky.app/docs/category/http-reference> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it).
 But please open an [issue](https://github.com/JBGruber/atrrr/issues) first, so we don't do duplicated work.
