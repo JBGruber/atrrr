@@ -68,9 +68,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>q</dt>
-<dd><p>Find posts matching search criteria. API docs claim that Lucene
-query syntax is supported (boolean operators and brackets for complex
-queries). But only whitespace as implicit AN seems to work.</p></dd>
+<dd><p>search query. See Details.</p></dd>
 
 
 <dt>limit</dt>
@@ -104,13 +102,34 @@ token.</p></dd>
 
 <p>a data frame (or nested list) of posts</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The <a href="https://docs.bsky.app/docs/api/app-bsky-feed-search-posts" class="external-link">API docs</a> claim that
+Lucene query syntax is supported (Boolean operators and brackets for
+complex queries). But only a small subset is <a href="https://github.com/bluesky-social/indigo/tree/main/cmd/palomar" class="external-link">actually implemented</a>:</p><ul><li><p>Whitespace is treated as implicit AND, so all words in a query must occur,
+but the word order and proximity are ignored.</p></li>
+<li><p>Double quotes indicate exact phrases.</p></li>
+<li><p>from:<handle> will filter to results from that account.</handle></p></li>
+<li><p><code>-</code> excludes terms (does not seem to be working at the moment).</p></li>
+</ul><p>Note that matches can occur anywhere in the skeet, not just the text. For
+example, a term can be in the link preview, or alt text of an image.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">search_post</span><span class="op">(</span><span class="st">"rstats"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># finds post with rstats and Bluesky in text</span></span></span>
+<span class="r-in"><span><span class="co"># finds post with the hashtag rstats AND the word Bluesky somewhere in the</span></span></span>
+<span class="r-in"><span><span class="co"># skeet (ignoring capitalisaion)</span></span></span>
 <span class="r-in"><span><span class="fu">search_post</span><span class="op">(</span><span class="st">"#rstats Bluesky"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># search for the exact phrase "new #rstats package"</span></span></span>
+<span class="r-in"><span><span class="fu">search_post</span><span class="op">(</span><span class="st">"\"new #rstats package\""</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Use single quotes so you do not need to escape double quotes</span></span></span>
+<span class="r-in"><span><span class="fu">search_post</span><span class="op">(</span><span class="st">'"new #rstats package"'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># only search for skeets from one user</span></span></span>
+<span class="r-in"><span><span class="fu">search_post</span><span class="op">(</span><span class="st">"from:jbgruber.bsky.social #rstats"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
