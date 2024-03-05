@@ -10,9 +10,7 @@ search_post(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
 search_skeet(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
 }
 \arguments{
-\item{q}{Find posts matching search criteria. API docs claim that Lucene
-query syntax is supported (boolean operators and brackets for complex
-queries). But only whitespace as implicit AN seems to work.}
+\item{q}{search query. See Details.}
 
 \item{limit}{Maximum number of records to return. For queries with more than
 100 results, pagination is used automatically (one request per 100
@@ -37,10 +35,34 @@ a data frame (or nested list) of posts
 \description{
 Search Posts
 }
+\details{
+The \href{https://docs.bsky.app/docs/api/app-bsky-feed-search-posts}{API docs} claim that
+Lucene query syntax is supported (Boolean operators and brackets for
+complex queries). But only a small subset is \href{https://github.com/bluesky-social/indigo/tree/main/cmd/palomar}{actually implemented}:
+\itemize{
+\item Whitespace is treated as implicit AND, so all words in a query must occur,
+but the word order and proximity are ignored.
+\item Double quotes indicate exact phrases.
+\item from:\if{html}{\out{<handle>}} will filter to results from that account.
+\item \code{-} excludes terms (does not seem to be working at the moment).
+}
+
+Note that matches can occur anywhere in the skeet, not just the text. For
+example, a term can be in the link preview, or alt text of an image.
+}
 \examples{
 \dontrun{
 search_post("rstats")
-# finds post with rstats and Bluesky in text
+# finds post with the hashtag rstats AND the word Bluesky somewhere in the
+# skeet (ignoring capitalisaion)
 search_post("#rstats Bluesky")
+
+# search for the exact phrase "new #rstats package"
+search_post("\"new #rstats package\"")
+# Use single quotes so you do not need to escape double quotes
+search_post('"new #rstats package"')
+
+# only search for skeets from one user
+search_post("from:jbgruber.bsky.social #rstats")
 }
 }

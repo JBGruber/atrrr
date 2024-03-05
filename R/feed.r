@@ -777,18 +777,41 @@ post_thread <- function(texts,
 
 #' Search Posts
 #'
-#' @param q Find posts matching search criteria. API docs claim that Lucene
-#'   query syntax is supported (boolean operators and brackets for complex
-#'   queries). But only whitespace as implicit AN seems to work.
+#' @param q search query. See Details.
 #' @inheritParams search_user
+#'
+#' @details The [API
+#'   docs](https://docs.bsky.app/docs/api/app-bsky-feed-search-posts) claim that
+#'   Lucene query syntax is supported (Boolean operators and brackets for
+#'   complex queries). But only a small subset is [actually
+#'   implemented](https://github.com/bluesky-social/indigo/tree/main/cmd/palomar):
+#'
+#'   - Whitespace is treated as implicit AND, so all words in a query must occur,
+#'      but the word order and proximity are ignored.
+#'   - Double quotes indicate exact phrases.
+#'   - from:<handle> will filter to results from that account.
+#'   - `-` excludes terms (does not seem to be working at the moment).
+#'
+#'   Note that matches can occur anywhere in the skeet, not just the text. For
+#'   example, a term can be in the link preview, or alt text of an image.
+#'
 #'
 #' @returns a data frame (or nested list) of posts
 #'
 #' @examples
 #' \dontrun{
 #' search_post("rstats")
-#' # finds post with rstats and Bluesky in text
+#' # finds post with the hashtag rstats AND the word Bluesky somewhere in the
+#' # skeet (ignoring capitalisaion)
 #' search_post("#rstats Bluesky")
+#'
+#' # search for the exact phrase "new #rstats package"
+#' search_post("\"new #rstats package\"")
+#' # Use single quotes so you do not need to escape double quotes
+#' search_post('"new #rstats package"')
+#'
+#' # only search for skeets from one user
+#' search_post("from:jbgruber.bsky.social #rstats")
 #' }
 #' @export
 search_post <- function(q,
