@@ -162,13 +162,13 @@ handle!</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
 <span><span class="co">#&gt; Columns: 8</span></span>
-<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:j42kj4qc5vfz344weyw…</span></span>
-<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; NA</span></span>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:j42kj4qc5vfz34…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 1-01-01</span></span>
 <span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "atpr.bsky.social"</span></span>
 <span><span class="co">#&gt; $ actor_name        &lt;chr&gt; NA</span></span>
 <span><span class="co">#&gt; $ actor_description &lt;chr&gt; NA</span></span>
 <span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE, "at://did:pl…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE, "at://d…</span></span>
 <span><span class="co">#&gt; $ labels_data       &lt;list&gt; []</span></span></code></pre></div>
 <p>This function gives us counts of followers, follows, posts for each
 user.</p>
@@ -179,13 +179,13 @@ vector of user handles:</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 2</span></span>
 <span><span class="co">#&gt; Columns: 8</span></span>
-<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:vuvsifrusnjsys7mhkp…</span></span>
-<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2023-09-19 00:08:33, NA</span></span>
-<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "benguinaudeau.bsky.social"…</span></span>
-<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Benjamin Guinaudeau", NA</span></span>
-<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "Postdoc @CSMaP_NYU. \n\nPol…</span></span>
-<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/img/av…</span></span>
-<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE, "at://did:plc…</span></span>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:vuvsifrusnjsys…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2024-01-26 01:28:47, 1…</span></span>
+<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "benguinaudeau.bsky.soc…</span></span>
+<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Benjamin Guinaudeau", …</span></span>
+<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "Postdoc @CSMaP_NYU. \n…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/i…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE, "at://d…</span></span>
 <span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], []</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -201,46 +201,52 @@ tidy tibble.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, parse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
-<span><span class="co">#&gt; Columns: 16</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:hwbpa3fiiv6mmqkrma…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreidvg65cygp7h3dtyn64tiyic5…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "fortunato.bsky.social", "mathie…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "David Fortunato", "mathieu gall…</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "Inspired by the monotony of my …</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:hwbpa3fiiv6mmqkrmaxck…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["Inspired by the monotony of m…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; &lt;NULL&gt;, ["app.bsky.embed.images…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 5, 0, 1, 7, 0, 1, 0, 1, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 15, 2, 1, 366, 3, 1, 4, 28, 0, 0…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 43, 6, 1, 498, 8, 3, 10, 34, 0, …</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2023-12-23 22:08:11, 2023-12-24…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, "at://did:plc:cy3nxnkuk6qvib…</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, "at://did:plc:cy3nxnkuk6qvib…</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, "at://did:plc:3mcek454ld…</span></span>
-<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, FALSE, TRUE, FALSE, …</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 19</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:3ryku2cbgpazo…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiabtdobd6w4scrbpqkvp…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "beamagistro.bsky.social", …</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Beatrice Magistro", "Johan…</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "Excited to share my latest…</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:3ryku2cbgpazoryt…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "20…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#vi…</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 1, 4, 0, 0, 4, 0, 1, 9, …</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 6, 6, 8, 0, 0, 15, 2, 1, 44…</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 12, 20, 12, 0, 1, 43, 6, 1,…</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-02-16 17:26:58, 2024-…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, "at://did:p…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, "at://did:p…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, "at://did:plc:vgvueqvmb…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; &lt;NULL&gt;, "rstats", "rstats"…</span></span>
+<span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span>
+<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, FA…</span></span></code></pre></div>
 <p>Feeling adventurous? Increase the <code>limit</code> and explore more
 of their content.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"favstats.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 30</span></span>
-<span><span class="co">#&gt; Columns: 16</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:ks244q2qaqc5r3u5uf…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreif6y3lcz7vu25mnpeaw72qs2l…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "claesdevreese.bsky.social", "ju…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Claes de Vreese", "Judith Moell…</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "Training material matters. Both…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:ks244q2qaqc5r3u5uftv4…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["Training material matters. Bo…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.external#view"…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 3, 0, 1, 1, 1, 0, 1, 1, 2,…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 9, 2, 5, 0, 0, 0, 0, 0, 7, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 23, 14, 22, 0, 4, 0, 0, 0, 14, 1…</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2023-12-27 18:01:09, 2023-12-21…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, "at://did:plc:46yyak…</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, "at://did:plc:46yyak…</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, "at://did:plc:46yyak…</span></span>
-<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, FALSE, …</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 19</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:46yyakot3bygh…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreihxsllmosnheuxhl234f…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "favstats.bsky.social", "r-…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Fabio Votta📊🐧 ", "R-Blog…</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "Made an invitation website…</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:46yyakot3byghwqc…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "20…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#vi…</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 4, 1, 0, 4, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 1, 1, 0, 0, 6, 3, 8, 8, 3, …</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 5, 5, 2, 13, 20, 3, 12, 23,…</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-02-20 12:21:11, 2024-…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, "at://did:plc:46yya…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, "at://did:plc:46yya…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, NA, "at://did:p…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; "rstats", &lt;NULL&gt;, &lt;NULL&gt;, …</span></span>
+<span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span>
+<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="who-liked-your-skeets">Who liked your Skeets?<a class="anchor" aria-label="anchor" href="#who-liked-your-skeets"></a>
@@ -254,11 +260,11 @@ the content.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
 <span><span class="co">#&gt; Columns: 5</span></span>
-<span><span class="co">#&gt; $ created_at   &lt;dttm&gt; 2023-12-19 07:52:16, 2023-11-15 …</span></span>
-<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-12-19 07:52:17, 2023-11-15 …</span></span>
-<span><span class="co">#&gt; $ actor_handle &lt;chr&gt; "vodkula.bsky.social", "giw.bsky.…</span></span>
-<span><span class="co">#&gt; $ actor_name   &lt;chr&gt; "Oops", "Gareth Illmann-Walker", …</span></span>
-<span><span class="co">#&gt; $ actor_data   &lt;list&gt; ["did:plc:q3fuk5znsrhw6twh3mdo3i…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ created_at   &lt;dttm&gt; 2023-10-06 21:22:39, 2023-1…</span></span>
+<span><span class="co">#&gt; $ indexed_at   &lt;dttm&gt; 2023-10-06 21:22:39, 2023-1…</span></span>
+<span><span class="co">#&gt; $ actor_handle &lt;chr&gt; "csehested.bsky.social", "da…</span></span>
+<span><span class="co">#&gt; $ actor_name   &lt;chr&gt; NA, "TassieDevyl", "Hans LeJ…</span></span>
+<span><span class="co">#&gt; $ actor_data   &lt;list&gt; ["did:plc:zzsj7hy3wec6fhbwu…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="who-reposted-your-skeets">Who reposted your Skeets?<a class="anchor" aria-label="anchor" href="#who-reposted-your-skeets"></a>
@@ -272,14 +278,14 @@ information about users who reposted a specific piece of content.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
 <span><span class="co">#&gt; Columns: 8</span></span>
-<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:rkx7ioruvfkr7ure6ep…</span></span>
-<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2023-11-08 08:02:57, 2023-1…</span></span>
-<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "giw.bsky.social", "lawless5…</span></span>
-<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Gareth Illmann-Walker", "la…</span></span>
-<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "YamYam, White Hat open sour…</span></span>
-<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/img/av…</span></span>
-<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE], [FALSE, FAL…</span></span>
-<span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], [["did:plc:s3or3peikxeb…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:zyvmwfzbkt3igd…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2024-01-26 00:03:39, 2…</span></span>
+<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "zunguzungu.bsky.social…</span></span>
+<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Aaron Bady", "Bertie R…</span></span>
+<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "Meat blood, bees, thin…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/i…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE], [FALSE…</span></span>
+<span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], [], [], [], [], []…</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -296,19 +302,16 @@ on the platform.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 220</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ did                &lt;chr&gt; "did:plc:w2gsbanugiw67kud7s…</span></span>
-<span><span class="co">#&gt; $ handle             &lt;chr&gt; "mattgraham.bsky.social", "…</span></span>
-<span><span class="co">#&gt; $ display_name       &lt;chr&gt; "Matt Graham", "Jan P. Vogl…</span></span>
-<span><span class="co">#&gt; $ description        &lt;chr&gt; "Political Scientist. Belie…</span></span>
-<span><span class="co">#&gt; $ avatar             &lt;chr&gt; "https://cdn.bsky.app/img/a…</span></span>
-<span><span class="co">#&gt; $ indexed_at         &lt;chr&gt; "2023-07-31T20:08:07.007Z",…</span></span>
-<span><span class="co">#&gt; $ viewer_muted       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ viewer_blocked_by  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ labels             &lt;named list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NUL…</span></span>
-<span><span class="co">#&gt; $ viewer_following   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ viewer_followed_by &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 200</span></span>
+<span><span class="co">#&gt; Columns: 8</span></span>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:nol67uyam6hzj5…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2024-02-29 13:50:12, 2…</span></span>
+<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "dkarpa.bsky.social", "…</span></span>
+<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "David Karpa", "Rémi Pa…</span></span>
+<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "PhD-candidate UBremen.…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/i…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE], [FALSE…</span></span>
+<span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], [], [], [], [], []…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get_follows">
@@ -317,19 +320,16 @@ on the platform.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">atrrr</span><span class="fu">:::</span><span class="fu"><a href="../reference/get_followers.html">get_follows</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 187</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ did                &lt;chr&gt; "did:plc:bgnw6liy2b3bto6tkw…</span></span>
-<span><span class="co">#&gt; $ handle             &lt;chr&gt; "julienrobin.bsky.social", …</span></span>
-<span><span class="co">#&gt; $ display_name       &lt;chr&gt; "Julien Robin", "Marc-Antoi…</span></span>
-<span><span class="co">#&gt; $ description        &lt;chr&gt; "PhD candidate à l’Universi…</span></span>
-<span><span class="co">#&gt; $ avatar             &lt;chr&gt; "https://cdn.bsky.app/img/a…</span></span>
-<span><span class="co">#&gt; $ indexed_at         &lt;chr&gt; "2023-12-22T19:12:22.412Z",…</span></span>
-<span><span class="co">#&gt; $ viewer_muted       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ viewer_blocked_by  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ viewer_following   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ viewer_followed_by &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ labels             &lt;named list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NUL…</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 174</span></span>
+<span><span class="co">#&gt; Columns: 8</span></span>
+<span><span class="co">#&gt; $ did               &lt;chr&gt; "did:plc:3ryku2cbgpazor…</span></span>
+<span><span class="co">#&gt; $ indexed_at        &lt;dttm&gt; 2024-02-08 05:16:04, 2…</span></span>
+<span><span class="co">#&gt; $ actor_handle      &lt;chr&gt; "beamagistro.bsky.socia…</span></span>
+<span><span class="co">#&gt; $ actor_name        &lt;chr&gt; "Beatrice Magistro", "S…</span></span>
+<span><span class="co">#&gt; $ actor_description &lt;chr&gt; "PostDoc @Caltech, thru…</span></span>
+<span><span class="co">#&gt; $ actor_avatar      &lt;chr&gt; "https://cdn.bsky.app/i…</span></span>
+<span><span class="co">#&gt; $ viewer_data       &lt;list&gt; [FALSE, FALSE], [FALSE…</span></span>
+<span><span class="co">#&gt; $ labels_data       &lt;list&gt; [], [], [], [], [], []…</span></span></code></pre></div>
 <p>You’ll notice each follower/following has a description (i.e. their
 bio). It’s a nifty way to get to know a bit about them at a glance!</p>
 </div>
@@ -353,7 +353,7 @@ deeper and fetch the followers for each of these followers.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Retrieve the followers for the main user</span></span>
-<span><span class="va">some_followers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">handle</span></span>
+<span><span class="va">some_followers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">actor_handle</span></span>
 <span></span>
 <span><span class="co"># For each follower, retrieve their own set of followers.</span></span>
 <span><span class="co"># This provides a nested view of relationships.</span></span>
@@ -362,7 +362,7 @@ deeper and fetch the followers for each of these followers.</p>
 <span>    <span class="fu"><a href="../reference/get_followers.html">get_followers</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="va">.x</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">.x</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">actor_handle</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -376,15 +376,12 @@ deeper and fetch the followers for each of these followers.</p>
 <span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph</span>, layout <span class="op">=</span> <span class="st">"kk"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/centrality.html" class="external-link">centrality_pagerank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Using the `size` aesthetic in this geom was deprecated</span></span>
-<span><span class="co">#&gt; in ggplot2 3.4.0.</span></span>
-<span><span class="co">#&gt; ℹ Please use `linewidth` in the `default_aes` field and</span></span>
-<span><span class="co">#&gt;   elsewhere instead.</span></span>
-<span><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
-<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see</span></span>
-<span><span class="co">#&gt; where this warning was generated.</span></span></code></pre></div>
-<p><img src="figures/unnamed-chunk-12-1.png" alt="Follower Network" width="100%"></p>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="figures/unnamed-chunk-44-1.png" alt="Follower Network" width="100%"><p class="caption">
+Follower Network
+</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="find-people-to-follow">Find people to follow<a class="anchor" aria-label="anchor" href="#find-people-to-follow"></a>
@@ -394,7 +391,7 @@ follow. First get all the people you already follow by quering your own
 account:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_follows</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_followers.html">get_follows</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"jbgruber.bsky.social"</span>,</span>
-<span>                              limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">handle</span> <span class="co"># limit only for demonstration</span></span>
+<span>                              limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">actor_handle</span> <span class="co"># limit only for demonstration</span></span>
 <span></span>
 <span><span class="co"># For each account you follow, retrieve who they follow.</span></span>
 <span><span class="va">follows_of_follows</span> <span class="op">&lt;-</span> <span class="va">my_follows</span> <span class="op">|&gt;</span></span>
@@ -405,22 +402,22 @@ account:</p>
 <span></span>
 <span><span class="co"># Now we can check which accounts are popular among the people you already follow</span></span>
 <span><span class="va">follows_of_follows</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">handle</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_follows</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># exclude accounts you already follow</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">display_name</span>, <span class="va">handle</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 591 × 3</span></span>
-<span><span class="co">#&gt;    display_name         handle                         n</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;                      &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 "Chris MacQuarrie "  cmacquar.bsky.social          12</span></span>
-<span><span class="co">#&gt;  2  &lt;NA&gt;                sedmaar.bsky.social           12</span></span>
-<span><span class="co">#&gt;  3 "Johannes B. Gruber" jbgruber.bsky.social          10</span></span>
-<span><span class="co">#&gt;  4 "Alan Jackson"       akjackson.bsky.social          6</span></span>
-<span><span class="co">#&gt;  5 "Aleksandra Urman"   aurman21.bsky.social           6</span></span>
-<span><span class="co">#&gt;  6 "Alexandra Boutros"  alexandraboutros.bsky.soc…     6</span></span>
-<span><span class="co">#&gt;  7 "Andy Carr"          andycarr.bsky.social           6</span></span>
-<span><span class="co">#&gt;  8 "Daniel Moccand"     moccand.bsky.social            6</span></span>
-<span><span class="co">#&gt;  9 "Dominar Rygel XVI"  oaklandishdude.bsky.social     6</span></span>
-<span><span class="co">#&gt; 10 "Dr. Ashok Karra"    akarra.bsky.social             6</span></span>
-<span><span class="co">#&gt; # ℹ 581 more rows</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">actor_handle</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_follows</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># exclude accounts you already follow</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">actor_name</span>, <span class="va">actor_handle</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 704 × 3</span></span>
+<span><span class="co">#&gt;    actor_name                actor_handle         n</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                     &lt;chr&gt;            &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 Johannes B. Gruber        jbgruber.bsky.s…     9</span></span>
+<span><span class="co">#&gt;  2 Center for Ballot Freedom fusionvoting.bs…     4</span></span>
+<span><span class="co">#&gt;  3 David Karpa               dkarpa.bsky.soc…     3</span></span>
+<span><span class="co">#&gt;  4 Jacob Ware                jacobware.bsky.…     3</span></span>
+<span><span class="co">#&gt;  5 Jens Rydgren              jensrydgren.bsk…     3</span></span>
+<span><span class="co">#&gt;  6 edminkardes               gorkem.me            3</span></span>
+<span><span class="co">#&gt;  7 Adrian Florea             aflorea.bsky.so…     2</span></span>
+<span><span class="co">#&gt;  8 Brian O'Meara             omearabrian.bsk…     2</span></span>
+<span><span class="co">#&gt;  9 Darren Dahly              statsepi.bsky.s…     2</span></span>
+<span><span class="co">#&gt; 10 Erik Angner               erikangner.com       2</span></span>
+<span><span class="co">#&gt; # ℹ 694 more rows</span></span></code></pre></div>
 <p>The original account shows up in this overview, as do accounts that
 were excluded because of the limit set to do the demonstration.</p>
 <p>But all of these accounts look intresting!</p>

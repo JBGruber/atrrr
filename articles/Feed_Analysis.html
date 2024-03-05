@@ -115,26 +115,26 @@ focusing on a feed curated by “andrew.heiss.phd”.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 4</span></span>
 <span><span class="co">#&gt; Columns: 20</span></span>
-<span><span class="co">#&gt; $ uri                       &lt;chr&gt; "at://did:plc:2zcfjz…</span></span>
-<span><span class="co">#&gt; $ cid                       &lt;chr&gt; "bafyreicvjczzxxhrkr…</span></span>
-<span><span class="co">#&gt; $ did                       &lt;chr&gt; "did:web:skyfeed.me"…</span></span>
-<span><span class="co">#&gt; $ creator_did               &lt;chr&gt; "did:plc:2zcfjzyocp6…</span></span>
-<span><span class="co">#&gt; $ creator_handle            &lt;chr&gt; "andrew.heiss.phd", …</span></span>
-<span><span class="co">#&gt; $ creator_displayName       &lt;chr&gt; "Andrew Heiss (🎄fes…</span></span>
-<span><span class="co">#&gt; $ creator_description       &lt;chr&gt; "Assistant professor…</span></span>
-<span><span class="co">#&gt; $ creator_avatar            &lt;chr&gt; "https://cdn.bsky.ap…</span></span>
-<span><span class="co">#&gt; $ creator_indexedAt         &lt;chr&gt; "2023-11-26T17:07:49…</span></span>
-<span><span class="co">#&gt; $ creator_viewer_muted      &lt;lgl&gt; FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ creator_viewer_blockedBy  &lt;lgl&gt; FALSE, FALSE, FALSE,…</span></span>
-<span><span class="co">#&gt; $ creator_viewer_following  &lt;chr&gt; "at://did:plc:ntd53a…</span></span>
-<span><span class="co">#&gt; $ creator_viewer_followedBy &lt;chr&gt; "at://did:plc:2zcfjz…</span></span>
-<span><span class="co">#&gt; $ displayName               &lt;chr&gt; "Public Admin/Policy…</span></span>
-<span><span class="co">#&gt; $ description               &lt;chr&gt; "A feed for public a…</span></span>
-<span><span class="co">#&gt; $ avatar                    &lt;chr&gt; "https://cdn.bsky.ap…</span></span>
-<span><span class="co">#&gt; $ likeCount                 &lt;int&gt; 80, 19, 0, 94</span></span>
-<span><span class="co">#&gt; $ indexedAt                 &lt;chr&gt; "2023-09-21T01:37:55…</span></span>
-<span><span class="co">#&gt; $ created_at                &lt;dttm&gt; 2023-09-21 01:37:55,…</span></span>
-<span><span class="co">#&gt; $ viewer_like               &lt;chr&gt; NA, NA, NA, "at://d…</span></span>
+<span><span class="co">#&gt; $ uri                       &lt;chr&gt; "at://did:plc:2…</span></span>
+<span><span class="co">#&gt; $ cid                       &lt;chr&gt; "bafyreidmykchh…</span></span>
+<span><span class="co">#&gt; $ did                       &lt;chr&gt; "did:web:skyfee…</span></span>
+<span><span class="co">#&gt; $ creator_did               &lt;chr&gt; "did:plc:2zcfjz…</span></span>
+<span><span class="co">#&gt; $ creator_handle            &lt;chr&gt; "andrew.heiss.p…</span></span>
+<span><span class="co">#&gt; $ creator_displayName       &lt;chr&gt; "Andrew Heiss",…</span></span>
+<span><span class="co">#&gt; $ creator_avatar            &lt;chr&gt; "https://cdn.bs…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_muted      &lt;lgl&gt; FALSE, FALSE, F…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_blockedBy  &lt;lgl&gt; FALSE, FALSE, F…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_following  &lt;chr&gt; "at://did:plc:n…</span></span>
+<span><span class="co">#&gt; $ creator_viewer_followedBy &lt;chr&gt; "at://did:plc:2…</span></span>
+<span><span class="co">#&gt; $ creator_description       &lt;chr&gt; "Assistant prof…</span></span>
+<span><span class="co">#&gt; $ creator_indexedAt         &lt;chr&gt; "2024-01-26T00:…</span></span>
+<span><span class="co">#&gt; $ displayName               &lt;chr&gt; "Nonprofit Stud…</span></span>
+<span><span class="co">#&gt; $ description               &lt;chr&gt; "A feed for non…</span></span>
+<span><span class="co">#&gt; $ avatar                    &lt;chr&gt; "https://cdn.bs…</span></span>
+<span><span class="co">#&gt; $ likeCount                 &lt;int&gt; 20, 81, 0, 102</span></span>
+<span><span class="co">#&gt; $ indexedAt                 &lt;chr&gt; "2023-09-20T21:…</span></span>
+<span><span class="co">#&gt; $ created_at                &lt;dttm&gt; 2023-09-20 21:1…</span></span>
+<span><span class="co">#&gt; $ viewer_like               &lt;chr&gt; NA, NA, NA, "a…</span></span>
 <span></span>
 <span><span class="co"># Filtering for a specific keyword, for example "#rstats"</span></span>
 <span><span class="va">rstat_feed</span> <span class="op">&lt;-</span> <span class="va">feeds</span> <span class="op">|&gt;</span></span>
@@ -143,23 +143,26 @@ focusing on a feed curated by “andrew.heiss.phd”.</p>
 <span><span class="co"># Extracting posts from this curated feed</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_feed.html">get_feed</a></span><span class="op">(</span><span class="va">rstat_feed</span><span class="op">$</span><span class="va">uri</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 79</span></span>
-<span><span class="co">#&gt; Columns: 15</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:kizxn77jkp4p5vqzap…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiaabdszn3z7ka5c5zm2e2ufkj…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "pmaier1971.bsky.social", "pmaie…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Philipp Maier", "Philipp Maier"…</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "US #HouseholdDebt in Jul 2023 a…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:kizxn77jkp4p5vqzapbed…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["US #HouseholdDebt in Jul 2023…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#view", …</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 2, 0, 0, 4, 3, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 7, 2, 5, 11, 2, 9, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-01-02 13:17:27, 2024-01-02…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, …</span></span></code></pre></div>
+<span><span class="co">#&gt; Rows: 200</span></span>
+<span><span class="co">#&gt; Columns: 18</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:vgvueqvmbqgoy…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreie2uewopzpmtxwil3a5p…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "cranberriesfeed.bsky.socia…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "CRAN Package Updates Bot",…</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "CRAN updates: lava MissMec…</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:vgvueqvmbqgoyxtc…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "20…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, ["app.bsky…</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 2, …</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 6, …</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-03-05 13:02:18, 2024-…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; "rstats", "rstats", "rstat…</span></span>
+<span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;N…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="identifying-top-contributors">Identifying Top Contributors<a class="anchor" aria-label="anchor" href="#identifying-top-contributors"></a>
@@ -179,7 +182,11 @@ highlights users who are frequently contributing to the
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/unnamed-chunk-3-1.png" alt="Top 10 #rstats contributors" width="100%"></p>
+<div class="figure">
+<img src="figures/unnamed-chunk-3-1.png" alt="Top 10 #rstats contributors" width="100%"><p class="caption">
+Top 10 #rstats contributors
+</p>
+</div>
 <div class="section level4">
 <h4 id="recognizing-influential-voices">Recognizing Influential Voices<a class="anchor" aria-label="anchor" href="#recognizing-influential-voices"></a>
 </h4>
@@ -199,7 +206,11 @@ community.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/unnamed-chunk-4-1.png" alt="Top 10 #rstats contributors based on likes" width="100%"></p>
+<div class="figure">
+<img src="figures/unnamed-chunk-4-1.png" alt="Top 10 #rstats contributors based on likes" width="100%"><p class="caption">
+Top 10 #rstats contributors based on likes
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="most-famous-rstats-skeet">Most Famous #rstats skeet<a class="anchor" aria-label="anchor" href="#most-famous-rstats-skeet"></a>
@@ -215,10 +226,10 @@ community.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
 <span><span class="co">#&gt; Columns: 3</span></span>
-<span><span class="co">#&gt; $ author_handle      &lt;chr&gt; "adamkuczynski.bsky.social"</span></span>
-<span><span class="co">#&gt; $ total_interactions &lt;int&gt; 69</span></span>
-<span><span class="co">#&gt; $ text               &lt;chr&gt; "How do we measure experien…</span></span>
-<span><span class="co">#&gt; [1] "How do we measure experiences of loneliness in daily life? A thread for clinical psychologists, relationship scientists, EMA nerds, and measurement geeks 🧵👇\n\nPreregistration, data, analysis scripts, and materials at osf.io/cwgme/.\n\n#psychscisky #rstats #statssky"</span></span></code></pre></div>
+<span><span class="co">#&gt; $ author_handle      &lt;chr&gt; "omearabrian.bsky.soci…</span></span>
+<span><span class="co">#&gt; $ total_interactions &lt;int&gt; 42</span></span>
+<span><span class="co">#&gt; $ text               &lt;chr&gt; "New paper! \"dentist:…</span></span>
+<span><span class="co">#&gt; [1] "New paper! \"dentist: Quantifying uncertainty by sampling points around maximum likelihood estimates\". Easy thing to plug into R workflows for getting better confidence intervals and detecting potential identifiability issues. #OpenAccess paper at doi.org/10.1111/2041...\n\n#Rstats #OpenSource"</span></span></code></pre></div>
 </div>
 </div>
 </div>
