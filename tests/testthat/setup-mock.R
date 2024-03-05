@@ -8,7 +8,8 @@ mocked_record <- function(req) {
   if (is.null(dat)) { # when data is sent as URL parameters
     dat <- sub(endpoint, "", basename(req$url))
   }
-  data_hash <- rlang::hash(dat)
+  data_hash <- rlang::hash(dat) |>
+    substr(1, 5) # check complains about long file names
   f <- file.path("recorded_responses", paste0(endpoint,
                         "_", data_hash, ".rds"))
 
