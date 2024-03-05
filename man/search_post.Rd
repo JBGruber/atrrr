@@ -43,7 +43,7 @@ complex queries). But only a small subset is \href{https://github.com/bluesky-so
 \item Whitespace is treated as implicit AND, so all words in a query must occur,
 but the word order and proximity are ignored.
 \item Double quotes indicate exact phrases.
-\item from:\if{html}{\out{<handle>}} will filter to results from that account.
+\item \verb{from:<handle>} will filter to results from that account.
 \item \code{-} excludes terms (does not seem to be working at the moment).
 }
 

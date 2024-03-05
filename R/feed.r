@@ -789,7 +789,7 @@ post_thread <- function(texts,
 #'   - Whitespace is treated as implicit AND, so all words in a query must occur,
 #'      but the word order and proximity are ignored.
 #'   - Double quotes indicate exact phrases.
-#'   - from:<handle> will filter to results from that account.
+#'   - `from:<handle>` will filter to results from that account.
 #'   - `-` excludes terms (does not seem to be working at the moment).
 #'
 #'   Note that matches can occur anywhere in the skeet, not just the text. For
