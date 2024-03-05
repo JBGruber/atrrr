@@ -109,7 +109,7 @@ Lucene query syntax is supported (Boolean operators and brackets for
 complex queries). But only a small subset is <a href="https://github.com/bluesky-social/indigo/tree/main/cmd/palomar" class="external-link">actually implemented</a>:</p><ul><li><p>Whitespace is treated as implicit AND, so all words in a query must occur,
 but the word order and proximity are ignored.</p></li>
 <li><p>Double quotes indicate exact phrases.</p></li>
-<li><p>from:<handle> will filter to results from that account.</handle></p></li>
+<li><p><code>from:&lt;handle&gt;</code> will filter to results from that account.</p></li>
 <li><p><code>-</code> excludes terms (does not seem to be working at the moment).</p></li>
 </ul><p>Note that matches can occur anywhere in the skeet, not just the text. For
 example, a term can be in the link preview, or alt text of an image.</p>

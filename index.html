@@ -126,23 +126,26 @@ page to create new app passwords
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, parse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
-<span><span class="co">#&gt; Columns: 16</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:vuvsifrusnjsys7mhkpk662u/app.bsky.feed.pos…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiegp7mni5p3njrgd52wl62jwjtbdxlms2ogzxaaod775tc6ri…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "benguinaudeau.bsky.social", "benguinaudeau.bsky.social"…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Benjamin Guinaudeau", "Benjamin Guinaudeau", "David For…</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "Genuinely opening a colleague's script to smoothly tran…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:vuvsifrusnjsys7mhkpk662u", "benguinaudeau.bsk…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["Genuinely opening a colleague's script to smoothly tr…</span></span>
+<span><span class="co">#&gt; Columns: 19</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:3ryku2cbgpazorytvt6lt273/app.bsky.feed.pos…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiabtdobd6w4scrbpqkvpgvdwidmdo7gyj6vvvcayol2drjalw…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "beamagistro.bsky.social", "jbgruber.bsky.social", "jbgr…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Beatrice Magistro", "Johannes B. Gruber", "Johannes B. …</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "Excited to share my latest paper out at PSRM\n \"Attitu…</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:3ryku2cbgpazorytvt6lt273", "beamagistro.bsky.…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-02-16T17:26:58.396Z", ["ap…</span></span>
 <span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#view", [["https://cdn.bsky.app/…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 4, 0, 1, 7, 0, 1, 0, 1, 0, 0, 0, 0, 1, 12, 0, 0, 1…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 15, 2, 1, 366, 3, 1, 4, 28, 0, 0, 0, 0, 0, 290, 14…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 1, 43, 6, 1, 498, 8, 3, 10, 34, 0, 0, 1, 4, 2, 455, 3…</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-01-03 16:49:08, 2024-01-03 16:46:52, 2023-12-23 22…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/app.bsky.feed…</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/app.bsky.feed…</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, NA, "at://did:plc:3mcek454ldmpf2xr43auvhac/a…</span></span>
-<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 1, 4, 0, 0, 4, 0, 1, 9, 0, 1, 0, 1, 0, 0, 0, 0, 1, 12…</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 6, 6, 8, 0, 0, 15, 2, 1, 440, 3, 1, 5, 28, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 12, 20, 12, 0, 1, 43, 6, 1, 618, 7, 3, 10, 35, 0, 0, 1, …</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-02-16 17:26:58, 2024-01-10 15:23:18, 2024-01-04 16…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/a…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/a…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, "at://did:plc:vgvueqvmbqgoyxtcdebqdcgb/app.bsky.feed…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; &lt;NULL&gt;, "rstats", "rstats", &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NU…</span></span>
+<span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
+<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE,…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="analyzing-feeds-on-blue-sky">Analyzing Feeds on Blue Sky<a class="anchor" aria-label="anchor" href="#analyzing-feeds-on-blue-sky"></a>
@@ -160,23 +163,26 @@ page to create new app passwords
 <span><span class="co"># Extracting posts from this curated feed</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_feed.html">get_feed</a></span><span class="op">(</span><span class="va">rstat_feed</span><span class="op">$</span><span class="va">uri</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 95</span></span>
-<span><span class="co">#&gt; Columns: 15</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:kizxn77jkp4p5vqzapbedvg2/app.bsky.feed.pos…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiaks6igx35o4ygibk372rfjz3t5c7m5an4hmm5mlrnvgh7zo5…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "pmaier1971.bsky.social", "pmaier1971.bsky.social", "urb…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Philipp Maier", "Philipp Maier", "Rafael H. M. Pereira …</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "Weekly Initial Claims (first-time applications for unem…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:kizxn77jkp4p5vqzapbedvg2", "pmaier1971.bsky.s…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["Weekly Initial Claims (first-time applications for un…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#view", [["https://cdn.bsky.app/…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 1, 1, 0, 2, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 4, 0,…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 1, 0, 1, 1, 4, 2, 0, 0, 1, 19, 3, 0, 0, 10, 1, 12,…</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-01-04 14:09:02, 2024-01-04 14:08:43, 2024-01-04 13…</span></span>
+<span><span class="co">#&gt; Rows: 200</span></span>
+<span><span class="co">#&gt; Columns: 18</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:vgvueqvmbqgoyxtcdebqdcgb/app.bsky.feed.pos…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreifard344uolete7a4vhogz3ja67k6bxumijc6fsuocapqutgt…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "cranberriesfeed.bsky.social", "cranberriesfeed.bsky.soc…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "CRAN Package Updates Bot", "CRAN Package Updates Bot", …</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "CRAN updates: minSNPs qris rgl SARP.compo #rstats\n", "…</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:vgvueqvmbqgoyxtcdebqdcgb", "cranberriesfeed.b…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-03-05T09:02:16-06:00", [[[…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, ["app.bsky.embed.record#view", ["app.bs…</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 23, 3, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-03-05 15:02:16, 2024-03-05 14:02:11, 2024-03-05 13…</span></span>
 <span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
 <span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, NA, NA, "at://did:plc:w4dzg6tdavlznotnfa2vth…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, "at://did:plc:iqrcfhxwrm5tyf7vqhnfgv6j/app.bsky.…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; "rstats", "rstats", "rstats", "rstats", "rstats", "rsta…</span></span>
+<span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn More?<a class="anchor" aria-label="anchor" href="#learn-more"></a>
@@ -188,7 +194,7 @@ page to create new app passwords
 <h1 id="want-to-help">Want to help?<a class="anchor" aria-label="anchor" href="#want-to-help"></a>
 </h1>
 <p>You can help by creating an <a href="https://github.com/JBGruber/atrrr/issues/new/choose" class="external-link">issue</a> requesting new features or reporting bugs.</p>
-<p>If you are a developer, we are happy to accept pull requests. It should be fairly straightforward, as all endpoints are already covered by automatically generated function. For example, the endpoint <a href="https://atproto.com/lexicons/app-bsky" class="external-link">app.bsky.actor.getProfiles</a> is accessible via <code>atrrr:::app_bsky_actor_get_profiles()</code>. The function <code><a href="reference/get_user_info.html">get_user_info()</a></code> is just a thin wrapper around that and calls an optional parsing function:</p>
+<p>If you are a developer, we are happy to accept pull requests. It should be fairly straightforward, as all endpoints are already covered by automatically generated function. For example, the endpoint <a href="https://docs.bsky.app/docs/api/app-bsky-actor-get-profiles" class="external-link">app.bsky.actor.getProfiles</a> is accessible via <code>atrrr:::app_bsky_actor_get_profiles()</code>. The function <code><a href="reference/get_user_info.html">get_user_info()</a></code> is just a thin wrapper around that and calls an optional parsing function:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>get_user_info <span class="ot">&lt;-</span> <span class="cf">function</span>(actor,</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                          <span class="at">parse =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                          <span class="at">.token =</span> <span class="cn">NULL</span>) {</span>
@@ -208,7 +214,7 @@ page to create new app passwords
 <span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  }</span>
 <span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
 <span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>}</span></code></pre></div>
-<p>If you find an endpoint at <a href="https://atproto.com/lexicons/com-atproto" class="external-link uri">https://atproto.com/lexicons/com-atproto</a> or <a href="https://atproto.com/lexicons/app-bsky" class="external-link uri">https://atproto.com/lexicons/app-bsky</a> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it). But please open an <a href="https://github.com/JBGruber/atrrr/issues" class="external-link">issue</a> first, so we don’t do duplicated work.</p>
+<p>If you find an endpoint at <a href="https://docs.bsky.app/docs/category/http-reference" class="external-link uri">https://docs.bsky.app/docs/category/http-reference</a> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it). But please open an <a href="https://github.com/JBGruber/atrrr/issues" class="external-link">issue</a> first, so we don’t do duplicated work.</p>
 </div>
 
 
