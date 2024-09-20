@@ -34,7 +34,7 @@ convert_http_to_at <- function(link,
       http_info$repo <- resolve_handle(http_info$repo, .token = .token)
     }
 
-    glue::glue("at://{repo}/{collection}/{rkey}", .envir = http_info)
+    glue::glue_data(http_info, "at://{repo}/{collection}/{rkey}")
 
   })
 
@@ -57,4 +57,3 @@ convert_at_to_http <- function(link) {
 
   })
 }
-
