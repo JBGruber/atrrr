@@ -43,6 +43,6 @@ A view of an actor's skeets.
 }
 \examples{
 \dontrun{
-feed <- get_skeets_authored_by("profmusgrave.bsky.social")
+feed <- get_skeets_authored_by("andrew.heiss.phd")
 }
 }

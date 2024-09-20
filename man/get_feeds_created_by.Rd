@@ -43,6 +43,6 @@ A view of the feed created by an actor.
 }
 \examples{
 \dontrun{
-feed <- get_feeds_created_by("profmusgrave.bsky.social")
+feed <- get_feeds_created_by("andrew.heiss.phd")
 }
 }

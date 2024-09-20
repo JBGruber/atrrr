@@ -1,19 +1,19 @@
 test_that("get skeets by author", {
-  expect_type(get_skeets_authored_by("profmusgrave.bsky.social", parse = FALSE), "list")
-  expect_s3_class(get_skeets_authored_by("profmusgrave.bsky.social"), "tbl_df")
-  expect_gte(nrow(get_skeets_authored_by("profmusgrave.bsky.social")), 1L)
+  expect_type(get_skeets_authored_by("andrew.heiss.phd", parse = FALSE), "list")
+  expect_s3_class(get_skeets_authored_by("andrew.heiss.phd"), "tbl_df")
+  expect_gte(nrow(get_skeets_authored_by("andrew.heiss.phd")), 1L)
 })
 
 test_that("get feeds by author", {
-  expect_type(get_feeds_created_by("profmusgrave.bsky.social", parse = FALSE), "list")
-  expect_s3_class(get_feeds_created_by("profmusgrave.bsky.social"), "tbl_df")
-  expect_gte(nrow(get_feeds_created_by("profmusgrave.bsky.social")), 1L)
+  expect_type(get_feeds_created_by("andrew.heiss.phd", parse = FALSE), "list")
+  expect_s3_class(get_feeds_created_by("andrew.heiss.phd"), "tbl_df")
+  expect_gte(nrow(get_feeds_created_by("andrew.heiss.phd")), 1L)
 })
 
 test_that("search feeds", {
-  expect_type(get_feeds_created_by("profmusgrave.bsky.social", parse = FALSE), "list")
-  expect_s3_class(get_feeds_created_by("profmusgrave.bsky.social"), "tbl_df")
-  expect_gte(nrow(get_feeds_created_by("profmusgrave.bsky.social")), 1L)
+  expect_type(get_feeds_created_by("andrew.heiss.phd", parse = FALSE), "list")
+  expect_s3_class(get_feeds_created_by("andrew.heiss.phd"), "tbl_df")
+  expect_gte(nrow(get_feeds_created_by("andrew.heiss.phd")), 1L)
 })
 
 test_that("search feeds", {

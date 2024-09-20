@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' feed <- get_skeets_authored_by("profmusgrave.bsky.social")
+#' feed <- get_skeets_authored_by("andrew.heiss.phd")
 #' }
 get_skeets_authored_by <- function(actor,
                                    limit = 25L,
@@ -69,7 +69,7 @@ get_skeets_authored_by <- function(actor,
 #'
 #' @examples
 #' \dontrun{
-#' feed <- get_feeds_created_by("profmusgrave.bsky.social")
+#' feed <- get_feeds_created_by("andrew.heiss.phd")
 #' }
 get_feeds_created_by <- function(actor,
                                  limit = 25L,
