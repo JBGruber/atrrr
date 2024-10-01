@@ -14,6 +14,9 @@ post(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  labels = NULL,
+  langs = NULL,
+  tags = NULL,
   preview_card = TRUE,
   verbose = NULL,
   .token = NULL
@@ -26,6 +29,9 @@ post_skeet(
   image = NULL,
   image_alt = NULL,
   created_at = Sys.time(),
+  labels = NULL,
+  langs = NULL,
+  tags = NULL,
   preview_card = TRUE,
   verbose = NULL,
   .token = NULL
@@ -47,6 +53,15 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 \item{image_alt}{alt text for the image.}
 
 \item{created_at}{time stamp of the post.}
+
+\item{labels}{can be used to label a post, for example "!no-unauthenticated",
+"porn", "sexual", "nudity", or "graphic-media".}
+
+\item{langs}{indicates human language(s) (up to 3) of post's primary text
+content.}
+
+\item{tags}{additional hashtags, in addition to any included in post text and
+facets.}
 
 \item{preview_card}{display a preview card for links included in the text
 (only if image is \code{NULL}).}

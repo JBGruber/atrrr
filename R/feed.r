@@ -567,6 +567,12 @@ get_replies <- function(post_url,
 #' @param image path to an image to post.
 #' @param image_alt alt text for the image.
 #' @param created_at time stamp of the post.
+#' @param labels can be used to label a post, for example "!no-unauthenticated",
+#'   "porn", "sexual", "nudity", or "graphic-media".
+#' @param langs indicates human language(s) (up to 3) of post's primary text
+#'   content.
+#' @param tags additional hashtags, in addition to any included in post text and
+#'   facets.
 #' @param preview_card display a preview card for links included in the text
 #'   (only if image is `NULL`).
 #' @param post_url URL or URI of post to delete.
@@ -585,6 +591,9 @@ post <- function(text,
                  image = NULL,
                  image_alt = NULL,
                  created_at = Sys.time(),
+                 labels = NULL,
+                 langs = NULL,
+                 tags = NULL,
                  preview_card = TRUE,
                  verbose = NULL,
                  .token = NULL) {
@@ -601,7 +610,15 @@ post <- function(text,
   record <- list(
     "$type" = "app.bsky.feed.post",
     "text" = text,
-    "createdAt" = format(as.POSIXct(created_at, tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z")
+    "createdAt" = format(as.POSIXct(created_at, tz = "UTC"), "%Y-%m-%dT%H:%M:%OS6Z"),
+    langs = as.list(langs),
+    tags = as.list(tags)
+  )
+
+  record$labels <- list(
+    "$type" = "com.atproto.label.defs#selfLabels",
+    values = lapply(labels, function(l)
+      list("$type" = "com.atproto.label.defs#selfLabel", val = l))
   )
 
   if (!is.null(in_reply_to)) {
