@@ -30,7 +30,10 @@ parse_post_list <- function(post_list) {
                                    .default = NA_character_),
     tags          = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#tag")),
     mentions      = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#mention")),
-    links         = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#link"))
+    links         = purrr::map(post_list, function(p) extrct_ftrs(p, "app.bsky.richtext.facet#link")),
+    langs         = purrr::map(post_list, c("record", "langs")),
+    labels        = purrr::map(post_list, function(p) purrr::pluck(p, "record", "labels", "values") |>
+                                 purrr::map("val"))
   )
 }
 
