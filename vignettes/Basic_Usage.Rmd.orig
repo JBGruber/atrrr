@@ -65,10 +65,44 @@ This can be useful if you want to replace an old token as it is permanently stor
 
 # Searching Posts
 
-The AT protocol defines a search function at `app.bsky.feed.searchPosts`, however, it is not currently active, as far as we could tell.
 
-As soon as the functionality is added by BlueSky, we will implement it here.
+You can search Posts on Bluesky using a small set of operators:
 
+- Whitespace is treated as implicit AND, so all words in a query must occur
+- Double quotes indicate exact phrases
+- `from:<handle>` will filter to results from that account
+- `-` excludes terms
+
+Note that matches can occur anywhere in the skeet, not just the text.
+For example, a term can be in the link preview, or alt text of an image.
+
+A couple of examples:
+
+```{r}
+search_post("rstats")
+```
+
+This finds posts where "rstats" is found somewhere in the post.
+
+```{r}
+search_post("#rstats Bluesky")
+```
+
+This finds posts with the hashtag "rstats" AND the word Bluesky somewhere in the skeet (ignoring capitalisaion).
+
+You can also search for the exact phrase "new #rstats package":
+
+```{r}
+search_post("\"new #rstats package\"")
+#' # Use single quotes so you do not need to escape double quotes
+#' search_post('"new #rstats package"')
+```
+
+You can also limit your search by only looking for skeets from one user:
+
+```{r}
+search_post("from:jbgruber.bsky.social #rstats")
+```
 
 # Blue Sky Users and Skeets
 
