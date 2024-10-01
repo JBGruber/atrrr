@@ -228,9 +228,13 @@ str_locate_all_bytes <- function(string, pattern) {
 
 
 fetch_preview <- function(record) {
-  uri <- purrr::pluck(record, "facets", 1, "features", 1, "uri",
-                      .default = NA_character_)
-  if (!is.na(uri)) {
+  facets <- purrr::pluck(record, "facets")
+  uri <- purrr::map_chr(facets, function(f)
+    purrr::pluck(f, "features", 1, "uri", .default = NA_character_)) |>
+    stats::na.omit() |>
+    utils::head(1L) # only one link can be previewed
+
+  if (length(uri) > 0L) {
     # this is the API bsky.app is using. Not sure how robust it is
     preview <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
       httr2::req_url_query(url = uri) |>
