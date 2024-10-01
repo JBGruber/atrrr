@@ -52,6 +52,9 @@
 <span>  image <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  image_alt <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  created_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  langs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  preview_card <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -64,6 +67,9 @@
 <span>  image <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  image_alt <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  created_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  langs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  preview_card <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -100,6 +106,21 @@
 
 <dt id="arg-created-at">created_at<a class="anchor" aria-label="anchor" href="#arg-created-at"></a></dt>
 <dd><p>time stamp of the post.</p></dd>
+
+
+<dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
+<dd><p>can be used to label a post, for example "!no-unauthenticated",
+"porn", "sexual", "nudity", or "graphic-media".</p></dd>
+
+
+<dt id="arg-langs">langs<a class="anchor" aria-label="anchor" href="#arg-langs"></a></dt>
+<dd><p>indicates human language(s) (up to 3) of post's primary text
+content.</p></dd>
+
+
+<dt id="arg-tags">tags<a class="anchor" aria-label="anchor" href="#arg-tags"></a></dt>
+<dd><p>additional hashtags, in addition to any included in post text and
+facets.</p></dd>
 
 
 <dt id="arg-preview-card">preview_card<a class="anchor" aria-label="anchor" href="#arg-preview-card"></a></dt>
