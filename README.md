@@ -12,7 +12,6 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/JBGruber/atrrr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/atrrr?branch=main)
-[![say-thanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/JBGruber)
 <!-- badges: end -->
 
 The goal of atrrr[^1] is to wrap the AT Protocol (Authenticated Transfer

@@ -20,7 +20,7 @@ You can retrieve a list of followers and those followed by a user through the `g
 ## Load the package
 
 
-```r
+``` r
 library(atrrr)
 ```
 
@@ -29,7 +29,7 @@ library(atrrr)
 Retrieve the followers of a specific account with `get_followers`:
 
 
-```r
+``` r
 get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 200
@@ -50,7 +50,7 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
 Retrieve the accounts that are followed by a specific account with `get_follows`:
 
 
-```r
+``` r
 get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 174
@@ -75,7 +75,7 @@ This section guides you through the process of visualizing a follower network fo
 The first step is to load some additional packages. Then we get the followers for the main user we are interested in. We will then delve deeper and fetch the followers for each of these followers.
 
 
-```r
+``` r
 library(ggplot2)
 library(dplyr)
 library(purrr)
@@ -106,7 +106,7 @@ followers_of_followers <- some_followers |>
 ## Building and Visualizing the Follower Network
 
 
-```r
+``` r
 # Construct the network graph and plot
 graph <- tidygraph::as_tbl_graph(followers_of_followers, directed = TRUE)
 
@@ -134,7 +134,7 @@ You can use a similar approach to find new people you might want to follow.
 First get all the people you already follow by quering your own account:
 
 
-```r
+``` r
 my_follows <- get_follows(actor = "jbgruber.bsky.social",
                               limit = 10)$actor_handle # limit only for demonstration
 
@@ -180,7 +180,7 @@ Want to create like networks? The `get_likes` function allows you to extract inf
 
 
 
-```r
+``` r
 get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
@@ -199,7 +199,7 @@ Want to create repost networks? Reposts (or reskeets), akin to retweets on platf
 The `get_reposts` function is designed to retrieve information about users who reposted a specific piece of content.
 
 
-```r
+``` r
 get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25

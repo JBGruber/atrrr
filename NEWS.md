@@ -1,5 +1,10 @@
 # atrrr 0.0.4
 
+* adds option to include language, additional tags and labels to post
+* fix issue with preview cards for cases with multiple links
+* add search function to vignette (thank you for noticing, @SoaresAlisson)
+* address issue with new version of glue package (thank you, @jennybc)
+
 # atrrr 0.0.3
 
 * link preview cards are automatically added to posts (can be turned off)

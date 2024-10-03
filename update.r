@@ -15,7 +15,7 @@ pkgdown::build_site()
 
 # submit to CRAN
 usethis::use_version("minor")
-devtools::check_rhub(interactive = FALSE)
+rhub::rhub_check(platforms = c("linux", "windows", "macos-arm64", "macos"))
 devtools::submit_cran()
 # once accepted by cran
 usethis::use_github_release()

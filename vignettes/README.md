@@ -1,6 +1,7 @@
-Build the vignette with:
+Build the vignettes with:
 
 ```
+setwd("vignettes")
 knitr::knit("vignettes/Basic_Usage.Rmd.orig", output = "vignettes/Basic_Usage.Rmd")
 knitr::knit("vignettes/Feed_Analysis.Rmd.orig", output = "vignettes/Feed_Analysis.Rmd")
 knitr::knit("vignettes/Interactions.Rmd.orig", output = "vignettes/Interactions.Rmd")

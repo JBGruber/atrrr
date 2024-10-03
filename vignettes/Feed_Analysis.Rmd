@@ -19,7 +19,7 @@ On Blue Sky users have the ability to create custom feeds based on specific keyw
 ## Load the package
 
 
-```r
+``` r
 library(atrrr)
 ```
 
@@ -29,7 +29,7 @@ Our starting point is to extract the posts from a feed. We're focusing on a feed
 
 
 
-```r
+``` r
 # Fetching the feed posts
 feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
@@ -92,7 +92,7 @@ Who are the leading voices within a particular topic? This analysis highlights u
 
 
 
-```r
+``` r
 library(ggplot2)
 
 # Identifying the top 10 contributors
@@ -117,7 +117,7 @@ rstat_posts |>
 Volume doesn't always translate to influence. Some users may post less frequently but their contributions resonate deeply with the community.
 
 
-```r
+``` r
 # Identifying top 10 influential voices based on likes
 rstat_posts |>
   group_by(author_handle) |>
@@ -141,7 +141,7 @@ rstat_posts |>
 ### Most Famous #rstats skeet
 
 
-```r
+``` r
 # Finding the standout post in the rstats feed
 rstat_posts |>
   mutate(total_interactions = reply_count + repost_count + like_count) |>
