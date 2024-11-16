@@ -7,6 +7,7 @@
 get_skeets_authored_by(
   actor,
   limit = 25L,
+  filter = NULL,
   cursor = NULL,
   parse = TRUE,
   verbose = NULL,
@@ -20,6 +21,8 @@ get_skeets_authored_by(
 100 results, pagination is used automatically (one request per 100
 results). The function stops when the limit is reached, but you will
 usually get a few items more than requested.}
+
+\item{filter}{get only certain post/repost types. Possible values "posts_with_replies", "posts_no_replies", "posts_with_media", and "posts_and_author_threads".}
 
 \item{cursor}{Cursor for pagination (to pick up an old search).}
 

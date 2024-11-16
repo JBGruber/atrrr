@@ -1,6 +1,7 @@
 #' A view of an actor's skeets.
 #'
 #' @param actor user handle to retrieve feed for.
+#' @param filter get only certain post/repost types. Possible values "posts_with_replies", "posts_no_replies", "posts_with_media", and "posts_and_author_threads".
 #' @inheritParams get_followers
 #'
 #' @returns a data frame (or nested list) of posts
@@ -21,6 +22,13 @@ get_skeets_authored_by <- function(actor,
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
+  allowed_values <- c("posts_with_replies",
+                      "posts_no_replies",
+                      "posts_with_media",
+                      "posts_and_author_threads")
+  if (!filter %in% allowed_values) {
+    cli::cli_abort("{.code filter} must be one of {.val {allowed_values}}")
+  }
 
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} skeets, but there is more.. [{cli::pb_elapsed}]",
