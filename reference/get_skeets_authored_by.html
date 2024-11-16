@@ -48,6 +48,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_skeets_authored_by</span><span class="op">(</span></span>
 <span>  <span class="va">actor</span>,</span>
 <span>  limit <span class="op">=</span> <span class="fl">25L</span>,</span>
+<span>  filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cursor <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -68,6 +69,10 @@
 100 results, pagination is used automatically (one request per 100
 results). The function stops when the limit is reached, but you will
 usually get a few items more than requested.</p></dd>
+
+
+<dt id="arg-filter">filter<a class="anchor" aria-label="anchor" href="#arg-filter"></a></dt>
+<dd><p>get only certain post/repost types. Possible values "posts_with_replies", "posts_no_replies", "posts_with_media", and "posts_and_author_threads".</p></dd>
 
 
 <dt id="arg-cursor">cursor<a class="anchor" aria-label="anchor" href="#arg-cursor"></a></dt>
