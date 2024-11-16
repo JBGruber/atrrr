@@ -75,15 +75,18 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>atrrr</code> like so (install the <code>remotes</code> package first, with <code>install.packages("remotes")</code>, if you don’t have that yet):</p>
+<p>You can install atrrr from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"atrrr"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version of <code>atrrr</code> like so (install the <code>remotes</code> package first, with <code>install.packages("remotes")</code>, if you don’t have that yet):</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"JBGruber/atrrr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="load-the-package">Load the package<a class="anchor" aria-label="anchor" href="#load-the-package"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbgruber.github.io/atrrr/">atrrr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -96,7 +99,7 @@ RStudio Popup
 <figure><img src="articles/figures/app_password.png" alt="page to create new app passwords"><figcaption aria-hidden="true">
 page to create new app passwords
 </figcaption></figure><p>However, you can also trigger this process manually:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/auth.html">auth</a></span><span class="op">(</span><span class="st">"jbgruber.bsky.social"</span><span class="op">)</span></span></code></pre></div>
 <p>This can be useful if you want to replace an old token as it is permanently stored encrypted on disk.</p>
 </div>
@@ -104,37 +107,39 @@ page to create new app passwords
 <h2 id="retrieve-skeets-get_skeets_authored_by">Retrieve Skeets (<code>get_skeets_authored_by</code>)<a class="anchor" aria-label="anchor" href="#retrieve-skeets-get_skeets_authored_by"></a>
 </h2>
 <p>To fetch all the skeets by a specific user, use the <code>get_skeets_authored_by</code> function. <em>Note this also includes quote skeets and reskeets.</em> You can also opt not to parse the result by setting <code>parse = FALSE</code>, however it is recommended to use the default parse option which results in a (more) tidy tibble.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_skeets_authored_by.html">get_skeets_authored_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"benguinaudeau.bsky.social"</span>, parse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 25</span></span>
-<span><span class="co">#&gt; Columns: 19</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:3ryku2cbgpazorytvt6lt273/app.bsky.feed.pos…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiabtdobd6w4scrbpqkvpgvdwidmdo7gyj6vvvcayol2drjalw…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "beamagistro.bsky.social", "jbgruber.bsky.social", "jbgr…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Beatrice Magistro", "Johannes B. Gruber", "Johannes B. …</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "Excited to share my latest paper out at PSRM\n \"Attitu…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:3ryku2cbgpazorytvt6lt273", "beamagistro.bsky.…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-02-16T17:26:58.396Z", ["ap…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.images#view", [["https://cdn.bsky.app/…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 1, 4, 0, 0, 4, 0, 1, 9, 0, 1, 0, 1, 0, 0, 0, 0, 1, 12…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 6, 6, 8, 0, 0, 15, 2, 1, 440, 3, 1, 5, 28, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 12, 20, 12, 0, 1, 43, 6, 1, 618, 7, 3, 10, 35, 0, 0, 1, …</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-02-16 17:26:58, 2024-01-10 15:23:18, 2024-01-04 16…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/a…</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3bzklwa/a…</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, "at://did:plc:vgvueqvmbqgoyxtcdebqdcgb/app.bsky.feed…</span></span>
-<span><span class="co">#&gt; $ tags          &lt;list&gt; &lt;NULL&gt;, "rstats", "rstats", &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NU…</span></span>
+<span><span class="co">#&gt; Columns: 21</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.feed.pos…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreiconry2rc74zkunyalbhwsxa347gxjnhb7uza7y4njnecu3ek…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "jbgruber.bsky.social", "jacobmontgomery.bsky.social", "…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Johannes B. Gruber", "Jacob Montgomery", "Beatrice Magi…</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "I didn't even notice CRAN already approved it, but our …</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:ntd53albt5ffa4rgervvgibd", "jbgruber.bsky.soc…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-10-04T12:43:04.752Z", ["ap…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; ["app.bsky.embed.record#view", ["app.bsky.embed.record#…</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 1, 4, 0, 0, 4, 0, 1, 9, 0, 1, 0, 1, 0, 0, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 5, 3, 6, 6, 8, 0, 0, 15, 2, 1, 432, 3, 1, 5, 28, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 11, 13, 13, 20, 13, 1, 1, 42, 6, 1, 606, 7, 3, 10, 35, 1…</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-10-04 12:43:04, 2024-03-18 21:09:28, 2024-02-16 17…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, NA, NA, "at://did:plc:eotrvt2wp6mqooxjf3…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; "at://did:plc:vgvueqvmbqgoyxtcdebqdcgb/app.bsky.feed.pos…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; "rstats", &lt;NULL&gt;, &lt;NULL&gt;, "rstats", "rstats", &lt;NULL&gt;, &lt;…</span></span>
 <span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
 <span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
-<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE,…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ langs         &lt;list&gt; ["en"], ["en"], ["it"], ["en"], ["en"], ["en"], ["en"],…</span></span>
+<span><span class="co">#&gt; $ labels        &lt;list&gt; [], [], [], [], [], [], [], [], [], [], [], [], [], [],…</span></span>
+<span><span class="co">#&gt; $ is_reskeet    &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, …</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="analyzing-feeds-on-blue-sky">Analyzing Feeds on Blue Sky<a class="anchor" aria-label="anchor" href="#analyzing-feeds-on-blue-sky"></a>
 </h2>
 <p>On Blue Sky users have the ability to create custom feeds based on specific keywords. These feeds aggregate content, for instance, a user might curate a feed around the hashtag <code>#rstats</code> to gather all relevant content about. Let’s delve into the dynamics of such feeds.</p>
 <p>Our starting point is to extract the posts from the <code>#rstats</code> feed created by “andrew.heiss.phd”.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fetching the feed posts</span></span>
 <span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_feeds_created_by.html">get_feeds_created_by</a></span><span class="op">(</span>actor <span class="op">=</span> <span class="st">"andrew.heiss.phd"</span><span class="op">)</span> </span>
 <span></span>
@@ -145,26 +150,28 @@ page to create new app passwords
 <span><span class="co"># Extracting posts from this curated feed</span></span>
 <span><span class="va">rstat_posts</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_feed.html">get_feed</a></span><span class="op">(</span><span class="va">rstat_feed</span><span class="op">$</span><span class="va">uri</span>, limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 200</span></span>
-<span><span class="co">#&gt; Columns: 18</span></span>
-<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:vgvueqvmbqgoyxtcdebqdcgb/app.bsky.feed.pos…</span></span>
-<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreifard344uolete7a4vhogz3ja67k6bxumijc6fsuocapqutgt…</span></span>
-<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "cranberriesfeed.bsky.social", "cranberriesfeed.bsky.soc…</span></span>
-<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "CRAN Package Updates Bot", "CRAN Package Updates Bot", …</span></span>
-<span><span class="co">#&gt; $ text          &lt;chr&gt; "CRAN updates: minSNPs qris rgl SARP.compo #rstats\n", "…</span></span>
-<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:vgvueqvmbqgoyxtcdebqdcgb", "cranberriesfeed.b…</span></span>
-<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-03-05T09:02:16-06:00", [[[…</span></span>
-<span><span class="co">#&gt; $ embed_data    &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, ["app.bsky.embed.record#view", ["app.bs…</span></span>
-<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 23, 3, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-03-05 15:02:16, 2024-03-05 14:02:11, 2024-03-05 13…</span></span>
-<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, "at://did:plc:iqrcfhxwrm5tyf7vqhnfgv6j/app.bsky.…</span></span>
-<span><span class="co">#&gt; $ tags          &lt;list&gt; "rstats", "rstats", "rstats", "rstats", "rstats", "rsta…</span></span>
+<span><span class="co">#&gt; Rows: 292</span></span>
+<span><span class="co">#&gt; Columns: 20</span></span>
+<span><span class="co">#&gt; $ uri           &lt;chr&gt; "at://did:plc:7crs3axm67jhrc57gi7ojyjn/app.bsky.feed.pos…</span></span>
+<span><span class="co">#&gt; $ cid           &lt;chr&gt; "bafyreicru2iryln3mqm6skdhym4illw2kn6z7qqig34trfvsp72zyi…</span></span>
+<span><span class="co">#&gt; $ author_handle &lt;chr&gt; "timbulwidodostp.bsky.social", "bigbookofr.bsky.social",…</span></span>
+<span><span class="co">#&gt; $ author_name   &lt;chr&gt; "Timbul Widodo, S.TP", "Big Book of R", "Craig Hamilton"…</span></span>
+<span><span class="co">#&gt; $ text          &lt;chr&gt; "Sequential analysis poisson binomial data g estimation …</span></span>
+<span><span class="co">#&gt; $ author_data   &lt;list&gt; ["did:plc:7crs3axm67jhrc57gi7ojyjn", "timbulwidodostp.b…</span></span>
+<span><span class="co">#&gt; $ post_data     &lt;list&gt; ["app.bsky.feed.post", "2024-11-16T13:08:30.723Z", [[[[…</span></span>
+<span><span class="co">#&gt; $ embed_data    &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, ["app.bsky.embed.record#view", …</span></span>
+<span><span class="co">#&gt; $ reply_count   &lt;int&gt; 0, 0, 0, 0, 1, 2, 0, 0, 1, 2, 1, 0, 0, 3, 1, 0, 0, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ repost_count  &lt;int&gt; 0, 0, 0, 3, 0, 19, 0, 1, 0, 2, 1, 4, 0, 11, 0, 0, 1, 0, …</span></span>
+<span><span class="co">#&gt; $ like_count    &lt;int&gt; 0, 0, 0, 3, 1, 37, 0, 3, 1, 4, 1, 14, 1, 21, 1, 1, 4, 5,…</span></span>
+<span><span class="co">#&gt; $ indexed_at    &lt;dttm&gt; 2024-11-16 13:08:30, 2024-11-16 12:31:26, 2024-11-16 12…</span></span>
+<span><span class="co">#&gt; $ in_reply_to   &lt;chr&gt; NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.…</span></span>
+<span><span class="co">#&gt; $ in_reply_root &lt;chr&gt; NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.…</span></span>
+<span><span class="co">#&gt; $ quotes        &lt;chr&gt; NA, NA, NA, "at://did:plc:ntd53albt5ffa4rgervvgibd/app.b…</span></span>
+<span><span class="co">#&gt; $ tags          &lt;list&gt; &lt;"RStats", "rstats", "rsoftware", "rstatistics"&gt;, &lt;NULL…</span></span>
 <span><span class="co">#&gt; $ mentions      &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
-<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ links         &lt;list&gt; &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;, &lt;NULL&gt;,…</span></span>
+<span><span class="co">#&gt; $ langs         &lt;list&gt; ["en"], &lt;NULL&gt;, ["en"], ["en"], ["en"], ["en"], &lt;NULL&gt;,…</span></span>
+<span><span class="co">#&gt; $ labels        &lt;list&gt; [], [], [], [], [], [], [], [], [], [], [], [], [], [],…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn More?<a class="anchor" aria-label="anchor" href="#learn-more"></a>
@@ -177,25 +184,25 @@ page to create new app passwords
 </h1>
 <p>You can help by creating an <a href="https://github.com/JBGruber/atrrr/issues/new/choose" class="external-link">issue</a> requesting new features or reporting bugs.</p>
 <p>If you are a developer, we are happy to accept pull requests. It should be fairly straightforward, as all endpoints are already covered by automatically generated function. For example, the endpoint <a href="https://docs.bsky.app/docs/api/app-bsky-actor-get-profiles" class="external-link">app.bsky.actor.getProfiles</a> is accessible via <code>atrrr:::app_bsky_actor_get_profiles()</code>. The function <code><a href="reference/get_user_info.html">get_user_info()</a></code> is just a thin wrapper around that and calls an optional parsing function:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>get_user_info <span class="ot">&lt;-</span> <span class="cf">function</span>(actor,</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                          <span class="at">parse =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                          <span class="at">.token =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="co"># we need to use do.call so objects are passed to the right environment</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do.call</span>( </span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="at">what =</span> app_bsky_actor_get_profiles,</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>      actor,</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>      <span class="at">.token =</span> .token, <span class="co"># tokens are handled automatically under the hood</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>      <span class="at">.return =</span> <span class="st">"json"</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    )) <span class="sc">|&gt;</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">"profiles"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="cf">if</span> (parse) {</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">parse_actors</span>(res)</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  }</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>get_user_info <span class="ot">&lt;-</span> <span class="cf">function</span>(actor,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                          <span class="at">parse =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                          <span class="at">.token =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="co"># we need to use do.call so objects are passed to the right environment</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">do.call</span>( </span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="at">what =</span> app_bsky_actor_get_profiles,</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">list</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>      actor,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>      <span class="at">.token =</span> .token, <span class="co"># tokens are handled automatically under the hood</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>      <span class="at">.return =</span> <span class="st">"json"</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    )) <span class="sc">|&gt;</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">"profiles"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="cf">if</span> (parse) {</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">parse_actors</span>(res)</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  }</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>}</span></code></pre></div>
 <p>If you find an endpoint at <a href="https://docs.bsky.app/docs/category/http-reference" class="external-link uri">https://docs.bsky.app/docs/category/http-reference</a> that interests you, you can write a similar wrapper and contribute it to the package (or build something new on top of it). But please open an <a href="https://github.com/JBGruber/atrrr/issues" class="external-link">issue</a> first, so we don’t do duplicated work.</p>
 </div>
 
