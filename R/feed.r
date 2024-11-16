@@ -26,7 +26,7 @@ get_skeets_authored_by <- function(actor,
                       "posts_no_replies",
                       "posts_with_media",
                       "posts_and_author_threads")
-  if (!filter %in% allowed_values) {
+  if (!filter %in% allowed_values && !is.null(filter)) {
     cli::cli_abort("{.code filter} must be one of {.val {allowed_values}}")
   }
 
