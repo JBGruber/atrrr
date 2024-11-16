@@ -12,6 +12,7 @@
 #' }
 get_skeets_authored_by <- function(actor,
                                    limit = 25L,
+                                   filter = NULL,
                                    cursor = NULL,
                                    parse = TRUE,
                                    verbose = NULL,
@@ -33,6 +34,7 @@ get_skeets_authored_by <- function(actor,
         actor = actor,
         limit = req_limit,
         cursor = last_cursor,
+        filter = filter,
         .token = .token,
         .return = "json"
       ))
