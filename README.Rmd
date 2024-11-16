@@ -38,6 +38,12 @@ Rather we have some nice human-generated functions with documentation and exampl
 
 ## Installation
 
+You can install atrrr from CRAN with:
+
+``` r
+install.packages("atrrr")
+```
+
 You can install the development version of `atrrr` like so (install the `remotes` package first, with `install.packages("remotes")`, if you don't have that yet):
 
 ``` r
