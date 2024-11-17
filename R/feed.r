@@ -391,6 +391,67 @@ get_likes <- function(post_url,
 }
 
 
+#' Get likes of a user
+#'
+#' @param actor user handle to retrieve likes for.
+#' @inheritParams search_user
+#'
+#' @returns a data frame (or nested list) of likes/reposts
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_actor_likes("jbgruber.bsky.social")
+#' }
+get_actor_likes <- function(actor,
+                            limit = 25L,
+                            cursor = NULL,
+                            parse = TRUE,
+                            verbose = NULL,
+                            .token = NULL) {
+
+  res <- list()
+  req_limit <- ifelse(limit > 100, 100, limit)
+  last_cursor <- NULL
+
+  if (verbosity(verbose)) cli::cli_progress_bar(
+    format = "{cli::pb_spin} Got {length(res)} like entries, but there is more.. [{cli::pb_elapsed}]",
+    format_done = "Got {length(res)} records. All done! [{cli::pb_elapsed}]"
+  )
+
+  while (length(res) < limit) {
+    resp <- do.call(
+      what = app_bsky_feed_get_actor_likes,
+      args = list(
+        actor = actor,
+        limit = req_limit,
+        cursor = last_cursor,
+        .token = .token,
+        .return = "json"
+      ))
+
+    last_cursor <- resp$cursor
+    res <- c(res, resp$feed)
+
+    if (is.null(resp$cursor)) break
+    if (verbosity(verbose)) cli::cli_progress_update(force = TRUE)
+  }
+
+  if (verbosity(verbose)) cli::cli_progress_done()
+
+  if (parse) {
+    if (verbosity(verbose)) cli::cli_progress_step("Parsing {length(res)} results.")
+    out <- parse_timeline(res)
+    if (verbosity(verbose)) cli::cli_process_done(msg_done = "Got {nrow(out)} results. All done!")
+  } else {
+    out <- res
+  }
+  attr(out, "last_cursor") <- last_cursor
+  return(out)
+}
+
+
 #' @rdname get_likes
 #' @export
 get_reposts <- function(post_url,
