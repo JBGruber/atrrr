@@ -207,4 +207,9 @@ build something new on top of it). But please open an
 duplicated work.
 
 [^1]: before 2024-01-04, this package was [called
-    `atr`](https://github.com/JBGruber/atrrr/issues/12).
+    `atr`](https://github.com/JBGruber/atrrr/issues/12), meaning an R
+    package for the AT protocol (similar to httr, which is a package for
+    the HTTProtocol). Unfortunatley, when we wanted to release the
+    package on CRAN, the name `atr` was rejected, as a package of the
+    same name existed some time ago. So we added two “r” to make the
+    package go brrr anyway!
