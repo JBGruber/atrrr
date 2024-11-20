@@ -7,12 +7,12 @@ test_that("search actors", {
 test_that("user info", {
   expect_type(get_user_info("benguinaudeau.bsky.social", parse = FALSE), "list")
   expect_s3_class(get_user_info("jbgruber.bsky.social"), "tbl_df")
-  expect_gte(nrow(get_user_info("favstats.bsky.social")), 1L)
+  expect_gte(nrow(get_user_info("favstats.eu")), 1L)
 })
 
 test_that("user info pagination", {
   actors <- rep(c("jbgruber.bsky.social",
                   "benguinaudeau.bsky.social",
-                  "favstats.bsky.social"), 25)
+                  "favstats.eu"), 25)
   expect_equal(nrow(get_user_info(actor = actors)), 75L)
 })

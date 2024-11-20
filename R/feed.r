@@ -711,7 +711,7 @@ post <- function(text,
     )
   }
 
-  # quote <- "https://bsky.app/profile/favstats.bsky.social/post/3kc57mkoi6a2k"
+  # quote <- "https://bsky.app/profile/favstats.eu/post/3kc57mkoi6a2k"
   if (!is.null(quote)) {
     quote <- ifelse(grepl("^http", quote),
                     convert_http_to_at(quote, .token = .token),

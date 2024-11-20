@@ -139,7 +139,7 @@ get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
 Feeling adventurous? Increase the `limit` and explore more of their content.
 
 ```{r}
-get_skeets_authored_by(actor = "favstats.bsky.social", limit = 30) |>
+get_skeets_authored_by(actor = "favstats.eu", limit = 30) |>
   dplyr::glimpse()
 ```
 

@@ -56,10 +56,10 @@ Get followers and follows of an actor
 get_followers("benguinaudeau.bsky.social")
 
 # get first page of results
-follows_df <- get_follows("favstats.bsky.social", limit = 25L)
+follows_df <- get_follows("favstats.eu", limit = 25L)
 
 # continue same search, starting from the next match
-follows_df2 <- get_follows("favstats.bsky.social", limit = 25L,
+follows_df2 <- get_follows("favstats.eu", limit = 25L,
                            cursor = attr(follows_df, "last_cursor"))
 }
 }
