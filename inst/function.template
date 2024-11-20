@@ -1,13 +1,13 @@
 #' {fun_name}
 #' {lexicon_description}
 #' @noRd
-{fun_name} <- function({param_declaration}, .return = c("json", "resp")){{
-
+{fun_name} <- function({param_declaration}, .return = c("json", "resp")) {{
   make_request(
     hostname = "bsky.social/xrpc/{endpoint}",
     params = as.list(match.call())[-1] |>
-      purrr::imap(~{{eval(.x, envir = parent.frame())}}),
+      purrr::imap(~ {{
+        eval(.x, envir = parent.frame())
+      }}),
     req_method = "{req_method}"
   )
-
 }}
