@@ -15,7 +15,7 @@ app_bsky_actor_get_preferences <- function(.token = NULL, .return = c("json", "r
 
 
 #' app_bsky_actor_get_profile
-#'
+#' 
 #' @noRd
 app_bsky_actor_get_profile <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -31,7 +31,7 @@ app_bsky_actor_get_profile <- function(actor, .token = NULL, .return = c("json",
 
 
 #' app_bsky_actor_get_profiles
-#'
+#' 
 #' @noRd
 app_bsky_actor_get_profiles <- function(actors, .token = NULL, .return = c("json", "resp")) {
   make_request(

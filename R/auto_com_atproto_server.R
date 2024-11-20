@@ -1,3 +1,35 @@
+#' com_atproto_server_activate_account
+#' Activates a currently deactivated account. Used to finalize account migration after the account's repo is imported and identity is setup.
+#' @noRd
+com_atproto_server_activate_account <- function(.token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.server.activateAccount",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
+#' com_atproto_server_check_account_status
+#' Returns the status of an account, especially as pertaining to import or recovery. Can be called many times over the course of an account migration. Requires auth and can only be called pertaining to oneself.
+#' @noRd
+com_atproto_server_check_account_status <- function(.token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.server.checkAccountStatus",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_server_confirm_email
 #' Confirm an email using a token from com.atproto.server.requestEmailConfirmation.
 #' @noRd
@@ -94,6 +126,22 @@ com_atproto_server_create_session <- function(identifier, password, .token = NUL
 
 
 
+#' com_atproto_server_deactivate_account
+#' Deactivates a currently active account. Stops serving of repo, and future writes to repo until reactivated. Used to finalize account migration with the old host after the account has been activated on the new host.
+#' @noRd
+com_atproto_server_deactivate_account <- function(deleteAfter = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.server.deactivateAccount",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
 #' com_atproto_server_delete_account
 #' Delete a user account with a token and password.
 #' @noRd
@@ -148,6 +196,22 @@ com_atproto_server_describe_server <- function(.token = NULL, .return = c("json"
 com_atproto_server_get_account_invite_codes <- function(includeUsed = NULL, createAvailable = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.getAccountInviteCodes",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' com_atproto_server_get_service_auth
+#' Get a signed token on behalf of the requesting DID for the requested service.
+#' @noRd
+com_atproto_server_get_service_auth <- function(aud, exp = NULL, lxm = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.server.getServiceAuth",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -260,6 +324,22 @@ com_atproto_server_request_email_update <- function(.token = NULL, .return = c("
 com_atproto_server_request_password_reset <- function(email, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.requestPasswordReset",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
+#' com_atproto_server_reserve_signing_key
+#' Reserve a repo signing key, for use with account creation. Necessary so that a DID PLC update operation can be constructed during an account migraiton. Public and does not require auth; implemented by PDS. NOTE: this endpoint may change when full account migration is implemented.
+#' @noRd
+com_atproto_server_reserve_signing_key <- function(did = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.server.reserveSigningKey",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
