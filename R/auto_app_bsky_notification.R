@@ -1,5 +1,5 @@
 #' app_bsky_notification_get_unread_count
-#'
+#' 
 #' @noRd
 app_bsky_notification_get_unread_count <- function(seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -15,7 +15,7 @@ app_bsky_notification_get_unread_count <- function(seenAt = NULL, .token = NULL,
 
 
 #' app_bsky_notification_list_notifications
-#'
+#' 
 #' @noRd
 app_bsky_notification_list_notifications <- function(limit = NULL, cursor = NULL, seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -25,6 +25,22 @@ app_bsky_notification_list_notifications <- function(limit = NULL, cursor = NULL
         eval(.x, envir = parent.frame())
       }),
     req_method = "GET"
+  )
+}
+
+
+
+#' app_bsky_notification_put_preferences
+#' Set notification-related preferences for an account. Requires auth.
+#' @noRd
+app_bsky_notification_put_preferences <- function(priority, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/app.bsky.notification.putPreferences",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
   )
 }
 

@@ -1,9 +1,9 @@
-#' app_bsky_unspecced_get_popular
-#' DEPRECATED: will be removed soon, please find a feed generator alternative
+#' app_bsky_unspecced_get_config
+#' Get miscellaneous runtime configuration.
 #' @noRd
-app_bsky_unspecced_get_popular <- function(includeNsfw = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_unspecced_get_config <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.unspecced.getPopular",
+    hostname = "bsky.social/xrpc/app.bsky.unspecced.getConfig",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -30,12 +30,28 @@ app_bsky_unspecced_get_popular_feed_generators <- function(limit = NULL, cursor 
 
 
 
-#' app_bsky_unspecced_get_timeline_skeleton
-#' A skeleton of a timeline - UNSPECCED & WILL GO AWAY SOON
+#' app_bsky_unspecced_get_suggestions_skeleton
+#' Get a skeleton of suggested actors. Intended to be called and then hydrated through app.bsky.actor.getSuggestions
 #' @noRd
-app_bsky_unspecced_get_timeline_skeleton <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_unspecced_get_suggestions_skeleton <- function(viewer = NULL, limit = NULL, cursor = NULL, relativeToDid = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.unspecced.getTimelineSkeleton",
+    hostname = "bsky.social/xrpc/app.bsky.unspecced.getSuggestionsSkeleton",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' app_bsky_unspecced_get_tagged_suggestions
+#' Get a list of suggestions (feeds and users) tagged with categories
+#' @noRd
+app_bsky_unspecced_get_tagged_suggestions <- function(.token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/app.bsky.unspecced.getTaggedSuggestions",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -68,6 +84,22 @@ app_bsky_unspecced_search_actors_skeleton <- function(q, typeahead = NULL, limit
 app_bsky_unspecced_search_posts_skeleton <- function(q, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.searchPostsSkeleton",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' app_bsky_unspecced_search_starter_packs_skeleton
+#' Backend Starter Pack search, returns only skeleton.
+#' @noRd
+app_bsky_unspecced_search_starter_packs_skeleton <- function(q, viewer = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/app.bsky.unspecced.searchStarterPacksSkeleton",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

@@ -123,7 +123,7 @@ Now we post the pictures in a thread:
 ``` r
 post_thread(texts = c("This is the first plot on the ggplot2 website",
                       "This is the second plot on the ggplot2 website",
-                      "And this is just text sent from the atrrr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.bsky.social"),
+                      "And this is just text sent from the atrrr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.eu"),
             images = c(f1, f2, ""),
             image_alts = c("first ggplot2 plot",
                            "second ggplot2 plot",

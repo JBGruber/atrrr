@@ -110,6 +110,22 @@ com_atproto_sync_get_repo <- function(did, since = NULL, .token = NULL, .return 
 
 
 
+#' com_atproto_sync_get_repo_status
+#' Get the hosting status for a repository, on this server. Expected to be implemented by PDS and Relay.
+#' @noRd
+com_atproto_sync_get_repo_status <- function(did, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.sync.getRepoStatus",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_sync_list_blobs
 #' List blob cids since some revision
 #' @noRd

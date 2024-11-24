@@ -13,6 +13,7 @@ app_bsky_feed_describe_feed_generator <- function(.token = NULL, .return = c("js
 }
 
 
+
 #' app_bsky_feed_get_actor_feeds
 #' Retrieve a list of feeds created by a given actor
 #' @noRd
@@ -126,7 +127,7 @@ app_bsky_feed_get_feed_skeleton <- function(feed, limit = NULL, cursor = NULL, .
 
 
 #' app_bsky_feed_get_likes
-#'
+#' 
 #' @noRd
 app_bsky_feed_get_likes <- function(uri, cid = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -158,7 +159,7 @@ app_bsky_feed_get_list_feed <- function(list, limit = NULL, cursor = NULL, .toke
 
 
 #' app_bsky_feed_get_post_thread
-#'
+#' 
 #' @noRd
 app_bsky_feed_get_post_thread <- function(uri, depth = NULL, parentHeight = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -189,8 +190,24 @@ app_bsky_feed_get_posts <- function(uris, .token = NULL, .return = c("json", "re
 
 
 
+#' app_bsky_feed_get_quotes
+#' Get a list of quotes for a given post.
+#' @noRd
+app_bsky_feed_get_quotes <- function(uri, cid = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/app.bsky.feed.getQuotes",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' app_bsky_feed_get_reposted_by
-#'
+#' 
 #' @noRd
 app_bsky_feed_get_reposted_by <- function(uri, cid = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -248,5 +265,21 @@ app_bsky_feed_search_posts <- function(q, limit = NULL, cursor = NULL, .token = 
         eval(.x, envir = parent.frame())
       }),
     req_method = "GET"
+  )
+}
+
+
+
+#' app_bsky_feed_send_interactions
+#' Send information about interactions with feed items back to the feed generator that served them.
+#' @noRd
+app_bsky_feed_send_interactions <- function(interactions, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/app.bsky.feed.sendInteractions",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
   )
 }

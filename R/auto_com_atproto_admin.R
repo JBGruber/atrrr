@@ -1,3 +1,19 @@
+#' com_atproto_admin_delete_account
+#' Delete a user account as an administrator.
+#' @noRd
+com_atproto_admin_delete_account <- function(did, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.deleteAccount",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
 #' com_atproto_admin_disable_account_invites
 #' Disable an account from receiving new invite codes, but does not invalidate existing codes
 #' @noRd
@@ -46,6 +62,38 @@ com_atproto_admin_enable_account_invites <- function(account, note = NULL, .toke
 
 
 
+#' com_atproto_admin_get_account_info
+#' Get details about an account.
+#' @noRd
+com_atproto_admin_get_account_info <- function(did, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.getAccountInfo",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' com_atproto_admin_get_account_infos
+#' Get details about some accounts.
+#' @noRd
+com_atproto_admin_get_account_infos <- function(dids, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.getAccountInfos",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_admin_get_invite_codes
 #' Admin view of invite codes
 #' @noRd
@@ -62,12 +110,12 @@ com_atproto_admin_get_invite_codes <- function(sort = NULL, limit = NULL, cursor
 
 
 
-#' com_atproto_admin_get_moderation_action
-#' View details about a moderation action.
+#' com_atproto_admin_get_subject_status
+#' Get the service-specific admin status of a subject (account, record, or blob).
 #' @noRd
-com_atproto_admin_get_moderation_action <- function(id, .token = NULL, .return = c("json", "resp")) {
+com_atproto_admin_get_subject_status <- function(did = NULL, uri = NULL, blob = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getModerationAction",
+    hostname = "bsky.social/xrpc/com.atproto.admin.getSubjectStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -78,124 +126,12 @@ com_atproto_admin_get_moderation_action <- function(id, .token = NULL, .return =
 
 
 
-#' com_atproto_admin_get_moderation_actions
-#' List moderation actions related to a subject.
+#' com_atproto_admin_search_accounts
+#' Get list of accounts that matches your search query.
 #' @noRd
-com_atproto_admin_get_moderation_actions <- function(subject = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_admin_search_accounts <- function(email = NULL, cursor = NULL, limit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getModerationActions",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "GET"
-  )
-}
-
-
-
-#' com_atproto_admin_get_moderation_report
-#' View details about a moderation report.
-#' @noRd
-com_atproto_admin_get_moderation_report <- function(id, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getModerationReport",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "GET"
-  )
-}
-
-
-
-#' com_atproto_admin_get_moderation_reports
-#' List moderation reports related to a subject.
-#' @noRd
-com_atproto_admin_get_moderation_reports <- function(subject = NULL, ignoreSubjects = NULL, actionedBy = NULL, reporters = NULL, resolved = NULL, actionType = NULL, limit = NULL, cursor = NULL, reverse = NULL, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getModerationReports",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "GET"
-  )
-}
-
-
-
-#' com_atproto_admin_get_record
-#' View details about a record.
-#' @noRd
-com_atproto_admin_get_record <- function(uri, cid = NULL, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getRecord",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "GET"
-  )
-}
-
-
-
-#' com_atproto_admin_get_repo
-#' View details about a repository.
-#' @noRd
-com_atproto_admin_get_repo <- function(did, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getRepo",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "GET"
-  )
-}
-
-
-
-#' com_atproto_admin_resolve_moderation_reports
-#' Resolve moderation reports by an action.
-#' @noRd
-com_atproto_admin_resolve_moderation_reports <- function(actionId, reportIds, createdBy, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.resolveModerationReports",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "POST"
-  )
-}
-
-
-
-#' com_atproto_admin_reverse_moderation_action
-#' Reverse a moderation action.
-#' @noRd
-com_atproto_admin_reverse_moderation_action <- function(id, reason, createdBy, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.reverseModerationAction",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "POST"
-  )
-}
-
-
-
-#' com_atproto_admin_search_repos
-#' Find repositories based on a search term.
-#' @noRd
-com_atproto_admin_search_repos <- function(term = NULL, q = NULL, invitedBy = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.searchRepos",
+    hostname = "bsky.social/xrpc/com.atproto.admin.searchAccounts",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -212,22 +148,6 @@ com_atproto_admin_search_repos <- function(term = NULL, q = NULL, invitedBy = NU
 com_atproto_admin_send_email <- function(recipientDid, content, subject = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.admin.sendEmail",
-    params = as.list(match.call())[-1] |>
-      purrr::imap(~ {
-        eval(.x, envir = parent.frame())
-      }),
-    req_method = "POST"
-  )
-}
-
-
-
-#' com_atproto_admin_take_moderation_action
-#' Take a moderation action on a repo.
-#' @noRd
-com_atproto_admin_take_moderation_action <- function(action, subject, reason, createdBy, subjectBlobCids = NULL, createLabelVals = NULL, negateLabelVals = NULL, durationInHours = NULL, .token = NULL, .return = c("json", "resp")) {
-  make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.takeModerationAction",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -260,6 +180,38 @@ com_atproto_admin_update_account_email <- function(account, email, .token = NULL
 com_atproto_admin_update_account_handle <- function(did, handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountHandle",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
+#' com_atproto_admin_update_account_password
+#' Update the password for a user account as an administrator.
+#' @noRd
+com_atproto_admin_update_account_password <- function(did, password, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountPassword",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
+#' com_atproto_admin_update_subject_status
+#' Update the service-specific admin status of a subject (account, record, or blob).
+#' @noRd
+com_atproto_admin_update_subject_status <- function(subject, takedown = NULL, deactivated = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.updateSubjectStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

@@ -1,0 +1,46 @@
+---
+title: "Update lexicons and auto gen functions"
+format: html
+---
+
+```{r}
+library(tidyverse)
+devtools::load_all()
+```
+
+# Update lexicons
+
+This downloads all lexicons, which is how the AT protocol stores the descriptions of API endpoints.
+
+```{r}
+rel_paths <- github_ls(repo = "https://api.github.com/repos/bluesky-social/atproto/contents",
+                       folder = "lexicons")
+lexicons <- sub("lexicons", "", rel_paths, fixed = TRUE)
+names(lexicons) <- basename(lexicons) |>
+  tools::file_path_sans_ext()
+
+lexicons <- as.list(lexicons)
+
+# save this as a data file
+usethis::use_data(list_lexicons, overwrite = TRUE)
+```
+
+## Generate functions
+
+Before generating functions, it makes sense to remove the old files in order to start with a clean slate and not have any duplication:
+
+```{r}
+list.files(here::here("R"), pattern = "auto_", full.names = TRUE) |> 
+  file.remove()
+```
+
+The `build_function` downloads a lexicon and generates a function from it.
+We can simply iterate through all lexicons, download them if they are not in the package yet, and the create a function for each endpoint:
+
+```{r}
+for (lexicon in lexicons) {
+  cli::cli_progress_step(lexicon)
+  out_file <- paste0(here::here(), "/R/auto_", janitor::make_clean_names(fs::path_dir(lexicon)), ".R")
+  build_function(lexicon = lexicon, out_file = out_file) 
+}
+```

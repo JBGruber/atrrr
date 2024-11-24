@@ -8,9 +8,9 @@ build_function <- function(lexicon,
   endpoint <- lexicon$id
   fun_name <- f_name(endpoint)
 
-  lexicon_main <- purrr::pluck(lexicon, "defs", "main", .default = NULL)
-  lexicon_type <- purrr::pluck(lexicon_main, "type", .default = NULL) %||% ""
-  lexicon_description <- purrr::pluck(lexicon_main, "description", .default = NULL) %||% ""
+  lexicon_main <- purrr::pluck(lexicon, "defs", "main", .default = "")
+  lexicon_type <- purrr::pluck(lexicon_main, "type", .default = "")
+  lexicon_description <- purrr::pluck(lexicon_main, "description", .default = "")
 
 
 
@@ -46,11 +46,12 @@ build_function <- function(lexicon,
   new_fun <- readLines(system.file("function.template", package = "atrrr")) |>
     purrr::map_chr(glue::glue, .envir = cur_env)
 
-  funs <- ""
   if (file.exists(out_file)) {
-    funs <- readLines(out_file)
+    funs <- c(readLines(out_file), "\n\n", new_fun)
+  } else {
+    funs <- new_fun
   }
 
   # TODO: check if function exists and already has roxygen documentation
-  writeLines(c(funs, "\n\n", new_fun), out_file)
+  writeLines(funs, out_file)
 }

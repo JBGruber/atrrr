@@ -78,6 +78,38 @@ com_atproto_repo_get_record <- function(repo, collection, rkey, cid = NULL, .tok
 
 
 
+#' com_atproto_repo_import_repo
+#' Import a repo in the form of a CAR file. Requires Content-Length HTTP header to be set.
+#' @noRd
+com_atproto_repo_import_repo <- function(.token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.repo.importRepo",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
+#' com_atproto_repo_list_missing_blobs
+#' Returns a list of missing blobs for the requesting account. Intended to be used in the account migration flow.
+#' @noRd
+com_atproto_repo_list_missing_blobs <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.repo.listMissingBlobs",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_repo_list_records
 #' List a range of records in a collection.
 #' @noRd
