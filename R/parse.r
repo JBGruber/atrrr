@@ -171,21 +171,11 @@ parse_likes <- function(res) {
 }
 
 parse_actors <- function(res) {
-  tibble::tibble(
-    did               = purrr::map_chr(res, "did"),
-    indexed_at        = parse_time(purrr::map_chr(res, "indexedAt",
-                                                  .default = NA_character_)),
-    actor_handle      = purrr::map_chr(res, "handle"),
-    actor_name        = purrr::map_chr(res, "displayName",
-                                       .default = NA_character_),
-    actor_description = purrr::map_chr(res, "description",
-                                       .default = NA_character_),
-    actor_avatar      = purrr::map_chr(res, "avatar",
-                                       .default = NA_character_),
-    viewer_data       = purrr::map(res, "viewer",
-                                   .default = NA_character_),
-    labels_data       = purrr::map(res, "labels",
-                                   .default = NA_character_)
-  )
+  purrr::map(res, as_tibble_onerow) |>
+    dplyr::bind_rows() |>
+    dplyr::rename(actor_handle = "handle",
+                  actor_name = "display_name",
+                  actor_description = "description",
+                  actor_avatar  = "avatar")
 }
 

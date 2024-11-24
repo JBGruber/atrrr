@@ -277,3 +277,14 @@ from_ggplot <- function(image) {
   }
   return(image)
 }
+
+as_tibble_onerow <- function(l) {
+  l <- purrr::map(l, function(c) {
+    if (length(c) != 1) {
+      return(list(c))
+    }
+    return(c)
+  })
+  # .name_repair required for older versions of Ollama
+  tibble::as_tibble(l, .name_repair = snakecase::to_snake_case)
+}
