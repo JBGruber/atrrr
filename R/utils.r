@@ -245,7 +245,7 @@ fetch_preview <- function(record) {
                   external = list(uri = preview$url,
                                   title = preview$title,
                                   description = preview$description))
-    if (purrr::pluck_exists(preview, "image")) {
+    if (purrr::pluck_exists(preview, "image") && preview$image != "") {
       embed$external$thumb <-
         com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
     }
