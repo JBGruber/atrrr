@@ -15,7 +15,7 @@ app_bsky_unspecced_get_config <- function(.token = NULL, .return = c("json", "re
 
 
 #' app_bsky_unspecced_get_popular_feed_generators
-#' An unspecced view of globally popular feed generators
+#' An unspecced view of globally popular feed generators.
 #' @noRd
 app_bsky_unspecced_get_popular_feed_generators <- function(limit = NULL, cursor = NULL, query = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -63,9 +63,9 @@ app_bsky_unspecced_get_tagged_suggestions <- function(.token = NULL, .return = c
 
 
 #' app_bsky_unspecced_search_actors_skeleton
-#' Backend Actors (profile) search, returning only skeleton
+#' Backend Actors (profile) search, returns only skeleton.
 #' @noRd
-app_bsky_unspecced_search_actors_skeleton <- function(q, typeahead = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_unspecced_search_actors_skeleton <- function(q, viewer = NULL, typeahead = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.searchActorsSkeleton",
     params = as.list(match.call())[-1] |>
@@ -79,9 +79,9 @@ app_bsky_unspecced_search_actors_skeleton <- function(q, typeahead = NULL, limit
 
 
 #' app_bsky_unspecced_search_posts_skeleton
-#' Backend Posts search, returning only skeleton
+#' Backend Posts search, returns only skeleton
 #' @noRd
-app_bsky_unspecced_search_posts_skeleton <- function(q, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_unspecced_search_posts_skeleton <- function(q, sort = NULL, since = NULL, until = NULL, mentions = NULL, author = NULL, lang = NULL, domain = NULL, url = NULL, tag = NULL, viewer = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.unspecced.searchPostsSkeleton",
     params = as.list(match.call())[-1] |>

@@ -31,7 +31,7 @@ com_atproto_identity_request_plc_operation_signature <- function(.token = NULL, 
 
 
 #' com_atproto_identity_resolve_handle
-#' Provides the DID of a repo.
+#' Resolves a handle (domain name) to a DID.
 #' @noRd
 com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -79,7 +79,7 @@ com_atproto_identity_submit_plc_operation <- function(operation, .token = NULL, 
 
 
 #' com_atproto_identity_update_handle
-#' Updates the handle of the account
+#' Updates the current account's handle. Verifies handle validity, and updates did:plc document if necessary. Implemented by PDS, and requires auth.
 #' @noRd
 com_atproto_identity_update_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(

@@ -1,5 +1,5 @@
 #' com_atproto_repo_apply_writes
-#' Apply a batch transaction of creates, updates, and deletes.
+#' Apply a batch transaction of repository creates, updates, and deletes. Requires auth, implemented by PDS.
 #' @noRd
 com_atproto_repo_apply_writes <- function(repo, writes, validate = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -15,7 +15,7 @@ com_atproto_repo_apply_writes <- function(repo, writes, validate = NULL, swapCom
 
 
 #' com_atproto_repo_create_record
-#' Create a new record.
+#' Create a single new repository record. Requires auth, implemented by PDS.
 #' @noRd
 com_atproto_repo_create_record <- function(repo, collection, record, rkey = NULL, validate = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -31,7 +31,7 @@ com_atproto_repo_create_record <- function(repo, collection, record, rkey = NULL
 
 
 #' com_atproto_repo_delete_record
-#' Delete a record, or ensure it doesn't exist.
+#' Delete a repository record, or ensure it doesn't exist. Requires auth, implemented by PDS.
 #' @noRd
 com_atproto_repo_delete_record <- function(repo, collection, rkey, swapRecord = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -47,7 +47,7 @@ com_atproto_repo_delete_record <- function(repo, collection, rkey, swapRecord = 
 
 
 #' com_atproto_repo_describe_repo
-#' Get information about the repo, including the list of collections.
+#' Get information about an account and repository, including the list of collections. Does not require auth.
 #' @noRd
 com_atproto_repo_describe_repo <- function(repo, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -63,7 +63,7 @@ com_atproto_repo_describe_repo <- function(repo, .token = NULL, .return = c("jso
 
 
 #' com_atproto_repo_get_record
-#' Get a record.
+#' Get a single record from a repository. Does not require auth.
 #' @noRd
 com_atproto_repo_get_record <- function(repo, collection, rkey, cid = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -111,7 +111,7 @@ com_atproto_repo_list_missing_blobs <- function(limit = NULL, cursor = NULL, .to
 
 
 #' com_atproto_repo_list_records
-#' List a range of records in a collection.
+#' List a range of records in a repository, matching a specific collection. Does not require auth.
 #' @noRd
 com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor = NULL, rkeyStart = NULL, rkeyEnd = NULL, reverse = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -127,7 +127,7 @@ com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor
 
 
 #' com_atproto_repo_put_record
-#' Write a record, creating or updating it as needed.
+#' Write a repository record, creating or updating it as needed. Requires auth, implemented by PDS.
 #' @noRd
 com_atproto_repo_put_record <- function(repo, collection, rkey, record, validate = NULL, swapRecord = NULL, swapCommit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -143,7 +143,7 @@ com_atproto_repo_put_record <- function(repo, collection, rkey, record, validate
 
 
 #' com_atproto_repo_upload_blob
-#' Upload a new blob to be added to repo in a later request.
+#' Upload a new blob, to be referenced from a repository record. The blob will be deleted if it is not referenced within a time window (eg, minutes). Blob restrictions (mimetype, size, etc) are enforced when the reference is created. Requires auth, implemented by PDS.
 #' @noRd
 com_atproto_repo_upload_blob <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(

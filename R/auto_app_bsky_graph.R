@@ -15,7 +15,7 @@ app_bsky_graph_get_actor_starter_packs <- function(actor, limit = NULL, cursor =
 
 
 #' app_bsky_graph_get_blocks
-#' Who is the requester's account blocking?
+#' Enumerates which accounts the requesting account is currently blocking. Requires auth.
 #' @noRd
 app_bsky_graph_get_blocks <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -31,7 +31,7 @@ app_bsky_graph_get_blocks <- function(limit = NULL, cursor = NULL, .token = NULL
 
 
 #' app_bsky_graph_get_followers
-#' Who is following an actor?
+#' Enumerates accounts which follow a specified account (actor).
 #' @noRd
 app_bsky_graph_get_followers <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -47,7 +47,7 @@ app_bsky_graph_get_followers <- function(actor, limit = NULL, cursor = NULL, .to
 
 
 #' app_bsky_graph_get_follows
-#' Who is an actor following?
+#' Enumerates accounts which a specified account (actor) follows.
 #' @noRd
 app_bsky_graph_get_follows <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -79,7 +79,7 @@ app_bsky_graph_get_known_followers <- function(actor, limit = NULL, cursor = NUL
 
 
 #' app_bsky_graph_get_list
-#' Fetch a list of actors
+#' Gets a 'view' (with additional context) of a specified list.
 #' @noRd
 app_bsky_graph_get_list <- function(list, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -95,7 +95,7 @@ app_bsky_graph_get_list <- function(list, limit = NULL, cursor = NULL, .token = 
 
 
 #' app_bsky_graph_get_list_blocks
-#' Which lists is the requester's account blocking?
+#' Get mod lists that the requesting account (actor) is blocking. Requires auth.
 #' @noRd
 app_bsky_graph_get_list_blocks <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -111,7 +111,7 @@ app_bsky_graph_get_list_blocks <- function(limit = NULL, cursor = NULL, .token =
 
 
 #' app_bsky_graph_get_list_mutes
-#' Which lists is the requester's account muting?
+#' Enumerates mod lists that the requesting account (actor) currently has muted. Requires auth.
 #' @noRd
 app_bsky_graph_get_list_mutes <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -127,7 +127,7 @@ app_bsky_graph_get_list_mutes <- function(limit = NULL, cursor = NULL, .token = 
 
 
 #' app_bsky_graph_get_lists
-#' Fetch a list of lists that belong to an actor
+#' Enumerates the lists created by a specified account (actor).
 #' @noRd
 app_bsky_graph_get_lists <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -143,7 +143,7 @@ app_bsky_graph_get_lists <- function(actor, limit = NULL, cursor = NULL, .token 
 
 
 #' app_bsky_graph_get_mutes
-#' Who does the viewer mute?
+#' Enumerates accounts that the requesting account (actor) currently has muted. Requires auth.
 #' @noRd
 app_bsky_graph_get_mutes <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -207,7 +207,7 @@ app_bsky_graph_get_starter_packs <- function(uris, .token = NULL, .return = c("j
 
 
 #' app_bsky_graph_get_suggested_follows_by_actor
-#' Get suggested follows related to a given actor.
+#' Enumerates follows similar to a given account (actor). Expected use is to recommend additional accounts immediately after following one account.
 #' @noRd
 app_bsky_graph_get_suggested_follows_by_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -223,7 +223,7 @@ app_bsky_graph_get_suggested_follows_by_actor <- function(actor, .token = NULL, 
 
 
 #' app_bsky_graph_mute_actor
-#' Mute an actor by did or handle.
+#' Creates a mute relationship for the specified account. Mutes are private in Bluesky. Requires auth.
 #' @noRd
 app_bsky_graph_mute_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -239,7 +239,7 @@ app_bsky_graph_mute_actor <- function(actor, .token = NULL, .return = c("json", 
 
 
 #' app_bsky_graph_mute_actor_list
-#' Mute a list of actors.
+#' Creates a mute relationship for the specified list of accounts. Mutes are private in Bluesky. Requires auth.
 #' @noRd
 app_bsky_graph_mute_actor_list <- function(list, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -287,7 +287,7 @@ app_bsky_graph_search_starter_packs <- function(q, limit = NULL, cursor = NULL, 
 
 
 #' app_bsky_graph_unmute_actor
-#' Unmute an actor by did or handle.
+#' Unmutes the specified account. Requires auth.
 #' @noRd
 app_bsky_graph_unmute_actor <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -303,7 +303,7 @@ app_bsky_graph_unmute_actor <- function(actor, .token = NULL, .return = c("json"
 
 
 #' app_bsky_graph_unmute_actor_list
-#' Unmute a list of actors.
+#' Unmutes the specified list of accounts. Requires auth.
 #' @noRd
 app_bsky_graph_unmute_actor_list <- function(list, .token = NULL, .return = c("json", "resp")) {
   make_request(

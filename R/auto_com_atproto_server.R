@@ -47,9 +47,9 @@ com_atproto_server_confirm_email <- function(email, token, .token = NULL, .retur
 
 
 #' com_atproto_server_create_account
-#' Create an account.
+#' Create an account. Implemented by PDS.
 #' @noRd
-com_atproto_server_create_account <- function(email, handle, password, did = NULL, inviteCode = NULL, recoveryKey = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_server_create_account <- function(handle, email = NULL, did = NULL, inviteCode = NULL, verificationCode = NULL, verificationPhone = NULL, password = NULL, recoveryKey = NULL, plcOp = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.createAccount",
     params = as.list(match.call())[-1] |>
@@ -63,9 +63,9 @@ com_atproto_server_create_account <- function(email, handle, password, did = NUL
 
 
 #' com_atproto_server_create_app_password
-#' Create an app-specific password.
+#' Create an App Password.
 #' @noRd
-com_atproto_server_create_app_password <- function(name, .token = NULL, .return = c("json", "resp")) {
+com_atproto_server_create_app_password <- function(name, privileged = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.createAppPassword",
     params = as.list(match.call())[-1] |>
@@ -95,7 +95,7 @@ com_atproto_server_create_invite_code <- function(useCount, forAccount = NULL, .
 
 
 #' com_atproto_server_create_invite_codes
-#' Create an invite code.
+#' Create invite codes.
 #' @noRd
 com_atproto_server_create_invite_codes <- function(codeCount, useCount, forAccounts = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -113,7 +113,7 @@ com_atproto_server_create_invite_codes <- function(codeCount, useCount, forAccou
 #' com_atproto_server_create_session
 #' Create an authentication session.
 #' @noRd
-com_atproto_server_create_session <- function(identifier, password, .token = NULL, .return = c("json", "resp")) {
+com_atproto_server_create_session <- function(identifier, password, authFactorToken = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.createSession",
     params = as.list(match.call())[-1] |>
@@ -143,7 +143,7 @@ com_atproto_server_deactivate_account <- function(deleteAfter = NULL, .token = N
 
 
 #' com_atproto_server_delete_account
-#' Delete a user account with a token and password.
+#' Delete an actor's account with a token and password. Can only be called after requesting a deletion token. Requires auth.
 #' @noRd
 com_atproto_server_delete_account <- function(did, password, token, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -159,7 +159,7 @@ com_atproto_server_delete_account <- function(did, password, token, .token = NUL
 
 
 #' com_atproto_server_delete_session
-#' Delete the current session.
+#' Delete the current session. Requires auth.
 #' @noRd
 com_atproto_server_delete_session <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -175,7 +175,7 @@ com_atproto_server_delete_session <- function(.token = NULL, .return = c("json",
 
 
 #' com_atproto_server_describe_server
-#' Get a document describing the service's accounts configuration.
+#' Describes the server's account creation requirements and capabilities. Implemented by PDS.
 #' @noRd
 com_atproto_server_describe_server <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -191,7 +191,7 @@ com_atproto_server_describe_server <- function(.token = NULL, .return = c("json"
 
 
 #' com_atproto_server_get_account_invite_codes
-#' Get all invite codes for a given account
+#' Get all invite codes for the current account. Requires auth.
 #' @noRd
 com_atproto_server_get_account_invite_codes <- function(includeUsed = NULL, createAvailable = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -223,7 +223,7 @@ com_atproto_server_get_service_auth <- function(aud, exp = NULL, lxm = NULL, .to
 
 
 #' com_atproto_server_get_session
-#' Get information about the current session.
+#' Get information about the current auth session. Requires auth.
 #' @noRd
 com_atproto_server_get_session <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -239,7 +239,7 @@ com_atproto_server_get_session <- function(.token = NULL, .return = c("json", "r
 
 
 #' com_atproto_server_list_app_passwords
-#' List all app-specific passwords.
+#' List all App Passwords.
 #' @noRd
 com_atproto_server_list_app_passwords <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -255,7 +255,7 @@ com_atproto_server_list_app_passwords <- function(.token = NULL, .return = c("js
 
 
 #' com_atproto_server_refresh_session
-#' Refresh an authentication session.
+#' Refresh an authentication session. Requires auth using the 'refreshJwt' (not the 'accessJwt').
 #' @noRd
 com_atproto_server_refresh_session <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -287,7 +287,7 @@ com_atproto_server_request_account_delete <- function(.token = NULL, .return = c
 
 
 #' com_atproto_server_request_email_confirmation
-#' Request an email with a code to confirm ownership of email
+#' Request an email with a code to confirm ownership of email.
 #' @noRd
 com_atproto_server_request_email_confirmation <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -367,7 +367,7 @@ com_atproto_server_reset_password <- function(token, password, .token = NULL, .r
 
 
 #' com_atproto_server_revoke_app_password
-#' Revoke an app-specific password by name.
+#' Revoke an App Password by name.
 #' @noRd
 com_atproto_server_revoke_app_password <- function(name, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -385,7 +385,7 @@ com_atproto_server_revoke_app_password <- function(name, .token = NULL, .return 
 #' com_atproto_server_update_email
 #' Update an account's email.
 #' @noRd
-com_atproto_server_update_email <- function(email, token = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_server_update_email <- function(email, emailAuthFactor = NULL, token = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.updateEmail",
     params = as.list(match.call())[-1] |>

@@ -15,7 +15,7 @@ com_atproto_admin_delete_account <- function(did, .token = NULL, .return = c("js
 
 
 #' com_atproto_admin_disable_account_invites
-#' Disable an account from receiving new invite codes, but does not invalidate existing codes
+#' Disable an account from receiving new invite codes, but does not invalidate existing codes.
 #' @noRd
 com_atproto_admin_disable_account_invites <- function(account, note = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -31,7 +31,7 @@ com_atproto_admin_disable_account_invites <- function(account, note = NULL, .tok
 
 
 #' com_atproto_admin_disable_invite_codes
-#' Disable some set of codes and/or all codes associated with a set of users
+#' Disable some set of codes and/or all codes associated with a set of users.
 #' @noRd
 com_atproto_admin_disable_invite_codes <- function(codes = NULL, accounts = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -47,7 +47,7 @@ com_atproto_admin_disable_invite_codes <- function(codes = NULL, accounts = NULL
 
 
 #' com_atproto_admin_enable_account_invites
-#' Re-enable an accounts ability to receive invite codes
+#' Re-enable an account's ability to receive invite codes.
 #' @noRd
 com_atproto_admin_enable_account_invites <- function(account, note = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -95,7 +95,7 @@ com_atproto_admin_get_account_infos <- function(dids, .token = NULL, .return = c
 
 
 #' com_atproto_admin_get_invite_codes
-#' Admin view of invite codes
+#' Get an admin view of invite codes.
 #' @noRd
 com_atproto_admin_get_invite_codes <- function(sort = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -143,9 +143,9 @@ com_atproto_admin_search_accounts <- function(email = NULL, cursor = NULL, limit
 
 
 #' com_atproto_admin_send_email
-#' Send email to a user's primary email address
+#' Send email to a user's account email address.
 #' @noRd
-com_atproto_admin_send_email <- function(recipientDid, content, subject = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_admin_send_email <- function(recipientDid, content, senderDid, subject = NULL, comment = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.admin.sendEmail",
     params = as.list(match.call())[-1] |>
@@ -159,7 +159,7 @@ com_atproto_admin_send_email <- function(recipientDid, content, subject = NULL, 
 
 
 #' com_atproto_admin_update_account_email
-#' Administrative action to update an account's email
+#' Administrative action to update an account's email.
 #' @noRd
 com_atproto_admin_update_account_email <- function(account, email, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -175,7 +175,7 @@ com_atproto_admin_update_account_email <- function(account, email, .token = NULL
 
 
 #' com_atproto_admin_update_account_handle
-#' Administrative action to update an account's handle
+#' Administrative action to update an account's handle.
 #' @noRd
 com_atproto_admin_update_account_handle <- function(did, handle, .token = NULL, .return = c("json", "resp")) {
   make_request(

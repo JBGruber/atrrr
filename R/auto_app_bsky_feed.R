@@ -1,5 +1,5 @@
 #' app_bsky_feed_describe_feed_generator
-#' Returns information about a given feed generator including TOS & offered feed URIs
+#' Get information about a feed generator, including policies and offered feed URIs. Does not require auth; implemented by Feed Generator services (not App View).
 #' @noRd
 app_bsky_feed_describe_feed_generator <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -15,7 +15,7 @@ app_bsky_feed_describe_feed_generator <- function(.token = NULL, .return = c("js
 
 
 #' app_bsky_feed_get_actor_feeds
-#' Retrieve a list of feeds created by a given actor
+#' Get a list of feeds (feed generator records) created by the actor (in the actor's repo).
 #' @noRd
 app_bsky_feed_get_actor_feeds <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -31,7 +31,7 @@ app_bsky_feed_get_actor_feeds <- function(actor, limit = NULL, cursor = NULL, .t
 
 
 #' app_bsky_feed_get_actor_likes
-#' A view of the posts liked by an actor.
+#' Get a list of posts liked by an actor. Requires auth, actor must be the requesting account.
 #' @noRd
 app_bsky_feed_get_actor_likes <- function(actor, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -47,9 +47,9 @@ app_bsky_feed_get_actor_likes <- function(actor, limit = NULL, cursor = NULL, .t
 
 
 #' app_bsky_feed_get_author_feed
-#' A view of an actor's feed.
+#' Get a view of an actor's 'author feed' (post and reposts by the author). Does not require auth.
 #' @noRd
-app_bsky_feed_get_author_feed <- function(actor, limit = NULL, cursor = NULL, filter = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_feed_get_author_feed <- function(actor, limit = NULL, cursor = NULL, filter = NULL, includePins = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.feed.getAuthorFeed",
     params = as.list(match.call())[-1] |>
@@ -63,7 +63,7 @@ app_bsky_feed_get_author_feed <- function(actor, limit = NULL, cursor = NULL, fi
 
 
 #' app_bsky_feed_get_feed
-#' Compose and hydrate a feed from a user's selected feed generator
+#' Get a hydrated feed from an actor's selected feed generator. Implemented by App View.
 #' @noRd
 app_bsky_feed_get_feed <- function(feed, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -79,7 +79,7 @@ app_bsky_feed_get_feed <- function(feed, limit = NULL, cursor = NULL, .token = N
 
 
 #' app_bsky_feed_get_feed_generator
-#' Get information about a specific feed offered by a feed generator, such as its online status
+#' Get information about a feed generator. Implemented by AppView.
 #' @noRd
 app_bsky_feed_get_feed_generator <- function(feed, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -95,7 +95,7 @@ app_bsky_feed_get_feed_generator <- function(feed, .token = NULL, .return = c("j
 
 
 #' app_bsky_feed_get_feed_generators
-#' Get information about a list of feed generators
+#' Get information about a list of feed generators.
 #' @noRd
 app_bsky_feed_get_feed_generators <- function(feeds, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -111,7 +111,7 @@ app_bsky_feed_get_feed_generators <- function(feeds, .token = NULL, .return = c(
 
 
 #' app_bsky_feed_get_feed_skeleton
-#' A skeleton of a feed provided by a feed generator
+#' Get a skeleton of a feed provided by a feed generator. Auth is optional, depending on provider requirements, and provides the DID of the requester. Implemented by Feed Generator Service.
 #' @noRd
 app_bsky_feed_get_feed_skeleton <- function(feed, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -127,7 +127,7 @@ app_bsky_feed_get_feed_skeleton <- function(feed, limit = NULL, cursor = NULL, .
 
 
 #' app_bsky_feed_get_likes
-#' 
+#' Get like records which reference a subject (by AT-URI and CID).
 #' @noRd
 app_bsky_feed_get_likes <- function(uri, cid = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -143,7 +143,7 @@ app_bsky_feed_get_likes <- function(uri, cid = NULL, limit = NULL, cursor = NULL
 
 
 #' app_bsky_feed_get_list_feed
-#' A view of a recent posts from actors in a list
+#' Get a feed of recent posts from a list (posts and reposts from any actors on the list). Does not require auth.
 #' @noRd
 app_bsky_feed_get_list_feed <- function(list, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -159,7 +159,7 @@ app_bsky_feed_get_list_feed <- function(list, limit = NULL, cursor = NULL, .toke
 
 
 #' app_bsky_feed_get_post_thread
-#' 
+#' Get posts in a thread. Does not require auth, but additional metadata and filtering will be applied for authed requests.
 #' @noRd
 app_bsky_feed_get_post_thread <- function(uri, depth = NULL, parentHeight = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -175,7 +175,7 @@ app_bsky_feed_get_post_thread <- function(uri, depth = NULL, parentHeight = NULL
 
 
 #' app_bsky_feed_get_posts
-#' A view of an actor's feed.
+#' Gets post views for a specified list of posts (by AT-URI). This is sometimes referred to as 'hydrating' a 'feed skeleton'.
 #' @noRd
 app_bsky_feed_get_posts <- function(uris, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -207,7 +207,7 @@ app_bsky_feed_get_quotes <- function(uri, cid = NULL, limit = NULL, cursor = NUL
 
 
 #' app_bsky_feed_get_reposted_by
-#' 
+#' Get a list of reposts for a given post.
 #' @noRd
 app_bsky_feed_get_reposted_by <- function(uri, cid = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -223,7 +223,7 @@ app_bsky_feed_get_reposted_by <- function(uri, cid = NULL, limit = NULL, cursor 
 
 
 #' app_bsky_feed_get_suggested_feeds
-#' Get a list of suggested feeds for the viewer.
+#' Get a list of suggested feeds (feed generators) for the requesting account.
 #' @noRd
 app_bsky_feed_get_suggested_feeds <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -239,7 +239,7 @@ app_bsky_feed_get_suggested_feeds <- function(limit = NULL, cursor = NULL, .toke
 
 
 #' app_bsky_feed_get_timeline
-#' A view of the user's home timeline.
+#' Get a view of the requesting account's home timeline. This is expected to be some form of reverse-chronological feed.
 #' @noRd
 app_bsky_feed_get_timeline <- function(algorithm = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -255,9 +255,9 @@ app_bsky_feed_get_timeline <- function(algorithm = NULL, limit = NULL, cursor = 
 
 
 #' app_bsky_feed_search_posts
-#' Find posts matching search criteria
+#' Find posts matching search criteria, returning views of those posts.
 #' @noRd
-app_bsky_feed_search_posts <- function(q, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_feed_search_posts <- function(q, sort = NULL, since = NULL, until = NULL, mentions = NULL, author = NULL, lang = NULL, domain = NULL, url = NULL, tag = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.feed.searchPosts",
     params = as.list(match.call())[-1] |>

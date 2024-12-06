@@ -1,5 +1,5 @@
 #' com_atproto_label_query_labels
-#' Find labels relevant to the provided URI patterns.
+#' Find labels relevant to the provided AT-URI patterns. Public endpoint for moderation services, though may return different or additional results with auth.
 #' @noRd
 com_atproto_label_query_labels <- function(uriPatterns, sources = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(

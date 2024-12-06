@@ -1,3 +1,19 @@
+#' com_atproto_temp_add_reserved_handle
+#' Add a handle to the set of reserved handles.
+#' @noRd
+com_atproto_temp_add_reserved_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.temp.addReservedHandle",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
 #' com_atproto_temp_check_signup_queue
 #' Check accounts location in signup queue.
 #' @noRd

@@ -1,5 +1,5 @@
 #' com_atproto_sync_get_blob
-#' Get a blob associated with a given repo.
+#' Get a blob associated with a given account. Returns the full blob as originally uploaded. Does not require auth; implemented by PDS.
 #' @noRd
 com_atproto_sync_get_blob <- function(did, cid, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -15,7 +15,7 @@ com_atproto_sync_get_blob <- function(did, cid, .token = NULL, .return = c("json
 
 
 #' com_atproto_sync_get_blocks
-#' Gets blocks from a given repo.
+#' Get data blocks from a given repo, by CID. For example, intermediate MST nodes, or records. Does not require auth; implemented by PDS.
 #' @noRd
 com_atproto_sync_get_blocks <- function(did, cids, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -63,7 +63,7 @@ com_atproto_sync_get_head <- function(did, .token = NULL, .return = c("json", "r
 
 
 #' com_atproto_sync_get_latest_commit
-#' Gets the current commit CID & revision of the repo.
+#' Get the current commit CID & revision of the specified repo. Does not require auth.
 #' @noRd
 com_atproto_sync_get_latest_commit <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -79,7 +79,7 @@ com_atproto_sync_get_latest_commit <- function(did, .token = NULL, .return = c("
 
 
 #' com_atproto_sync_get_record
-#' Gets blocks needed for existence or non-existence of record.
+#' Get data blocks needed to prove the existence or non-existence of record in the current version of repo. Does not require auth.
 #' @noRd
 com_atproto_sync_get_record <- function(did, collection, rkey, commit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -95,7 +95,7 @@ com_atproto_sync_get_record <- function(did, collection, rkey, commit = NULL, .t
 
 
 #' com_atproto_sync_get_repo
-#' Gets the did's repo, optionally catching up from a specific revision.
+#' Download a repository export as CAR file. Optionally only a 'diff' since a previous revision. Does not require auth; implemented by PDS.
 #' @noRd
 com_atproto_sync_get_repo <- function(did, since = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -127,7 +127,7 @@ com_atproto_sync_get_repo_status <- function(did, .token = NULL, .return = c("js
 
 
 #' com_atproto_sync_list_blobs
-#' List blob cids since some revision
+#' List blob CIDs for an account, since some repo revision. Does not require auth; implemented by PDS.
 #' @noRd
 com_atproto_sync_list_blobs <- function(did, since = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -143,7 +143,7 @@ com_atproto_sync_list_blobs <- function(did, since = NULL, limit = NULL, cursor 
 
 
 #' com_atproto_sync_list_repos
-#' List dids and root cids of hosted repos
+#' Enumerates all the DID, rev, and commit CID for all repos hosted by this service. Does not require auth; implemented by PDS and Relay.
 #' @noRd
 com_atproto_sync_list_repos <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -159,7 +159,7 @@ com_atproto_sync_list_repos <- function(limit = NULL, cursor = NULL, .token = NU
 
 
 #' com_atproto_sync_notify_of_update
-#' Notify a crawling service of a recent update. Often when a long break between updates causes the connection with the crawling service to break.
+#' Notify a crawling service of a recent update, and that crawling should resume. Intended use is after a gap between repo stream events caused the crawling service to disconnect. Does not require auth; implemented by Relay.
 #' @noRd
 com_atproto_sync_notify_of_update <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(
@@ -175,7 +175,7 @@ com_atproto_sync_notify_of_update <- function(hostname, .token = NULL, .return =
 
 
 #' com_atproto_sync_request_crawl
-#' Request a service to persistently crawl hosted repos.
+#' Request a service to persistently crawl hosted repos. Expected use is new PDS instances declaring their existence to Relays. Does not require auth.
 #' @noRd
 com_atproto_sync_request_crawl <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(

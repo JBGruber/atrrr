@@ -32,6 +32,8 @@ Before generating functions, it makes sense to remove the old files in order to 
 ```{r}
 list.files(here::here("R"), pattern = "auto_", full.names = TRUE) |> 
   file.remove()
+list.files(here::here("inst/lexicons"), full.names = TRUE) |> 
+  unlink(recursive = TRUE)
 ```
 
 The `build_function` downloads a lexicon and generates a function from it.

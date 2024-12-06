@@ -13,6 +13,7 @@ post(
   quote = NULL,
   image = NULL,
   image_alt = NULL,
+  video = NULL,
   created_at = Sys.time(),
   labels = NULL,
   langs = NULL,
@@ -28,6 +29,7 @@ post_skeet(
   quote = NULL,
   image = NULL,
   image_alt = NULL,
+  video = NULL,
   created_at = Sys.time(),
   labels = NULL,
   langs = NULL,
@@ -48,7 +50,7 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 
 \item{quote}{URL or URI of a skeet this should quote.}
 
-\item{image}{path to an image to post.}
+\item{image, video}{path to an image or video to post.}
 
 \item{image_alt}{alt text for the image.}
 
