@@ -4,6 +4,7 @@
 * fix issue with preview cards for cases with multiple links
 * add search function to vignette (thank you for noticing, @SoaresAlisson)
 * address issue with new version of glue package (thank you, @jennybc)
+* add ability to post videos
 
 # atrrr 0.0.3
 

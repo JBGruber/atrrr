@@ -635,7 +635,7 @@ get_replies <- function(post_url,
 #' @param text Text to post
 #' @param in_reply_to URL or URI of a skeet this should reply to.
 #' @param quote URL or URI of a skeet this should quote.
-#' @param image path to an image to post.
+#' @param image,video path to an image or video to post.
 #' @param image_alt alt text for the image.
 #' @param created_at time stamp of the post.
 #' @param labels can be used to label a post, for example "!no-unauthenticated",
@@ -661,6 +661,7 @@ post <- function(text,
                  quote = NULL,
                  image = NULL,
                  image_alt = NULL,
+                 video = NULL,
                  created_at = Sys.time(),
                  labels = NULL,
                  langs = NULL,
@@ -733,7 +734,6 @@ post <- function(text,
 
   if (!is.null(image) && !identical(image, "")) {
     image <- from_ggplot(image)
-    rlang::check_installed("magick")
     image_alt <- image_alt  %||% ""
     # TODO: make it possible to post several images (up to 4 are allowed)
     blob <- com_atproto_repo_upload_blob2(image, .token = .token)
@@ -742,6 +742,14 @@ post <- function(text,
       images = list(
         list(alt = image_alt,
              image = blob[["blob"]]))
+    )
+  }
+
+  if (!is.null(video) && !identical(video, "")) {
+    blob <- com_atproto_repo_upload_blob2(video, .token = .token)
+    record[["embed"]] <- list(
+      "$type" = "app.bsky.embed.video",
+      video = blob$blob
     )
   }
 
