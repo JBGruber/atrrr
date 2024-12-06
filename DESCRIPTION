@@ -48,7 +48,6 @@ Suggests:
     igraph,
     jsonlite,
     knitr,
-    magick,
     rmarkdown,
     testthat (>= 3.0.0),
     tidygraph,
