@@ -59,6 +59,7 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
       hostname = hostname,
       query = as.list(all_params)
     ) |>
+      structure(class = "httr2_url") |>
       httr2::url_build() |>
       httr2::request() |>
       httr2::req_method("GET") |>
