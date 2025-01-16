@@ -736,20 +736,28 @@ post <- function(text,
     image <- from_ggplot(image)
     image_alt <- image_alt  %||% ""
     # TODO: make it possible to post several images (up to 4 are allowed)
+    rlang::check_installed("av")
     blob <- com_atproto_repo_upload_blob2(image, .token = .token)
+    ar <- av::av_video_info(image)
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.images",
       images = list(
         list(alt = image_alt,
-             image = blob[["blob"]]))
+             image = blob[["blob"]],
+             aspectRatio = list(height = ar$video$height, width = ar$video$width)
+        )
+      )
     )
   }
 
   if (!is.null(video) && !identical(video, "")) {
+    rlang::check_installed("av")
     blob <- com_atproto_repo_upload_blob2(video, .token = .token)
+    ar <- av::av_video_info(video)
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.video",
-      video = blob$blob
+      video = blob$blob,
+      aspectRatio = list(height = ar$video$height, width = ar$video$width)
     )
   }
 
