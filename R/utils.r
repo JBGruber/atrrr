@@ -176,6 +176,13 @@ com_atproto_repo_upload_blob2 <- function(file,
   if (stringr::str_detect(file, "^http|^www")) {
     res <- httr2::request(file) |>
       httr2::req_perform()
+
+    # fix blob too larger error https://github.com/JBGruber/atrrr/issues/27
+    if (length(res$body) > 1000000 & grepl("image", res$headers$`content-type`)) {
+      res$body <- magick::image_read("~/Pictures/d26a8b82b30b4f2dbf6a9b6b8d6e0e95.jpg") |>
+        magick::image_write(defines = c("jpeg:extent" = "1000kb"))
+    }
+
     req |>
       httr2::req_headers("Content-Type" = res$headers$`content-type`) |>
       httr2::req_body_raw(body = res$body) |>
