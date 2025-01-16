@@ -254,18 +254,27 @@ fetch_preview <- function(record) {
 
   if (length(uri) > 0L) {
     # this is the API bsky.app is using. Not sure how robust it is
-    preview <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
+    resp <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
       httr2::req_url_query(url = uri) |>
-      httr2::req_perform() |>
-      httr2::resp_body_json()
+      httr2::req_error(is_error = function(resp) FALSE) |>
+      httr2::req_perform()
 
-    embed <- list(`$type` = "app.bsky.embed.external",
-                  external = list(uri = preview$url,
-                                  title = preview$title,
-                                  description = preview$description))
-    if (purrr::pluck_exists(preview, "image")) {
-      embed$external$thumb <-
-        com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
+    if (httr2::resp_status(resp) < 400L) {
+      preview <- resp |>
+        httr2::resp_body_json()
+      embed <- list(`$type` = "app.bsky.embed.external",
+                    external = list(uri = preview$url,
+                                    title = preview$title,
+                                    description = preview$description))
+      if (purrr::pluck_exists(preview, "image")) {
+        embed$external$thumb <-
+          com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
+      }
+    } else {
+      embed <- list(`$type` = "app.bsky.embed.external",
+                    external = list(uri = uri,
+                                    title = "",
+                                    description = ""))
     }
     record$embed <- embed
   }

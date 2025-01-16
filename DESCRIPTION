@@ -48,6 +48,7 @@ Suggests:
     ggraph,
     igraph,
     jsonlite,
+    magick,
     mime,
     knitr,
     rmarkdown,
