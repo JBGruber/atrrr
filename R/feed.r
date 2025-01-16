@@ -874,6 +874,27 @@ post_thread <- function(texts,
 #' Search Posts
 #'
 #' @param q search query. See Details.
+#' @param sort string. Specifies the ranking order of results. Possible values
+#'   are "top" or "latest". Defaults to "latest".
+#' @param since string. Filter results for posts after the specified datetime
+#'   (inclusive). Can be a date or datetime object or a string that can be
+#'   parsed either.
+#' @param until string. Filter results for posts before the specified datetime
+#'   (not inclusive). Can be a date or datetime object or a string that can be
+#'   parsed either.
+#' @param mentions string. Filter to posts that mention the given account. Only
+#'   matches rich-text facet mentions.
+#' @param author string. Filter to posts authored by the specified account.
+#' @param lang string. Filter results to posts in the specified language.
+#'   Language detection is expected to use the post's language field, though the
+#'   server may override detection.
+#' @param domain string. Filter results to posts containing URLs (links or
+#'   embeds) pointing to the specified domain. Hostname normalization may apply.
+#' @param url string. Filter results to posts containing links or embeds
+#'   matching the specified URL. URL normalization or fuzzy matching may apply.
+#' @param tag string. Filter results to posts containing the specified tag
+#'   (hashtag). Do not include the hash (#) prefix. Multiple tags can be
+#'   specified, with results matching all specified tags (logical AND).
 #' @inheritParams search_user
 #'
 #' @details The [API
@@ -883,7 +904,7 @@ post_thread <- function(texts,
 #'   implemented](https://github.com/bluesky-social/indigo/tree/main/cmd/palomar):
 #'
 #'   - Whitespace is treated as implicit AND, so all words in a query must occur,
-#'      but the word order and proximity are ignored.
+#'   but the word order and proximity are ignored.
 #'   - Double quotes indicate exact phrases.
 #'   - `from:<handle>` will filter to results from that account.
 #'   - `-` excludes terms (does not seem to be working at the moment).
@@ -908,10 +929,30 @@ post_thread <- function(texts,
 #'
 #' # only search for skeets from one user
 #' search_post("from:jbgruber.bsky.social #rstats")
+#'
+#' # narrow down the search with more parameters
+#' search_post("{atrrr}",
+#'             sort = "top",
+#'             since = "2024-12-05",
+#'             until = "2024-12-07 10:00:00",
+#'             mentions = NULL,
+#'             author = "jbgruber.bsky.social",
+#'             domain = "jbgruber.github.io",
+#'             url = "https://jbgruber.github.io/atrrr",
+#'             tag = "rstats")
 #' }
 #' @export
 search_post <- function(q,
                         limit = 100L,
+                        sort = NULL,
+                        since = NULL,
+                        until = NULL,
+                        mentions = NULL,
+                        author = NULL,
+                        lang = NULL,
+                        domain = NULL,
+                        url = NULL,
+                        tag = NULL,
                         parse = TRUE,
                         verbose = NULL,
                         .token = NULL) {
@@ -919,6 +960,12 @@ search_post <- function(q,
   res <- list()
   req_limit <- ifelse(limit > 100, 100, limit)
   last_cursor <- NULL
+  if (!is.null(since)) {
+    since <- as_iso_date(since)
+  }
+  if (!is.null(until)) {
+    until <- as_iso_date(until)
+  }
 
   if (verbosity(verbose)) cli::cli_progress_bar(
     format = "{cli::pb_spin} Got {length(res)} posts, but there is more.. [{cli::pb_elapsed}]",
@@ -932,6 +979,15 @@ search_post <- function(q,
         q = q,
         limit = req_limit,
         cursor = last_cursor,
+        sort = sort,
+        since = since,
+        until = until,
+        mentions = mentions,
+        author = author,
+        lang = lang,
+        domain = domain,
+        url = url,
+        tag = tag,
         .token = .token,
         .return = "json"
       ))

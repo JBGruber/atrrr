@@ -300,3 +300,8 @@ as_tibble_onerow <- function(l) {
   # .name_repair required for older versions of Ollama
   tibble::as_tibble(l, .name_repair = snakecase::to_snake_case)
 }
+
+as_iso_date <- function(x) {
+  as.POSIXct(x) |>
+    format("%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC")
+}

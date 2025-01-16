@@ -29,3 +29,27 @@ test_that("byte-accurate string locate", {
   }, tibble::tibble(start = 74, end = 108, match = "https://en.wikipedia.org/wiki/CBOR"))
 })
 
+
+test_that("as_iso_date works with various input types", {
+
+  expect_match(
+    as_iso_date("2025-01-16"),
+    "^2025-01-\\d{2}T\\d{2}:00:00\\.000Z$"
+  )
+
+  expect_match(
+    as_iso_date(as.Date("2025-01-16")),
+    "^2025-01-\\d{2}T\\d{2}:00:00\\.000Z$"
+  )
+
+  expect_match(
+    as_iso_date("2025-01-16 14:45:30"),
+    "^2025-01-\\d{2}T\\d{2}:45:30\\.000Z$"
+  )
+
+  expect_match(
+    as_iso_date(as.POSIXct("2025-01-16 14:45:30", tz = "UTC")),
+    "^2025-01-\\d{2}T\\d{2}:45:30\\.000Z$"
+  )
+})
+

@@ -5,9 +5,39 @@
 \alias{search_skeet}
 \title{Search Posts}
 \usage{
-search_post(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
+search_post(
+  q,
+  limit = 100L,
+  sort = NULL,
+  since = NULL,
+  until = NULL,
+  mentions = NULL,
+  author = NULL,
+  lang = NULL,
+  domain = NULL,
+  url = NULL,
+  tag = NULL,
+  parse = TRUE,
+  verbose = NULL,
+  .token = NULL
+)
 
-search_skeet(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
+search_skeet(
+  q,
+  limit = 100L,
+  sort = NULL,
+  since = NULL,
+  until = NULL,
+  mentions = NULL,
+  author = NULL,
+  lang = NULL,
+  domain = NULL,
+  url = NULL,
+  tag = NULL,
+  parse = TRUE,
+  verbose = NULL,
+  .token = NULL
+)
 }
 \arguments{
 \item{q}{search query. See Details.}
@@ -16,6 +46,36 @@ search_skeet(q, limit = 100L, parse = TRUE, verbose = NULL, .token = NULL)
 100 results, pagination is used automatically (one request per 100
 results). The function stops when the limit is reached, but you will
 usually get a few items more than requested.}
+
+\item{sort}{string. Specifies the ranking order of results. Possible values
+are "top" or "latest". Defaults to "latest".}
+
+\item{since}{string. Filter results for posts after the specified datetime
+(inclusive). Can be a date or datetime object or a string that can be
+parsed either.}
+
+\item{until}{string. Filter results for posts before the specified datetime
+(not inclusive). Can be a date or datetime object or a string that can be
+parsed either.}
+
+\item{mentions}{string. Filter to posts that mention the given account. Only
+matches rich-text facet mentions.}
+
+\item{author}{string. Filter to posts authored by the specified account.}
+
+\item{lang}{string. Filter results to posts in the specified language.
+Language detection is expected to use the post's language field, though the
+server may override detection.}
+
+\item{domain}{string. Filter results to posts containing URLs (links or
+embeds) pointing to the specified domain. Hostname normalization may apply.}
+
+\item{url}{string. Filter results to posts containing links or embeds
+matching the specified URL. URL normalization or fuzzy matching may apply.}
+
+\item{tag}{string. Filter results to posts containing the specified tag
+(hashtag). Do not include the hash (#) prefix. Multiple tags can be
+specified, with results matching all specified tags (logical AND).}
 
 \item{parse}{Parse the results or return the original nested object sent by
 the server.}
@@ -64,5 +124,16 @@ search_post('"new #rstats package"')
 
 # only search for skeets from one user
 search_post("from:jbgruber.bsky.social #rstats")
+
+# narrow down the search with more parameters
+search_post("{atrrr}",
+            sort = "top",
+            since = "2024-12-05",
+            until = "2024-12-07 10:00:00",
+            mentions = NULL,
+            author = "jbgruber.bsky.social",
+            domain = "jbgruber.github.io",
+            url = "https://jbgruber.github.io/atrrr",
+            tag = "rstats")
 }
 }
