@@ -168,7 +168,7 @@ verbosity <- function(verbose) {
 #' @noRd
 com_atproto_repo_upload_blob2 <- function(file,
                                           .token = NULL) {
-
+  if (image=="")return()
   .token <- .token %||% get_token()
   req <- httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
     httr2::req_auth_bearer_token(token = .token$accessJwt)
