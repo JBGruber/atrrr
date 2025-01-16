@@ -170,14 +170,29 @@ com_atproto_repo_upload_blob2 <- function(file,
                                           .token = NULL) {
 
   .token <- .token %||% get_token()
-  rlang::check_installed("mime")
+  req <- httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
+    httr2::req_auth_bearer_token(token = .token$accessJwt)
 
-  httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
-    httr2::req_auth_bearer_token(token = .token$accessJwt) |>
-    httr2::req_headers("Content-Type" = mime::guess_type(file)) |>
-    httr2::req_body_file(path = file) |>
-    httr2::req_perform() |>
-    httr2::resp_body_json()
+  if (stringr::str_detect(file, "^http|^www")) {
+    res <- httr2::request(file) |>
+      httr2::req_perform()
+    req |>
+      httr2::req_headers("Content-Type" = res$headers$`content-type`) |>
+      httr2::req_body_raw(body = res$body) |>
+      httr2::req_perform() |>
+      httr2::resp_body_json()
+  } else if (file.exists(file)) {
+    rlang::check_installed("mime")
+    req |>
+      httr2::req_headers("Content-Type" = mime::guess_type(file)) |>
+      httr2::req_body_file(path = file) |>
+      httr2::req_perform() |>
+      httr2::resp_body_json()
+  } else {
+    cli::cli_abort("image/video file {image} could not be found locally or online.")
+  }
+
+
 }
 
 
