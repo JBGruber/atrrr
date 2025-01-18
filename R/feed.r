@@ -734,19 +734,18 @@ post <- function(text,
 
   if (!is.null(image) && !identical(image, "")) {
     image <- from_ggplot(image)
-    image_alt <- image_alt  %||% ""
-    # TODO: make it possible to post several images (up to 4 are allowed)
     rlang::check_installed("av")
-    blob <- com_atproto_repo_upload_blob2(image, .token = .token)
-    ar <- av::av_video_info(image)
+    image_alt[utils::tail(length(image_alt):length(image), -1)] <- ""
+    images <- purrr::map2(image, image_alt, function(i, alt) {
+      ar <- av::av_video_info(i)
+      blob <- com_atproto_repo_upload_blob2(i, .token = .token)
+      list(alt = alt,
+           image = blob[["blob"]],
+           aspectRatio = list(height = ar$video$height, width = ar$video$width))
+    })
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.images",
-      images = list(
-        list(alt = image_alt,
-             image = blob[["blob"]],
-             aspectRatio = list(height = ar$video$height, width = ar$video$width)
-        )
-      )
+      images = images
     )
   }
 

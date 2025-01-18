@@ -168,7 +168,7 @@ verbosity <- function(verbose) {
 #' @noRd
 com_atproto_repo_upload_blob2 <- function(file,
                                           .token = NULL) {
-  if (!identical(file, "")) return()
+  if (identical(file, "")) return()
   .token <- .token %||% get_token()
   req <- httr2::request("https://bsky.social/xrpc/com.atproto.repo.uploadBlob") |>
     httr2::req_auth_bearer_token(token = .token$accessJwt)
@@ -179,7 +179,8 @@ com_atproto_repo_upload_blob2 <- function(file,
 
     # fix blob too larger error https://github.com/JBGruber/atrrr/issues/27
     if (length(res$body) > 1000000 & grepl("image", res$headers$`content-type`)) {
-      res$body <- magick::image_read("~/Pictures/d26a8b82b30b4f2dbf6a9b6b8d6e0e95.jpg") |>
+      rlang::check_installed("magick")
+      res$body <- magick::image_read(res$body) |>
         magick::image_write(defines = c("jpeg:extent" = "1000kb"))
     }
 
@@ -190,15 +191,23 @@ com_atproto_repo_upload_blob2 <- function(file,
       httr2::resp_body_json()
   } else if (file.exists(file)) {
     rlang::check_installed("mime")
+    if (file.info(file)$size > 1000000 & grepl("image", mime::guess_type(file))) {
+      rlang::check_installed("magick")
+      cli::cli_alert_info(
+        "Image {file} is too large and will be compressed before uploading"
+      )
+      file <- magick::image_read(file) |>
+        magick::image_write(path = tempfile(fileext = ".jpeg"),
+                            defines = c("jpeg:extent" = "1000kb"))
+    }
     req |>
       httr2::req_headers("Content-Type" = mime::guess_type(file)) |>
       httr2::req_body_file(path = file) |>
       httr2::req_perform() |>
       httr2::resp_body_json()
   } else {
-    cli::cli_abort("image/video file {image} could not be found locally or online.")
+    cli::cli_abort("image/video file {file} could not be found locally or online.")
   }
-
 
 }
 

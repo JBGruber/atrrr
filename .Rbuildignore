@@ -8,6 +8,7 @@
 ^pkgdown$
 ^data-raw$
 ^lab.Rmd$
+^update_lexicon-functions.qmd$
 ^codecov\.yml$
 ^doc$
 ^Meta$
