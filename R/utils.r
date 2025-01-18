@@ -106,22 +106,30 @@ parse_http_url <- function(url){
                         purrr::pluck("path") |>
                         stringr::str_split("(?<=.)\\/"))
 
-  out <- tibble::tibble(
-    repo_type  = purrr::map_chr(parts, c(1, 1), .default = NA_character_),
-    repo       = purrr::map_chr(parts, c(1, 2), .default = NA_character_),
-    collection = purrr::map_chr(parts, c(1, 3), .default = NA_character_),
-    rkey       = purrr::map_chr(parts, c(1, 4), .default = NA_character_)
-  )
+  if(stringr::str_detect(url, "starter-pack")){
+    out <- tibble::tibble(
+      collection  = purrr::map_chr(parts, c(1, 1), .default = NA_character_),
+      repo       = purrr::map_chr(parts, c(1, 2), .default = NA_character_),
+      rkey       = purrr::map_chr(parts, c(1, 3), .default = NA_character_)
+    )
+  } else {
+    out <- tibble::tibble(
+      repo_type  = purrr::map_chr(parts, c(1, 1), .default = NA_character_),
+      repo       = purrr::map_chr(parts, c(1, 2), .default = NA_character_),
+      collection = purrr::map_chr(parts, c(1, 3), .default = NA_character_),
+      rkey       = purrr::map_chr(parts, c(1, 4), .default = NA_character_)
+    )
+  }
 
   map <- c(
     "post" = "app.bsky.feed.post",
     "feed" = "app.bsky.feed.generator",
-    "lists" = "app.bsky.graph.list"
+    "lists" = "app.bsky.graph.list",
+    "/starter-pack" = "app.bsky.graph.starterpack"
   )
   out$collection <- unname(map[out$collection])
 
   return(out)
-
 }
 
 
