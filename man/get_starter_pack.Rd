@@ -4,10 +4,13 @@
 \alias{get_starter_pack}
 \title{Get Starter Pack}
 \usage{
-get_starter_pack(starter_pack, .token = NULL)
+get_starter_pack(starter_pack, parse = TRUE, .token = NULL)
 }
 \arguments{
 \item{starter_pack}{the URL of a starter pack}
+
+\item{parse}{Parse the results or return the original nested object sent by
+the server.}
 
 \item{.token}{If you manage your own tokens, you can supply it here. Usually
 \code{NULL} is OK and will automatically load or guide you to generate a
