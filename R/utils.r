@@ -106,7 +106,7 @@ parse_http_url <- function(url){
                         purrr::pluck("path") |>
                         stringr::str_split("(?<=.)\\/"))
 
-  if(stringr::str_detect(url, "starter-pack")){
+  if (isTRUE(stringr::str_detect(url, "starter-pack"))) {
     out <- tibble::tibble(
       collection  = purrr::map_chr(parts, c(1, 1), .default = NA_character_),
       repo       = purrr::map_chr(parts, c(1, 2), .default = NA_character_),
