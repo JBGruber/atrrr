@@ -142,7 +142,7 @@ req_token <- function(user, password) {
 }
 
 
-get_token <- function(f = NULL) {
+get_token <- function() {
   f <- file.path(
     tools::R_user_dir("atrrr", "cache"),
     Sys.getenv("BSKY_TOKEN", unset = "token.rds")

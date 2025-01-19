@@ -98,8 +98,8 @@ test_that("search posts", {
     nrow(
       search_post("{atrrr}",
                   sort = "top",
-                  since = "2024-12-05",
-                  until = "2024-12-07 10:00:00",
+                  since = "2024-12-05T00:00:00.000Z",
+                  until = "2024-12-07T10:00:00.000Z",
                   mentions = NULL,
                   author = "jbgruber.bsky.social",
                   # lang = "",

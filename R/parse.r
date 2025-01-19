@@ -181,3 +181,33 @@ parse_actors <- function(res) {
                   actor_avatar  = "avatar")
 }
 
+parse_starter_packs <- function(res) {
+
+  all <- purrr::pluck(res, "starterPack")
+  users <- purrr::pluck(all, "listItemsSample")  |>
+    purrr::map(purrr::list_flatten) |>
+    purrr::map(as_tibble_onerow) |>
+    dplyr::bind_rows()
+  colnames(users) <- stringr::str_remove(colnames(users), "subject_")
+  colnames(users) <- paste0("user_", colnames(users))
+  all$listItemsSample  <- NULL
+  list_info <- all |>
+    purrr::list_flatten() |>
+    purrr::list_flatten() |>
+    as_tibble_onerow()
+  colnames(list_info) <- paste0("list_", colnames(list_info))
+  dplyr::bind_cols(users, list_info)
+}
+
+parse_list <- function(res, resp) {
+
+  users <- res  |>
+    purrr::map(purrr::list_flatten) |>
+    purrr::map(as_tibble_onerow) |>
+    dplyr::bind_rows()
+  list_info <- purrr::pluck(resp, "list") |>
+    purrr::list_flatten() |>
+    as_tibble_onerow()
+  colnames(list_info) <- paste0("list_", colnames(list_info))
+  dplyr::bind_cols(users, list_info)
+}
