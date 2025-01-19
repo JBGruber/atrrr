@@ -56,7 +56,8 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
 
     resp <- list(
       scheme = "https",
-      hostname = hostname,
+      hostname = dirname(hostname),
+      path = basename(hostname),
       query = as.list(all_params)
     ) |>
       structure(class = "httr2_url") |>
@@ -334,6 +335,6 @@ as_tibble_onerow <- function(l) {
 }
 
 as_iso_date <- function(x) {
-  as.POSIXct(x) |>
+  as.POSIXct(x, tz = "UTC") |>
     format("%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC")
 }
