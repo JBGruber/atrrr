@@ -22,9 +22,12 @@ mocked_record <- function(req) {
     # for everything but session, see if req has been made
   } else if (file.exists(f)) {
     resp <- readRDS(f)
-  } else { # if not, make request, record response
+    # if not, make request, record response
+  } else if (dir.exists(tools::R_user_dir("atrrr", "cache"))) {
     resp <- httr2::req_perform(req, mock = NULL)
     saveRDS(resp, f)
+  } else {
+    cli::cli_abort("file {f} does not exist and no token exists")
   }
   return(resp)
 }
