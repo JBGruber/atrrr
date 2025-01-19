@@ -16,6 +16,7 @@ Useful links:
 \itemize{
   \item \url{https://jbgruber.github.io/atrrr/}
   \item \url{https://github.com/JBGruber/atrrr}
+  \item Report bugs at \url{https://github.com/JBGruber/atrrr/issues}
 }
 
 }

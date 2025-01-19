@@ -58,3 +58,4 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://jbgruber.github.io/atrrr/, https://github.com/JBGruber/atrrr
+BugReports: https://github.com/JBGruber/atrrr/issues
