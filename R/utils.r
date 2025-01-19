@@ -334,6 +334,6 @@ as_tibble_onerow <- function(l) {
 }
 
 as_iso_date <- function(x) {
-  as.POSIXct(x) |>
+  as.POSIXct(x, tz = "UTC") |>
     format("%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC")
 }
