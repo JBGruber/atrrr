@@ -1,5 +1,8 @@
 # atrrr (development version)
 
+* fix bug in posting remote images and videos
+* fix issue in auth() (httr2 v1.1.0 related)
+
 # atrrr 0.0.5
 
 * adds three new functions for lists: get_list(), get_list_feed(), and get_starter_pack()

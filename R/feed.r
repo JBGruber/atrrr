@@ -734,14 +734,14 @@ post <- function(text,
 
   if (!is.null(image) && !identical(image, "")) {
     image <- from_ggplot(image)
-    rlang::check_installed("av")
+    rlang::check_installed("magick")
     image_alt[utils::tail(length(image_alt):length(image), -1)] <- ""
     images <- purrr::map2(image, image_alt, function(i, alt) {
-      ar <- av::av_video_info(i)
+      ar <- magick::image_info(magick::image_read(i))
       blob <- com_atproto_repo_upload_blob2(i, .token = .token)
       list(alt = alt,
            image = blob[["blob"]],
-           aspectRatio = list(height = ar$video$height, width = ar$video$width))
+           aspectRatio = list(height = ar$height, width = ar$width))
     })
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.images",
@@ -750,9 +750,16 @@ post <- function(text,
   }
 
   if (!is.null(video) && !identical(video, "")) {
+    if (!file.exists(video)) {
+      # av can't deal with remote files
+      vid_temp <- tempfile()
+      httr2::request(video) |>
+        httr2::req_perform(path = vid_temp)
+      video <- vid_temp
+    }
     rlang::check_installed("av")
+    ar <- av::av_video_info(vid_temp)
     blob <- com_atproto_repo_upload_blob2(video, .token = .token)
-    ar <- av::av_video_info(video)
     record[["embed"]] <- list(
       "$type" = "app.bsky.embed.video",
       video = blob$blob,
