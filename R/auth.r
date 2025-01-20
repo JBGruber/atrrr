@@ -61,6 +61,7 @@ auth <- function(user,
       hostname = httr2::url_parse(domain)$hostname,
       path = "/settings/app-passwords"
     ) |>
+      structure(class = "httr2_url") |>
       httr2::url_build()
 
     if (missing(user)) {
