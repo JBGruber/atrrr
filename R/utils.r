@@ -338,3 +338,10 @@ as_iso_date <- function(x) {
   as.POSIXct(x, tz = "UTC") |>
     format("%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC")
 }
+
+ensure_columns <- function(df, cols) {
+  nms <- setdiff(cols, colnames(df))
+  add <- character(length(nms))
+  names(add) <- nms
+  tibble::add_column(df, !!!add)
+}

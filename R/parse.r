@@ -173,12 +173,17 @@ parse_likes <- function(res) {
 }
 
 parse_actors <- function(res) {
-  purrr::map(res, as_tibble_onerow) |>
-    dplyr::bind_rows() |>
-    dplyr::rename(actor_handle = "handle",
-                  actor_name = "display_name",
-                  actor_description = "description",
-                  actor_avatar  = "avatar")
+  out <- purrr::map(res, as_tibble_onerow) |>
+    dplyr::bind_rows()
+  if (nrow(out) > 0L) {
+    out <- out |>
+      ensure_columns(c("handle", "display_name", "description", "avatar")) |>
+      dplyr::rename(actor_handle = "handle",
+                    actor_name = "display_name",
+                    actor_description = "description",
+                    actor_avatar  = "avatar")
+  }
+  return(out)
 }
 
 parse_starter_packs <- function(res) {
