@@ -1,4 +1,10 @@
 url: https://jbgruber.github.io/atrrr/
 template:
   bootstrap: 5
+  opengraph:
+    image:
+      src: man/figures/logo.png
+      alt: "An R package for the 'AT' Protocol behind 'Bluesky'"
+    twitter:
+      card: summary_large_image
 
