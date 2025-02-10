@@ -263,40 +263,31 @@ str_locate_all_bytes <- function(string, pattern) {
 }
 
 
-fetch_preview <- function(record) {
-  facets <- purrr::pluck(record, "facets")
-  uri <- purrr::map_chr(facets, function(f)
-    purrr::pluck(f, "features", 1, "uri", .default = NA_character_)) |>
-    stats::na.omit() |>
-    utils::head(1L) # only one link can be previewed
+fetch_preview <- function(uri) {
+  # this is the API bsky.app is using. Not sure how robust it is
+  resp <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
+    httr2::req_url_query(url = uri) |>
+    httr2::req_error(is_error = function(resp) FALSE) |>
+    httr2::req_perform()
 
-  if (length(uri) > 0L) {
-    # this is the API bsky.app is using. Not sure how robust it is
-    resp <- httr2::request("https://cardyb.bsky.app/v1/extract") |>
-      httr2::req_url_query(url = uri) |>
-      httr2::req_error(is_error = function(resp) FALSE) |>
-      httr2::req_perform()
-
-    if (httr2::resp_status(resp) < 400L) {
-      preview <- resp |>
-        httr2::resp_body_json()
-      embed <- list(`$type` = "app.bsky.embed.external",
-                    external = list(uri = preview$url,
-                                    title = preview$title,
-                                    description = preview$description))
-      if (purrr::pluck_exists(preview, "image")) {
-        embed$external$thumb <-
-          com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
-      }
-    } else {
-      embed <- list(`$type` = "app.bsky.embed.external",
-                    external = list(uri = uri,
-                                    title = "",
-                                    description = ""))
+  if (httr2::resp_status(resp) < 400L) {
+    preview <- resp |>
+      httr2::resp_body_json()
+    embed <- list(`$type` = "app.bsky.embed.external",
+                  external = list(uri = preview$url,
+                                  title = preview$title,
+                                  description = preview$description))
+    if (purrr::pluck_exists(preview, "image")) {
+      embed$external$thumb <-
+        com_atproto_repo_upload_blob2(purrr::pluck(preview, "image"))$blob
     }
-    record$embed <- embed
+  } else {
+    embed <- list(`$type` = "app.bsky.embed.external",
+                  external = list(uri = uri,
+                                  title = "",
+                                  description = ""))
   }
-  return(record)
+  return(embed)
 }
 
 # extract features, e.g., hashtags, links and mentions from an unparsed post

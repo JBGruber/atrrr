@@ -14,6 +14,7 @@ post(
   image = NULL,
   image_alt = NULL,
   video = NULL,
+  link = NULL,
   created_at = Sys.time(),
   labels = NULL,
   langs = NULL,
@@ -30,6 +31,7 @@ post_skeet(
   image = NULL,
   image_alt = NULL,
   video = NULL,
+  link = NULL,
   created_at = Sys.time(),
   labels = NULL,
   langs = NULL,
@@ -54,6 +56,9 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 
 \item{image_alt}{alt text for the image.}
 
+\item{link}{instead of adding a link in text (gets parsed automatically),
+it's also possible to add a link directly (and save some characters).}
+
 \item{created_at}{time stamp of the post.}
 
 \item{labels}{can be used to label a post, for example "!no-unauthenticated",
@@ -65,8 +70,8 @@ content.}
 \item{tags}{additional hashtags, in addition to any included in post text and
 facets.}
 
-\item{preview_card}{display a preview card for links included in the text
-(only if image is \code{NULL}).}
+\item{preview_card}{display a preview card for links included in the \code{text}
+or \code{link} (if images or videos are included, they take precedence).}
 
 \item{verbose}{Whether to print status messages to the Console
 (\code{TRUE}/\code{FALSE}). Package default (when \code{NULL}) is to have

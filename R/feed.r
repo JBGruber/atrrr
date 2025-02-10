@@ -644,8 +644,10 @@ get_replies <- function(post_url,
 #'   content.
 #' @param tags additional hashtags, in addition to any included in post text and
 #'   facets.
-#' @param preview_card display a preview card for links included in the text
-#'   (only if image is `NULL`).
+#' @param link instead of adding a link in text (gets parsed automatically),
+#'   it's also possible to add a link directly (and save some characters).
+#' @param preview_card display a preview card for links included in the `text`
+#'   or `link` (if images or videos are included, they take precedence).
 #' @param post_url URL or URI of post to delete.
 #' @inheritParams search_user
 #'
@@ -662,6 +664,7 @@ post <- function(text,
                  image = NULL,
                  image_alt = NULL,
                  video = NULL,
+                 link = NULL,
                  created_at = Sys.time(),
                  labels = NULL,
                  langs = NULL,
@@ -767,13 +770,26 @@ post <- function(text,
     )
   }
 
+  # link is only added when no image or video exist, but takes precedence over
+  # links in text
+  if (!is.null(link) && !purrr::pluck_exists(record, "embed") && preview_card) {
+    record$embed <- fetch_preview(link)
+  }
+
   # https://atproto.com/blog/create-post#mentions-and-links
   parsed_richtext <- parse_facets(text)
   if (!any(is.na(unlist(parsed_richtext)))) {
     record[["facets"]] <- parsed_richtext
     if (!purrr::pluck_exists(record, "embed") && preview_card) {
-      # preview card
-      record <- fetch_preview(record)
+      uri <- purrr::map_chr(parsed_richtext, function(f)
+        purrr::pluck(f, "features", 1, "uri", .default = NA_character_)) |>
+        stats::na.omit() |>
+        utils::head(1L) # only one link can be previewed
+
+      if (length(uri) > 0L) {
+        # preview card
+        record$embed <- fetch_preview(uri)
+      }
     }
   }
 
