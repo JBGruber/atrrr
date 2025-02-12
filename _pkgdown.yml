@@ -5,6 +5,4 @@ template:
     image:
       src: man/figures/logo.png
       alt: "An R package for the 'AT' Protocol behind 'Bluesky'"
-    twitter:
-      card: summary_large_image
 
