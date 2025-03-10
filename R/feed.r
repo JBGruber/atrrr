@@ -1083,8 +1083,9 @@ like_skeet <- function(post_url,
   )
 
   invisible(purrr::map(post_url, function(u) {
-    post_info <- app_bsky_feed_get_posts(convert_http_to_at(u, .token = .token),
-                                         .token = .token) |>
+    uri <- convert_http_to_at(u, .token = .token)
+    post_info <- do.call(app_bsky_feed_get_posts,
+              args = list(uris = uri, .token = .token)) |>
       purrr::pluck("posts", 1L)
 
     do.call(
@@ -1104,7 +1105,6 @@ like_skeet <- function(post_url,
         .return = "json"
       ))
   }))
-
 }
 
 
