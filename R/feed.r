@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' feed <- get_skeets_authored_by("andrew.heiss.phd")
+#' andrews_posts <- get_skeets_authored_by("andrew.heiss.phd")
 #' }
 get_skeets_authored_by <- function(actor,
                                    limit = 25L,
@@ -1049,6 +1049,65 @@ search_post <- function(q,
   return(out)
 }
 
+
 #' @rdname search_post
 #' @export
 search_skeet <- search_post
+
+
+#' Like a skeet
+#'
+#' @inheritParams post
+#'
+#' @returns invisible record information from the API
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # like a post
+#' like_skeet("https://bsky.app/profile/jbgruber.bsky.social/post/3lcmymlgxwa2t")
+#'
+#' # or feed in the result of some search
+#' johannes_posts <- get_skeets_authored_by("jbgruber.bsky.social")
+#' like_skeet(johannes_posts$uri)
+#' }
+like_skeet <- function(post_url,
+                       verbose = NULL,
+                       .token = NULL) {
+
+  id <- basename(post_url)
+  if (verbosity(verbose)) cli::cli_progress_step(
+    msg = "Request to like post {.emph {id}}",
+    msg_done = "Liked {.emph {id}}",
+    msg_failed = "Something went wrong"
+  )
+
+  invisible(purrr::map(post_url, function(u) {
+    post_info <- app_bsky_feed_get_posts(convert_http_to_at(u, .token = .token),
+                                         .token = .token) |>
+      purrr::pluck("posts", 1L)
+
+    do.call(
+      what = com_atproto_repo_create_record,
+      args = list(
+        repo = get_token()$did,
+        collection = "app.bsky.feed.like",
+        record = list(
+          subject = list(
+            uri = post_info$uri,
+            cid = post_info$cid
+          ),
+          createdAt = as_iso_date(Sys.time()),
+          `$type` = "app.bsky.feed.like"
+        ),
+        .token = .token,
+        .return = "json"
+      ))
+  }))
+
+}
+
+
+#' @rdname like_skeet
+#' @export
+like_post <- like_skeet
