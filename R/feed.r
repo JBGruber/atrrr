@@ -889,9 +889,9 @@ post_thread <- function(texts,
   for (i in seq_along(thread_df$text)) {
     ref <- do.call(
       what = post_skeet,
-      args = list(text = thread_df$text[i],
-                  image = thread_df$image[i],
-                  image_alt = thread_df$image_alt[i],
+      args = list(text = thread_df$text[[i]],
+                  image = thread_df$image[[i]],
+                  image_alt = thread_df$image_alt[[i]],
                   in_reply_to = ref)
     )
     refs <- rbind(refs, as.data.frame(ref))
