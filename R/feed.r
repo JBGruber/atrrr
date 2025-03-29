@@ -871,7 +871,7 @@ post_thread <- function(texts,
 
   if (is.null(thread_df)) {
     images <- images  %||% rep("", length(texts))
-    image_alts <- image_alts  %||% rep("", length(texts))
+    image_alts <- image_alts  %||% lapply(images, \(x)rep("",length(x)))
     if (length(unique(lengths(list(texts, images, image_alts)))) != 1L) {
       cli::cli_abort("texts, images, image_alts must all have the same length or be NULL.")
     }
