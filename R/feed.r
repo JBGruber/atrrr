@@ -876,7 +876,7 @@ post_thread <- function(texts,
       cli::cli_abort("texts, images, image_alts must all have the same length or be NULL.")
     }
 
-    thread_df <- data.frame(
+    thread_df <- tibble(
       text = texts,
       image = images,
       image_alt = image_alts
