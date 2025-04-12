@@ -16,7 +16,11 @@ Authors@R:
              family = "Votta", 
              email = "fabio.votta@gmail.com", 
              role = c("aut", "ctb"),
-             comment = c(ORCID = "0000-0002-3143-5942")))
+             comment = c(ORCID = "0000-0002-3143-5942")),
+      person(given = "Nicholas",
+             family = "Erskine",
+             email = "nicholas.erskine95@gmail.com",
+             role = c("ctb")))
 Description: Wraps the 'AT' Protocol (Authenticated Transfer Protocol) behind 
     'Bluesky' <https://bsky.social>. Functions can be used for, among others, 
     retrieving posts and followers from the network or posting content.
