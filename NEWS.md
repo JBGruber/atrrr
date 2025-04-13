@@ -2,6 +2,7 @@
 
 * fix bug in posting remote images and videos
 * fix issue in auth() (httr2 v1.1.0 related)
+* add ability to post multiple images in thread (thanks @nerskin!)
 
 # atrrr 0.0.5
 
