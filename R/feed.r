@@ -736,7 +736,7 @@ post <- function(text,
   }
 
   if (!is.null(image) && !identical(image, "")) {
-    image <- from_ggplot(image)
+    image <- purrr::map_chr(image, from_ggplot)
     rlang::check_installed("magick")
     image_alt[utils::tail(length(image_alt):length(image), -1)] <- ""
     images <- purrr::map2(image, image_alt, function(i, alt) {
@@ -845,8 +845,8 @@ delete_post <- delete_skeet
 #' Post a thread
 #'
 #' @param texts a vector of skeet (post) texts
-#' @param images paths to images to be included in each post
-#' @param image_alts alt texts for the images to be included in each post
+#' @param images paths to images to be included in each post. This may be a character vector, or a list of character vectors if multiple images per post are required.
+#' @param image_alts alt texts for the images to be included in each post. If images is a list of character vectors, this should also be a list of character vectors and have the same shape.
 #' @param thread_df instead of defining texts, images and image_alts, you can
 #'   also create a data frame with the information in columns of the same names.
 #' @inheritParams search_user
@@ -871,12 +871,12 @@ post_thread <- function(texts,
 
   if (is.null(thread_df)) {
     images <- images  %||% rep("", length(texts))
-    image_alts <- image_alts  %||% rep("", length(texts))
+    image_alts <- image_alts  %||% lapply(images, \(x)rep("",length(x)))
     if (length(unique(lengths(list(texts, images, image_alts)))) != 1L) {
       cli::cli_abort("texts, images, image_alts must all have the same length or be NULL.")
     }
 
-    thread_df <- data.frame(
+    thread_df <- tibble::tibble(
       text = texts,
       image = images,
       image_alt = image_alts
@@ -889,9 +889,9 @@ post_thread <- function(texts,
   for (i in seq_along(thread_df$text)) {
     ref <- do.call(
       what = post_skeet,
-      args = list(text = thread_df$text[i],
-                  image = thread_df$image[i],
-                  image_alt = thread_df$image_alt[i],
+      args = list(text = thread_df$text[[i]],
+                  image = thread_df$image[[i]],
+                  image_alt = thread_df$image_alt[[i]],
                   in_reply_to = ref)
     )
     refs <- rbind(refs, as.data.frame(ref))

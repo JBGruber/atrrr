@@ -27,6 +27,7 @@ Authors:
 \itemize{
   \item Benjamin Guinaudeau \email{benjamin.guinaudeau@uni-konstanz.de} (\href{https://orcid.org/0000-0001-7206-6875}{ORCID}) [contributor]
   \item Fabio Votta \email{fabio.votta@gmail.com} (\href{https://orcid.org/0000-0002-3143-5942}{ORCID}) [contributor]
+  \item Nicholas Erskine \email{nicholas.erskine95@gmail.com} [contributor]
 }
 
 }
