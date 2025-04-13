@@ -7,6 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/atrrr)](https://CRAN.R-project.org/package=atrrr)
+[![CRAN_Download_Badge](https://cranlogs.r-pkg.org/badges/grand-total/atrrr)](https://cran.r-project.org/package=atrrr)
 [![R-CMD-check](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/atrrr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/JBGruber/atrrr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/atrrr?branch=main)
