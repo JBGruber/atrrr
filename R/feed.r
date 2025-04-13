@@ -736,7 +736,7 @@ post <- function(text,
   }
 
   if (!is.null(image) && !identical(image, "")) {
-    image <- from_ggplot(image)
+    image <- purrr::map_chr(image, from_ggplot)
     rlang::check_installed("magick")
     image_alt[utils::tail(length(image_alt):length(image), -1)] <- ""
     images <- purrr::map2(image, image_alt, function(i, alt) {
