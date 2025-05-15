@@ -52,7 +52,13 @@
 <span>  status <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  .token <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_user_chat</span><span class="op">(</span><span class="va">actor</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_user_chat_available</span><span class="op">(</span><span class="va">actor</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">send_chat_message</span><span class="op">(</span><span class="va">chat_id</span>, <span class="va">text</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -88,10 +94,19 @@ the server.</p></dd>
 <code>NULL</code> is OK and will automatically load or guide you to generate a
 token.</p></dd>
 
+
+<dt id="arg-actor">actor<a class="anchor" aria-label="anchor" href="#arg-actor"></a></dt>
+<dd><p>user DID or handle to get chats for.</p></dd>
+
+
+<dt id="arg-chat-id">chat_id<a class="anchor" aria-label="anchor" href="#arg-chat-id"></a></dt>
+<dd><p>id of the chat. You can get it with <code>list_chats</code>,
+<code>get_user_chat</code>, or <code>check_user_chat_available</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a data frame of chats.</p>
+    <p>different objects.</p>
     </div>
 
     <div class="section level2">
