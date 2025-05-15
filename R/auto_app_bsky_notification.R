@@ -17,7 +17,7 @@ app_bsky_notification_get_unread_count <- function(priority = NULL, seenAt = NUL
 #' app_bsky_notification_list_notifications
 #' Enumerate notifications for the requesting account. Requires auth.
 #' @noRd
-app_bsky_notification_list_notifications <- function(limit = NULL, priority = NULL, cursor = NULL, seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
+app_bsky_notification_list_notifications <- function(reasons = NULL, limit = NULL, priority = NULL, cursor = NULL, seenAt = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/app.bsky.notification.listNotifications",
     params = as.list(match.call())[-1] |>

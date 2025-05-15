@@ -14,6 +14,22 @@ com_atproto_identity_get_recommended_did_credentials <- function(.token = NULL, 
 
 
 
+#' com_atproto_identity_refresh_identity
+#' Request that the server re-resolve an identity (DID and handle). The server may ignore this request, or require authentication, depending on the role, implementation, and policy of the server.
+#' @noRd
+com_atproto_identity_refresh_identity <- function(identifier, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.identity.refreshIdentity",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
 #' com_atproto_identity_request_plc_operation_signature
 #' Request an email with a code to in order to request a signed PLC operation. Requires Auth.
 #' @noRd
@@ -30,12 +46,44 @@ com_atproto_identity_request_plc_operation_signature <- function(.token = NULL, 
 
 
 
+#' com_atproto_identity_resolve_did
+#' Resolves DID to DID document. Does not bi-directionally verify handle.
+#' @noRd
+com_atproto_identity_resolve_did <- function(did, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.identity.resolveDid",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_identity_resolve_handle
-#' Resolves a handle (domain name) to a DID.
+#' Resolves an atproto handle (hostname) to a DID. Does not necessarily bi-directionally verify against the the DID document.
 #' @noRd
 com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.identity.resolveHandle",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' com_atproto_identity_resolve_identity
+#' Resolves an identity (DID or Handle) to a full identity (DID document and verified handle).
+#' @noRd
+com_atproto_identity_resolve_identity <- function(identifier, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.identity.resolveIdentity",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

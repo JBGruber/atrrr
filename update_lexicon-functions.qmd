@@ -37,7 +37,7 @@ list.files(here::here("inst/lexicons"), full.names = TRUE) |>
 ```
 
 The `build_function` downloads a lexicon and generates a function from it.
-We can simply iterate through all lexicons, download them if they are not in the package yet, and the create a function for each endpoint:
+We can simply iterate through all lexicons, download them if they are not in the package yet, and then create a function for each endpoint:
 
 ```{r}
 for (lexicon in lexicons) {

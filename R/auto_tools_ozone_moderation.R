@@ -78,6 +78,22 @@ tools_ozone_moderation_get_repo <- function(did, .token = NULL, .return = c("jso
 
 
 
+#' tools_ozone_moderation_get_reporter_stats
+#' Get reporter stats for a list of users.
+#' @noRd
+tools_ozone_moderation_get_reporter_stats <- function(dids, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/tools.ozone.moderation.getReporterStats",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' tools_ozone_moderation_get_repos
 #' Get details about some repositories.
 #' @noRd
@@ -94,10 +110,26 @@ tools_ozone_moderation_get_repos <- function(dids, .token = NULL, .return = c("j
 
 
 
+#' tools_ozone_moderation_get_subjects
+#' Get details about subjects.
+#' @noRd
+tools_ozone_moderation_get_subjects <- function(subjects, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/tools.ozone.moderation.getSubjects",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' tools_ozone_moderation_query_events
 #' List moderation events related to a subject.
 #' @noRd
-tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, sortDirection = NULL, createdAfter = NULL, createdBefore = NULL, subject = NULL, collections = NULL, subjectType = NULL, includeAllUserRecords = NULL, limit = NULL, hasComment = NULL, comment = NULL, addedLabels = NULL, removedLabels = NULL, addedTags = NULL, removedTags = NULL, reportTypes = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, sortDirection = NULL, createdAfter = NULL, createdBefore = NULL, subject = NULL, collections = NULL, subjectType = NULL, includeAllUserRecords = NULL, limit = NULL, hasComment = NULL, comment = NULL, addedLabels = NULL, removedLabels = NULL, addedTags = NULL, removedTags = NULL, reportTypes = NULL, policies = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/tools.ozone.moderation.queryEvents",
     params = as.list(match.call())[-1] |>
@@ -113,7 +145,7 @@ tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, 
 #' tools_ozone_moderation_query_statuses
 #' View moderation statuses of subjects (record or repo).
 #' @noRd
-tools_ozone_moderation_query_statuses <- function(includeAllUserRecords = NULL, subject = NULL, comment = NULL, reportedAfter = NULL, reportedBefore = NULL, reviewedAfter = NULL, hostingDeletedAfter = NULL, hostingDeletedBefore = NULL, hostingUpdatedAfter = NULL, hostingUpdatedBefore = NULL, hostingStatuses = NULL, reviewedBefore = NULL, includeMuted = NULL, onlyMuted = NULL, reviewState = NULL, ignoreSubjects = NULL, lastReviewedBy = NULL, sortField = NULL, sortDirection = NULL, takendown = NULL, appealed = NULL, limit = NULL, tags = NULL, excludeTags = NULL, cursor = NULL, collections = NULL, subjectType = NULL, .token = NULL, .return = c("json", "resp")) {
+tools_ozone_moderation_query_statuses <- function(queueCount = NULL, queueIndex = NULL, queueSeed = NULL, includeAllUserRecords = NULL, subject = NULL, comment = NULL, reportedAfter = NULL, reportedBefore = NULL, reviewedAfter = NULL, hostingDeletedAfter = NULL, hostingDeletedBefore = NULL, hostingUpdatedAfter = NULL, hostingUpdatedBefore = NULL, hostingStatuses = NULL, reviewedBefore = NULL, includeMuted = NULL, onlyMuted = NULL, reviewState = NULL, ignoreSubjects = NULL, lastReviewedBy = NULL, sortField = NULL, sortDirection = NULL, takendown = NULL, appealed = NULL, limit = NULL, tags = NULL, excludeTags = NULL, cursor = NULL, collections = NULL, subjectType = NULL, minAccountSuspendCount = NULL, minReportedRecordsCount = NULL, minTakendownRecordsCount = NULL, minPriorityScore = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/tools.ozone.moderation.queryStatuses",
     params = as.list(match.call())[-1] |>

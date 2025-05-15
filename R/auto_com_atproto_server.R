@@ -113,7 +113,7 @@ com_atproto_server_create_invite_codes <- function(codeCount, useCount, forAccou
 #' com_atproto_server_create_session
 #' Create an authentication session.
 #' @noRd
-com_atproto_server_create_session <- function(identifier, password, authFactorToken = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_server_create_session <- function(identifier, password, authFactorToken = NULL, allowTakendown = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.server.createSession",
     params = as.list(match.call())[-1] |>

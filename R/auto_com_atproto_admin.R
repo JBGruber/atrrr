@@ -206,6 +206,22 @@ com_atproto_admin_update_account_password <- function(did, password, .token = NU
 
 
 
+#' com_atproto_admin_update_account_signing_key
+#' Administrative action to update an account's signing key in their Did document.
+#' @noRd
+com_atproto_admin_update_account_signing_key <- function(did, signingKey, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountSigningKey",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "POST"
+  )
+}
+
+
+
 #' com_atproto_admin_update_subject_status
 #' Update the service-specific admin status of a subject (account, record, or blob).
 #' @noRd

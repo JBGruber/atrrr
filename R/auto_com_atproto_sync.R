@@ -62,6 +62,22 @@ com_atproto_sync_get_head <- function(did, .token = NULL, .return = c("json", "r
 
 
 
+#' com_atproto_sync_get_host_status
+#' Returns information about a specified upstream host, as consumed by the server. Implemented by relays.
+#' @noRd
+com_atproto_sync_get_host_status <- function(hostname, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.sync.getHostStatus",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_sync_get_latest_commit
 #' Get the current commit CID & revision of the specified repo. Does not require auth.
 #' @noRd
@@ -81,7 +97,7 @@ com_atproto_sync_get_latest_commit <- function(did, .token = NULL, .return = c("
 #' com_atproto_sync_get_record
 #' Get data blocks needed to prove the existence or non-existence of record in the current version of repo. Does not require auth.
 #' @noRd
-com_atproto_sync_get_record <- function(did, collection, rkey, commit = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_sync_get_record <- function(did, collection, rkey, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.sync.getRecord",
     params = as.list(match.call())[-1] |>
@@ -142,6 +158,22 @@ com_atproto_sync_list_blobs <- function(did, since = NULL, limit = NULL, cursor 
 
 
 
+#' com_atproto_sync_list_hosts
+#' Enumerates upstream hosts (eg, PDS or relay instances) that this service consumes from. Implemented by relays.
+#' @noRd
+com_atproto_sync_list_hosts <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.sync.listHosts",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_sync_list_repos
 #' Enumerates all the DID, rev, and commit CID for all repos hosted by this service. Does not require auth; implemented by PDS and Relay.
 #' @noRd
@@ -158,8 +190,24 @@ com_atproto_sync_list_repos <- function(limit = NULL, cursor = NULL, .token = NU
 
 
 
+#' com_atproto_sync_list_repos_by_collection
+#' Enumerates all the DIDs which have records with the given collection NSID.
+#' @noRd
+com_atproto_sync_list_repos_by_collection <- function(collection, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    hostname = "bsky.social/xrpc/com.atproto.sync.listReposByCollection",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' com_atproto_sync_notify_of_update
-#' Notify a crawling service of a recent update, and that crawling should resume. Intended use is after a gap between repo stream events caused the crawling service to disconnect. Does not require auth; implemented by Relay.
+#' Notify a crawling service of a recent update, and that crawling should resume. Intended use is after a gap between repo stream events caused the crawling service to disconnect. Does not require auth; implemented by Relay. DEPRECATED: just use com.atproto.sync.requestCrawl
 #' @noRd
 com_atproto_sync_notify_of_update <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(

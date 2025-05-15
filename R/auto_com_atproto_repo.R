@@ -113,7 +113,7 @@ com_atproto_repo_list_missing_blobs <- function(limit = NULL, cursor = NULL, .to
 #' com_atproto_repo_list_records
 #' List a range of records in a repository, matching a specific collection. Does not require auth.
 #' @noRd
-com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor = NULL, rkeyStart = NULL, rkeyEnd = NULL, reverse = NULL, .token = NULL, .return = c("json", "resp")) {
+com_atproto_repo_list_records <- function(repo, collection, limit = NULL, cursor = NULL, reverse = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     hostname = "bsky.social/xrpc/com.atproto.repo.listRecords",
     params = as.list(match.call())[-1] |>
