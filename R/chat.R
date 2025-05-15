@@ -64,6 +64,7 @@ chat_bsky_convo_get_convo_for_members2 <- function(members, .token = NULL, .retu
 }
 
 #' @rdname list_chats
+#' @export
 get_user_chat <- function(actor, parse = TRUE, .token = NULL) {
   if (length(actor) != 1L) {
     cli::cli_abort(
@@ -104,6 +105,7 @@ chat_bsky_convo_get_convo_availability2 <- function(members, .token = NULL, .ret
 
 
 #' @rdname list_chats
+#' @export
 check_user_chat_available <- function(actor, parse = TRUE, .token = NULL) {
   if (!is_did(actor)) {
     actor <- get_user_info(actor)$did
@@ -137,10 +139,27 @@ chat_bsky_convo_send_message2 <- function(convoId, message, .token = NULL, .retu
 }
 
 
-# TODO: add facets and embed to message
 #' @rdname list_chats
+#' @export
 send_chat_message <- function(chat_id, text, .token = NULL) {
   message <- list(text = text)
+
+  parsed_richtext <- parse_facets(text)
+  if (length(parsed_richtext) > 0) {
+    message[["facets"]] <- parsed_richtext
+  }
+  types <- purrr::map_chr(parsed_richtext, list("features", 1L, "$type"))
+  if ("app.bsky.richtext.facet#link" %in% types) {
+    uri <- purrr::map_chr(parsed_richtext, function(f)
+      purrr::pluck(f, "features", 1, "uri", .default = NA_character_)) |>
+      stats::na.omit() |>
+      utils::head(1L) # only one link can be previewed
+
+    if (length(uri) > 0L) {
+      # preview card
+      message[["embed"]] <- fetch_preview(uri)
+    }
+  }
 
   do.call(
     what = chat_bsky_convo_send_message2,
@@ -151,3 +170,4 @@ send_chat_message <- function(chat_id, text, .token = NULL) {
       .return = "json"
     ))
 }
+
