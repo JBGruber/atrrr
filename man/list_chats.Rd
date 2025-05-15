@@ -2,6 +2,9 @@
 % Please edit documentation in R/chat.R
 \name{list_chats}
 \alias{list_chats}
+\alias{get_user_chat}
+\alias{check_user_chat_available}
+\alias{send_chat_message}
 \title{Interact with Bluesky Direct Messages}
 \usage{
 list_chats(
@@ -12,6 +15,12 @@ list_chats(
   parse = TRUE,
   .token = NULL
 )
+
+get_user_chat(actor, parse = TRUE, .token = NULL)
+
+check_user_chat_available(actor, parse = TRUE, .token = NULL)
+
+send_chat_message(chat_id, text, .token = NULL)
 }
 \arguments{
 \item{limit}{Maximum number of records to return. For queries with more than
@@ -31,9 +40,14 @@ the server.}
 \item{.token}{If you manage your own tokens, you can supply it here. Usually
 \code{NULL} is OK and will automatically load or guide you to generate a
 token.}
+
+\item{actor}{user DID or handle to get chats for.}
+
+\item{chat_id}{id of the chat. You can get it with \code{list_chats},
+\code{get_user_chat}, or \code{check_user_chat_available}.}
 }
 \value{
-a data frame of chats.
+different objects.
 }
 \description{
 Interact with Bluesky Direct Messages

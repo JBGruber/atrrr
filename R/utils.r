@@ -104,13 +104,22 @@ make_request_chat <- function(pathname, params, req_method = c("GET", "POST")) {
 
   all_params <- flatten_query_params(params)
 
-  resp <- httr2::request(sess_url) |>
+   req <- httr2::request(sess_url) |>
     httr2::req_url_path(pathname) |>
-    httr2::req_url_query(!!!all_params) |>
     httr2::req_auth_bearer_token(token = .token$accessJwt) |>
     httr2::req_error(body = error_parse) |>
     httr2::req_headers("Atproto-Proxy" = "did:web:api.bsky.chat#bsky_chat") |>
-    httr2::req_method(req_method) |>
+    httr2::req_method(req_method)
+
+   if (req_method == "GET") {
+     req <- req |>
+       httr2::req_url_query(!!!all_params)
+   } else if (req_method == "POST") {
+     req <- req |>
+       httr2::req_body_json(params)
+   }
+
+  resp <- req|>
     httr2::req_perform()
 
   if(.return %in% c("", "json")){
