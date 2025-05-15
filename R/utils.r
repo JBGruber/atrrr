@@ -87,6 +87,43 @@ make_request <- function(hostname, params, req_method = c("GET", "POST")) {
   return(resp)
 }
 
+make_request_chat <- function(pathname, params, req_method = c("GET", "POST")) {
+  req_method <- match.arg(req_method)
+
+  .token <- params[[".token"]] %||% get_token()
+  params[[".token"]] <- NULL
+  if (methods::is(.token, "character") && file.exists(.token)) {
+    .token <- read_token(.token)
+  }
+
+  .return <- utils::head(params[[".return"]], 1L) %||% ""
+  params[[".return"]] <- NULL
+
+  sess_url <- com_atproto_server_get_session() |>
+    purrr::pluck("didDoc", "service", 1, "serviceEndpoint")
+
+  all_params <- flatten_query_params(params)
+
+  resp <- httr2::request(sess_url) |>
+    httr2::req_url_path(pathname) |>
+    httr2::req_url_query(!!!all_params) |>
+    httr2::req_auth_bearer_token(token = .token$accessJwt) |>
+    httr2::req_error(body = error_parse) |>
+    httr2::req_headers("Atproto-Proxy" = "did:web:api.bsky.chat#bsky_chat") |>
+    httr2::req_method(req_method) |>
+    httr2::req_perform()
+
+  if(.return %in% c("", "json")){
+    if(length(resp$body)){
+      resp <- httr2::resp_body_json(resp)
+    } else {
+      resp <- list()
+    }
+  }
+
+  return(resp)
+}
+
 parse_at_uri <- function(uri){
 
   parts <- uri |>
