@@ -341,7 +341,7 @@ extrct_ftrs <- function(post, feature_type) {
   facets <- purrr::pluck(post, "record", "facets")
   purrr::map(facets, function(fct) {
     if (purrr::pluck(fct, "features", 1, "$type") == feature_type) {
-      purrr::pluck(fct, "features", 1, "tag")
+      purrr::pluck(fct, "features", 1L, 2L)
     }
   }) |>
     unlist()
