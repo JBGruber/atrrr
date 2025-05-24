@@ -45,6 +45,8 @@ token.}
 
 \item{chat_id}{id of the chat. You can get it with \code{list_chats},
 \code{get_user_chat}, or \code{check_user_chat_available}.}
+
+\item{text}{text to send to other user.}
 }
 \value{
 different objects.

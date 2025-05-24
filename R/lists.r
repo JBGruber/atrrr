@@ -3,6 +3,7 @@
 #' Get all info about a starter pack and the users on it.
 #'
 #' @param starter_pack the URL of a starter pack
+#' @param actor user handle of account to query for starter packs.
 #' @inheritParams search_user
 #'
 #' @returns a data frame of users and list info

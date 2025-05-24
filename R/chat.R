@@ -18,6 +18,7 @@ chat_bsky_convo_list_convos2 <- function(limit = NULL, cursor = NULL, readState 
 #' @param actor user DID or handle to get chats for.
 #' @param chat_id id of the chat. You can get it with `list_chats`,
 #'   `get_user_chat`, or `check_user_chat_available`.
+#' @param text text to send to other user.
 #' @inheritParams search_user
 #'
 #' @export

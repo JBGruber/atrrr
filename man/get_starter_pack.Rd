@@ -19,6 +19,8 @@ the server.}
 \code{NULL} is OK and will automatically load or guide you to generate a
 token.}
 
+\item{actor}{user handle of account to query for starter packs.}
+
 \item{limit}{Maximum number of records to return. For queries with more than
 100 results, pagination is used automatically (one request per 100
 results). The function stops when the limit is reached, but you will

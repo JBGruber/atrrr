@@ -48,18 +48,18 @@ test_that("get likes", {
   link <- "https://bsky.app/profile/jbgruber.bsky.social/post/3kbi55xm6u62v"
   expect_type(get_likes(link, parse = FALSE), "list")
   expect_s3_class(get_likes(link), "tbl_df")
-  expect_equal(nrow(get_likes(link)), 25L)
+  expect_equal(nrow(get_likes(link)), 49L)
   at_link <- "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.feed.post/3kbi55xm6u62v"
-  expect_equal(nrow(get_likes(at_link)), 25L)
+  expect_equal(nrow(get_likes(at_link)), 49L)
 })
 
 test_that("get reposts", {
   link <- "https://bsky.app/profile/jbgruber.bsky.social/post/3kbi55xm6u62v"
   expect_type(get_reposts(link, parse = FALSE), "list")
   expect_s3_class(get_reposts(link), "tbl_df")
-  expect_equal(nrow(get_reposts(link)), 25L)
+  expect_equal(nrow(get_reposts(link)), 28L)
   at_link <- "at://did:plc:ntd53albt5ffa4rgervvgibd/app.bsky.feed.post/3kbi55xm6u62v"
-  expect_equal(nrow(get_reposts(at_link)), 25L)
+  expect_equal(nrow(get_reposts(at_link)), 28L)
 })
 
 test_that("get feed likes", {
