@@ -45,7 +45,9 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_starter_pack</span><span class="op">(</span><span class="va">starter_pack</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_starter_pack</span><span class="op">(</span><span class="va">starter_pack</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_actor_starter_packs</span><span class="op">(</span><span class="va">actor</span>, limit <span class="op">=</span> <span class="cn">NULL</span>, cursor <span class="op">=</span> <span class="cn">NULL</span>, .token <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -65,6 +67,21 @@ the server.</p></dd>
 <dd><p>If you manage your own tokens, you can supply it here. Usually
 <code>NULL</code> is OK and will automatically load or guide you to generate a
 token.</p></dd>
+
+
+<dt id="arg-actor">actor<a class="anchor" aria-label="anchor" href="#arg-actor"></a></dt>
+<dd><p>user handle of account to query for starter packs.</p></dd>
+
+
+<dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
+<dd><p>Maximum number of records to return. For queries with more than
+100 results, pagination is used automatically (one request per 100
+results). The function stops when the limit is reached, but you will
+usually get a few items more than requested.</p></dd>
+
+
+<dt id="arg-cursor">cursor<a class="anchor" aria-label="anchor" href="#arg-cursor"></a></dt>
+<dd><p>Cursor for pagination (to pick up an old search).</p></dd>
 
 </dl></div>
     <div class="section level2">
