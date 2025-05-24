@@ -23,6 +23,41 @@ get_starter_pack <- function(starter_pack,
 }
 
 
+#' @export
+#' @rdname get_starter_pack
+get_actor_starter_packs <- function(actor,
+                                    limit = NULL,
+                                    cursor = NULL,
+                                    .token = NULL) {
+  resp <- list(cursor = cursor %||% "")
+  res <- list()
+  while (purrr::pluck_exists(resp, "cursor")) {
+    resp <- do.call(
+      app_bsky_graph_get_actor_starter_packs,
+      list(
+        actor = actor,
+        limit = limit,
+        cursor = purrr::pluck(resp, "cursor"),
+        .token = .token
+      )
+    )
+    res <- c(res, resp)
+  }
+
+  if (!parse) {
+    return(res)
+  }
+  out <- res |>
+    unlist(recursive = FALSE) |>
+    purrr::map(as_tibble_onerow) |>
+    dplyr::bind_rows()
+
+  attr(out, "cursor") <- purrr::pluck(res, "cursor")
+  return(out)
+}
+
+
+
 #' Get List
 #'
 #' Get a feed of recent posts from a list (posts and reposts from any actors on
