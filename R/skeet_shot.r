@@ -18,7 +18,7 @@ skeet_shot <- function(x,
                        file = NULL,
                        delay = 1,
                        ...) {
-  rlang::check_installed("webshot2")
+  rlang::check_installed("chromote")
   out <- purrr::map_chr(x, function(x2) {
     if (is_at(x2)) {
       x2 <- convert_at_to_http(x2)
@@ -27,12 +27,26 @@ skeet_shot <- function(x,
       id <- parse_http_url(x2)$rkey
       file <- paste0(id, ".png")
     }
-    out <- webshot2::webshot(x2,
-                             file = file,
-                             selector = "[data-testid*=\"postThreadItem-by\"]",
-                             delay = delay,
-                             quiet = TRUE,
-                             ...)
+    # embed post
+    tmp <- tempfile(fileext = ".html")
+    httr2::request("https://embed.bsky.app/oembed") |>
+      httr2::req_url_query(
+        url = x2
+      ) |>
+      httr2::req_perform() |>
+      httr2::resp_body_json() |>
+      purrr::pluck("html") |>
+      writeLines(tmp)
+
+    # screenshot returned html code
+    out <- webshot2::webshot(
+      tmp,
+      file = file,
+      selector = "iframe",
+      delay = delay,
+      quiet = TRUE,
+      ...
+    )
     cli::cli_alert_success("skeet {id} saved as {out}")
     return(out)
   })
