@@ -2,6 +2,8 @@
 #'
 #' @param x a vector of URLs or URIs.
 #' @param file output file name. Defaults to the skeet id.
+#' @param delay time to wait for content to load. Can make sense to increase if
+#'   not everything is loaded in the screentshot yet.
 #' @param ... passed on to \link[webshot2]{webshot}.
 #'
 #' @return path to file
@@ -12,7 +14,10 @@
 #' df <- atrrr::search_post("rstats")
 #' skeet_shot(df$uri[1:2])
 #' }
-skeet_shot <- function(x, file = NULL, ...) {
+skeet_shot <- function(x,
+                       file = NULL,
+                       delay = 1,
+                       ...) {
   rlang::check_installed("webshot2")
   out <- purrr::map_chr(x, function(x2) {
     if (is_at(x2)) {
@@ -24,7 +29,8 @@ skeet_shot <- function(x, file = NULL, ...) {
     }
     out <- webshot2::webshot(x2,
                              file = file,
-                             selector = ".r-5kkj8d",
+                             selector = "[data-testid*=\"postThreadItem-by\"]",
+                             delay = delay,
                              quiet = TRUE,
                              ...)
     cli::cli_alert_success("skeet {id} saved as {out}")
