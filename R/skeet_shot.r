@@ -23,8 +23,8 @@ skeet_shot <- function(x,
     if (is_at(x2)) {
       x2 <- convert_at_to_http(x2)
     }
+    id <- parse_http_url(x2)$rkey
     if (is.null(file)) {
-      id <- parse_http_url(x2)$rkey
       file <- paste0(id, ".png")
     }
     # embed post
