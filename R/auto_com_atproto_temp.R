@@ -3,7 +3,7 @@
 #' @noRd
 com_atproto_temp_add_reserved_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.temp.addReservedHandle",
+    name = "bsky.social/xrpc/com.atproto.temp.addReservedHandle",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ com_atproto_temp_add_reserved_handle <- function(handle, .token = NULL, .return 
 #' @noRd
 com_atproto_temp_check_signup_queue <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.temp.checkSignupQueue",
+    name = "bsky.social/xrpc/com.atproto.temp.checkSignupQueue",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ com_atproto_temp_check_signup_queue <- function(.token = NULL, .return = c("json
 #' @noRd
 com_atproto_temp_fetch_labels <- function(since = NULL, limit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.temp.fetchLabels",
+    name = "bsky.social/xrpc/com.atproto.temp.fetchLabels",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ com_atproto_temp_fetch_labels <- function(since = NULL, limit = NULL, .token = N
 #' @noRd
 com_atproto_temp_request_phone_verification <- function(phoneNumber, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.temp.requestPhoneVerification",
+    name = "bsky.social/xrpc/com.atproto.temp.requestPhoneVerification",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_moderation_emit_event <- function(event, subject, createdBy, subjectBlobCids = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.emitEvent",
+    name = "bsky.social/xrpc/tools.ozone.moderation.emitEvent",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ tools_ozone_moderation_emit_event <- function(event, subject, createdBy, subject
 #' @noRd
 tools_ozone_moderation_get_event <- function(id, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getEvent",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getEvent",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ tools_ozone_moderation_get_event <- function(id, .token = NULL, .return = c("jso
 #' @noRd
 tools_ozone_moderation_get_record <- function(uri, cid = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getRecord",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getRecord",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ tools_ozone_moderation_get_record <- function(uri, cid = NULL, .token = NULL, .r
 #' @noRd
 tools_ozone_moderation_get_records <- function(uris, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getRecords",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getRecords",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ tools_ozone_moderation_get_records <- function(uris, .token = NULL, .return = c(
 #' @noRd
 tools_ozone_moderation_get_repo <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getRepo",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getRepo",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ tools_ozone_moderation_get_repo <- function(did, .token = NULL, .return = c("jso
 #' @noRd
 tools_ozone_moderation_get_reporter_stats <- function(dids, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getReporterStats",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getReporterStats",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -99,7 +99,7 @@ tools_ozone_moderation_get_reporter_stats <- function(dids, .token = NULL, .retu
 #' @noRd
 tools_ozone_moderation_get_repos <- function(dids, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getRepos",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getRepos",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -115,7 +115,7 @@ tools_ozone_moderation_get_repos <- function(dids, .token = NULL, .return = c("j
 #' @noRd
 tools_ozone_moderation_get_subjects <- function(subjects, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.getSubjects",
+    name = "bsky.social/xrpc/tools.ozone.moderation.getSubjects",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -131,7 +131,7 @@ tools_ozone_moderation_get_subjects <- function(subjects, .token = NULL, .return
 #' @noRd
 tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, sortDirection = NULL, createdAfter = NULL, createdBefore = NULL, subject = NULL, collections = NULL, subjectType = NULL, includeAllUserRecords = NULL, limit = NULL, hasComment = NULL, comment = NULL, addedLabels = NULL, removedLabels = NULL, addedTags = NULL, removedTags = NULL, reportTypes = NULL, policies = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.queryEvents",
+    name = "bsky.social/xrpc/tools.ozone.moderation.queryEvents",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -147,7 +147,7 @@ tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, 
 #' @noRd
 tools_ozone_moderation_query_statuses <- function(queueCount = NULL, queueIndex = NULL, queueSeed = NULL, includeAllUserRecords = NULL, subject = NULL, comment = NULL, reportedAfter = NULL, reportedBefore = NULL, reviewedAfter = NULL, hostingDeletedAfter = NULL, hostingDeletedBefore = NULL, hostingUpdatedAfter = NULL, hostingUpdatedBefore = NULL, hostingStatuses = NULL, reviewedBefore = NULL, includeMuted = NULL, onlyMuted = NULL, reviewState = NULL, ignoreSubjects = NULL, lastReviewedBy = NULL, sortField = NULL, sortDirection = NULL, takendown = NULL, appealed = NULL, limit = NULL, tags = NULL, excludeTags = NULL, cursor = NULL, collections = NULL, subjectType = NULL, minAccountSuspendCount = NULL, minReportedRecordsCount = NULL, minTakendownRecordsCount = NULL, minPriorityScore = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.queryStatuses",
+    name = "bsky.social/xrpc/tools.ozone.moderation.queryStatuses",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -163,7 +163,7 @@ tools_ozone_moderation_query_statuses <- function(queueCount = NULL, queueIndex 
 #' @noRd
 tools_ozone_moderation_search_repos <- function(term = NULL, q = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.moderation.searchRepos",
+    name = "bsky.social/xrpc/tools.ozone.moderation.searchRepos",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

@@ -3,7 +3,7 @@
 #' @noRd
 com_atproto_sync_get_blob <- function(did, cid, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getBlob",
+    name = "bsky.social/xrpc/com.atproto.sync.getBlob",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ com_atproto_sync_get_blob <- function(did, cid, .token = NULL, .return = c("json
 #' @noRd
 com_atproto_sync_get_blocks <- function(did, cids, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getBlocks",
+    name = "bsky.social/xrpc/com.atproto.sync.getBlocks",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ com_atproto_sync_get_blocks <- function(did, cids, .token = NULL, .return = c("j
 #' @noRd
 com_atproto_sync_get_checkout <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getCheckout",
+    name = "bsky.social/xrpc/com.atproto.sync.getCheckout",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ com_atproto_sync_get_checkout <- function(did, .token = NULL, .return = c("json"
 #' @noRd
 com_atproto_sync_get_head <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getHead",
+    name = "bsky.social/xrpc/com.atproto.sync.getHead",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ com_atproto_sync_get_head <- function(did, .token = NULL, .return = c("json", "r
 #' @noRd
 com_atproto_sync_get_host_status <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getHostStatus",
+    name = "bsky.social/xrpc/com.atproto.sync.getHostStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ com_atproto_sync_get_host_status <- function(hostname, .token = NULL, .return = 
 #' @noRd
 com_atproto_sync_get_latest_commit <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getLatestCommit",
+    name = "bsky.social/xrpc/com.atproto.sync.getLatestCommit",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -99,7 +99,7 @@ com_atproto_sync_get_latest_commit <- function(did, .token = NULL, .return = c("
 #' @noRd
 com_atproto_sync_get_record <- function(did, collection, rkey, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getRecord",
+    name = "bsky.social/xrpc/com.atproto.sync.getRecord",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -115,7 +115,7 @@ com_atproto_sync_get_record <- function(did, collection, rkey, .token = NULL, .r
 #' @noRd
 com_atproto_sync_get_repo <- function(did, since = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getRepo",
+    name = "bsky.social/xrpc/com.atproto.sync.getRepo",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -131,7 +131,7 @@ com_atproto_sync_get_repo <- function(did, since = NULL, .token = NULL, .return 
 #' @noRd
 com_atproto_sync_get_repo_status <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.getRepoStatus",
+    name = "bsky.social/xrpc/com.atproto.sync.getRepoStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -147,7 +147,7 @@ com_atproto_sync_get_repo_status <- function(did, .token = NULL, .return = c("js
 #' @noRd
 com_atproto_sync_list_blobs <- function(did, since = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.listBlobs",
+    name = "bsky.social/xrpc/com.atproto.sync.listBlobs",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -163,7 +163,7 @@ com_atproto_sync_list_blobs <- function(did, since = NULL, limit = NULL, cursor 
 #' @noRd
 com_atproto_sync_list_hosts <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.listHosts",
+    name = "bsky.social/xrpc/com.atproto.sync.listHosts",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -179,7 +179,7 @@ com_atproto_sync_list_hosts <- function(limit = NULL, cursor = NULL, .token = NU
 #' @noRd
 com_atproto_sync_list_repos <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.listRepos",
+    name = "bsky.social/xrpc/com.atproto.sync.listRepos",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -195,7 +195,7 @@ com_atproto_sync_list_repos <- function(limit = NULL, cursor = NULL, .token = NU
 #' @noRd
 com_atproto_sync_list_repos_by_collection <- function(collection, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.listReposByCollection",
+    name = "bsky.social/xrpc/com.atproto.sync.listReposByCollection",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -211,7 +211,7 @@ com_atproto_sync_list_repos_by_collection <- function(collection, limit = NULL, 
 #' @noRd
 com_atproto_sync_notify_of_update <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.notifyOfUpdate",
+    name = "bsky.social/xrpc/com.atproto.sync.notifyOfUpdate",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -227,7 +227,7 @@ com_atproto_sync_notify_of_update <- function(hostname, .token = NULL, .return =
 #' @noRd
 com_atproto_sync_request_crawl <- function(hostname, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.sync.requestCrawl",
+    name = "bsky.social/xrpc/com.atproto.sync.requestCrawl",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_communication_create_template <- function(name, contentMarkdown, subject, lang = NULL, createdBy = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.communication.createTemplate",
+    name = "bsky.social/xrpc/tools.ozone.communication.createTemplate",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ tools_ozone_communication_create_template <- function(name, contentMarkdown, sub
 #' @noRd
 tools_ozone_communication_delete_template <- function(id, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.communication.deleteTemplate",
+    name = "bsky.social/xrpc/tools.ozone.communication.deleteTemplate",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ tools_ozone_communication_delete_template <- function(id, .token = NULL, .return
 #' @noRd
 tools_ozone_communication_list_templates <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.communication.listTemplates",
+    name = "bsky.social/xrpc/tools.ozone.communication.listTemplates",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ tools_ozone_communication_list_templates <- function(.token = NULL, .return = c(
 #' @noRd
 tools_ozone_communication_update_template <- function(id, name = NULL, lang = NULL, contentMarkdown = NULL, subject = NULL, updatedBy = NULL, disabled = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.communication.updateTemplate",
+    name = "bsky.social/xrpc/tools.ozone.communication.updateTemplate",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

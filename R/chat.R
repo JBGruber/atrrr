@@ -1,13 +1,14 @@
 # chat functions require the URL of the service endpoint rather than "bsky.social"
 # TODO: find way to not have separate make_request_chat and make_request
 chat_bsky_convo_list_convos2 <- function(limit = NULL, cursor = NULL, readState = NULL, status = NULL, .token = NULL, .return = c("json", "resp")) {
-  make_request_chat(
-    pathname = "/xrpc/chat.bsky.convo.listConvos",
+  make_request(
+    name = "/xrpc/chat.bsky.convo.listConvos",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
       }),
-    req_method = "GET"
+    req_method = "GET",
+    chat = TRUE
   )
 }
 
@@ -54,13 +55,14 @@ list_chats <- function(limit = NULL, cursor = NULL, unread = FALSE, status = NUL
 
 
 chat_bsky_convo_get_convo_for_members2 <- function(members, .token = NULL, .return = c("json", "resp")) {
-  make_request_chat(
-    pathname = "/xrpc/chat.bsky.convo.getConvoForMembers",
+  make_request(
+    name = "/xrpc/chat.bsky.convo.getConvoForMembers",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
       }),
-    req_method = "GET"
+    req_method = "GET",
+    chat = TRUE
   )
 }
 
@@ -94,13 +96,14 @@ get_user_chat <- function(actor, parse = TRUE, .token = NULL) {
 
 
 chat_bsky_convo_get_convo_availability2 <- function(members, .token = NULL, .return = c("json", "resp")) {
-  make_request_chat(
-    pathname = "/xrpc/chat.bsky.convo.getConvoAvailability",
+  make_request(
+    name = "/xrpc/chat.bsky.convo.getConvoAvailability",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
       }),
-    req_method = "GET"
+    req_method = "GET",
+    chat = TRUE
   )
 }
 
@@ -129,13 +132,14 @@ check_user_chat_available <- function(actor, parse = TRUE, .token = NULL) {
 
 
 chat_bsky_convo_send_message2 <- function(convoId, message, .token = NULL, .return = c("json", "resp")) {
-  make_request_chat(
-    pathname = "/xrpc/chat.bsky.convo.sendMessage",
+  make_request(
+    name = "/xrpc/chat.bsky.convo.sendMessage",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
       }),
-    req_method = "POST"
+    req_method = "POST",
+    chat = TRUE
   )
 }
 

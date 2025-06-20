@@ -3,7 +3,7 @@
 #' @noRd
 app_bsky_actor_get_preferences <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.getPreferences",
+    name = "bsky.social/xrpc/app.bsky.actor.getPreferences",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ app_bsky_actor_get_preferences <- function(.token = NULL, .return = c("json", "r
 #' @noRd
 app_bsky_actor_get_profile <- function(actor, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.getProfile",
+    name = "bsky.social/xrpc/app.bsky.actor.getProfile",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ app_bsky_actor_get_profile <- function(actor, .token = NULL, .return = c("json",
 #' @noRd
 app_bsky_actor_get_profiles <- function(actors, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.getProfiles",
+    name = "bsky.social/xrpc/app.bsky.actor.getProfiles",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ app_bsky_actor_get_profiles <- function(actors, .token = NULL, .return = c("json
 #' @noRd
 app_bsky_actor_get_suggestions <- function(limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.getSuggestions",
+    name = "bsky.social/xrpc/app.bsky.actor.getSuggestions",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ app_bsky_actor_get_suggestions <- function(limit = NULL, cursor = NULL, .token =
 #' @noRd
 app_bsky_actor_put_preferences <- function(preferences, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.putPreferences",
+    name = "bsky.social/xrpc/app.bsky.actor.putPreferences",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ app_bsky_actor_put_preferences <- function(preferences, .token = NULL, .return =
 #' @noRd
 app_bsky_actor_search_actors <- function(term = NULL, q = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.searchActors",
+    name = "bsky.social/xrpc/app.bsky.actor.searchActors",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -99,7 +99,7 @@ app_bsky_actor_search_actors <- function(term = NULL, q = NULL, limit = NULL, cu
 #' @noRd
 app_bsky_actor_search_actors_typeahead <- function(term = NULL, q = NULL, limit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.actor.searchActorsTypeahead",
+    name = "bsky.social/xrpc/app.bsky.actor.searchActorsTypeahead",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

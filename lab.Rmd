@@ -366,7 +366,7 @@ follow_deleted
 ```{r}
 search_post <- function(q, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "search.bsky.social/search/posts",
+    name = "search.bsky.social/search/posts",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

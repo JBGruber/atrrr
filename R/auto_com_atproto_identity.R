@@ -3,7 +3,7 @@
 #' @noRd
 com_atproto_identity_get_recommended_did_credentials <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.getRecommendedDidCredentials",
+    name = "bsky.social/xrpc/com.atproto.identity.getRecommendedDidCredentials",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ com_atproto_identity_get_recommended_did_credentials <- function(.token = NULL, 
 #' @noRd
 com_atproto_identity_refresh_identity <- function(identifier, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.refreshIdentity",
+    name = "bsky.social/xrpc/com.atproto.identity.refreshIdentity",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ com_atproto_identity_refresh_identity <- function(identifier, .token = NULL, .re
 #' @noRd
 com_atproto_identity_request_plc_operation_signature <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.requestPlcOperationSignature",
+    name = "bsky.social/xrpc/com.atproto.identity.requestPlcOperationSignature",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ com_atproto_identity_request_plc_operation_signature <- function(.token = NULL, 
 #' @noRd
 com_atproto_identity_resolve_did <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.resolveDid",
+    name = "bsky.social/xrpc/com.atproto.identity.resolveDid",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ com_atproto_identity_resolve_did <- function(did, .token = NULL, .return = c("js
 #' @noRd
 com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.resolveHandle",
+    name = "bsky.social/xrpc/com.atproto.identity.resolveHandle",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ com_atproto_identity_resolve_handle <- function(handle, .token = NULL, .return =
 #' @noRd
 com_atproto_identity_resolve_identity <- function(identifier, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.resolveIdentity",
+    name = "bsky.social/xrpc/com.atproto.identity.resolveIdentity",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -99,7 +99,7 @@ com_atproto_identity_resolve_identity <- function(identifier, .token = NULL, .re
 #' @noRd
 com_atproto_identity_sign_plc_operation <- function(token = NULL, rotationKeys = NULL, alsoKnownAs = NULL, verificationMethods = NULL, services = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.signPlcOperation",
+    name = "bsky.social/xrpc/com.atproto.identity.signPlcOperation",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -115,7 +115,7 @@ com_atproto_identity_sign_plc_operation <- function(token = NULL, rotationKeys =
 #' @noRd
 com_atproto_identity_submit_plc_operation <- function(operation, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.submitPlcOperation",
+    name = "bsky.social/xrpc/com.atproto.identity.submitPlcOperation",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -131,7 +131,7 @@ com_atproto_identity_submit_plc_operation <- function(operation, .token = NULL, 
 #' @noRd
 com_atproto_identity_update_handle <- function(handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.identity.updateHandle",
+    name = "bsky.social/xrpc/com.atproto.identity.updateHandle",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

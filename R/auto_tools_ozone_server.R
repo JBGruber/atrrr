@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_server_get_config <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.server.getConfig",
+    name = "bsky.social/xrpc/tools.ozone.server.getConfig",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

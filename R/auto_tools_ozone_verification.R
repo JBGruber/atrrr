@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_verification_grant_verifications <- function(verifications, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.verification.grantVerifications",
+    name = "bsky.social/xrpc/tools.ozone.verification.grantVerifications",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ tools_ozone_verification_grant_verifications <- function(verifications, .token =
 #' @noRd
 tools_ozone_verification_list_verifications <- function(cursor = NULL, limit = NULL, createdAfter = NULL, createdBefore = NULL, issuers = NULL, subjects = NULL, sortDirection = NULL, isRevoked = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.verification.listVerifications",
+    name = "bsky.social/xrpc/tools.ozone.verification.listVerifications",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ tools_ozone_verification_list_verifications <- function(cursor = NULL, limit = N
 #' @noRd
 tools_ozone_verification_revoke_verifications <- function(uris, revokeReason = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.verification.revokeVerifications",
+    name = "bsky.social/xrpc/tools.ozone.verification.revokeVerifications",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

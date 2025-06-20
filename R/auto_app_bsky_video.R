@@ -3,7 +3,7 @@
 #' @noRd
 app_bsky_video_get_job_status <- function(jobId, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.video.getJobStatus",
+    name = "bsky.social/xrpc/app.bsky.video.getJobStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ app_bsky_video_get_job_status <- function(jobId, .token = NULL, .return = c("jso
 #' @noRd
 app_bsky_video_get_upload_limits <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.video.getUploadLimits",
+    name = "bsky.social/xrpc/app.bsky.video.getUploadLimits",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ app_bsky_video_get_upload_limits <- function(.token = NULL, .return = c("json", 
 #' @noRd
 app_bsky_video_upload_video <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/app.bsky.video.uploadVideo",
+    name = "bsky.social/xrpc/app.bsky.video.uploadVideo",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

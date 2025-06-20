@@ -3,7 +3,7 @@
 #' @noRd
 com_atproto_admin_delete_account <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.deleteAccount",
+    name = "bsky.social/xrpc/com.atproto.admin.deleteAccount",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ com_atproto_admin_delete_account <- function(did, .token = NULL, .return = c("js
 #' @noRd
 com_atproto_admin_disable_account_invites <- function(account, note = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.disableAccountInvites",
+    name = "bsky.social/xrpc/com.atproto.admin.disableAccountInvites",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ com_atproto_admin_disable_account_invites <- function(account, note = NULL, .tok
 #' @noRd
 com_atproto_admin_disable_invite_codes <- function(codes = NULL, accounts = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.disableInviteCodes",
+    name = "bsky.social/xrpc/com.atproto.admin.disableInviteCodes",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ com_atproto_admin_disable_invite_codes <- function(codes = NULL, accounts = NULL
 #' @noRd
 com_atproto_admin_enable_account_invites <- function(account, note = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.enableAccountInvites",
+    name = "bsky.social/xrpc/com.atproto.admin.enableAccountInvites",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ com_atproto_admin_enable_account_invites <- function(account, note = NULL, .toke
 #' @noRd
 com_atproto_admin_get_account_info <- function(did, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getAccountInfo",
+    name = "bsky.social/xrpc/com.atproto.admin.getAccountInfo",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ com_atproto_admin_get_account_info <- function(did, .token = NULL, .return = c("
 #' @noRd
 com_atproto_admin_get_account_infos <- function(dids, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getAccountInfos",
+    name = "bsky.social/xrpc/com.atproto.admin.getAccountInfos",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -99,7 +99,7 @@ com_atproto_admin_get_account_infos <- function(dids, .token = NULL, .return = c
 #' @noRd
 com_atproto_admin_get_invite_codes <- function(sort = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getInviteCodes",
+    name = "bsky.social/xrpc/com.atproto.admin.getInviteCodes",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -115,7 +115,7 @@ com_atproto_admin_get_invite_codes <- function(sort = NULL, limit = NULL, cursor
 #' @noRd
 com_atproto_admin_get_subject_status <- function(did = NULL, uri = NULL, blob = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.getSubjectStatus",
+    name = "bsky.social/xrpc/com.atproto.admin.getSubjectStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -131,7 +131,7 @@ com_atproto_admin_get_subject_status <- function(did = NULL, uri = NULL, blob = 
 #' @noRd
 com_atproto_admin_search_accounts <- function(email = NULL, cursor = NULL, limit = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.searchAccounts",
+    name = "bsky.social/xrpc/com.atproto.admin.searchAccounts",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -147,7 +147,7 @@ com_atproto_admin_search_accounts <- function(email = NULL, cursor = NULL, limit
 #' @noRd
 com_atproto_admin_send_email <- function(recipientDid, content, senderDid, subject = NULL, comment = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.sendEmail",
+    name = "bsky.social/xrpc/com.atproto.admin.sendEmail",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -163,7 +163,7 @@ com_atproto_admin_send_email <- function(recipientDid, content, senderDid, subje
 #' @noRd
 com_atproto_admin_update_account_email <- function(account, email, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountEmail",
+    name = "bsky.social/xrpc/com.atproto.admin.updateAccountEmail",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -179,7 +179,7 @@ com_atproto_admin_update_account_email <- function(account, email, .token = NULL
 #' @noRd
 com_atproto_admin_update_account_handle <- function(did, handle, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountHandle",
+    name = "bsky.social/xrpc/com.atproto.admin.updateAccountHandle",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -195,7 +195,7 @@ com_atproto_admin_update_account_handle <- function(did, handle, .token = NULL, 
 #' @noRd
 com_atproto_admin_update_account_password <- function(did, password, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountPassword",
+    name = "bsky.social/xrpc/com.atproto.admin.updateAccountPassword",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -211,7 +211,7 @@ com_atproto_admin_update_account_password <- function(did, password, .token = NU
 #' @noRd
 com_atproto_admin_update_account_signing_key <- function(did, signingKey, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.updateAccountSigningKey",
+    name = "bsky.social/xrpc/com.atproto.admin.updateAccountSigningKey",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -227,7 +227,7 @@ com_atproto_admin_update_account_signing_key <- function(did, signingKey, .token
 #' @noRd
 com_atproto_admin_update_subject_status <- function(subject, takedown = NULL, deactivated = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/com.atproto.admin.updateSubjectStatus",
+    name = "bsky.social/xrpc/com.atproto.admin.updateSubjectStatus",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

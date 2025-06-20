@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_setting_list_options <- function(limit = NULL, cursor = NULL, scope = NULL, prefix = NULL, keys = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.setting.listOptions",
+    name = "bsky.social/xrpc/tools.ozone.setting.listOptions",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ tools_ozone_setting_list_options <- function(limit = NULL, cursor = NULL, scope 
 #' @noRd
 tools_ozone_setting_remove_options <- function(keys, scope, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.setting.removeOptions",
+    name = "bsky.social/xrpc/tools.ozone.setting.removeOptions",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ tools_ozone_setting_remove_options <- function(keys, scope, .token = NULL, .retu
 #' @noRd
 tools_ozone_setting_upsert_option <- function(key, scope, value, description = NULL, managerRole = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.setting.upsertOption",
+    name = "bsky.social/xrpc/tools.ozone.setting.upsertOption",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())

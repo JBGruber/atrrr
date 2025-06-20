@@ -3,7 +3,7 @@
 #' @noRd
 tools_ozone_set_add_values <- function(name, values, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.addValues",
+    name = "bsky.social/xrpc/tools.ozone.set.addValues",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -19,7 +19,7 @@ tools_ozone_set_add_values <- function(name, values, .token = NULL, .return = c(
 #' @noRd
 tools_ozone_set_delete_set <- function(name, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.deleteSet",
+    name = "bsky.social/xrpc/tools.ozone.set.deleteSet",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -35,7 +35,7 @@ tools_ozone_set_delete_set <- function(name, .token = NULL, .return = c("json", 
 #' @noRd
 tools_ozone_set_delete_values <- function(name, values, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.deleteValues",
+    name = "bsky.social/xrpc/tools.ozone.set.deleteValues",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -51,7 +51,7 @@ tools_ozone_set_delete_values <- function(name, values, .token = NULL, .return =
 #' @noRd
 tools_ozone_set_get_values <- function(name, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.getValues",
+    name = "bsky.social/xrpc/tools.ozone.set.getValues",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -67,7 +67,7 @@ tools_ozone_set_get_values <- function(name, limit = NULL, cursor = NULL, .token
 #' @noRd
 tools_ozone_set_query_sets <- function(limit = NULL, cursor = NULL, namePrefix = NULL, sortBy = NULL, sortDirection = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.querySets",
+    name = "bsky.social/xrpc/tools.ozone.set.querySets",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
@@ -83,7 +83,7 @@ tools_ozone_set_query_sets <- function(limit = NULL, cursor = NULL, namePrefix =
 #' @noRd
 tools_ozone_set_upsert_set <- function(.token = NULL, .return = c("json", "resp")) {
   make_request(
-    hostname = "bsky.social/xrpc/tools.ozone.set.upsertSet",
+    name = "bsky.social/xrpc/tools.ozone.set.upsertSet",
     params = as.list(match.call())[-1] |>
       purrr::imap(~ {
         eval(.x, envir = parent.frame())
