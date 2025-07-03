@@ -2,6 +2,7 @@
 
 * adds functions for direct messages
 * adds function to query starter packs from a user
+* simplifies make_request and make it compatible with future httr2 versions
 
 # atrrr 0.1.0
 
