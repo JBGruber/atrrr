@@ -255,7 +255,7 @@ app_bsky_feed_get_timeline <- function(algorithm = NULL, limit = NULL, cursor = 
 
 
 #' app_bsky_feed_search_posts
-#' Find posts matching search criteria, returning views of those posts.
+#' Find posts matching search criteria, returning views of those posts. Note that this API endpoint may require authentication (eg, not public) for some service providers and implementations.
 #' @noRd
 app_bsky_feed_search_posts <- function(q, sort = NULL, since = NULL, until = NULL, mentions = NULL, author = NULL, lang = NULL, domain = NULL, url = NULL, tag = NULL, limit = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(

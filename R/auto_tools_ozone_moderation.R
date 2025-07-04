@@ -1,7 +1,7 @@
 #' tools_ozone_moderation_emit_event
 #' Take a moderation action on an actor.
 #' @noRd
-tools_ozone_moderation_emit_event <- function(event, subject, createdBy, subjectBlobCids = NULL, .token = NULL, .return = c("json", "resp")) {
+tools_ozone_moderation_emit_event <- function(event, subject, createdBy, subjectBlobCids = NULL, modTool = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     name = "bsky.social/xrpc/tools.ozone.moderation.emitEvent",
     params = as.list(match.call())[-1] |>
@@ -129,7 +129,7 @@ tools_ozone_moderation_get_subjects <- function(subjects, .token = NULL, .return
 #' tools_ozone_moderation_query_events
 #' List moderation events related to a subject.
 #' @noRd
-tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, sortDirection = NULL, createdAfter = NULL, createdBefore = NULL, subject = NULL, collections = NULL, subjectType = NULL, includeAllUserRecords = NULL, limit = NULL, hasComment = NULL, comment = NULL, addedLabels = NULL, removedLabels = NULL, addedTags = NULL, removedTags = NULL, reportTypes = NULL, policies = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
+tools_ozone_moderation_query_events <- function(types = NULL, createdBy = NULL, sortDirection = NULL, createdAfter = NULL, createdBefore = NULL, subject = NULL, collections = NULL, subjectType = NULL, includeAllUserRecords = NULL, limit = NULL, hasComment = NULL, comment = NULL, addedLabels = NULL, removedLabels = NULL, addedTags = NULL, removedTags = NULL, reportTypes = NULL, policies = NULL, modTool = NULL, cursor = NULL, .token = NULL, .return = c("json", "resp")) {
   make_request(
     name = "bsky.social/xrpc/tools.ozone.moderation.queryEvents",
     params = as.list(match.call())[-1] |>

@@ -30,6 +30,38 @@ app_bsky_unspecced_get_popular_feed_generators <- function(limit = NULL, cursor 
 
 
 
+#' app_bsky_unspecced_get_post_thread_other_v2
+#' (NOTE: this endpoint is under development and WILL change without notice. Don't use it until it is moved out of `unspecced` or your application WILL break) Get additional posts under a thread e.g. replies hidden by threadgate. Based on an anchor post at any depth of the tree, returns top-level replies below that anchor. It does not include ancestors nor the anchor itself. This should be called after exhausting `app.bsky.unspecced.getPostThreadV2`. Does not require auth, but additional metadata and filtering will be applied for authed requests.
+#' @noRd
+app_bsky_unspecced_get_post_thread_other_v2 <- function(anchor, prioritizeFollowedUsers = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    name = "bsky.social/xrpc/app.bsky.unspecced.getPostThreadOtherV2",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
+#' app_bsky_unspecced_get_post_thread_v2
+#' (NOTE: this endpoint is under development and WILL change without notice. Don't use it until it is moved out of `unspecced` or your application WILL break) Get posts in a thread. It is based in an anchor post at any depth of the tree, and returns posts above it (recursively resolving the parent, without further branching to their replies) and below it (recursive replies, with branching to their replies). Does not require auth, but additional metadata and filtering will be applied for authed requests.
+#' @noRd
+app_bsky_unspecced_get_post_thread_v2 <- function(anchor, above = NULL, below = NULL, branchingFactor = NULL, prioritizeFollowedUsers = NULL, sort = NULL, .token = NULL, .return = c("json", "resp")) {
+  make_request(
+    name = "bsky.social/xrpc/app.bsky.unspecced.getPostThreadV2",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )
+}
+
+
+
 #' app_bsky_unspecced_get_suggested_feeds
 #' Get a list of suggested feeds
 #' @noRd
