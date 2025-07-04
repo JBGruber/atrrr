@@ -3,6 +3,7 @@
 * adds functions for direct messages
 * adds function to query starter packs from a user
 * simplifies make_request and make it compatible with future httr2 versions
+* get_user_info now uses app_bsky_actor_get_profile to query individual profiles (see #39)
 
 # atrrr 0.1.0
 

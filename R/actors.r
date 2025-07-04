@@ -76,7 +76,14 @@ search_user <- function(query,
 }
 
 
-#' Query profile of an actor
+#' Query profile of an actor or actors
+#'
+#' @details
+#' Note that if you query several actors at once, profiles that do not (longer)
+#' exist will be missing from the results. If you query and individual actors
+#' and the profile is missing, the API will return an error and a message like
+#' "Account has been suspended".
+#'
 #'
 #' @param actor user handle(s) to get information for.
 #' @inheritParams search_user
@@ -93,12 +100,17 @@ get_user_info <- function(actor,
                           parse = TRUE,
                           .token = NULL) {
 
+  fun <- app_bsky_actor_get_profile2
+  if (length(actor) > 1) {
+    fun <- app_bsky_actor_get_profiles
+  }
+
   actor_l <- split(actor, ceiling(seq_along(actor) / 25L))
 
   res <- list()
   for (actor_i in actor_l) {
     res <- append(res, do.call(
-      what = app_bsky_actor_get_profiles,
+      what = fun,
       args = list(
         actor_i,
         .token = .token,
@@ -111,4 +123,17 @@ get_user_info <- function(actor,
     res <- parse_actors(res)
   }
   return(res)
+}
+
+
+# app_bsky_actor_get_profile returns different format, making it harder to parse
+app_bsky_actor_get_profile2 <- function(actor, .token = NULL, .return = c("json", "resp")) {
+  list(profiles = list(make_request(
+    name = "bsky.social/xrpc/app.bsky.actor.getProfile",
+    params = as.list(match.call())[-1] |>
+      purrr::imap(~ {
+        eval(.x, envir = parent.frame())
+      }),
+    req_method = "GET"
+  )))
 }

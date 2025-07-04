@@ -2,7 +2,7 @@
 % Please edit documentation in R/actors.r
 \name{get_user_info}
 \alias{get_user_info}
-\title{Query profile of an actor}
+\title{Query profile of an actor or actors}
 \usage{
 get_user_info(actor, parse = TRUE, .token = NULL)
 }
@@ -20,7 +20,13 @@ token.}
 a data frame (or nested list) of found actors.
 }
 \description{
-Query profile of an actor
+Query profile of an actor or actors
+}
+\details{
+Note that if you query several actors at once, profiles that do not (longer)
+exist will be missing from the results. If you query and individual actors
+and the profile is missing, the API will return an error and a message like
+"Account has been suspended".
 }
 \examples{
 \dontrun{
