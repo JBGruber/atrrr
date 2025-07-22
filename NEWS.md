@@ -1,4 +1,4 @@
-# atrrr (development version)
+# atrrr 0.1.1
 
 * adds functions for direct messages
 * adds function to query starter packs from a user
