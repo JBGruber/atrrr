@@ -49,23 +49,23 @@ make_request <- function(name, params, req_method = c("GET", "POST"), chat = FAL
 
   .return <- utils::head(params[[".return"]], 1L) %||% ""
   params[[".return"]] <- NULL
- 
+
   if (chat) {
     sess_url <- com_atproto_server_get_session() |>
       purrr::pluck("didDoc", "service", 1, "serviceEndpoint")
-    req <- httr2::request(sess_url) |> 
+    req <- httr2::request(sess_url) |>
       httr2::req_url_path(name) |>
       httr2::req_headers("Atproto-Proxy" = "did:web:api.bsky.chat#bsky_chat")
   } else {
     req <- httr2::request(paste0("https://", name))
   }
 
-  req <- req |> 
+  req <- req |>
     httr2::req_method(req_method) |>
     httr2::req_auth_bearer_token(token = .token$accessJwt) |>
     httr2::req_error(body = error_parse)
 
-  if (req_method == "GET") { 
+  if (req_method == "GET") {
     all_params <- flatten_query_params(params)
     req <- httr2::req_url_query(req, !!!all_params)
   } else if (req_method == "POST") {
@@ -271,8 +271,10 @@ fetch_preview <- function(uri) {
   if (httr2::resp_status(resp) < 400L) {
     preview <- resp |>
       httr2::resp_body_json()
+    preview_uri <- purrr::pluck(preview, "url", .default = "")
+    if (preview_uri == "") preview_uri <- uri
     embed <- list(`$type` = "app.bsky.embed.external",
-                  external = list(uri = preview$url,
+                  external = list(uri = preview_uri,
                                   title = preview$title,
                                   description = preview$description))
     if (purrr::pluck_exists(preview, "image")) {

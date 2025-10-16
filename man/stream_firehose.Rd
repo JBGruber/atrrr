@@ -18,7 +18,7 @@ nothing itself, used to run \code{fun}
 Stream from the Bluesky Firehose
 }
 \examples{
-\dontshow{if (rlang::is_installed("libipldr")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("libipldr")) withAutoprint(\{ # examplesIf}
 # an example function that saves events as RDS files
 stream2rds <- function(events) {
   for (event in events) {
