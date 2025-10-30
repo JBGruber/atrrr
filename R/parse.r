@@ -25,7 +25,7 @@ parse_post_list <- function(post_list) {
     bookmark_count = purrr::map_int(post_list, "bookmarkCount",
                                     .default = NA_integer_),
     indexed_at    = parse_time(purrr::map_chr(post_list, "indexedAt")),
-    created_at    = parse_time(purrr::map_chr(post_list, "createdAt")),
+    created_at    = parse_time(purrr::map_chr(post_list, list("record", "createdAt"))),
     # TODO: return URL instead of URI
     in_reply_to   = purrr::map_chr(post_list, c("record", "reply", "parent", "uri"),
                                    .default = NA_character_),
