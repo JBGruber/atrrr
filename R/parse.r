@@ -166,6 +166,7 @@ parse_likes <- function(res) {
   tibble::tibble(
     created_at   = parse_time(purrr::map_chr(res, "createdAt")),
     indexed_at   = parse_time(purrr::map_chr(res, "indexedAt")),
+    actor_did    = purrr::map_chr(res, c("actor", "did")),
     actor_handle = purrr::map_chr(res, c("actor", "handle")),
     actor_name   = purrr::map_chr(res, c("actor", "displayName"),
                                   .default = NA_character_),
