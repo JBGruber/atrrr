@@ -20,6 +20,8 @@ parse_post_list <- function(post_list) {
                                    .default = NA_integer_),
     like_count    = purrr::map_int(post_list, "likeCount",
                                    .default = NA_integer_),
+    bookmark_count = purrr::map_int(post_list, "bookmarkCount",
+                                    .default = NA_integer_),
     indexed_at    = parse_time(purrr::map_chr(post_list, "indexedAt")),
     # TODO: return URL instead of URI
     in_reply_to   = purrr::map_chr(post_list, c("record", "reply", "parent", "uri"),
