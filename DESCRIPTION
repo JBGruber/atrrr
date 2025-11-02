@@ -58,7 +58,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tidygraph,
-    webshot2
+    webshot2,
+    libipldr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://jbgruber.github.io/atrrr/, https://github.com/JBGruber/atrrr
