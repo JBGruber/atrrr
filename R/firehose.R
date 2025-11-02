@@ -1,5 +1,16 @@
 #' Stream from the Bluesky Firehose
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Bluesky offers a stream of all events created,
+#' edited and deleted on the platform and the wider
+#' AT protocol using network. This function connects
+#' to it and decrypts the stream. See examples for
+#' how to provide a function that handles the
+#' firehose stream.
+#'
+#'
 #' @param fun a function that takes events from the Bluesky Firehose and processes them. See examples.
 #' @param timeout how long to stream from the Bluesky Firehose. Can be `Inf` to keep streaming until interrupted.
 #'
@@ -47,7 +58,6 @@
 #' }
 #' stream_firehose(print_stream, timeout = 15)
 stream_firehose <- function(fun, timeout = 30) {
-
   rlang::check_installed(
     pkg = "libipldr",
     reason = "to access the Bluesky Firehose",
@@ -75,4 +85,3 @@ stream_firehose <- function(fun, timeout = 30) {
     }
   }
 }
-

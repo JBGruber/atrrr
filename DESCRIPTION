@@ -38,7 +38,8 @@ Imports:
     stringr,
     snakecase,
     tibble,
-    utils
+    utils,
+    lifecycle
 Depends: 
     R (>= 4.2.0)
 LazyData: true

@@ -15,7 +15,14 @@ stream_firehose(fun, timeout = 30)
 nothing itself, used to run \code{fun}
 }
 \description{
-Stream from the Bluesky Firehose
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Bluesky offers a stream of all events created,
+edited and deleted on the platform and the wider
+AT protocol using network. This function connects
+to it and decrypts the stream. See examples for
+how to provide a function that handles the
+firehose stream.
 }
 \examples{
 \dontshow{if (rlang::is_installed("libipldr")) withAutoprint(\{ # examplesIf}
