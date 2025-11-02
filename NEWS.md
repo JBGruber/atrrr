@@ -1,5 +1,8 @@
 # atrrr (development version)
 
+* adds experimental firehose implementation
+* some updates to parsing functions
+
 # atrrr 0.1.1
 
 * adds functions for direct messages
