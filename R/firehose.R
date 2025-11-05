@@ -79,7 +79,7 @@ stream_firehose <- function(fun, timeout = 30) {
       if (length(events) > 0L) {
         fun(events)
         # remove translated bytes from buffer
-        buffer <- tail(buffer, -attr(events, "bytes_consumed"))
+        buffer <- utils::tail(buffer, -attr(events, "bytes_consumed"))
         if (Sys.time() > start_time + timeout) break
       }
     }
