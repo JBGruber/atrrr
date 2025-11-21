@@ -188,7 +188,7 @@ com_atproto_repo_upload_blob2 <- function(file,
     if (length(res$body) > 976560 & grepl("image", res$headers$`content-type`)) {
       rlang::check_installed("magick")
       res$body <- magick::image_read(res$body) |>
-        magick::image_write(format = "jpeg", defines = c("png:extent" = "976.56kb"))
+        magick::image_write(format = "jpeg", defines = c("jpeg:extent" = "976.56kb"))
     }
 
     req |>
