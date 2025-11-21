@@ -49,23 +49,23 @@ make_request <- function(name, params, req_method = c("GET", "POST"), chat = FAL
 
   .return <- utils::head(params[[".return"]], 1L) %||% ""
   params[[".return"]] <- NULL
- 
+
   if (chat) {
     sess_url <- com_atproto_server_get_session() |>
       purrr::pluck("didDoc", "service", 1, "serviceEndpoint")
-    req <- httr2::request(sess_url) |> 
+    req <- httr2::request(sess_url) |>
       httr2::req_url_path(name) |>
       httr2::req_headers("Atproto-Proxy" = "did:web:api.bsky.chat#bsky_chat")
   } else {
     req <- httr2::request(paste0("https://", name))
   }
 
-  req <- req |> 
+  req <- req |>
     httr2::req_method(req_method) |>
     httr2::req_auth_bearer_token(token = .token$accessJwt) |>
     httr2::req_error(body = error_parse)
 
-  if (req_method == "GET") { 
+  if (req_method == "GET") {
     all_params <- flatten_query_params(params)
     req <- httr2::req_url_query(req, !!!all_params)
   } else if (req_method == "POST") {
@@ -185,10 +185,10 @@ com_atproto_repo_upload_blob2 <- function(file,
       httr2::req_perform()
 
     # fix blob too larger error https://github.com/JBGruber/atrrr/issues/27
-    if (length(res$body) > 1000000 & grepl("image", res$headers$`content-type`)) {
+    if (length(res$body) > 976560 & grepl("image", res$headers$`content-type`)) {
       rlang::check_installed("magick")
       res$body <- magick::image_read(res$body) |>
-        magick::image_write(format = "jpeg", defines = c("png:extent" = "1000kb"))
+        magick::image_write(format = "jpeg", defines = c("png:extent" = "976.56kb"))
     }
 
     req |>
@@ -198,14 +198,14 @@ com_atproto_repo_upload_blob2 <- function(file,
       httr2::resp_body_json()
   } else if (file.exists(file)) {
     rlang::check_installed("mime")
-    if (file.info(file)$size > 1000000 & grepl("image", mime::guess_type(file))) {
+    if (file.info(file)$size > 976560 & grepl("image", mime::guess_type(file))) {
       rlang::check_installed("magick")
       cli::cli_alert_info(
         "Image {file} is too large and will be compressed before uploading"
       )
       file <- magick::image_read(file) |>
         magick::image_write(path = tempfile(fileext = ".jpeg"),
-                            defines = c("jpeg:extent" = "1000kb"))
+                            defines = c("jpeg:extent" = "976.56kb"))
     }
     req |>
       httr2::req_headers("Content-Type" = mime::guess_type(file)) |>
