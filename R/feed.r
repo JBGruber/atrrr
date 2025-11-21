@@ -774,6 +774,11 @@ post <- function(text,
   # links in text
   if (!is.null(link) && !purrr::pluck_exists(record, "embed") && preview_card) {
     record$embed <- fetch_preview(link)
+    # record$embed$uri can't be empty, but the preview endpoint returns empty
+    # uris sometimes. Fixing it here
+    if (purrr::pluck(record, "embed", "external", "uri") == "") {
+      purrr::pluck(record, "embed", "external", "uri") <- link
+    }
   }
 
   # https://atproto.com/blog/create-post#mentions-and-links
