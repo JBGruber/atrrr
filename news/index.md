@@ -4,6 +4,7 @@
 
 - adds experimental firehose implementation
 - some updates to parsing functions
+- export fetch_preview for more control over link previews
 
 ## atrrr 0.1.1
 
