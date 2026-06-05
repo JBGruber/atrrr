@@ -25,7 +25,7 @@ auth(
 - password:
 
   Your app password (usually created on
-  <https://bsky.app/settings/app-passwords>).
+  https://bsky.app/settings/app-passwords).
 
 - domain:
 

@@ -32,7 +32,7 @@ nothing itself, used to run `fun`
 ## Examples
 
 ``` r
-if (FALSE) { # rlang::is_installed("libipldr")
+if (FALSE) { # \dontrun{
 # an example function that saves events as RDS files
 stream2rds <- function(events) {
   for (event in events) {
@@ -72,5 +72,5 @@ print_stream <- function(events) {
   }
 }
 stream_firehose(print_stream, timeout = 15)
-}
+} # }
 ```

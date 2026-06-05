@@ -85,7 +85,7 @@ firehose stream.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_installed("libipldr")</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># an example function that saves events as RDS files</span></span></span>
 <span class="r-in"><span><span class="va">stream2rds</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">events</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">event</span> <span class="kw">in</span> <span class="va">events</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -117,7 +117,7 @@ firehose stream.</p>
 <span class="r-in"><span>    <span class="co"># ignore events without a commit message</span></span></span>
 <span class="r-in"><span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">commit</span><span class="op">)</span><span class="op">)</span> <span class="kw">next</span></span></span>
 <span class="r-in"><span>    <span class="co"># decode actual block data which contains text</span></span></span>
-<span class="r-in"><span>    <span class="va">event</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">libipldr</span><span class="fu">::</span><span class="fu">decode_car</span><span class="op">(</span><span class="va">event</span><span class="op">$</span><span class="va">blocks</span><span class="op">)</span><span class="op">$</span><span class="va">blocks</span></span></span>
+<span class="r-in"><span>    <span class="va">event</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">libipldr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/libipldr/man/decode_car.html" class="external-link">decode_car</a></span><span class="op">(</span><span class="va">event</span><span class="op">$</span><span class="va">blocks</span><span class="op">)</span><span class="op">$</span><span class="va">blocks</span></span></span>
 <span class="r-in"><span>    <span class="va">message</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">event</span><span class="op">$</span><span class="va">data</span>, <span class="st">"text"</span>, .default <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>      <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/keep.html" class="external-link">compact</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">message</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="kw">next</span></span></span>
@@ -125,7 +125,7 @@ firehose stream.</p>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">stream_firehose</span><span class="op">(</span><span class="va">print_stream</span>, timeout <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -110,6 +110,13 @@ delete_post(post_url, verbose = NULL, .token = NULL)
   If you manage your own tokens, you can supply it here. Usually `NULL`
   is OK and will automatically load or guide you to generate a token.
 
+- .reply:
+
+  a pre-built reply list with `root` and `parent` elements (each
+  containing `uri` and `cid`). Used for
+  [`post_thread()`](https://jbgruber.github.io/atrrr/reference/post_thread.md)
+  not really important for users.
+
 - post_url:
 
   URL or URI of post to delete.
