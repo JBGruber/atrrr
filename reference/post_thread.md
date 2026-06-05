@@ -36,7 +36,8 @@ post_thread(
 - thread_df:
 
   instead of defining texts, images and image_alts, you can also create
-  a data frame with the information in columns of the same names.
+  a data frame with the information in columns `text`, `image`, and
+  `image_alt`.
 
 - verbose:
 
