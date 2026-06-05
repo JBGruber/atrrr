@@ -126,8 +126,7 @@ a data frame (or nested list) of posts
 The [API
 docs](https://docs.bsky.app/docs/api/app-bsky-feed-search-posts) claim
 that Lucene query syntax is supported (Boolean operators and brackets
-for complex queries). But only a small subset is [actually
-implemented](https://github.com/bluesky-social/indigo/tree/main/cmd/palomar):
+for complex queries). But only a small subset is actually implemented:
 
 - Whitespace is treated as implicit AND, so all words in a query must
   occur, but the word order and proximity are ignored.
@@ -136,7 +135,11 @@ implemented](https://github.com/bluesky-social/indigo/tree/main/cmd/palomar):
 
 - `from:<handle>` will filter to results from that account.
 
-- `-` excludes terms (does not seem to be working at the moment).
+- `-` excludes terms.
+
+- `OR` and parentheses for grouping (e.g. `(rstats OR rstat) bluesky`)
+  are **not** supported and are treated literally (i.e. will only find
+  posts with parentheses and the word OR in it).
 
 Note that matches can occur anywhere in the skeet, not just the text.
 For example, a term can be in the link preview, or alt text of an image.

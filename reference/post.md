@@ -19,7 +19,8 @@ post(
   tags = NULL,
   preview_card = TRUE,
   verbose = NULL,
-  .token = NULL
+  .token = NULL,
+  .reply = NULL
 )
 
 post_skeet(
@@ -36,7 +37,8 @@ post_skeet(
   tags = NULL,
   preview_card = TRUE,
   verbose = NULL,
-  .token = NULL
+  .token = NULL,
+  .reply = NULL
 )
 
 delete_skeet(post_url, verbose = NULL, .token = NULL)

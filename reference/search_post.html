@@ -169,11 +169,15 @@ token.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The <a href="https://docs.bsky.app/docs/api/app-bsky-feed-search-posts" class="external-link">API docs</a> claim that
 Lucene query syntax is supported (Boolean operators and brackets for
-complex queries). But only a small subset is <a href="https://github.com/bluesky-social/indigo/tree/main/cmd/palomar" class="external-link">actually implemented</a>:</p><ul><li><p>Whitespace is treated as implicit AND, so all words in a query must occur,
+complex queries). But only a small subset is actually
+implemented:</p><ul><li><p>Whitespace is treated as implicit AND, so all words in a query must occur,
 but the word order and proximity are ignored.</p></li>
 <li><p>Double quotes indicate exact phrases.</p></li>
 <li><p><code>from:&lt;handle&gt;</code> will filter to results from that account.</p></li>
-<li><p><code>-</code> excludes terms (does not seem to be working at the moment).</p></li>
+<li><p><code>-</code> excludes terms.</p></li>
+<li><p><code>OR</code> and parentheses for grouping (e.g. <code>(rstats OR rstat) bluesky</code>) are
+<strong>not</strong> supported and are treated literally (i.e. will only find posts
+with parentheses and the word OR in it).</p></li>
 </ul><p>Note that matches can occur anywhere in the skeet, not just the text. For
 example, a term can be in the link preview, or alt text of an image.</p>
     </div>
