@@ -7,6 +7,8 @@
 - [`convert_http_to_at()`](https://jbgruber.github.io/atrrr/reference/convert_http_to_at.md)
   [`convert_at_to_http()`](https://jbgruber.github.io/atrrr/reference/convert_http_to_at.md)
   : Converts betweet http URL and AT URI
+- [`fetch_preview()`](https://jbgruber.github.io/atrrr/reference/fetch_preview.md)
+  : Fetch link preview
 - [`follow()`](https://jbgruber.github.io/atrrr/reference/follow.md)
   [`unfollow()`](https://jbgruber.github.io/atrrr/reference/follow.md) :
   Un/Follow an account

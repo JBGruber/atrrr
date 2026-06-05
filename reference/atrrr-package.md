@@ -22,6 +22,9 @@ Useful links:
 
 Authors:
 
+- Johannes B. Gruber <JohannesB.Gruber@gmail.com>
+  ([ORCID](https://orcid.org/0000-0001-9177-1772))
+
 - Benjamin Guinaudeau <benjamin.guinaudeau@uni-konstanz.de>
   ([ORCID](https://orcid.org/0000-0001-7206-6875)) \[contributor\]
 

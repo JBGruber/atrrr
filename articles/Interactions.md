@@ -9,6 +9,7 @@ if necessary, deleting them.
 ### Load the package
 
 ``` r
+
 library(atrrr)
 ```
 
@@ -17,6 +18,7 @@ library(atrrr)
 Here’s how you can easily post a skeet to your account:
 
 ``` r
+
 post <- post_skeet(text = "Posting around")
 ```
 
@@ -29,6 +31,7 @@ Engaging with the Blue Sky community often means replying to existing
 skeets. Here’s how you can craft a reply:
 
 ``` r
+
 reply <- post_skeet(text = "Replying around", in_reply_to = post$uri)
 ```
 
@@ -42,6 +45,7 @@ Whether it’s to correct an error, remove outdated information, or any
 other reason, sometimes you might want to delete a skeet. Here’s how:
 
 ``` r
+
 delete_skeet(post_url = reply$uri)
 ```
 
@@ -56,6 +60,7 @@ A thread is essentially a series of individual skeets. Here’s how you
 can do it programmatically using `post_thread`:
 
 ``` r
+
 post_thread(texts = c("This is the first amazing skeet.",
                       "Now I am expanding upon my skeet!",
                       "Conclusion: I skeet therefore I am."))
@@ -69,6 +74,7 @@ decide that you no longer want to see updates from a particular user,
 you can unfollow them.
 
 ``` r
+
 # Follow a user by their handle
 follow(actor = "benguinaudeau.bsky.social")
 ```
@@ -81,6 +87,7 @@ in a thread.
 First let’s create some plots that we want to send:
 
 ``` r
+
 # make a basic plot
 plot <- ggplot(mpg, aes(displ, hwy, colour = class)) +
   geom_point()
@@ -108,6 +115,7 @@ f2 <- ggsave(tempfile(pattern = "2", fileext = ".png"), plot = plot2)
 Now we post the pictures in a thread:
 
 ``` r
+
 post_thread(texts = c("This is the first plot on the ggplot2 website",
                       "This is the second plot on the ggplot2 website",
                       "And this is just text sent from the atrrr package by @jbgruber.bsky.social, @benguinaudeau.bsky.social and @favstats.eu"),

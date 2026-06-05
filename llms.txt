@@ -1,8 +1,8 @@
 # atrrr
 
-The goal of atrrr[¹](#fn1) is to wrap the AT Protocol (Authenticated
-Transfer Protocol) behind Bluesky. [*And we have actually already
-fulfilled this goal!*](#want-to-help).
+The goal of atrrr[^1] is to wrap the AT Protocol (Authenticated Transfer
+Protocol) behind Bluesky. [*And we have actually already fulfilled this
+goal!*](#want-to-help).
 
 The entire protocol is open and documented in so-called
 [lexicons](https://atproto.com/guides/lexicon), from which we
@@ -17,6 +17,7 @@ documentation and examples.
 You can install atrrr from CRAN with:
 
 ``` r
+
 install.packages("atrrr")
 ```
 
@@ -25,6 +26,7 @@ You can install the development version of `atrrr` like so (install the
 don’t have that yet):
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("JBGruber/atrrr")
 ```
@@ -32,6 +34,7 @@ remotes::install_github("JBGruber/atrrr")
 ## Load the package
 
 ``` r
+
 library(atrrr)
 ```
 
@@ -54,6 +57,7 @@ page to create new app passwords
 However, you can also trigger this process manually:
 
 ``` r
+
 auth("jbgruber.bsky.social")
 ```
 
@@ -69,6 +73,7 @@ and reskeets.* You can also opt not to parse the result by setting
 option which results in a (more) tidy tibble.
 
 ``` r
+
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
 #> Rows: 25
@@ -107,6 +112,7 @@ Our starting point is to extract the posts from the `#rstats` feed
 created by “andrew.heiss.phd”.
 
 ``` r
+
 # Fetching the feed posts
 feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") 
 
@@ -191,9 +197,7 @@ build something new on top of it). But please open an
 [issue](https://github.com/JBGruber/atrrr/issues) first, so we don’t do
 duplicated work.
 
-------------------------------------------------------------------------
-
-1.  before 2024-01-04, this package was [called
+[^1]: before 2024-01-04, this package was [called
     `atr`](https://github.com/JBGruber/atrrr/issues/12), meaning an R
     package for the AT protocol (similar to httr, which is a package for
     the HTTProtocol). Unfortunatley, when we wanted to release the
@@ -210,6 +214,8 @@ duplicated work.
 - [`convert_http_to_at()`](https://jbgruber.github.io/atrrr/reference/convert_http_to_at.md)
   [`convert_at_to_http()`](https://jbgruber.github.io/atrrr/reference/convert_http_to_at.md)
   : Converts betweet http URL and AT URI
+- [`fetch_preview()`](https://jbgruber.github.io/atrrr/reference/fetch_preview.md)
+  : Fetch link preview
 - [`follow()`](https://jbgruber.github.io/atrrr/reference/follow.md)
   [`unfollow()`](https://jbgruber.github.io/atrrr/reference/follow.md) :
   Un/Follow an account

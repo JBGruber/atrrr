@@ -20,6 +20,7 @@ like so (`pak` works similar to `remotes` here, but it’s what the cool
 kids use now :grin:):
 
 ``` r
+
 # install.packages("pak")
 pak::pak("JBGruber/atrrr")
 ```
@@ -27,6 +28,7 @@ pak::pak("JBGruber/atrrr")
 ### Load the package
 
 ``` r
+
 library(atrrr)
 ```
 
@@ -49,6 +51,7 @@ page to create new app passwords
 However, you can also trigger this process manually:
 
 ``` r
+
 auth("jbgruber.bsky.social")
 ```
 
@@ -71,6 +74,7 @@ For example, a term can be in the link preview, or alt text of an image.
 A couple of examples:
 
 ``` r
+
 search_post("rstats")
 #> # A tibble: 100 × 18
 #>    uri   cid   author_handle author_name text  author_data  post_data    embed_data   reply_count
@@ -94,6 +98,7 @@ search_post("rstats")
 This finds posts where “rstats” is found somewhere in the post.
 
 ``` r
+
 search_post("#rstats Bluesky")
 #> # A tibble: 34 × 18
 #>    uri   cid   author_handle author_name text  author_data  post_data    embed_data   reply_count
@@ -120,6 +125,7 @@ somewhere in the skeet (ignoring capitalisaion).
 You can also search for the exact phrase “new \#rstats package”:
 
 ``` r
+
 search_post("\"new #rstats package\"")
 #> # A tibble: 17 × 18
 #>    uri   cid   author_handle author_name text  author_data  post_data    embed_data   reply_count
@@ -147,6 +153,7 @@ search_post("\"new #rstats package\"")
 ```
 
 ``` r
+
 #' # Use single quotes so you do not need to escape double quotes
 #' search_post('"new #rstats package"')
 ```
@@ -154,6 +161,7 @@ search_post("\"new #rstats package\"")
 You can also limit your search by only looking for skeets from one user:
 
 ``` r
+
 search_post("from:jbgruber.bsky.social #rstats")
 #> # A tibble: 31 × 18
 #>    uri   cid   author_handle author_name text  author_data  post_data    embed_data   reply_count
@@ -183,6 +191,7 @@ platform. The get_user_info function becomes our handy tool, fetching an
 array of information about a user. All you need? Their handle!
 
 ``` r
+
 get_user_info(actor = "atpr.bsky.social")  |>
   dplyr::glimpse()
 #> Rows: 1
@@ -204,6 +213,7 @@ You can also retrieve information for multiple users by providing a
 vector of user handles:
 
 ``` r
+
 get_user_info(actor = c("benguinaudeau.bsky.social", "atpr.bsky.social"))  |>
   dplyr::glimpse()
 #> Rows: 2
@@ -227,6 +237,7 @@ and reskeets.* You can also opt not to parse the result by setting
 option which results in a (more) tidy tibble.
 
 ``` r
+
 get_skeets_authored_by(actor = "benguinaudeau.bsky.social", parse = TRUE) |>
   dplyr::glimpse()
 #> Rows: 25
@@ -256,6 +267,7 @@ Feeling adventurous? Increase the `limit` and explore more of their
 content.
 
 ``` r
+
 get_skeets_authored_by(actor = "favstats.eu", limit = 30) |>
   dplyr::glimpse()
 #> Rows: 30
@@ -289,6 +301,7 @@ can get a list of users who expressed their appreciation for the
 content.
 
 ``` r
+
 get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
@@ -309,6 +322,7 @@ The `get_reposts` function is designed to retrieve information about
 users who reposted a specific piece of content.
 
 ``` r
+
 get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
@@ -332,6 +346,7 @@ This gives a glimpse of their social dynamics on the platform.
 ### `get_followers`
 
 ``` r
+
 get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 299
@@ -349,6 +364,7 @@ get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
 ### `get_follows`
 
 ``` r
+
 atrrr:::get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 173
@@ -377,6 +393,7 @@ followers for the main user we are interested in. We will then delve
 deeper and fetch the followers for each of these followers.
 
 ``` r
+
 library(ggplot2)
 library(dplyr)
 library(purrr)
@@ -402,6 +419,7 @@ followers_of_followers <- some_followers |>
 ### Building and Visualizing the Follower Network
 
 ``` r
+
 # Construct the network graph and plot
 graph <- igraph::graph_from_data_frame(followers_of_followers, directed = TRUE)
 
@@ -423,6 +441,7 @@ follow. First get all the people you already follow by quering your own
 account:
 
 ``` r
+
 my_follows <- get_follows(actor = "jbgruber.bsky.social",
                               limit = 10)$actor_handle # limit only for demonstration
 

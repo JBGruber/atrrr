@@ -7,7 +7,7 @@ as `post_url`.
 ## Usage
 
 ``` r
-get_thread(post_url, .token = NULL)
+get_thread(post_url, parse = TRUE, .token = NULL)
 ```
 
 ## Arguments
@@ -15,6 +15,11 @@ get_thread(post_url, .token = NULL)
 - post_url:
 
   the URL of any skeet in a thread.
+
+- parse:
+
+  Parse the results or return the original nested object sent by the
+  server.
 
 - .token:
 

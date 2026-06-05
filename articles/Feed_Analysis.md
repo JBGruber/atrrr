@@ -11,6 +11,7 @@ users.
 ### Load the package
 
 ``` r
+
 library(atrrr)
 ```
 
@@ -20,6 +21,7 @@ Our starting point is to extract the posts from a feed. We’re focusing
 on a feed curated by “andrew.heiss.phd”.
 
 ``` r
+
 # Fetching the feed posts
 feeds <- get_feeds_created_by(actor = "andrew.heiss.phd") |>
   dplyr::glimpse()
@@ -81,6 +83,7 @@ Who are the leading voices within a particular topic? This analysis
 highlights users who are frequently contributing to the `#rstats` feed.
 
 ``` r
+
 library(ggplot2)
 
 # Identifying the top 10 contributors
@@ -104,6 +107,7 @@ Volume doesn’t always translate to influence. Some users may post less
 frequently but their contributions resonate deeply with the community.
 
 ``` r
+
 # Identifying top 10 influential voices based on likes
 rstat_posts |>
   group_by(author_handle) |>
@@ -126,6 +130,7 @@ Top 10 \#rstats contributors based on likes
 #### Most Famous \#rstats skeet
 
 ``` r
+
 # Finding the standout post in the rstats feed
 rstat_posts |>
   mutate(total_interactions = reply_count + repost_count + like_count) |>

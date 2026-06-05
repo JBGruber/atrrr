@@ -18,14 +18,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/JBGruber/atrrr/blob/main/DESCRIPTION)
 
-Gruber J, Guinaudeau B, Votta F (2025). *atrrr: Wrapper for the 'AT'
+Gruber J, Guinaudeau B, Votta F (2026). *atrrr: Wrapper for the 'AT'
 Protocol Behind 'Bluesky'*. R package version 0.1.1.9000,
 <https://jbgruber.github.io/atrrr/>.
 
     @Manual{,
       title = {atrrr: Wrapper for the 'AT' Protocol Behind 'Bluesky'},
       author = {Johannes B. Gruber and Benjamin Guinaudeau and Fabio Votta},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.1.1.9000},
       url = {https://jbgruber.github.io/atrrr/},
     }

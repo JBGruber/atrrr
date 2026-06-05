@@ -91,8 +91,11 @@ delete_post(post_url, verbose = NULL, .token = NULL)
 
 - preview_card:
 
-  display a preview card for links included in the `text` or `link` (if
-  images or videos are included, they take precedence).
+  logical. Display a preview card for links included in the `text` or
+  `link` (if images or videos are included, they take precedence).
+  alternatively, fetch a card with
+  [`fetch_preview()`](https://jbgruber.github.io/atrrr/reference/fetch_preview.md)
+  and supply the object here.
 
 - verbose:
 

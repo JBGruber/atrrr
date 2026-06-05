@@ -9,6 +9,7 @@ This gives a glimpse of their social dynamics on the platform.
 ### Load the package
 
 ``` r
+
 library(atrrr)
 ```
 
@@ -17,6 +18,7 @@ library(atrrr)
 Retrieve the followers of a specific account with `get_followers`:
 
 ``` r
+
 get_followers(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 200
@@ -37,6 +39,7 @@ Retrieve the accounts that are followed by a specific account with
 `get_follows`:
 
 ``` r
+
 get_follows(actor = "benguinaudeau.bsky.social", limit = 200)  |>
   dplyr::glimpse()
 #> Rows: 174
@@ -65,6 +68,7 @@ followers for the main user we are interested in. We will then delve
 deeper and fetch the followers for each of these followers.
 
 ``` r
+
 library(ggplot2)
 library(dplyr)
 library(purrr)
@@ -94,6 +98,7 @@ followers_of_followers <- some_followers |>
 ### Building and Visualizing the Follower Network
 
 ``` r
+
 # Construct the network graph and plot
 graph <- tidygraph::as_tbl_graph(followers_of_followers, directed = TRUE)
 
@@ -120,6 +125,7 @@ follow. First get all the people you already follow by quering your own
 account:
 
 ``` r
+
 my_follows <- get_follows(actor = "jbgruber.bsky.social",
                               limit = 10)$actor_handle # limit only for demonstration
 
@@ -167,6 +173,7 @@ providing the post’s URL, you can get a list of users who expressed
 their appreciation for the content.
 
 ``` r
+
 get_likes("https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
@@ -188,6 +195,7 @@ The `get_reposts` function is designed to retrieve information about
 users who reposted a specific piece of content.
 
 ``` r
+
 get_reposts(post_url = "https://bsky.app/profile/ryanlcooper.com/post/3kb42gayda52t")  |>
   dplyr::glimpse()
 #> Rows: 25
