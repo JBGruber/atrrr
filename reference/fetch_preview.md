@@ -21,9 +21,8 @@ list strutured for use as preview_card
 ## Examples
 
 ``` r
-wiki_preview <- fetch_preview("https://en.wikipedia.org/wiki/AT_Protocol")
-#> Error in auth(): You need to run `auth()` in an interactive session
 if (FALSE) { # \dontrun{
+wiki_preview <- fetch_preview("https://en.wikipedia.org/wiki/AT_Protocol")
 post_skeet("Do you know the AT Protocol?", preview_card = wiki_preview)
 } # }
 ```
