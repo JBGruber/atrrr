@@ -16,7 +16,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/JBGruber/atrrr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/JBGruber/atrrr/blob/v0.2.0/DESCRIPTION)
 
 Gruber J, Guinaudeau B, Votta F (2026). *atrrr: Wrapper for the 'AT'
 Protocol Behind 'Bluesky'*. R package version 0.1.1.9000,
